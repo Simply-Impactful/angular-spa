@@ -3,16 +3,20 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { FlexLayoutModule } from '@angular/flex-layout'
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { AppRoutingModule } from './/app-routing.module';
+import { LogInComponent } from './log-in/log-in.component'
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LogInComponent
   ],
   imports: [
     BrowserModule,
     FlexLayoutModule,
-    MatGridListModule
+    MatGridListModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
