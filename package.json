@@ -7,7 +7,12 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "sls:deploy": "cd pipeline && sls deploy",
+    "sls:remove": "cd pipeline && sls remove",
+    "cf:create-stack": "aws cloudformation create-stack --stack-name chageissimple-test --template-body file://./pipeline/cloudformation.yml",
+    "cf:validate-stack": "aws cloudformation validate-template --template-body file://./pipeline/cloudformation.yml",
+    "cf:delete-stack": "aws cloudformation delete-stack --stack-name chageissimple-test"
   },
   "private": true,
   "dependencies": {
