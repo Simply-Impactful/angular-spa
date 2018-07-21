@@ -6,6 +6,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './/app-routing.module';
 import { LogInComponent } from './log-in/log-in.component'
+import { RouterModule, Routes } from '@angular/router';
+
 
 @NgModule({
   declarations: [

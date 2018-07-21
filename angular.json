@@ -1,29 +1,37 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "$schema": "./node_modules/@angular-devkit/core/src/workspace/workspace-schema.json",
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-spa-app": {
+    "angular.track-change-simplyimpactful": {
       "root": "",
-      "sourceRoot": "src",
       "projectType": "application",
       "prefix": "app",
-      "schematics": {},
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular-spa-app",
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "favicon.ico",
+                "input": "src",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets"
+              }
             ],
             "styles": [
-              "src/styles.css"
+              {
+                "input": "src/styles.css"
+              }
             ],
             "scripts": []
           },
@@ -36,7 +44,8 @@
                 }
               ],
               "optimization": true,
-              "outputHashing": "all",
+              "outputHashing": "none",
+              "deployUrl": "/track-change-simplyimpactful/",
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
@@ -50,18 +59,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular-spa-app:build"
+            "browserTarget": "angular.track-change-simplyimpactful:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular-spa-app:build:production"
+              "browserTarget": "angular.track-change-simplyimpactful:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-spa-app:build"
+            "browserTarget": "angular.track-change-simplyimpactful:build"
           }
         },
         "test": {
@@ -72,12 +81,22 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
-              "src/styles.css"
+              {
+                "input": "styles.css"
+              }
             ],
             "scripts": [],
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "favicon.ico",
+                "input": "src/",
+                "output": "/"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets"
+              }
             ]
           }
         },
@@ -95,7 +114,7 @@
         }
       }
     },
-    "angular-spa-app-e2e": {
+    "angular.track-change-simplyimpactful-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -103,12 +122,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "angular-spa-app:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "angular-spa-app:serve:production"
-            }
+            "devServerTarget": "angular.track-change-simplyimpactful:serve"
           }
         },
         "lint": {
@@ -122,6 +136,5 @@
         }
       }
     }
-  },
-  "defaultProject": "angular-spa-app"
+  }
 }

@@ -4,15 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
     "test": "ng test",
+    "build:prod": "ng build --prod --aot",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "sls:deploy": "cd pipeline && sls deploy",
-    "sls:remove": "cd pipeline && sls remove",
-    "cf:create-stack": "aws cloudformation create-stack --stack-name chageissimple-test --template-body file://./pipeline/cloudformation.yml",
-    "cf:validate-stack": "aws cloudformation validate-template --template-body file://./pipeline/cloudformation.yml",
-    "cf:delete-stack": "aws cloudformation delete-stack --stack-name chageissimple-test"
+    "sls:deploy:dev": "sls deploy -s dev",
+    "sls:remove:dev": "sls remove -s dev",
+    "deploy:dev": "npm run build:prod && npm run sls:deploy:dev"
   },
   "private": true,
   "dependencies": {
@@ -30,6 +28,7 @@
     "@angular/router": "^6.0.3",
     "core-js": "^2.5.4",
     "rxjs": "^6.0.0",
+    "serverless-s3-sync": "^1.6.1",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

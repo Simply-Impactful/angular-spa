@@ -1,0 +1,9 @@
+{
+    "appName": "TrackChange",
+    "bucketName": "track-change-simplyimpactful",
+    "createdBy": "SimplyImpactful-FidelityInvestments",
+    "organization": "ChangeIsSimple",
+    "contentPath": "dist/",
+    "awsAccountId": "7455-3930-0020",
+    "awsRegion": "us-east-1"
+}
