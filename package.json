@@ -1,9 +1,9 @@
 {
-  "name": "angular-spa-app",
+  "name": "track-change-simplyimpactful",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --base-href=track-change-simplyimpactful -o",
     "test": "ng test",
     "build:prod": "ng build --prod --aot",
     "lint": "ng lint",
