@@ -7,6 +7,11 @@
       "root": "",
       "projectType": "application",
       "prefix": "app",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -20,18 +25,16 @@
               {
                 "glob": "favicon.ico",
                 "input": "src",
-                "output": "/assets"
+                "output": "/"
               },
               {
                 "glob": "**/*",
                 "input": "src/assets",
-                "output": "/assets"
+                "output": "/track-change-simplyimpactful"
               }
             ],
             "styles": [
-              {
-                "input": "src/styles.css"
-              }
+              "src/styles.scss"
             ],
             "scripts": []
           },

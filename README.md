@@ -6,7 +6,8 @@ This project was generated with [Angular CLI][angular-cli] version 6.0.8.
 
 ## Home Page in AWS S3
 
-* https://s3.amazonaws.com/track-change-simplyimpactful/index.html
+https://s3.amazonaws.com/track-change-simplyimpactful/index.html
+
 
 ## Development server
 
@@ -22,6 +23,9 @@ We are using the `serverless` framework configured with AWS as a provider. The c
 For convenience, `deploy:dev` calls them in order so you can execute the following when you are ready to sync your bucket:
 
 `npm run deploy:dev`
+
+**Note**: assets (images, vendor files, fonts, etc) are served from the `/src/assets` folder following Angular's conventions locally. However in S3 the reference needs to be "BUCKET_NAME" then local reference to files. Locally we can reference `track-change-simplyimpactful/etc..`. So that this can still work when this in the S3 bucket we have script extracting the contents of that folder and copying them at the root of dist before a bucket sync.
+
 
 ## Code scaffolding
 
