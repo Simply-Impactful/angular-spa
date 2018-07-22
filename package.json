@@ -10,7 +10,8 @@
     "e2e": "ng e2e",
     "sls:deploy:dev": "sls deploy -s dev",
     "sls:remove:dev": "sls remove -s dev",
-    "deploy:dev": "npm run build:prod && npm run sls:deploy:dev"
+    "deploy:assets-move": "./scripts/extract-assets.sh",
+    "deploy:dev": "npm run build:prod && npm run deploy:assets-move && npm run sls:deploy:dev"
   },
   "private": true,
   "dependencies": {

@@ -18,13 +18,14 @@ To start the server locallu run `ng serve -o`. Navigate to `http://localhost:420
 We are using the `serverless` framework configured with AWS as a provider. The chosen name for the application (S3 Bucket Name and URL): is `track-change-simplyimpactful`. In the package.json you will find 2 scripts, which when concatenated, can be used to create the assets and then push them to AWS:
 
 - `build:prod`
+- `deploy:assets-move`
 - `sls:deploy:dev`
 
-For convenience, `deploy:dev` calls them in order so you can execute the following when you are ready to sync your bucket:
+For convenience, `deploy:dev` calls them in order so you can execute the following when you are ready to sync your changes to the S3 bucket:
 
 `npm run deploy:dev`
 
-**Note**: assets (images, vendor files, fonts, etc) are served from the `/src/assets` folder following Angular's conventions locally. However in S3 the reference needs to be "BUCKET_NAME" then local reference to files. Locally we can reference `track-change-simplyimpactful/etc..`. So that this can still work when this in the S3 bucket we have script extracting the contents of that folder and copying them at the root of dist before a bucket sync.
+**Note**: assets (images, vendor files, fonts, etc) are saved on the `/src/assets` folder following Angular's conventions locally. Becuase we are using S3 and we need to match our local references to what S3 is looking for, we have some configuration to force Angular to build the application and copy the assets to the `/track-change-simplyimpactful/` folder. We can make the reference to files like: `/track-change-simplyimpactful/images/logo.png`. The script `./scripts/extract-assets.sh` handles copying the contents of `/dist/track-change-simplyimpactful` to the root of `dist` to maintain the same structure on deployment.
 
 
 ## Code scaffolding
