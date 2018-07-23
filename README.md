@@ -4,10 +4,20 @@ A web application for Change is Simple Org that gamifies eco-friendly actions.
 
 This project was generated with [Angular CLI][angular-cli] version 6.0.8.
 
+## Angular Material
+
+Please read the Angular Material documentation for adding Material components to your Angular components:
+
+https://material.angular.io/components/categories
+
+Here is the theming documentation:
+
+https://material.angular.io/guide/theming
+
+
 ## Home Page in AWS S3
 
 https://s3.amazonaws.com/track-change-simplyimpactful/index.html
-
 
 ## Development server
 
@@ -26,7 +36,6 @@ For convenience, `deploy:dev` calls them in order so you can execute the followi
 `npm run deploy:dev`
 
 **Note**: assets (images, vendor files, fonts, etc) are saved on the `/src/assets` folder following Angular's conventions locally. Becuase we are using S3 and we need to match our local references to what S3 is looking for, we have some configuration to force Angular to build the application and copy the assets to the `/track-change-simplyimpactful/` folder. We can make the reference to files like: `/track-change-simplyimpactful/images/logo.png`. The script `./scripts/extract-assets.sh` handles copying the contents of `/dist/track-change-simplyimpactful` to the root of `dist` to maintain the same structure on deployment.
-
 
 ## Code scaffolding
 
