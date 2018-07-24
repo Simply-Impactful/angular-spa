@@ -12,4 +12,9 @@ export class CreateProfileComponent implements OnInit {
   ngOnInit() {
   }
 
+  save(){
+    console.log("saving");
+    // A service call to the backend will be made here to store the user's data in DB
+  }
+
 }

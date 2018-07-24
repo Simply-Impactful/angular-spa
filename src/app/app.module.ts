@@ -13,6 +13,8 @@ import { MaterialModule } from './material.module';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CreateProfileComponent } from './create-profile/create-profile.component';
+import { HttpClientModule, HttpClient, HttpHeaders, HttpRequest,HttpParams} from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -30,9 +32,10 @@ import { CreateProfileComponent } from './create-profile/create-profile.componen
     FlexLayoutModule,
     FormsModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [ ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
