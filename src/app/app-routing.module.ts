@@ -6,6 +6,8 @@ import { LandingComponent } from './landing/landing.component'
 import { ContactUsComponent } from './contact-us/contact-us.component'
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CreateProfileComponent } from './create-profile/create-profile.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { SecurityQuestionsComponent } from './security-questions/security-questions.component';
 
 const routes: Routes = [
   { path: 'track-change-simplyimpactful', redirectTo: '/landing', pathMatch: 'full' },
@@ -13,7 +15,9 @@ const routes: Routes = [
   { path: 'login', component: LogInComponent },
   { path: 'contactus', component: ContactUsComponent },
   { path: 'createuser', component: CreateProfileComponent },
-  { path: 'userprofile', component: UserProfileComponent }
+  { path: 'userprofile', component: UserProfileComponent },
+  { path: 'security', component: SecurityQuestionsComponent },
+  { path: 'resetpass', component: ResetPasswordComponent }
 ];
 
 @NgModule({

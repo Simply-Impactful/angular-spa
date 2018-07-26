@@ -14,6 +14,8 @@ import { ContactUsComponent } from './contact-us/contact-us.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CreateProfileComponent } from './create-profile/create-profile.component';
 import { HttpClientModule, HttpClient, HttpHeaders, HttpRequest,HttpParams} from '@angular/common/http';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { SecurityQuestionsComponent } from './security-questions/security-questions.component';
 
 
 @NgModule({
@@ -23,7 +25,9 @@ import { HttpClientModule, HttpClient, HttpHeaders, HttpRequest,HttpParams} from
     LandingComponent,
     ContactUsComponent,
     UserProfileComponent,
-    CreateProfileComponent
+    CreateProfileComponent,
+    ResetPasswordComponent,
+    SecurityQuestionsComponent
   ],
   imports: [
     AppRoutingModule,

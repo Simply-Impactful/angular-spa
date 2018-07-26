@@ -9,9 +9,11 @@
     <mat-form-field appearance="outline">
         <mat-label>Password</mat-label>
         <!-- Get the input data and pass it to Component file with ngModel-->
-        <input [(ngModel)]="password" name="password" matInput placeholder="Password">
+        <input [(ngModel)]="password" type="password" name="password" matInput placeholder="Password">
     </mat-form-field>
 <br>
     <button mat-stroked-button (click)="login()" routerLink="/landing">Login</button>
 <br>
-    <button mat-button routerLink="/createuser">New User? Sign up!</button>
+    <button mat-button routerLink="/createuser">New User? Create an account</button>
+<br>
+    <button mat-button routerLink="/security">Forgot Password?</button>
