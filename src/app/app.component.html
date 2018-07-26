@@ -6,13 +6,13 @@
     <button class="nav-logo" routerLink="/landing"></button>
     <span class="spacer"></span>
     <!-- and a serach component -->
-    <mat-form-field>
+<!--    <mat-form-field>
       <mat-select placeholder="Search for Groups">
         <mat-option *ngFor="let group of searchGroups" [value]="group">
           {{group}}
         </mat-option>
       </mat-select>
-    </mat-form-field>
+    </mat-form-field> -->
 
     <span class="spacer"></span>
     <button mat-button routerLink="/contactus">Contact us</button>
@@ -21,19 +21,6 @@
       <button mat-menu-item routerLink="/userprofile">My Profile</button>
       <button mat-menu-item routerLink="/login">Logout</button>
     </mat-menu>
-  </mat-toolbar-row>
-</mat-toolbar>
-<!-- second row with user greeting -->
-<mat-toolbar color="foreground">
-  <mat-toolbar-row>
-    <span class="cis-logo"></span>
-    <span class="spacer"></span>
-    <!-- and a serach component -->
-    <span>Hi {{username}}, what actions have you taken today?</span>
-    <span class="spacer"></span>
-    <p>Your Score:
-      <span class="score-flag">{{ userscore }}</span>
-    </p>
   </mat-toolbar-row>
 </mat-toolbar>
 
