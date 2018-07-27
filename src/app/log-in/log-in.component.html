@@ -10,7 +10,6 @@
                 <input [(ngModel)]="username" name="username" matInput placeholder="Username">
             </mat-form-field>
         </mat-grid-tile>
-        <mat-divider [vertical]="true"></mat-divider>
 
         <mat-grid-tile color="accent">
             <mat-form-field appearance="fill">
@@ -24,7 +23,7 @@
             <button mat-button color="primary" routerLink="/security">Forgot Password?</button>
         </mat-grid-tile>
         <mat-grid-tile>
-            <button mat-raised-button color="primary" (click)="login()" routerLink="/landing">Sign In</button>
+            <button mat-raised-button color="primary" (click)="login()" routerLink="/home">Sign In</button>
         </mat-grid-tile>
     </mat-grid-list>
 </main>

@@ -11,34 +11,15 @@
 
 #flush-nav {
     display: block;
-    height:80px;
-
+    height: 80px;
 }
 
 .nav-logo {
     height: 5em;
     width: 5em;
     cursor: pointer;
-    background: transparent url(/track-change-simplyimpactful/images/plover.png) center/4.75em no-repeat;
+    background: transparent url('/track-change-simplyimpactful/images/plover.png') center/4.75em no-repeat;
     border: none;
-}
-
-.cis-logo {
-    height: 5em;
-    width: 300px;
-    background: transparent url(/track-change-simplyimpactful/images/cis_logo.jpeg) center/300px no-repeat;
-    border: none;
-}
-
-.score-flag {
-    height: 4em;
-    width: 4em;
-    background: transparent url(/track-change-simplyimpactful/images/score-flag.png) center/3em no-repeat;
-    border: none;
-}
-
-.spacer {
-    flex: 1 1 auto;
 }
 
 .search-group {

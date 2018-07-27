@@ -12,7 +12,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
-import { MatDividerModule } from '@angular/material/divider';
 
 
 @NgModule({
@@ -20,7 +19,6 @@ import { MatDividerModule } from '@angular/material/divider';
         MatButtonModule,
         MatCardModule,
         MatCheckboxModule,
-        MatDividerModule,
         MatIconModule,
         MatInputModule,
         MatGridListModule,
@@ -34,7 +32,6 @@ import { MatDividerModule } from '@angular/material/divider';
         MatButtonModule,
         MatCardModule,
         MatCheckboxModule,
-        MatDividerModule,
         MatIconModule,
         MatInputModule,
         MatGridListModule,
