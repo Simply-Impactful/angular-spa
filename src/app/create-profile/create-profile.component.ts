@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./create-profile.component.scss']
 })
 export class CreateProfileComponent implements OnInit {
-  private userType: any;
+  userType: any;
   private sub: any;
 
   constructor(private route: ActivatedRoute) {}
@@ -24,8 +24,8 @@ export class CreateProfileComponent implements OnInit {
     this.sub.unsubscribe();
   }
 
-  save(user){
-    console.log(user);
+  save(){
+    console.log('save was called');
     // A service call to the backend will be made here to store the user's data in DB
   }
   

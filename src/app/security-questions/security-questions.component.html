@@ -1,40 +1,52 @@
 <main>
   <h1>Security Questions</h1>
-  <mat-form-field appearance="outline">
-    <mat-select placeholder="security question 1">
-      <mat-option value="option">What is your favorite color?</mat-option>
-      <mat-option value="option">Name of your best friend?</mat-option>
-      <mat-option value="option">Favorite Disney character?</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <br>
-  <mat-form-field appearance="outline">
-    <input matInput placeholder="Answer....">
-  </mat-form-field>
-  <br>
-  <mat-form-field appearance="outline">
-    <mat-select placeholder="security question 2">
-      <mat-option value="option">What is your favorite movie?</mat-option>
-      <mat-option value="option">What is your favorite meal?</mat-option>
-      <mat-option value="option">What is your favorite sport?</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <br>
-  <mat-form-field appearance="outline">
-    <input matInput placeholder="Answer....">
-  </mat-form-field>
-  <br>
-  <mat-form-field appearance="outline">
-    <mat-select placeholder="security question 3">
-      <mat-option value="option">Who is your favorite Superhero?</mat-option>
-      <mat-option value="option">What is your favorite Color?</mat-option>
-      <mat-option value="option">What city were you born in?</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <br>
-  <mat-form-field appearance="outline">
-    <input matInput placeholder="Answer....">
-  </mat-form-field>
-  <br>
-  <button mat-raised-button color="primary" (click)="save()" routerLink="/resetpass">Save</button>
+  <form>
+    <mat-grid-list cols="2" rowHeight="6em">
+      <mat-grid-tile cols="1">
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="security question 1">
+            <mat-option value="option">What is your favorite color?</mat-option>
+            <mat-option value="option">Name of your best friend?</mat-option>
+            <mat-option value="option">Favorite Disney character?</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile cols="1">
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="Answer....">
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile cols="1">
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="security question 2">
+            <mat-option value="option">What is your favorite movie?</mat-option>
+            <mat-option value="option">What is your favorite meal?</mat-option>
+            <mat-option value="option">What is your favorite sport?</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile cols="1">
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="Answer....">
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile cols="1">
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="security question 3">
+            <mat-option value="option">Who is your favorite Superhero?</mat-option>
+            <mat-option value="option">What is your favorite Color?</mat-option>
+            <mat-option value="option">What city were you born in?</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile cols="1">
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="Answer....">
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile cols="1">
+        <button mat-raised-button color="primary" (click)="save()" routerLink="/resetpass">Save</button>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </form>
 </main>
