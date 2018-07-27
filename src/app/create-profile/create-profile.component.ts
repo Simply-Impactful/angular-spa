@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-create-profile',
@@ -6,15 +7,27 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./create-profile.component.scss']
 })
 export class CreateProfileComponent implements OnInit {
+  private userType: any;
+  private sub: any;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.sub = this.route.params.subscribe(params => {
+       this.userType = params['userType']; // (+) converts string 'id' to a number
+
+       // In a real app: dispatch action to load the details here.
+    });
   }
 
-  save(){
-    console.log("saving");
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
+
+  save(user){
+    console.log(user);
     // A service call to the backend will be made here to store the user's data in DB
   }
+  
 
 }

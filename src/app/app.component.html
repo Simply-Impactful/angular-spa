@@ -1,27 +1,5 @@
 <!--Top Navigation Content. Might need to be moved to its own component -->
-
-<mat-toolbar color="primary">
-  <!-- top navigation with menu-->
-  <mat-toolbar-row>
-    <button class="nav-logo" routerLink="/landing"></button>
-    <span class="spacer"></span>
-    <!-- and a serach component -->
-<!--    <mat-form-field>
-      <mat-select placeholder="Search for Groups">
-        <mat-option *ngFor="let group of searchGroups" [value]="group">
-          {{group}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field> -->
-
-    <span class="spacer"></span>
-    <button mat-button routerLink="/contactus">Contact us</button>
-    <button mat-button [matMenuTriggerFor]="menu">Menu</button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item routerLink="/userprofile">My Profile</button>
-      <button mat-menu-item routerLink="/login">Logout</button>
-    </mat-menu>
-  </mat-toolbar-row>
-</mat-toolbar>
-
-<router-outlet></router-outlet>
+<app-top-nav></app-top-nav>
+<main>
+    <router-outlet></router-outlet>
+</main>

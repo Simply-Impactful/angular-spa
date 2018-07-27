@@ -14,14 +14,13 @@ export class LogInComponent implements OnInit {
   constructor(public logInService: LogInService) { }
 
   ngOnInit() {
-
   }
 
-  login(){
+  login() {
     // A service call will be made here to validate the credentials against what we have stored in the DB
     this.logInService.login(this.username, this.password).subscribe(
-      user=>{
-        if(user.isLoggedIn){
+      user => {
+        if (user.isLoggedIn) {
           console.log("is logged in");
         }
       });

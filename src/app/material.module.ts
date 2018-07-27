@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { MatButtonModule } from '@angular/material/button';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatDividerModule } from '@angular/material/divider';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { MatRadioModule } from '@angular/material/radio';
         MatButtonModule,
         MatCardModule,
         MatCheckboxModule,
+        MatDividerModule,
         MatIconModule,
         MatInputModule,
         MatGridListModule,
@@ -32,6 +34,7 @@ import { MatRadioModule } from '@angular/material/radio';
         MatButtonModule,
         MatCardModule,
         MatCheckboxModule,
+        MatDividerModule,
         MatIconModule,
         MatInputModule,
         MatGridListModule,

@@ -1,29 +1,37 @@
-<h1>From Landing...</h1>
-<!-- second row with user greeting -->
-<mat-toolbar color="foreground">
-    <mat-toolbar-row>
-      <span class="cis-logo"></span>
-      <span class="spacer"></span>
-      <!-- and a serach component -->
-      <span>Hi {{username}}, what actions have you taken today?</span>
-      <span class="spacer"></span>
-      <p>Your Score:
-        <span class="score-flag">{{ userscore }}</span>
-      </p>
-    </mat-toolbar-row>
-  </mat-toolbar>
-<mat-grid-list cols="2" rowHeight="2:1">
-  <mat-grid-tile fxFlex="20%">
-    <img fxFlex="20%" src="/track-change-simplyimpactful/images/light-bulb.svg" />
-  </mat-grid-tile>
-  <mat-grid-tile fxFlex="40%">Turn off the lights</mat-grid-tile>
-  <mat-grid-tile fxFlex="20%">
-    <img fxFlex="20%" src="/track-change-simplyimpactful/images/bike.png" />
-  </mat-grid-tile>
-  <mat-grid-tile fxFlex="40%">Bike to school</mat-grid-tile>
-  <mat-grid-tile fxFlex="20%">
-    <img fxFlex="20%" src="/track-change-simplyimpactful/images/recycle.png" />
-  </mat-grid-tile>
-  <mat-grid-tile fxFlex="40%">Recycle your papers</mat-grid-tile>
-</mat-grid-list>
-
+<main>
+    <img src="track-change-simplyimpactful/images/main-bg.jpeg" class="bg" alt="">
+    <div>
+        <mat-grid-list cols="2" rowHeight="3.5em">
+            <mat-grid-tile [colspan]="2" [rowspan]="5">
+                <h1>Being mindful is simple. And impactful.</h1>
+            </mat-grid-tile>
+            <mat-grid-tile [colspan]="2" [rowspan]="1">
+                <button mat-raised-button color="primary" routerLink="/login">Sign in</button>
+            </mat-grid-tile>
+            <mat-grid-tile [colspan]="2" [rowspan]="1">
+                <span>Don't have a profile?</span>
+            </mat-grid-tile>
+            <div class="blue-theme">
+                <mat-grid-tile [colspan]="2" [rowspan]="1">
+                    <button mat-raised-button color="primary" routerLink="/createuser/teacher/">
+                        {{'teacher start here' | uppercase }}
+                    </button>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="2" [rowspan]="1">
+                    <button mat-raised-button color="accent" routerLink="/createuser/student/">
+                        {{'student start here' | uppercase }}
+                    </button>
+                </mat-grid-tile>
+            </div>
+            <mat-grid-tile [colspan]="2" [rowspan]="1">
+                <img src="/track-change-simplyimpactful/images/save-planet.png" />
+            </mat-grid-tile>
+            <mat-grid-tile [colspan]="2" [rowspan]="2">
+                <h3>{{'Plastic Pollution' | uppercase}}</h3>
+            </mat-grid-tile>
+            <mat-grid-tile [colspan]="2" [rowspan]="1">
+                <h2>Americans use about 500 million plastic straws each day.</h2>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </div>
+</main>

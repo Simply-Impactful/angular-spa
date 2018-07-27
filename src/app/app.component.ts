@@ -7,11 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class AppComponent implements OnInit {
-  title = 'Change Is Simple';
-
-  userscore = 35;
-  searchGroups: string[] = ['Pink', 'Red', 'Purple'];
-
+ 
   constructor(){}
   
   ngOnInit() {}

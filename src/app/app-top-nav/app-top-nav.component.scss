@@ -1,0 +1,56 @@
+/* latin */
+
+#app-navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    overflow: hidden;
+}
+
+#flush-nav {
+    display: block;
+    height:80px;
+
+}
+
+.nav-logo {
+    height: 5em;
+    width: 5em;
+    cursor: pointer;
+    background: transparent url(/track-change-simplyimpactful/images/plover.png) center/4.75em no-repeat;
+    border: none;
+}
+
+.cis-logo {
+    height: 5em;
+    width: 300px;
+    background: transparent url(/track-change-simplyimpactful/images/cis_logo.jpeg) center/300px no-repeat;
+    border: none;
+}
+
+.score-flag {
+    height: 4em;
+    width: 4em;
+    background: transparent url(/track-change-simplyimpactful/images/score-flag.png) center/3em no-repeat;
+    border: none;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.search-group {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.search-group-full-width {
+    width: 100%;
+}
+
+.mat-elevation-z6 {
+    box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
+}
