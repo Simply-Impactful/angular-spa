@@ -1,46 +1,8 @@
 <main>
-  <h1>Create an account by completing the simple steps below:</h1>
+  <h1 style="color:#4db6ac;">Create an account by completing the simple steps below:</h1>
 
   <form>
     <mat-grid-list cols="2" rowHeight="6em">
-      <!-- left -->
-      <mat-grid-tile cols="1">
-        <mat-form-field appearance="outline">
-          <mat-label>First Name</mat-label>
-          <input matInput placeholder="First Name">
-        </mat-form-field>
-      </mat-grid-tile>
-
-      <!-- right -->
-      <mat-grid-tile cols="1">
-        <mat-form-field appearance="outline">
-          <mat-select placeholder="security question 1">
-            <mat-option value="option">What is your favorite movie?</mat-option>
-            <mat-option value="option">What is your favorite meal?</mat-option>
-            <mat-option value="option">What is your favorite sport?</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </mat-grid-tile>
-
-      <!-- left -->
-      <mat-grid-tile cols="1">
-        <mat-form-field appearance="outline">
-          <mat-label>Last Name</mat-label>
-          <input matInput placeholder="Last Name">
-        </mat-form-field>
-      </mat-grid-tile>
-
-      <!-- right -->
-      <mat-grid-tile cols="1">
-        <mat-form-field appearance="outline">
-          <mat-select placeholder="security question 2">
-            <mat-option value="option">What is your favorite movie?</mat-option>
-            <mat-option value="option">What is your favorite meal?</mat-option>
-            <mat-option value="option">What is your favorite sport?</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </mat-grid-tile>
-
       <!-- left -->
       <mat-grid-tile cols="1">
         <mat-form-field appearance="outline">
@@ -51,49 +13,61 @@
 
       <!-- right -->
       <mat-grid-tile cols="1">
-        <mat-form-field appearance="outline">
-          <mat-select placeholder="security question 3">
-            <mat-option value="option">What is your favorite movie?</mat-option>
-            <mat-option value="option">What is your favorite meal?</mat-option>
-            <mat-option value="option">What is your favorite sport?</mat-option>
-          </mat-select>
-        </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input matInput placeholder="Password" type="password">
+            <mat-hint>Min 8 characters, must contain a number and a speacial character</mat-hint>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <!-- left -->
+        <mat-grid-tile cols="1">
+            <mat-form-field appearance="outline">
+              <mat-label>Confirm Password</mat-label>
+              <input matInput placeholder="Confirm Password" type="password">
+            </mat-form-field>
+          </mat-grid-tile>
+
+        <!-- right -->
+        <mat-grid-tile cols="1">
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput placeholder="Email Address">
+              <mat-hint>Optional</mat-hint>
+            </mat-form-field>
+          </mat-grid-tile>
+      
+      <!-- left -->
+      <mat-grid-tile cols="1">
+          <mat-form-field appearance="outline">
+              <mat-label>Zip Code</mat-label>
+              <input matInput placeholder="Zip Code">
+            </mat-form-field>
       </mat-grid-tile>
 
-      <!-- left -->
-      <mat-grid-tile cols="1">
-        <mat-form-field appearance="outline">
-          <mat-label>Password</mat-label>
-          <input matInput placeholder="Password">
-        </mat-form-field>
-      </mat-grid-tile>
-      
-      <!-- right -->
-      <mat-grid-tile cols="1">
-      </mat-grid-tile>
-      
-      <!-- left -->
+      <!-- left 
       <mat-grid-tile cols="1">
         <mat-form-field appearance="outline">
           <mat-label>{{userType}}</mat-label>
           <input matInput placeholder="User Typer" readonly>
         </mat-form-field>
-      </mat-grid-tile>
-      
+      </mat-grid-tile> -->
+
       <!-- right -->
-      <mat-grid-tile cols="1"></mat-grid-tile>
-      
-      <!-- left -->      
       <mat-grid-tile cols="1">
-        <mat-form-field appearance="outline">
-          <mat-select placeholder="Organization">
-            <mat-option value="option">-- None --</mat-option>
-            <mat-option value="option">Teacher</mat-option>
-            <mat-option value="option">Individual User</mat-option>
-          </mat-select>
+        <mat-form-field appearance="outline" padding="200px">
+          <mat-label>School/Organization</mat-label>
+          <input matInput placeholder="School/Organization">
+          <mat-hint>Optional</mat-hint>
+          <br>
         </mat-form-field>
       </mat-grid-tile>
+
+      <!-- right -->
+      <mat-grid-tile cols="1"></mat-grid-tile>
+
     </mat-grid-list>
-    <button mat-raised-button color="primary" (click)="save()" routerLink="/landing">Create</button>
+    <app-security-questions class="mb-3"></app-security-questions>
+    <button mat-raised-button color="primary" (click)="save()" routerLink="/login">Create</button>
   </form>
 </main>
