@@ -4,6 +4,11 @@ A web application for Change is Simple Org that gamifies eco-friendly actions.
 
 This project was generated with [Angular CLI][angular-cli] version 6.0.8.
 
+
+## Home Page in AWS S3
+
+https://s3.amazonaws.com/track-change-simplyimpactful/index.html
+
 ## Angular Material
 
 Please read the Angular Material documentation for adding Material components to your Angular components:
@@ -15,9 +20,9 @@ Here is the theming documentation:
 https://material.angular.io/guide/theming
 
 
-## Home Page in AWS S3
+# Convert images to SVG:
 
-https://s3.amazonaws.com/track-change-simplyimpactful/index.html
+https://www.youtube.com/watch?v=wA7BX-cI-RE
 
 ## Development server
 
