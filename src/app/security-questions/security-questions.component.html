@@ -2,6 +2,7 @@
   <h1 style="color:#4db6ac;">Security Questions</h1>
   <form>
     <mat-grid-list cols="2" rowHeight="6em">
+        <div style="height:200px; width:1px; border-left:1px#bbb solid">
       <mat-grid-tile cols="1">
         <mat-form-field appearance="outline">
           <mat-select placeholder="Security Question 1">
@@ -44,8 +45,11 @@
           <input matInput placeholder="Answer...">
         </mat-form-field>
       </mat-grid-tile>
+      </div>
     </mat-grid-list>
+    <div align="center">
     <button *ngIf="isSecurity" mat-raised-button color="primary" (click)="save()" routerLink="/login">Submit</button>
     <button *ngIf="isCreateProfile" mat-raised-button color="primary" (click)="save()" routerLink="/home">Submit</button> 
+  </div>
   </form>
 </main>

@@ -25,8 +25,13 @@
               <input matInput placeholder="Username">
             </mat-form-field>
           </div>
+          <div align="left-center">
+              <mat-label>Upload a profile picture</mat-label>
+              <br>
+              <button mat-stroked-button (click)="save()">Choose file</button>
+          </div>
         </div>
-        <div style="height:300px; width:1px; border-left:1px#bbb solid"></div>
+        <div style="height:200px; width:1px; border-left:1px#bbb solid"></div>
         <div fxFlex="100">
           <div align="center">
             <mat-form-field appearance="outline">
@@ -49,6 +54,8 @@
         </div>
 </main>
 </div>
-  <app-security-questions class="mb-3"></app-security-questions>
+<app-security-questions class="mb-3"></app-security-questions>
+
+  
 
 
