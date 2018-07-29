@@ -2,6 +2,31 @@ main {
     color: white;
 }
 
+h1 {
+    font-size: 2.5em;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    margin: 20px auto;
+}
+
+h2 {
+    font-size: 2.3em;
+}
+
+h3 {
+    font-size: 0.875em;
+    padding: 1em;
+    text-decoration: underline;
+    letter-spacing: 0.3em;
+}
+
+button.mat-raised-button {
+
+    padding-left: 2em;
+    padding-right: 2em;
+}
+
 img.bg {
     /* Set rules to fill background */
     min-height: 100%;
@@ -13,35 +38,4 @@ img.bg {
     position: fixed;
     top: 0;
     left: 0;
-}
-
-h1 {
-    font-size: 2.5em;
-    display: flex;
-    flex-direction: row;
-    position: relative;
-    margin: 20px auto;
-}
- h2 {
-        font-size: 2.3em;
- }
-
-.block-buttons {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-}
-
-h3 {
-    font-size: 0.875em;
-    padding: 1em;
-    text-decoration: underline;
-    letter-spacing: 0.3em;
-}
-
-img {
-    background-color: transparent;
-    height: 4em;
-    display: flex;
-    flex-direction: column;
 }

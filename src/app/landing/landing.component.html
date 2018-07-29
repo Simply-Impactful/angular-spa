@@ -1,8 +1,8 @@
 <main>
-    <img src="track-change-simplyimpactful/images/main-bg.jpeg" class="bg" alt="">
+    <img src="track-change-simplyimpactful/images/main-bg.png" class="bg" alt="">
     <div>
         <mat-grid-list cols="2" rowHeight="3.5em">
-            <mat-grid-tile [colspan]="2" [rowspan]="5">
+            <mat-grid-tile [colspan]="2" [rowspan]="4">
                 <h1>Being mindful is simple. And impactful.</h1>
             </mat-grid-tile>
             <mat-grid-tile [colspan]="2" [rowspan]="1">
@@ -12,7 +12,7 @@
                 <span>Don't have a profile?</span>
             </mat-grid-tile>
             <div class="blue-theme">
-                <mat-grid-tile [colspan]="2" [rowspan]="1">
+                <mat-grid-tile [colspan]="2" [rowspan]="">
                     <button mat-raised-button color="primary" routerLink="/createuser/teacher/">
                         {{'teachers, start here' | uppercase }}
                     </button>
@@ -23,13 +23,13 @@
                     </button>
                 </mat-grid-tile>
             </div>
-            <mat-grid-tile [colspan]="2" [rowspan]="1">
-                <img src="/track-change-simplyimpactful/images/save-planet.png" />
+            <mat-grid-tile id="icon" [colspan]="2" [rowspan]="2">
+                <img src="/track-change-simplyimpactful/images/icons/care.png" />
             </mat-grid-tile>
-            <mat-grid-tile [colspan]="2" [rowspan]="2">
+            <mat-grid-tile [colspan]="2" [rowspan]="1">
                 <h3>{{'Plastic Pollution' | uppercase}}</h3>
             </mat-grid-tile>
-            <mat-grid-tile [colspan]="2" [rowspan]="1">
+            <mat-grid-tile [colspan]="2" [rowspan]="3">
                 <h2>Americans use about 500 million plastic straws each day.</h2>
             </mat-grid-tile>
         </mat-grid-list>
