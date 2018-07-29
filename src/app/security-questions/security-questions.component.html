@@ -45,5 +45,7 @@
         </mat-form-field>
       </mat-grid-tile>
     </mat-grid-list>
+    <button *ngIf="isSecurity" mat-raised-button color="primary" (click)="save()" routerLink="/login">Submit</button>
+    <button *ngIf="isCreateProfile" mat-raised-button color="primary" (click)="save()" routerLink="/home">Submit</button> 
   </form>
 </main>

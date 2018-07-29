@@ -1,73 +1,54 @@
+<div class="create-profile-container">
 <main>
-  <h1 style="color:#4db6ac;">Create an account by completing the simple steps below:</h1>
-
-  <form>
-    <mat-grid-list cols="2" rowHeight="6em">
-      <!-- left -->
-      <mat-grid-tile cols="1">
-        <mat-form-field appearance="outline">
-          <mat-label>Username</mat-label>
-          <input matInput placeholder="Username">
-        </mat-form-field>
-      </mat-grid-tile>
-
-      <!-- right -->
-      <mat-grid-tile cols="1">
-          <mat-form-field appearance="outline">
-            <mat-label>Password</mat-label>
-            <input matInput placeholder="Password" type="password">
-            <mat-hint>Min 8 characters, must contain a number and a speacial character</mat-hint>
-          </mat-form-field>
-        </mat-grid-tile>
-
-        <!-- left -->
-        <mat-grid-tile cols="1">
+ <form>
+    <div align="center">
+      <h1 style="color:#4db6ac;">Create an account by completing the simple steps below:
+      </h1>
+    </div>
+ </form>
+    <div fxLayout="row">
+        <div fxFlex="100">
+          <div align="center">
             <mat-form-field appearance="outline">
-              <mat-label>Confirm Password</mat-label>
-              <input matInput placeholder="Confirm Password" type="password">
+              <mat-label>Username</mat-label>
+              <input matInput placeholder="First Name">
             </mat-form-field>
-          </mat-grid-tile>
-
-        <!-- right -->
-        <mat-grid-tile cols="1">
+            <br>
+            <mat-form-field appearance="outline">
+              <mat-label>Password</mat-label>
+              <input matInput placeholder="Last Name">
+              <mat-hint>Minimum 8 characters, must contain number and special character </mat-hint>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="outline">
+              <mat-label>Confirm password</mat-label>
+              <input matInput placeholder="Username">
+            </mat-form-field>
+          </div>
+        </div>
+        <div style="height:300px; width:1px; border-left:1px#bbb solid"></div>
+        <div fxFlex="100">
+          <div align="center">
             <mat-form-field appearance="outline">
               <mat-label>Email</mat-label>
-              <input matInput placeholder="Email Address">
-              <mat-hint>Optional</mat-hint>
+              <input matInput placeholder="Password">
             </mat-form-field>
-          </mat-grid-tile>
-      
-      <!-- left -->
-      <mat-grid-tile cols="1">
-          <mat-form-field appearance="outline">
+            <br>
+            <mat-form-field appearance="outline">
               <mat-label>Zip Code</mat-label>
-              <input matInput placeholder="Zip Code">
+              <input matInput placeholder="Password">
             </mat-form-field>
-      </mat-grid-tile>
-
-      <!-- left 
-      <mat-grid-tile cols="1">
-        <mat-form-field appearance="outline">
-          <mat-label>{{userType}}</mat-label>
-          <input matInput placeholder="User Typer" readonly>
-        </mat-form-field>
-      </mat-grid-tile> -->
-
-      <!-- right -->
-      <mat-grid-tile cols="1">
-        <mat-form-field appearance="outline" padding="200px">
-          <mat-label>School/Organization</mat-label>
-          <input matInput placeholder="School/Organization">
-          <mat-hint>Optional</mat-hint>
-          <br>
-        </mat-form-field>
-      </mat-grid-tile>
-
-      <!-- right -->
-      <mat-grid-tile cols="1"></mat-grid-tile>
-
-    </mat-grid-list>
-    <app-security-questions class="mb-3"></app-security-questions>
-    <button mat-raised-button color="primary" (click)="save()" routerLink="/login">Create</button>
-  </form>
+            <br>
+            <mat-form-field appearance="outline">
+              <mat-label>School/Company</mat-label>
+              <input matInput placeholder="School/Company">
+            </mat-form-field>
+            <br>
+          </div>
+        </div> 
+        </div>
 </main>
+</div>
+  <app-security-questions class="mb-3"></app-security-questions>
+
+
