@@ -1,61 +1,61 @@
 <div class="create-profile-container">
-<main>
- <form>
-    <div align="center">
-      <h1 style="color:#4db6ac;">Create an account by completing the simple steps below:
-      </h1>
-    </div>
- </form>
-    <div fxLayout="row">
-        <div fxFlex="100">
-          <div align="center">
-            <mat-form-field appearance="outline">
-              <mat-label>Username</mat-label>
-              <input matInput placeholder="First Name">
-            </mat-form-field>
-            <br>
-            <mat-form-field appearance="outline">
-              <mat-label>Password</mat-label>
-              <input matInput placeholder="Last Name">
-              <mat-hint>Minimum 8 characters, must contain number and special character </mat-hint>
-            </mat-form-field>
-            <br>
-            <mat-form-field appearance="outline">
-              <mat-label>Confirm password</mat-label>
-              <input matInput placeholder="Username">
-            </mat-form-field>
-          </div>
-          <div align="left-center">
-              <mat-label>Upload a profile picture</mat-label>
+  <main>
+   <form>
+     <img src="track-change-simplyimpactful/images/Avatar.png" class="bg" alt="">
+     <h3 style="padding-top: 50px;"> Create an account by completing the simple steps below:</h3>
+    </form>
+      <div fxLayout="row">
+          <div fxFlex="100">
+            <div align="center">
+              <mat-form-field appearance="outline">
+                <mat-label>User Name</mat-label>
+                <input matInput placeholder="Username">
+              </mat-form-field>
               <br>
-              <button mat-stroked-button (click)="save()">Choose file</button>
+              <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input matInput placeholder="Password">
+                <mat-hint>Minimum 8 characters, must contain number and special character </mat-hint>
+              </mat-form-field>
+              <br>
+              <mat-form-field appearance="outline">
+                <mat-label>Confirm password</mat-label>
+                <input matInput placeholder="Password">
+              </mat-form-field>
+            </div>
+            <div align="left-center" style="padding: 40px">
+              <mat-label style="padding-right: 10px">Upload a profile picture</mat-label>
+              <button style="padding: 5px;" (click)="save()">Choose file</button>
+            </div>
           </div>
+          <div style="height:200px; width:1px; border-left:1px#bbb solid"></div>
+          <div fxFlex="100">
+            <div align="center">
+              <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="Email">
+                <mat-hint>Optional</mat-hint> 
+              </mat-form-field>
+              <br>
+              <mat-form-field appearance="outline">
+                <mat-label>Zip Code</mat-label>
+                <input matInput placeholder="Zip Code">
+              </mat-form-field>
+              <br>
+              <mat-form-field appearance="outline">
+                <mat-label>School/Company</mat-label>
+                <input matInput placeholder="School/Company">
+                <mat-hint>Optional</mat-hint> 
+              </mat-form-field>
+            </div>
+          </div> 
         </div>
-        <div style="height:200px; width:1px; border-left:1px#bbb solid"></div>
-        <div fxFlex="100">
-          <div align="center">
-            <mat-form-field appearance="outline">
-              <mat-label>Email</mat-label>
-              <input matInput placeholder="Password">
-            </mat-form-field>
-            <br>
-            <mat-form-field appearance="outline">
-              <mat-label>Zip Code</mat-label>
-              <input matInput placeholder="Password">
-            </mat-form-field>
-            <br>
-            <mat-form-field appearance="outline">
-              <mat-label>School/Company</mat-label>
-              <input matInput placeholder="School/Company">
-            </mat-form-field>
-            <br>
-          </div>
-        </div> 
-        </div>
-</main>
-</div>
-<app-security-questions class="mb-3"></app-security-questions>
-
+  </main>
+  </div>
+  <app-security-questions class="mb-3"></app-security-questions>
   
-
+    
+  
+  
+  
 
