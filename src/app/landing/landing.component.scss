@@ -3,7 +3,7 @@ main {
 }
 
 h1 {
-    font-size: 2.5em;
+    font-size: 2.75em;
     display: flex;
     flex-direction: row;
     position: relative;
@@ -11,7 +11,7 @@ h1 {
 }
 
 h2 {
-    font-size: 2.3em;
+    font-size: 2.1em;
 }
 
 h3 {
@@ -25,6 +25,8 @@ button.mat-raised-button {
 
     padding-left: 2em;
     padding-right: 2em;
+    width: 250px;
+    font-size: 18 px;
 }
 
 img.bg {

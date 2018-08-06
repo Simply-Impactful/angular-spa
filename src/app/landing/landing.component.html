@@ -6,7 +6,7 @@
                 <h1>Being mindful is simple. And impactful.</h1>
             </mat-grid-tile>
             <mat-grid-tile [colspan]="2" [rowspan]="1">
-                <button mat-raised-button color="primary" routerLink="/login">Sign in</button>
+                <button mat-raised-button color="primary" routerLink="/login">{{'sign in' | uppercase}}</button>
             </mat-grid-tile>
             <mat-grid-tile [colspan]="2" [rowspan]="1">
                 <span>Don't have a profile?</span>
@@ -19,12 +19,13 @@
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="2" [rowspan]="1">
                     <button mat-raised-button color="accent" routerLink="/createuser/individual/">
-                        {{'individual users, start here' | uppercase }}
+                        {{'other users, start here' | uppercase }}
                     </button>
                 </mat-grid-tile>
             </div>
             <mat-grid-tile id="icon" [colspan]="2" [rowspan]="2">
-                <img src="/track-change-simplyimpactful/images/icons/care.png" />
+                <img src="/track-change-simplyimpactful/images/icons/care.png" 
+                style="padding-top:70px"/>
             </mat-grid-tile>
             <mat-grid-tile [colspan]="2" [rowspan]="1">
                 <h3>{{'Plastic Pollution' | uppercase}}</h3>
