@@ -18,6 +18,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { SecurityQuestionsComponent } from './security-questions/security-questions.component';
 import { AppTopNavComponent } from './app-top-nav/app-top-nav.component';
 import { HomeComponent } from './home/home.component';
+import { AdminViewComponent } from './admin-view/admin-view.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { HomeComponent } from './home/home.component';
     ResetPasswordComponent,
     SecurityQuestionsComponent,
     AppTopNavComponent,
-    HomeComponent
+    HomeComponent,
+    AdminViewComponent
   ],
   imports: [
     AppRoutingModule,
@@ -43,7 +45,7 @@ import { HomeComponent } from './home/home.component';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [ ],
+  providers: [ AdminViewComponent ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
