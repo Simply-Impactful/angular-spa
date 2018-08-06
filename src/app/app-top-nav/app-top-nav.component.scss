@@ -15,10 +15,10 @@
 }
 
 .nav-logo {
-    height: 5em;
-    width: 5em;
+    height: 4.5em;
+    width: 4.5em;
     cursor: pointer;
-    background: transparent url('/track-change-simplyimpactful/images/plover.png') center/4.75em no-repeat;
+    background: transparent url('/track-change-simplyimpactful/images/plover.png') center/4.25em no-repeat;
     border: none;
 }
 
@@ -34,4 +34,8 @@
 
 .mat-elevation-z6 {
     box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
+}
+
+.white-text{
+    color: white;
 }
