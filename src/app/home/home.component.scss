@@ -1,10 +1,14 @@
 .top-row {
-    margin-bottom: 2em;
+    margin-bottom: 0.25em;  //2em;
 }
 
 img {
-    max-width: 800px;
-    height: 6em;
+    //max-width: 800px;
+    //height: 6em;
+       height: 10em;
+       padding: 50px;
+       padding-top: 25px;
+       padding-bottom: 40px;
 }
 
 img.cis-logo {
@@ -20,3 +24,22 @@ img.cis-logo {
     background: transparent url('/track-change-simplyimpactful/images/score-flag.png') center/3em no-repeat;
     border: none;
 }
+
+.backimage{
+    background:url('/track-change-simplyimpactful/images/main-bg.jpeg');
+    padding-bottom: 50px;
+     // background-repeat: no-repeat;
+ }
+
+ form {
+     display: flex;
+     flex-direction: row;
+     justify-content:center;
+      }
+      
+ button.mat-raised-button {
+    padding-left: 2em;
+    padding-right: 2em;
+    width: 200px;
+    font-size: 18 px;
+     }
