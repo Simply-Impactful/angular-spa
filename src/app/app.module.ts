@@ -18,6 +18,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { SecurityQuestionsComponent } from './security-questions/security-questions.component';
 import { AppTopNavComponent } from './app-top-nav/app-top-nav.component';
 import { HomeComponent } from './home/home.component';
+import { AngularFileUploaderModule, AngularFileUploaderComponent } from "angular-file-uploader";
+
 
 
 @NgModule({
@@ -41,9 +43,10 @@ import { HomeComponent } from './home/home.component';
     FormsModule,
     MaterialModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AngularFileUploaderModule
   ],
-  providers: [ ],
+  providers: [ AngularFileUploaderComponent ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -23,10 +23,7 @@
                 <input matInput placeholder="Password">
               </mat-form-field>
             </div>
-            <div align="left-center" style="padding: 40px">
-              <mat-label style="padding-right: 10px">Upload a profile picture</mat-label>
-              <button style="padding: 5px;" (click)="save()">Choose file</button>
-            </div>
+
           </div>
           <div style="height:200px; width:1px; border-left:1px#bbb solid"></div>
           <div fxFlex="100">
@@ -53,6 +50,11 @@
   </main>
   </div>
   <app-security-questions class="mb-3"></app-security-questions>
+  <div align="left-center" style="padding-top: 100px">
+      <angular-file-uploader
+      [config]="afuConfig">
+    </angular-file-uploader>
+  </div>
   
     
   
