@@ -1,12 +1,14 @@
 main {
     display: flex;
     flex-direction: column;
-
-    mat-form-field{
-        width: 380px;
-    }
-    button.mat-raised-button {
-        padding-left: 10em;
-        padding-right: 10em;
-    }
+    padding-left: 10em;
+    padding-right: 10em;
+    padding-top:80px;
+}
+mat-form-field{
+    width: 380px;
+}
+button.mat-raised-button {
+    width: 250px;
+    font-size: 18 px;
 }
