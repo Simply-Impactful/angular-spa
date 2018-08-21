@@ -19,6 +19,7 @@ import { SecurityQuestionsComponent } from './security-questions/security-questi
 import { AppTopNavComponent } from './app-top-nav/app-top-nav.component';
 import { HomeComponent } from './home/home.component';
 import { AngularFileUploaderModule, AngularFileUploaderComponent } from "angular-file-uploader";
+import { UploadComponent } from './upload/upload.component';
 
 
 
@@ -33,7 +34,8 @@ import { AngularFileUploaderModule, AngularFileUploaderComponent } from "angular
     ResetPasswordComponent,
     SecurityQuestionsComponent,
     AppTopNavComponent,
-    HomeComponent
+    HomeComponent,
+    UploadComponent
   ],
   imports: [
     AppRoutingModule,
@@ -46,7 +48,7 @@ import { AngularFileUploaderModule, AngularFileUploaderComponent } from "angular
     HttpClientModule,
     AngularFileUploaderModule
   ],
-  providers: [ AngularFileUploaderComponent ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

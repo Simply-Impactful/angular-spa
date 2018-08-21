@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AngularFileUploaderModule, AngularFileUploaderComponent } from "angular-file-uploader";
 
 
 @Component({
@@ -33,12 +32,10 @@ export class CreateProfileComponent implements OnInit {
 }; **/
 
 
-  constructor(private route: ActivatedRoute, private fileUpload: AngularFileUploaderModule, private afuConfig: AngularFileUploaderComponent) {
+  constructor(private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.afuConfig.theme="";
-    this.afuConfig.uploadAPI="https://example-file-upload-api";
 
     this.sub = this.route.params.subscribe(params => {
        this.userType = params['userType']; // (+) converts string 'id' to a number
