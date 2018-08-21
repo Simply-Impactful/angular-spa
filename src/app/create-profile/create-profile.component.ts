@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+
 @Component({
   selector: 'app-create-profile',
   templateUrl: './create-profile.component.html',
@@ -10,9 +11,32 @@ export class CreateProfileComponent implements OnInit {
   userType: any;
   private sub: any;
 
-  constructor(private route: ActivatedRoute) {}
+  /**= {
+    ApiResponse: "",
+    resetUpload: '',
+    config: '',
+    multiple: false,
+    formatsAllowed: ".jpg,.png",
+    maxSize: "1",
+    uploadAPI:  {
+      url:"https://example-file-upload-api",
+      headers: {
+     "Content-Type" : "text/plain;charset=UTF-8",
+    // "Authorization" : `Bearer ${token}`
+      }
+    },
+    theme: "dragNDrop",
+    hideProgressBar: true,
+    hideResetBtn: true,
+    hideSelectBtn: true
+}; **/
+
+
+  constructor(private route: ActivatedRoute) {
+  }
 
   ngOnInit() {
+
     this.sub = this.route.params.subscribe(params => {
        this.userType = params['userType']; // (+) converts string 'id' to a number
 
@@ -28,6 +52,13 @@ export class CreateProfileComponent implements OnInit {
     console.log('save was called');
     // A service call to the backend will be made here to store the user's data in DB
   }
+
+  upload(){
+    
+    var a= "test";
+   // a = this.fileUploadComp.uploadMsgText;
+  }
+   
   
 
 }
