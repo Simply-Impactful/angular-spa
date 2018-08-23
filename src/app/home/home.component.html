@@ -36,9 +36,9 @@
 
   <div class="backimage">
     <form>
-      <img src="/track-change-simplyimpactful/images/unplug.png" alt="Unplug the lights">
-      <img src="/track-change-simplyimpactful/images/turnoffaucet.png" alt="Turn off faucet">
-      <img src="/track-change-simplyimpactful/images/turnofflights.png" alt="Turn off lights">
+      <img src="/track-change-simplyimpactful/images/unplug.png" alt="Unplug the lights" (click)="add('unplug')">
+      <img src="/track-change-simplyimpactful/images/turnoffaucet.png" alt="Turn off faucet"(click)="add('faucet')">
+      <img src="/track-change-simplyimpactful/images/turnofflights.png" alt="Turn off lights"(click)="add('lights')">
     </form>
     <button mat-raised-button color="primary" (click)="save()" routerLink="/login">View All</button> 
   </div>
