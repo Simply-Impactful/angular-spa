@@ -20,6 +20,7 @@ import { AppTopNavComponent } from './app-top-nav/app-top-nav.component';
 import { HomeComponent } from './home/home.component';
 import { AngularFileUploaderModule, AngularFileUploaderComponent } from "angular-file-uploader";
 import { UploadComponent } from './upload/upload.component';
+import { ActionsComponent } from './actions/actions.component';
 
 
 
@@ -35,7 +36,8 @@ import { UploadComponent } from './upload/upload.component';
     SecurityQuestionsComponent,
     AppTopNavComponent,
     HomeComponent,
-    UploadComponent
+    UploadComponent,
+    ActionsComponent
   ],
   imports: [
     AppRoutingModule,

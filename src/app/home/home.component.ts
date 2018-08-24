@@ -4,9 +4,9 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
-})//
+})
 export class HomeComponent implements OnInit {
-  userscore: number = 0;
+  userscore: number;
   username: string = 'Jack';
   actionPoints: number = 0;
   faucetPoints: number = 5;
@@ -14,10 +14,11 @@ export class HomeComponent implements OnInit {
   lightsPoints: number = 5;
   name: string="";
 
-
   constructor() { }
 
   ngOnInit() {
+    // userscore = whatever is pulled from the db 
+    this.userscore=0;
   }
 
   // Add the number of points assigned to each action
