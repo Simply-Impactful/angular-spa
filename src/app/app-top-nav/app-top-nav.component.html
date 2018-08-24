@@ -1,29 +1,29 @@
 <!--Top Navigation Content. Might need to be moved to its own component -->
 <nav id="app-navbar">
-  <mat-toolbar color="primary">
-    <!-- top navigation with menu-->
-    <mat-toolbar-row>
-      <button class="nav-logo" routerLink="/landing"></button>
-      <span class="spacer"></span>
-      <!-- and a serach component -->
-      <mat-form-field *ngIf="canSearch">
-        <mat-select placeholder="Search for Groups">
-          <mat-option *ngFor="let group of searchGroups" [value]="group">
-            {{group}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <div [hidden]="hideRightMenu" class="white-text">
+    <mat-toolbar color="primary">
+      <!-- top navigation with menu-->
+      <mat-toolbar-row>
+        <button class="nav-logo" title="Navigate to Landing page" routerLink="/landing"></button>
         <span class="spacer"></span>
-        <button mat-button routerLink="/contactus">Contact us</button>
-        <button mat-button [matMenuTriggerFor]="menu">Menu</button>
-
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item routerLink="/userprofile">My Profile</button>
-          <button mat-menu-item routerLink="/login">Logout</button>
-        </mat-menu>
-      </div>
-    </mat-toolbar-row>
-  </mat-toolbar>
-</nav>
-<div id="flush-nav"></div>
+        <!-- and a serach component -->
+        <mat-form-field *ngIf="canSearch">
+          <mat-select placeholder="Search for Groups">
+            <mat-option *ngFor="let group of searchGroups" [value]="group">
+              {{group}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div [hidden]="hideRightMenu" class="white-text">
+          <span class="spacer"></span>
+          <button mat-button routerLink="/contactus">Contact us</button>
+          <button mat-button [matMenuTriggerFor]="menu">Menu</button>
+  
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item routerLink="/userprofile">My Profile</button>
+            <button mat-menu-item routerLink="/login">Logout</button>
+          </mat-menu>
+        </div>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </nav>
+  <div id="flush-nav"></div>

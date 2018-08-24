@@ -2,15 +2,11 @@
   <div class="top-row">
     <mat-toolbar style="background-color: transparent">
       <mat-toolbar-row>
-        <img class="cis-logo" src="/track-change-simplyimpactful/images/cis_logo.jpeg" alt="Change is Simple">
-
+        <a href="http://www.changeissimple.org/" target="_blank"><button class="cis-logo" title="Navigate to ChangeIsSimple.org"></button></a>
         <span class="spacer"></span>
         <span>Hi {{username}}, what actions have you taken today?</span>
-
         <span class="spacer"></span>
-        <p>Your Score:
-          <span class="score-flag">{{ userscore }}</span>
-        </p>
+        Your Score:<span class="score-flag">{{ userscore }}</span>
       </mat-toolbar-row>
     </mat-toolbar>
   </div>
@@ -36,9 +32,15 @@
 
   <div class="backimage">
     <form>
+      <span class="score-box1">{{ unplugPoints }}</span>
       <img src="/track-change-simplyimpactful/images/unplug.png" alt="Unplug the lights" (click)="add('unplug')">
+
+      <span class="score-box2">{{ faucetPoints }}</span>
       <img src="/track-change-simplyimpactful/images/turnoffaucet.png" alt="Turn off faucet"(click)="add('faucet')">
+
+      <span class="score-box3">{{ lightsPoints }}</span>
       <img src="/track-change-simplyimpactful/images/turnofflights.png" alt="Turn off lights"(click)="add('lights')">
+
     </form>
     <button mat-raised-button color="primary" (click)="save()" routerLink="/login">View All</button> 
   </div>

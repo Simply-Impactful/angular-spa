@@ -49,10 +49,9 @@
   </main>
   </div>
   <app-security-questions class="mb-3"></app-security-questions>
-
-  <h4 align="left-center" style="padding-top: 100px">Upload your Picture</h4>
-    <app-upload style="background-color:red important!"></app-upload>
-    
+   <mat-grid-list cols="2" style-height="0%"><mat-grid-tile><app-upload></app-upload></mat-grid-tile>
+    <mat-grid-tile><button mat-raised-button color="primary" (click)="save()" routerLink="/home">Create</button></mat-grid-tile>
+  </mat-grid-list>
   
     
   
