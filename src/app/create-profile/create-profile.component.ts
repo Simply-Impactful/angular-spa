@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CognitoUtil } from '../services/cognito.service';
 
 
 @Component({
@@ -10,29 +11,9 @@ import { ActivatedRoute } from '@angular/router';
 export class CreateProfileComponent implements OnInit {
   userType: any;
   private sub: any;
+  
 
-  /**= {
-    ApiResponse: "",
-    resetUpload: '',
-    config: '',
-    multiple: false,
-    formatsAllowed: ".jpg,.png",
-    maxSize: "1",
-    uploadAPI:  {
-      url:"https://example-file-upload-api",
-      headers: {
-     "Content-Type" : "text/plain;charset=UTF-8",
-    // "Authorization" : `Bearer ${token}`
-      }
-    },
-    theme: "dragNDrop",
-    hideProgressBar: true,
-    hideResetBtn: true,
-    hideSelectBtn: true
-}; **/
-
-
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, public cognitoUtil: CognitoUtil) {
   }
 
   ngOnInit() {
@@ -48,15 +29,9 @@ export class CreateProfileComponent implements OnInit {
     this.sub.unsubscribe();
   }
 
-  save(){
-    console.log('save was called');
-    // A service call to the backend will be made here to store the user's data in DB
-  }
-
-  upload(){
-    
-    var a= "test";
-   // a = this.fileUploadComp.uploadMsgText;
+  createAccount(){
+    let userPool = this.cognitoUtil.getUserPool();
+    console.log("userPool " + JSON.stringify(userPool));
   }
    
   
