@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { CognitoUtil } from '../app/services/cognito.service';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -38,7 +37,7 @@ import { ActionsComponent } from './actions/actions.component';
     AppTopNavComponent,
     HomeComponent,
     UploadComponent,
-    ActionsComponent,
+    ActionsComponent
   ],
   imports: [
     AppRoutingModule,
@@ -51,7 +50,7 @@ import { ActionsComponent } from './actions/actions.component';
     HttpClientModule,
     AngularFileUploaderModule
   ],
-  providers: [ CognitoUtil ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
