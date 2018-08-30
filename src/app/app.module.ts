@@ -22,6 +22,8 @@ import { HomeComponent } from './home/home.component';
 import { AngularFileUploaderModule, AngularFileUploaderComponent } from "angular-file-uploader";
 import { UploadComponent } from './upload/upload.component';
 import { ActionsComponent } from './actions/actions.component';
+import { AwsUtil } from './services/aws.service';
+import { CreateProfileService } from './services/create-profile.service';
 
 
 
@@ -51,7 +53,7 @@ import { ActionsComponent } from './actions/actions.component';
     HttpClientModule,
     AngularFileUploaderModule
   ],
-  providers: [ CognitoUtil ],
+  providers: [ CognitoUtil, AwsUtil, CreateProfileService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

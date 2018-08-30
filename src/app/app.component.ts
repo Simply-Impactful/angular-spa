@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AwsUtil } from './services/aws.service';
+import { CognitoUtil } from './services/cognito.service';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +10,9 @@ import { Component, OnInit } from '@angular/core';
 
 export class AppComponent implements OnInit {
  
-  constructor(){}
+  constructor(public awsUtil: AwsUtil, public cognito: CognitoUtil) {
+    console.log("AppComponent: constructor");
+}
   
   ngOnInit() {}
 }

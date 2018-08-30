@@ -56,7 +56,7 @@ export class AwsUtil {
         console.log("AwsUtil: in setupAWS()");
         if (isLoggedIn) {
             console.log("AwsUtil: User is logged in");
-            // Setup mobile analytics
+            /** Setup mobile analytics
             var options = {
                 appId: '32673c035a0b40e99d6e1f327be0cb60',
                 appTitle: "aws-cognito-angular2-quickstart"
@@ -64,7 +64,7 @@ export class AwsUtil {
 
             // TODO: The mobile Analytics client needs some work to handle Typescript. Disabling for the time being.
             // var mobileAnalyticsClient = new AMA.Manager(options);
-            // mobileAnalyticsClient.submitEvents();
+            // mobileAnalyticsClient.submitEvents(); **/
 
             this.addCognitoCredentials(idToken);
 
