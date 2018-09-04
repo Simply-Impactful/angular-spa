@@ -80,7 +80,11 @@ export class CognitoUtil {
         if (environment.cognito_idp_endpoint) {
             url = environment.cognito_idp_endpoint + '/' + CognitoUtil._USER_POOL_ID;
         }
-        let logins: CognitoIdentity.LoginsMap = {};
+        let logins: CognitoIdentity.LoginsMap = {
+                 // trying this.. already done in aws.service: getCognitoParametersForIdConsolidation
+                 'cognito-idp.us-east-1.amazonaws.com/us-east-1_Iz6DhxAP7' : idTokenJwt
+        };
+        
         logins[url] = idTokenJwt;
         let params = {
             IdentityPoolId: CognitoUtil._IDENTITY_POOL_ID, /* required */
