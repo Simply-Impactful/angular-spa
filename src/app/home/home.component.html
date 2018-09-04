@@ -44,10 +44,20 @@
     </form>
     <button mat-raised-button color="primary" (click)="save()" routerLink="/actions">View All</button> 
   </div>
-     
-  <h5 align="left" style="padding-top: 50px"> My Groups</h5>
-  <mat-divider></mat-divider>
 
+  <div fxLayout="row">
+    <div fxFlex="100">
+      <div align="left">
+        <h5 class="mygroup"> My Groups</h5>          
+      </div>
+    </div>
+    <div fxFlex="100">
+      <div align="right">
+        <button mat-button color="primary" routerLink="/creategroup">Create Group</button>         
+      </div>
+    </div>
+  </div> 
+  <mat-divider></mat-divider>
   <mat-tab-group>
     <mat-tab label="Group 1">
       <h1>This week top three leaders in Group 1</h1>

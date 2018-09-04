@@ -10,6 +10,8 @@ import { CreateProfileComponent } from './create-profile/create-profile.componen
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { SecurityQuestionsComponent } from './security-questions/security-questions.component';
 import { ActionsComponent } from './actions/actions.component';
+import { CreateGroupComponent } from './create-group/create-group.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -21,7 +23,9 @@ const routes: Routes = [
   { path: 'userprofile', component: UserProfileComponent },
   { path: 'security', component: SecurityQuestionsComponent },
   { path: 'resetpass', component: ResetPasswordComponent },
-  { path: 'actions', component: ActionsComponent }
+  { path: 'actions', component: ActionsComponent },
+  { path: 'creategroup', component: CreateGroupComponent }
+
 ];
 
 @NgModule({

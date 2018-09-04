@@ -21,6 +21,7 @@ import { HomeComponent } from './home/home.component';
 import { AngularFileUploaderModule, AngularFileUploaderComponent } from "angular-file-uploader";
 import { UploadComponent } from './upload/upload.component';
 import { ActionsComponent } from './actions/actions.component';
+import { CreateGroupComponent } from './create-group/create-group.component';
 
 
 
@@ -37,7 +38,8 @@ import { ActionsComponent } from './actions/actions.component';
     AppTopNavComponent,
     HomeComponent,
     UploadComponent,
-    ActionsComponent
+    ActionsComponent,
+    CreateGroupComponent
   ],
   imports: [
     AppRoutingModule,
