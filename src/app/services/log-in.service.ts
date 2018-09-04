@@ -7,6 +7,10 @@ import * as AWS from "aws-sdk/global";
 import * as STS from "aws-sdk/clients/sts";
 import { environment } from "../../environments/environment";
 
+if (global === undefined) {
+  var global = window;
+}
+
 @Injectable({
   providedIn: 'root'
 })

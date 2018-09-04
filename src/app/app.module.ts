@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { CognitoUtil } from '../app/services/cognito.service';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
@@ -46,7 +45,6 @@ import { CreateProfileService } from './services/create-profile.service';
     AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
-    FlexLayoutModule,
     FormsModule,
     MaterialModule,
     ReactiveFormsModule,
