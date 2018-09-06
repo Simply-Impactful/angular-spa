@@ -28,8 +28,8 @@ export class AppComponent implements OnInit, LoggedInCallback {
         },
         callbackWithParam(token: any) {
             // Include the passed-in callback here as well so that it's executed downstream
-            console.log("AppComponent: calling initAwsService in callback.. here's the token: " + token)
-            mythis.awsUtil.initAwsService(null, isLoggedIn, token);
+           // console.log("AppComponent: calling initAwsService in callback.. here's the token: " + token)
+           // mythis.awsUtil.initAwsService(null, isLoggedIn, token);
         }
     });
   }

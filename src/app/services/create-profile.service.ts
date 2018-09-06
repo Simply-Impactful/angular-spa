@@ -1,12 +1,13 @@
 import {Inject, Injectable} from "@angular/core";
 import {CognitoCallback, CognitoUtil} from "./cognito.service";
-import {AuthenticationDetails, CognitoUser, CognitoUserAttribute, CognitoUserPool} from "amazon-cognito-identity-js";
+import {AuthenticationDetails, CognitoUserAttribute, CognitoUser, CognitoUserPool } from "amazon-cognito-identity-js";
 import {NewUser} from "../create-profile/create-profile.component";
 import * as CognitoIdentity from "aws-sdk/clients/cognitoidentity";
 //import {NewPasswordUser} from "../public/auth/newpassword/newpassword.component";
 import * as AWS from "aws-sdk/global";
 import { environment } from "../../environments/environment";
 import * as awsservice from "aws-sdk/lib/service";
+import {AwsUtil} from "./aws.service";
 
 @Injectable()
 export class CreateProfileService {
@@ -15,33 +16,19 @@ export class CreateProfileService {
     secretAccessKey: string = "";
     sessionToken: string = "";
 
-    constructor(public cognitoUtil: CognitoUtil) {
-    }
-
-    getCredentials(identityPoolId: string){
-
-        // following steps from resource:
-       // https://docs.aws.amazon.com/cognito/latest/developerguide/tutorial-integrating-user-pools-javascript.html#tutorial-integrating-user-pools-userpool-object-javascript
-
-        // Initialize the Amazon Cognito credentials provider
-        AWS.config.region = 'us-east-1'; // Region
-        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-            IdentityPoolId: identityPoolId,
-        })
-          
-        // defining the properties...but they're all null
-        this.accessKeyId = AWS.config.credentials.accessKeyId;
-        this.secretAccessKey = AWS.config.credentials.secretAccessKey;
-        this.sessionToken = AWS.config.credentials.sessionToken;
-
-        console.log("aws credentials " + JSON.stringify(AWS.config.credentials));
-      //  console.log("access key, secretaccesskey, session token " + this.accessKeyId + ", " +this.secretAccessKey + ", " + this.sessionToken);
+    constructor(public cognitoUtil: CognitoUtil, public awsUtil: AwsUtil) {
     }
 
     register(user: NewUser, callback: CognitoCallback): void {
 
-        this.getCredentials(CognitoUtil._IDENTITY_POOL_ID);
-
+        // lamda token - got from console.. need to integrate API Gateway to call this in the code
+        // resource for the function used: https://stackoverflow.com/questions/37438879/unable-to-verify-secret-hash-for-client-in-amazon-cognito-userpools
+        // WHERE?? Do we put this token??
+        var idToken = "XV0TlWPJW1lnub2ajJsjOp3ttFByeUzSMtwbdIMmB9A=";
+      // take this flow to setup AWS service and to build credentials in the AWS.config.credentials
+      // trying to authenticate signUp call to avoid this NotAuthorized exception
+      this.awsUtil.initAwsService(null, true, idToken);
+  
         let attributeList = [];
 
         let dataFirstName = {
@@ -77,15 +64,16 @@ export class CreateProfileService {
         var userPool = new CognitoUserPool(poolData);
         
         var userData = {
-             Username : 'emily.hendricks@fmr.com',
+             Username : user.username,
              Pool : userPool
         };
 
-        var cognitoUser = new CognitoUser(userData);
+        // why isn't this the same as my current user
+       var cognitoUser = new CognitoUser(userData);
 
         console.log("userPool " + JSON.stringify(userPool));
-        console.log("current user " + JSON.stringify(cognitoUser));
-        console.log("userPool - current User. null.. " + JSON.stringify(userPool.getCurrentUser()));
+        console.log("cognito user " + JSON.stringify(cognitoUser));
+        console.log("userPool - current User. Should be same as cognito User (I think) " + JSON.stringify(userPool.getCurrentUser()));
         userPool.signUp(user.username, user.password, attributeList, null, function (err, result) {
             if (err) {
                 console.log("Sign Up Error, sending to callback. ERROR "+ JSON.stringify(err) + "MESSAGE" + err.message);
@@ -97,14 +85,14 @@ export class CreateProfileService {
         });
     }
 
-    confirmRegistration(username: string, confirmationCode: string, callback: CognitoCallback): void {
+ /**   confirmRegistration(username: string, confirmationCode: string, callback: CognitoCallback): void {
 
         let userData = {
             Username: username,
             Pool: this.cognitoUtil.getUserPool()
         };
 
-        let cognitoUser = new CognitoUser(userData);
+      //  let cognitoUser = new CognitoUser(userData);
 
         cognitoUser.confirmRegistration(confirmationCode, true, function (err, result) {
             if (err) {
@@ -121,7 +109,7 @@ export class CreateProfileService {
             Pool: this.cognitoUtil.getUserPool()
         };
 
-        let cognitoUser = new CognitoUser(userData);
+      //  let cognitoUser = new CognitoUser(userData);
 
         cognitoUser.resendConfirmationCode(function (err, result) {
             if (err) {
@@ -130,7 +118,7 @@ export class CreateProfileService {
                 callback.cognitoCallback(null, result);
             }
         });
-    }
+    } **/
 
     /**newPassword(newPasswordUser: NewPasswordUser, callback: CognitoCallback): void {
         console.log(newPasswordUser);
