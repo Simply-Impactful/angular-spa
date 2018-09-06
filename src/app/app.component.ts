@@ -20,12 +20,22 @@ export class AppComponent implements OnInit, LoggedInCallback {
     this.loginService.isAuthenticated(this);
   }
 
-  isLoggedIn(message: string, loggedIn: boolean): void {
-    console.log("islogged in INTERFACE...");
-    throw new Error("Method not implemented.");
+  isLoggedIn(message: string, isLoggedIn: boolean) {
+    console.log("AppComponent: the user is authenticated: " + isLoggedIn);
+    let mythis = this;
+    this.cognito.getIdToken({
+        callback() {
+        },
+        callbackWithParam(token: any) {
+            // Include the passed-in callback here as well so that it's executed downstream
+            console.log("AppComponent: calling initAwsService in callback.. here's the token: " + token)
+            mythis.awsUtil.initAwsService(null, isLoggedIn, token);
+        }
+    });
   }
+} 
 
-}
+
 
 
 

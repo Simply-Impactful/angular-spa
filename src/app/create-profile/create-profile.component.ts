@@ -51,9 +51,8 @@ export class CreateProfileComponent implements OnInit, CognitoCallback {
           console.log(this.errorMessage + " password " + password + "confirm Password " + this.confirmPassword);
           return false;
         }
-        // they match, so check if it has a special character and number
+        // they match, so check if it has a number
         else {
-          if(this.hasSpecicalChar(password)){
             if(this.hasNumber(password)){
               return true;
             }
@@ -63,35 +62,13 @@ export class CreateProfileComponent implements OnInit, CognitoCallback {
               return false;
             }
           }
-          else{
-            this.errorMessage="Password is missing a special character";
-            console.log(this.errorMessage + " password " + password);
-            return false;
-          }
-
-        }
-      }
-    // password length is less than 8 chars
-    else{
-      this.errorMessage="Password must be 8 characters long";
-      console.log(this.errorMessage);
-      return false;
-    }
-  }
-
-  hasSpecicalChar(password:string){        
-    var specialChars = "<>@!#$%^&*()_+[]{}?:;|'\"\\,./~`-=";
-    var checkForSpecialChar = function(password){
-    for(var i = 0; i < specialChars.length;i++){
-        if(password.indexOf(specialChars[i]) > -1){
-          console.log("Has a special character " + password);
-            return true
-        }
+       }
+        // password length is less than 8 chars.. need to override AWS req of 6?
         else{
+          this.errorMessage="Password must be 8 characters long";
+          console.log(this.errorMessage);
           return false;
         }
-      }
-    }
   }
 
   hasNumber(password:string){
@@ -118,29 +95,18 @@ export class CreateProfileComponent implements OnInit, CognitoCallback {
     // check if password is null
     if(this.newUser.password != null){
       // confirm passwords are the same
-      isValid = this.checkPasswords();
+     // isValid = this.checkPasswords();
+     isValid = true;
     }
     else{
       this.errorMessage="Password must not be empty";
       console.log(this.errorMessage);
     }
     if(isValid){
-      this.router.navigate(['/home']);
-
       // if they match, try to register the user through the create profile service
-     // this.createProfileService.register(this.newUser, this);
-
-      this.getParameters(this.callback);
-      var cognitoUtil = this.cognitoUtil;
-      let userPool = cognitoUtil.getUserPool();
-      console.log("userPool " + JSON.stringify(userPool));
-      let currentUser = cognitoUtil.getCurrentUser();
-      console.log("current user " + JSON.stringify(currentUser));
-      let creds = cognitoUtil.getCognitoCreds();
-      console.log("customer credentials " + JSON.stringify(creds));
+      this.createProfileService.register(this.newUser, this);
     }
   }
-   
 
   cognitoCallback(message: string, result: any) {
     if (message != null) { //error
@@ -149,33 +115,33 @@ export class CreateProfileComponent implements OnInit, CognitoCallback {
     } else { //success
         //move to the next step
         console.log("redirecting");
-        //this.router.navigate(['/home/confirmRegistration', result.user.username]);
+        this.router.navigate(['/home']);
     }
   }
   
   // might only be for the 'sign-in' flow?
   getParameters(callback: Callback) {
-    let cognitoUser = this.cognitoUtil.getCurrentUser();
-    console.log("cognito user " + JSON.stringify(cognitoUser));
+    let currentUser = this.cognitoUtil.getCurrentUser();
+    console.log("currentUser " + JSON.stringify(currentUser));
 
-    if (cognitoUser != null) {
-        cognitoUser.getSession(function (err, session) {
+    if (currentUser != null) {
+      currentUser.getSession(function (err, session) {
             if (err)
                 console.log("UserParametersService: Couldn't retrieve the user");
             else {
-                cognitoUser.getUserAttributes(function (err, result) {
+              currentUser.getUserAttributes(function (err, result) {
                     if (err) {
                         console.log("UserParametersService: in getParameters: " + err);
                     } else {
                       console.log("get User Attributes result " + result);
-                       // callback.callbackWithParam(result);
+                      callback.callbackWithParam(result);
                     }
                 });
             }
 
         });
     } else {
-      //  callback.callbackWithParam(null);
+        callback.callbackWithParam(null);
     }
   
   }

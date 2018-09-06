@@ -18,19 +18,13 @@ export class LogInComponent implements LoggedInCallback, OnInit {
 
   ngOnInit() {
     this.errorMessage = null;
-    console.log("Checking if the user is already authenticated. If so, then redirect to the secure site");
+    console.log("Checking if the user is already authenticated. If so, then redirect to the home page");
     this.logInService.isAuthenticated(this);
   }
 
   login() {
+    // Validate credentials and authentication
     this.logInService.authenticate(this.username, this.password, this);
-    // A service call will be made here to validate the credentials against what we have stored in the DB
-  /**  this.logInService.login(this.username, this.password).subscribe(
-      user => {
-        if (user.isLoggedIn) {
-          console.log("is logged in");
-        }
-      }); **/
   }
 
   // LoggedInCallback interface
@@ -40,12 +34,25 @@ export class LogInComponent implements LoggedInCallback, OnInit {
     }
   }
  // CognitoCallback interface
-  cognitoCallback(message: string, result: any): void {
-    throw new Error("Method not implemented.");
+  cognitoCallback(message: string, result: any) {
+    if (message != null) { //if there is an error
+        this.errorMessage = message;
+        console.log("result: " + this.errorMessage);
+        if (this.errorMessage === 'User is not confirmed.') {
+            console.log("redirecting");
+           // this.router.navigate(['/home/confirmRegistration', this.email]);
+        } else if (this.errorMessage === 'User needs to set password.') {
+            console.log("redirecting to set new password");
+            this.router.navigate(['/home/newPassword']);
+        }
+    } else { //success
+      //  this.ddb.writeLogEntry("login");
+        this.router.navigate(['/home']);
+    }
   }
   // CognitoCallback interface
   handleMFAStep?(challengeName: string, challengeParameters: ChallengeParameters, callback: (confirmationCode: string) => any): void {
-    throw new Error("Method not implemented.");
+    throw new Error("handleMFASetup Method not implemented.");
   }
 
 }

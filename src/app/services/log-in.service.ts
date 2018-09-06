@@ -27,7 +27,7 @@ export class LogInService {
    }
 
    authenticate(username: string, password: string, callback: CognitoCallback ){
-    console.log("UserLoginService: starting the authentication");
+    console.log("LogInService: starting the authentication");
 
     let authenticationData = {
         Username: username,
@@ -39,9 +39,9 @@ export class LogInService {
         Username: username,
         Pool: this.cognitoUtil.getUserPool()
     };
-    console.log("UserLoginService: Params set...Authenticating the user");
+    console.log("LogInService: Params set...Authenticating the user");
     let cognitoUser = new CognitoUser(userData);
-    console.log("UserLoginService: config is " + AWS.config);
+    console.log("LogInService: config is " + JSON.stringify(AWS.config));
     cognitoUser.authenticateUser(authenticationDetails, {
         newPasswordRequired: (userAttributes, requiredAttributes) => callback.cognitoCallback(`User needs to set password.`, null),
         onSuccess: result => this.onLoginSuccess(callback, result),
@@ -68,7 +68,7 @@ export class LogInService {
     }
     let sts = new STS(clientParams);
     sts.getCallerIdentity(function (err, data) {
-        console.log("UserLoginService: Successfully set the AWS credentials");
+        console.log("LogInService: Successfully set the AWS credentials");
         callback.cognitoCallback(null, session);
     });
   }
@@ -78,7 +78,26 @@ export class LogInService {
 
   }
 
-    isAuthenticated(callback: LoggedInCallback){
-      return false;
+  isAuthenticated(callback: LoggedInCallback) {
+    if (callback == null)
+        throw("LogInService: Callback in isAuthenticated() cannot be null");
+
+    let cognitoUser = this.cognitoUtil.getCurrentUser();
+
+    if (cognitoUser != null) {
+        cognitoUser.getSession(function (err, session) {
+            if (err) {
+                console.log("LogInService: Couldn't get the session: " + err, err.stack);
+                callback.isLoggedIn(err, false);
+            }
+            else {
+                console.log("LogInService: Session is " + session.isValid());
+                callback.isLoggedIn(err, session.isValid());
+            }
+        });
+    } else {
+        console.log("LogInService: can't retrieve the current user");
+        callback.isLoggedIn("Can't retrieve the CurrentUser", false);
     }
+  }
 }

@@ -45,6 +45,7 @@ export class CognitoUtil {
         ClientId: CognitoUtil._CLIENT_ID
     };
 
+    public identityCreds: AWS.CognitoIdentityCredentials.CognitoIdentityCredentialsInputs
     public cognitoCreds: AWS.CognitoIdentityCredentials;
 
     getUserPool() {
@@ -76,6 +77,7 @@ export class CognitoUtil {
     // to avoid unnecessary calls to setCognitoCreds.
 
     buildCognitoCreds(idTokenJwt: string) {
+        console.log("building creds" );
         let url = 'cognito-idp.' + CognitoUtil._REGION.toLowerCase() + '.amazonaws.com/' + CognitoUtil._USER_POOL_ID;
         if (environment.cognito_idp_endpoint) {
             url = environment.cognito_idp_endpoint + '/' + CognitoUtil._USER_POOL_ID;
@@ -95,6 +97,7 @@ export class CognitoUtil {
             serviceConfigs.endpoint = environment.cognito_identity_endpoint;
         }
         let creds = new AWS.CognitoIdentityCredentials(params, serviceConfigs);
+        console.log("creds -----> " + JSON.stringify(creds));
         this.setCognitoCreds(creds);
         return creds;
     }
@@ -109,6 +112,7 @@ export class CognitoUtil {
             throw("CognitoUtil: callback in getAccessToken is null...returning");
         }
         if (this.getCurrentUser() != null) {
+            console.log("get access Token: getCurrentUser != null")
             this.getCurrentUser().getSession(function (err, session) {
                 if (err) {
                     console.log("CognitoUtil: Can't set the credentials:" + err);

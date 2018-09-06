@@ -34,7 +34,7 @@ export class AwsUtil {
         }
 
 
-        console.log("AwsUtil: Running initAwsService()");
+        console.log("AwsUtil: Starting to run initAwsService() ... Here's the token " + idToken);
         AwsUtil.runningInit = true;
 
 
@@ -53,7 +53,7 @@ export class AwsUtil {
      * @param callback
      */
     setupAWS(isLoggedIn: boolean, callback: Callback, idToken: string): void {
-        console.log("AwsUtil: in setupAWS()");
+        console.log("AwsUtil: in setupAWS() ===========>");
         if (isLoggedIn) {
             console.log("AwsUtil: User is logged in");
             /** Setup mobile analytics
@@ -68,7 +68,7 @@ export class AwsUtil {
 
             this.addCognitoCredentials(idToken);
 
-            console.log("AwsUtil: Retrieving the id token");
+            console.log("AwsUtil: Retrieving the id token " + idToken);
 
         }
         else {
@@ -92,7 +92,7 @@ export class AwsUtil {
             if (!err) {
                 if (AwsUtil.firstLogin) {
                     // save the login info to DDB
-                    this.ddb.writeLogEntry("login");
+                   // this.ddb.writeLogEntry("login");
                     AwsUtil.firstLogin = false;
                 }
             }

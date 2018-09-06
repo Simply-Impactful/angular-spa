@@ -39,7 +39,7 @@ import { CreateProfileService } from './services/create-profile.service';
     AppTopNavComponent,
     HomeComponent,
     UploadComponent,
-    ActionsComponent,
+    ActionsComponent
   ],
   imports: [
     AppRoutingModule,
