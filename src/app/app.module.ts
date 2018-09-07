@@ -22,7 +22,7 @@ import { AngularFileUploaderModule, AngularFileUploaderComponent } from "angular
 import { UploadComponent } from './upload/upload.component';
 import { ActionsComponent } from './actions/actions.component';
 import { CreateGroupComponent } from './create-group/create-group.component';
-
+import { CreateGroupService } from './services/creategroup.service';
 
 
 @NgModule({
@@ -42,17 +42,16 @@ import { CreateGroupComponent } from './create-group/create-group.component';
     CreateGroupComponent
   ],
   imports: [
+    [ BrowserModule, FormsModule],
     AppRoutingModule,
-    BrowserModule,
-    BrowserAnimationsModule,
     FlexLayoutModule,
-    FormsModule,
     MaterialModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AngularFileUploaderModule
+    AngularFileUploaderModule,
+    BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [ CreateGroupService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

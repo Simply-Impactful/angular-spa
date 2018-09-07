@@ -11,27 +11,6 @@ export class CreateProfileComponent implements OnInit {
   userType: any;
   private sub: any;
 
-  /**= {
-    ApiResponse: "",
-    resetUpload: '',
-    config: '',
-    multiple: false,
-    formatsAllowed: ".jpg,.png",
-    maxSize: "1",
-    uploadAPI:  {
-      url:"https://example-file-upload-api",
-      headers: {
-     "Content-Type" : "text/plain;charset=UTF-8",
-    // "Authorization" : `Bearer ${token}`
-      }
-    },
-    theme: "dragNDrop",
-    hideProgressBar: true,
-    hideResetBtn: true,
-    hideSelectBtn: true
-}; **/
-
-
   constructor(private route: ActivatedRoute) {
   }
 
