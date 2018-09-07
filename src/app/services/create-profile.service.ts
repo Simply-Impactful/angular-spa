@@ -25,10 +25,6 @@ export class CreateProfileService {
         // resource for the function used: https://stackoverflow.com/questions/37438879/unable-to-verify-secret-hash-for-client-in-amazon-cognito-userpools
         // WHERE?? Do we put this token??
        // var idToken = "XV0TlWPJW1lnub2ajJsjOp3ttFByeUzSMtwbdIMmB9A=";
-       var idToken = "1bmsa8v91fqv9atc416881pkbcs0hool8dcgq4g00c2ssu0gbcpa";
-      // take this flow to setup AWS service and to build credentials in the AWS.config.credentials
-      // trying to authenticate signUp call to avoid this NotAuthorized exception
-     //this.awsUtil.initAwsService(null, true, idToken);
   
         let attributeList = [];
 
@@ -85,20 +81,21 @@ export class CreateProfileService {
                 console.log("Sign Up Error, sending to callback. ERROR "+ JSON.stringify(err) + "MESSAGE" + err.message);
                 callback.cognitoCallback(err.message, null);
             } else {
-                console.log("CreateProfileService: registered user is " + result);
+                console.log("CreateProfileService: registered user is " + JSON.stringify(result));
                 callback.cognitoCallback(null, result);
             }
         });
     }
 
- /**   confirmRegistration(username: string, confirmationCode: string, callback: CognitoCallback): void {
+    /** TODO: NEED TO CALL THIS NEXT */
+    confirmRegistration(username: string, confirmationCode: string, callback: CognitoCallback): void {
 
         let userData = {
             Username: username,
             Pool: this.cognitoUtil.getUserPool()
         };
 
-      //  let cognitoUser = new CognitoUser(userData);
+        let cognitoUser = new CognitoUser(userData);
 
         cognitoUser.confirmRegistration(confirmationCode, true, function (err, result) {
             if (err) {
@@ -109,7 +106,7 @@ export class CreateProfileService {
         });
     }
 
-    resendCode(username: string, callback: CognitoCallback): void {
+   /** resendCode(username: string, callback: CognitoCallback): void {
         let userData = {
             Username: username,
             Pool: this.cognitoUtil.getUserPool()

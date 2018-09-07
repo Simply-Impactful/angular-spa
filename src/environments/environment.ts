@@ -11,7 +11,9 @@ export const environment = {
   userPoolId: 'us-east-1_Iz6DhxAP7',
   
   clientId: '1ei721sssm9hem7j2dineeb6n4', //unauthorized
+ 
   //clientId: '5cq9n133nnu3kc8fofhfsd72s8', //authorized
+  //clientIdSecret: 1bmsa8v91fqv9atc416881pkbcs0hool8dcgq4g00c2ssu0gbcpa
 
  // rekognitionBucket: 'rekognition-pics',
  // albumName: "usercontent",
