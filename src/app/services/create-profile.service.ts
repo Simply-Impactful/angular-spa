@@ -24,15 +24,16 @@ export class CreateProfileService {
         // lamda token - got from console.. need to integrate API Gateway to call this in the code
         // resource for the function used: https://stackoverflow.com/questions/37438879/unable-to-verify-secret-hash-for-client-in-amazon-cognito-userpools
         // WHERE?? Do we put this token??
-        var idToken = "XV0TlWPJW1lnub2ajJsjOp3ttFByeUzSMtwbdIMmB9A=";
+       // var idToken = "XV0TlWPJW1lnub2ajJsjOp3ttFByeUzSMtwbdIMmB9A=";
+       var idToken = "1bmsa8v91fqv9atc416881pkbcs0hool8dcgq4g00c2ssu0gbcpa";
       // take this flow to setup AWS service and to build credentials in the AWS.config.credentials
       // trying to authenticate signUp call to avoid this NotAuthorized exception
-      this.awsUtil.initAwsService(null, true, idToken);
+     //this.awsUtil.initAwsService(null, true, idToken);
   
         let attributeList = [];
 
         let dataFirstName = {
-            Name: 'firstName',
+            Name: 'name',
             Value: user.firstName
         };
         let dataLastName = {
@@ -44,18 +45,23 @@ export class CreateProfileService {
             Value: user.email
         }; 
         let dataZipcode = {
-            Name: 'zipcode',
+            Name: 'address',
             Value: user.zipcode
         }; 
         let dataOrganization = {
             Name: 'organization',
             Value: user.organization
         };
+        let dataPicture = {
+            Name: 'picture',
+            Value: ""
+        };
         attributeList.push(new CognitoUserAttribute(dataFirstName));
-        attributeList.push(new CognitoUserAttribute(dataLastName));
-        attributeList.push(new CognitoUserAttribute(dataEmail));
+        //attributeList.push(new CognitoUserAttribute(dataLastName));
+      //  attributeList.push(new CognitoUserAttribute(dataEmail));
         attributeList.push(new CognitoUserAttribute(dataZipcode));
-        attributeList.push(new CognitoUserAttribute(dataOrganization));
+      //  attributeList.push(new CognitoUserAttribute(dataOrganization));
+        attributeList.push(new CognitoUserAttribute(dataPicture));
 
         var poolData = { 
             UserPoolId : CognitoUtil._USER_POOL_ID,

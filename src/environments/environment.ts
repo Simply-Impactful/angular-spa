@@ -10,8 +10,8 @@ export const environment = {
   identityPoolId: 'us-east-1:30ec0bb4-d8a2-4d87-a1f5-799fc2fb3952',
   userPoolId: 'us-east-1_Iz6DhxAP7',
   
- // clientId: '1ei721sssm9hem7j2dineeb6n4', //unauthorized
-  clientId: '5cq9n133nnu3kc8fofhfsd72s8', //authorized
+  clientId: '1ei721sssm9hem7j2dineeb6n4', //unauthorized
+  //clientId: '5cq9n133nnu3kc8fofhfsd72s8', //authorized
 
  // rekognitionBucket: 'rekognition-pics',
  // albumName: "usercontent",

@@ -83,8 +83,8 @@ export class AwsUtil {
         AwsUtil.runningInit = false;
     }
 
-    addCognitoCredentials(idTokenJwt: string): void {
-        let creds = this.cognitoUtil.buildCognitoCreds(idTokenJwt);
+    addCognitoCredentials(idToken: string): void {
+        let creds = this.cognitoUtil.buildCognitoCreds(idToken);
 
         AWS.config.credentials = creds;
 
