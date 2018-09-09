@@ -23,6 +23,8 @@ import { UploadComponent } from './upload/upload.component';
 import { ActionsComponent } from './actions/actions.component';
 import { CreateGroupComponent } from './create-group/create-group.component';
 import { CreateGroupService } from './services/creategroup.service';
+import { ActionComponent } from './action/action.component';
+import { ActionDialogComponent } from './action-dialog/action-dialog.component';
 
 
 @NgModule({
@@ -39,7 +41,9 @@ import { CreateGroupService } from './services/creategroup.service';
     HomeComponent,
     UploadComponent,
     ActionsComponent,
-    CreateGroupComponent
+    CreateGroupComponent,
+    ActionComponent,
+    ActionDialogComponent
   ],
   imports: [
     [ BrowserModule, FormsModule],
@@ -50,6 +54,9 @@ import { CreateGroupService } from './services/creategroup.service';
     HttpClientModule,
     AngularFileUploaderModule,
     BrowserAnimationsModule
+  ],
+  entryComponents: [
+    ActionDialogComponent
   ],
   providers: [ CreateGroupService ],
   bootstrap: [AppComponent]
