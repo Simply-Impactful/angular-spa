@@ -23,6 +23,7 @@ import { UploadComponent } from './upload/upload.component';
 import { ActionsComponent } from './actions/actions.component';
 import { AwsUtil } from './services/aws.service';
 import { CreateProfileService } from './services/create-profile.service';
+import { ConfirmSignUpComponent } from './confirm-sign-up/confirm-sign-up.component';
 
 
 
@@ -39,7 +40,8 @@ import { CreateProfileService } from './services/create-profile.service';
     AppTopNavComponent,
     HomeComponent,
     UploadComponent,
-    ActionsComponent
+    ActionsComponent,
+    ConfirmSignUpComponent
   ],
   imports: [
     AppRoutingModule,

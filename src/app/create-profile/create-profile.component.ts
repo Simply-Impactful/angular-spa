@@ -115,7 +115,8 @@ export class CreateProfileComponent implements OnInit, CognitoCallback {
     } else { //success
         //move to the next step
         console.log("redirecting");
-        this.router.navigate(['/home']);
+        this.router.navigate(['/confirmSignUp', result.user.username]);
+        //this.router.navigate(['/home']);
     }
   }
   

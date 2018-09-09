@@ -54,7 +54,7 @@ export class CreateProfileService {
         };
         attributeList.push(new CognitoUserAttribute(dataFirstName));
         //attributeList.push(new CognitoUserAttribute(dataLastName));
-      //  attributeList.push(new CognitoUserAttribute(dataEmail));
+        attributeList.push(new CognitoUserAttribute(dataEmail));
         attributeList.push(new CognitoUserAttribute(dataZipcode));
       //  attributeList.push(new CognitoUserAttribute(dataOrganization));
         attributeList.push(new CognitoUserAttribute(dataPicture));
@@ -70,17 +70,12 @@ export class CreateProfileService {
              Pool : userPool
         };
 
-        // why isn't this the same as my current user
-       var cognitoUser = new CognitoUser(userData);
-
-        console.log("userPool " + JSON.stringify(userPool));
-        console.log("cognito user " + JSON.stringify(cognitoUser));
-        console.log("userPool - current User. Should be same as cognito User (I think) " + JSON.stringify(userPool.getCurrentUser()));
         userPool.signUp(user.username, user.password, attributeList, null, function (err, result) {
             if (err) {
                 console.log("Sign Up Error, sending to callback. ERROR "+ JSON.stringify(err) + "MESSAGE" + err.message);
                 callback.cognitoCallback(err.message, null);
             } else {
+                console.log("attribute list " + JSON.stringify(attributeList));
                 console.log("CreateProfileService: registered user is " + JSON.stringify(result));
                 callback.cognitoCallback(null, result);
             }
@@ -88,7 +83,7 @@ export class CreateProfileService {
     }
 
     /** TODO: NEED TO CALL THIS NEXT */
-    confirmRegistration(username: string, confirmationCode: string, callback: CognitoCallback): void {
+    confirmVerificationCode(username: string, confirmationCode: string, callback: CognitoCallback): void {
 
         let userData = {
             Username: username,
