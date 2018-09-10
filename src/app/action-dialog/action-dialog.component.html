@@ -3,10 +3,13 @@
   <h2 mat-dialog-title>Way to go!</h2>
   <hr>
   <mat-dialog-content>
-    You've just added 8 points to your score.  Keep up the good work
+    Congrats!! {{action.fact}}
     <br>
     <br>
-    <p>Your current status is: </p><strong>{{data}}</strong>
+    You've just added {{action.points}} points to your score.  Keep up the good work
+    <br>
+    <br>
+    <p>Your current status is: </p><strong>{{action.status}}</strong>
   </mat-dialog-content>
   <hr>
   <mat-dialog-actions>

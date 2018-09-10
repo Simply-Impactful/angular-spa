@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, InjectionToken } from '@angular/core';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -25,6 +25,7 @@ import { CreateGroupComponent } from './create-group/create-group.component';
 import { CreateGroupService } from './services/creategroup.service';
 import { ActionComponent } from './action/action.component';
 import { ActionDialogComponent } from './action-dialog/action-dialog.component';
+import { ActionService } from './services/action.service';
 
 
 @NgModule({
@@ -58,7 +59,7 @@ import { ActionDialogComponent } from './action-dialog/action-dialog.component';
   entryComponents: [
     ActionDialogComponent
   ],
-  providers: [ CreateGroupService ],
+  providers: [ CreateGroupService, ActionService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

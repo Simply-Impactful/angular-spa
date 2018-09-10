@@ -1,4 +1,4 @@
-export class Group {
+export class group {
     groupname?: string;
     zipcode?: string;
     grouptype?: string;
