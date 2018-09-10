@@ -2,19 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, catchError , tap, zip } from 'rxjs/operators';
-import { Group } from '../model/Group';
+import { group } from '../model/group';
 
 @Injectable()
 export class CreateGroupService {
   public apiEndpoint : string;
-  groupSource = new BehaviorSubject(new Group());
+  groupSource = new BehaviorSubject(new group());
   group$ = this.groupSource.asObservable();
 
   constructor(private http: HttpClient) {
     this.apiEndpoint = '';
    }
 
-  creategroup(group:Group): Observable<Group> {
+  creategroup(group:group): Observable<group> {
     this.groupSource.next(group);
     console.log("created group " + JSON.stringify(group));
     return this.group$;

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CreateGroupService } from '../services/creategroup.service';
 import { BehaviorSubject } from 'rxjs';
-import { Group } from '../model/group';
+import { group } from '../model/group';
 
 
 @Component({
@@ -16,14 +16,14 @@ export class CreateGroupComponent implements OnInit {
    subcategory: string = "";
    zipcode: string = "";
    shortdescription:string ="";
-   createdGroup: Group;
-//   groupSource = new BehaviorSubject(new Group());
+   createdGroup: group;
+//   groupSource = new BehaviorSubject(new group());
  //  group$ = this.groupSource.asObservable();
    
   constructor(private createGroupService: CreateGroupService) { }
   
   ngOnInit() {
-    this.createdGroup = new Group();
+    this.createdGroup = new group();
   }
 
   creategroup() {
