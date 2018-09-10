@@ -53,16 +53,12 @@
         <app-upload></app-upload>
       </mat-grid-tile>
     </mat-grid-list>
-    <div fxLayout="row">
-      <div fxFlex="100">
-        <div align="left">
-          <button mat-button color="primary" (click)="creategroup()" routerLink="/home">CANCEL</button>
-        </div>
-      </div>
-      <div fxFlex="100">
-        <div align="right">
-          <button mat-button color="primary" (click)="creategroup()" routerLink="/home">CREATE</button> 
-        </div>
-      </div>
-    </div>
+    <mat-grid-list cols="2" rowHeight="6em">
+        <mat-grid-tile cols="1">
+            <button mat-stroked-button color="primary" (click)="creategroup()" routerLink="/home">CANCEL</button>
+            <button mat-stroked-button color="primary" (click)="creategroup()" routerLink="/home">CREATE</button>
+        </mat-grid-tile>
+        <mat-grid-tile cols="1">
+        </mat-grid-tile>
+      </mat-grid-list>
 </main>

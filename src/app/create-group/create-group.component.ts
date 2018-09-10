@@ -17,8 +17,6 @@ export class CreateGroupComponent implements OnInit {
    zipcode: string = "";
    shortdescription:string ="";
    createdGroup: group;
-//   groupSource = new BehaviorSubject(new Group());
- //  group$ = this.groupSource.asObservable();
    
   constructor(private createGroupService: CreateGroupService) { }
   

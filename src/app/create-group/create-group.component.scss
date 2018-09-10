@@ -13,9 +13,11 @@ main {
         flex-direction: row;
         justify-content:center;
          }
-
-  }
-  button.mat-button {
+    button.mat-button {
     //width: 250px;
-    font-size: 16 px;
+        font-size: 16 px;
+    }
+    button.mat-stroked-button {
+        margin-right: 10px;
+    }
 }
