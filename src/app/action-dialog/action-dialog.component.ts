@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { action } from '../model/action';
 import { ActionService } from '../services/action.service';
+import { User } from '../model/User';
 
 @Component({
   selector: 'app-action-dialog',
@@ -11,6 +12,7 @@ import { ActionService } from '../services/action.service';
 })
 export class ActionDialogComponent implements OnInit {
 
+  //user:User;
   action: action;
   constructor(public thisDialogRef: MatDialogRef<ActionDialogComponent>, public actionService:ActionService){}//, @Inject(MAT_DIALOG_DATA)public data: action) { }
 
@@ -19,10 +21,15 @@ export class ActionDialogComponent implements OnInit {
       this.action = data;
     })
 
-    console.log("this.data " + this.action);
+    console.log("this.action " + this.action);
   }
 
   onCloseConfirm(){
+    /** TODO: addPoints() -- need to add this function, and we will need to pull in the user's 
+     * points from the User Object. 
+     * this.user.points = this.user.points + this.action.points;
+     * the home page will have to subscribe to the User object in order to retrieve the points
+     * just as we do above **/
     this.thisDialogRef.close('Confirm');
 
   }

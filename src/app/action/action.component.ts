@@ -44,8 +44,6 @@ export class ActionComponent implements OnInit {
       width: '600px', 
     //  data: {action:this.action}
     });
-    
-   // let dialogRef = this.dialog.open( ActionDialogComponent, this.action);
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog closed: ${result}`);
