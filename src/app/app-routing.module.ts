@@ -11,6 +11,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { SecurityQuestionsComponent } from './security-questions/security-questions.component';
 import { ActionsComponent } from './actions/actions.component';
 import { ConfirmSignUpComponent } from './confirm-sign-up/confirm-sign-up.component';
+import { CreateGroupComponent } from './create-group/create-group.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -23,7 +25,9 @@ const routes: Routes = [
   { path: 'security', component: SecurityQuestionsComponent },
   { path: 'resetpass', component: ResetPasswordComponent },
   { path: 'actions', component: ActionsComponent },
-  { path: 'confirmSignUp/:username', component: ConfirmSignUpComponent}
+  { path: 'confirmSignUp/:username', component: ConfirmSignUpComponent},
+  { path: 'creategroup', component: CreateGroupComponent }
+
 ];
 
 @NgModule({

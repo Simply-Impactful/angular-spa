@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { CognitoUtil } from '../app/services/cognito.service';
+import { NgModule, InjectionToken } from '@angular/core';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -24,7 +23,13 @@ import { ActionsComponent } from './actions/actions.component';
 import { AwsUtil } from './services/aws.service';
 import { CreateProfileService } from './services/create-profile.service';
 import { ConfirmSignUpComponent } from './confirm-sign-up/confirm-sign-up.component';
-
+import { CreateGroupComponent } from './create-group/create-group.component';
+import { CreateGroupService } from './services/creategroup.service';
+import { ActionComponent } from './action/action.component';
+import { ActionDialogComponent } from './action-dialog/action-dialog.component';
+import { ActionService } from './services/action.service';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { CognitoUtil } from './services/cognito.service';
 
 
 @NgModule({
@@ -41,19 +46,28 @@ import { ConfirmSignUpComponent } from './confirm-sign-up/confirm-sign-up.compon
     HomeComponent,
     UploadComponent,
     ActionsComponent,
-    ConfirmSignUpComponent
+    ConfirmSignUpComponent,
+    CreateGroupComponent,
+    ActionComponent,
+    ActionDialogComponent
   ],
   imports: [
+    [ BrowserModule, FormsModule],
     AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    FlexLayoutModule,
     MaterialModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AngularFileUploaderModule
+    AngularFileUploaderModule,
+    BrowserAnimationsModule
   ],
-  providers: [ CognitoUtil, AwsUtil, CreateProfileService ],
+  entryComponents: [
+    ActionDialogComponent
+  ],
+  providers: [ CreateGroupService, ActionService, CognitoUtil, AwsUtil, CreateProfileService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

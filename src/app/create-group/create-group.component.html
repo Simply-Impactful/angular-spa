@@ -1,3 +1,64 @@
-<p>
-  create-group works!
-</p>
+<main>
+  <h2>Create a New Group</h2>
+    <mat-grid-list cols="2" rowHeight="6em">
+	    <mat-grid-tile cols="1">
+        <mat-form-field appearance="outline">
+          <input [(ngModel)]="createdGroup.groupname" name="groupname" matInput placeholder="Group Name">
+          <mat-hint>Required</mat-hint> 
+        </mat-form-field>
+      </mat-grid-tile>
+	    <mat-grid-tile cols="1">
+        <mat-form-field appearance="outline">
+          <input [(ngModel)]="createdGroup.zipcode" name="zipcode" matInput placeholder="Zip Code">
+          <mat-hint>Required</mat-hint> 
+        </mat-form-field>
+      </mat-grid-tile>
+  	  <mat-grid-tile cols="1">
+        <mat-form-field appearance="outline">
+          <mat-select [(ngModel)]="createdGroup.grouptype" name="grouptype" placeholder="Group Type">
+            <mat-option value="option">School</mat-option>
+            <mat-option value="option">Company</mat-option>
+            <mat-option value="option">Sports Team</mat-option>
+            <mat-option value="option">Family/ Household</mat-option>
+            <mat-option value="option">Religious Group</mat-option>
+            <mat-option value="option">Non-Profit</mat-option>
+            <mat-option value="option">Other</mat-option>
+          </mat-select>
+          <mat-hint>Required</mat-hint>     
+        </mat-form-field>
+      </mat-grid-tile>
+	    <mat-grid-tile cols="1">
+        <mat-form-field appearance="outline">
+          <mat-select [(ngModel)]="createdGroup.subcategory" name="subcategory" placeholder="SubCategory">
+            <mat-option value="option">Classroom</mat-option>
+            <mat-option value="option">Club</mat-option>
+            <mat-option value="option">Entire Company</mat-option>
+            <mat-option value="option">Department</mat-option>
+            <mat-option value="option">Special Interest Group</mat-option>
+            <mat-option value="option">Board/committee</mat-option>
+            <mat-option value="option">Other</mat-option>
+          </mat-select>
+          <mat-hint>Required</mat-hint> 
+        </mat-form-field>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="2" rowHeight="20em">
+	    <mat-grid-tile cols="1">
+        <mat-form-field appearance="outline">
+          <textarea [(ngModel)]="createdGroup.shortdescription" name="shortdescription" matInput placeholder="Short Description" maxlength="500" rows="12"></textarea>
+          <mat-hint>500 Characters limit</mat-hint> 
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile cols="1">
+        <app-upload></app-upload>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="2" rowHeight="6em">
+        <mat-grid-tile cols="1">
+            <button mat-stroked-button color="primary" (click)="creategroup()" routerLink="/home">CANCEL</button>
+            <button mat-stroked-button color="primary" (click)="creategroup()" routerLink="/home">CREATE</button>
+        </mat-grid-tile>
+        <mat-grid-tile cols="1">
+        </mat-grid-tile>
+      </mat-grid-list>
+</main>

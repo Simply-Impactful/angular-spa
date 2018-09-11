@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { group } from '../model/group';
+import { CreateGroupService } from '../services/creategroup.service';
+
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -13,12 +17,19 @@ export class HomeComponent implements OnInit {
   unplugPoints: number = 7;
   lightsPoints: number = 5;
   name: string="";
+  groupSource = new BehaviorSubject(new group());
+  group$ = this.groupSource.asObservable();
+  group: group;
 
-  constructor() { }
+  constructor(private createGroupService: CreateGroupService) { }
 
   ngOnInit() {
     // userscore = whatever is pulled from the db 
     this.userscore=0;
+    this.createGroupService.group$.subscribe(createdGroup => {
+      this.group = createdGroup;
+    });
+    console.log("created group: HOME COMPONENT " + JSON.stringify(this.group));
   }
 
   // Add the number of points assigned to each action

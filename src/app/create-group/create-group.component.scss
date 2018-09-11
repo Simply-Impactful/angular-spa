@@ -1,0 +1,23 @@
+main {
+    display: flex;
+    flex-direction: column;
+    padding-top: 30px;
+    padding-left: 10em;
+    padding-right: 10em;
+
+    mat-form-field{
+        width: 380px;
+    }
+    form {
+        display: flex;
+        flex-direction: row;
+        justify-content:center;
+         }
+    button.mat-button {
+    //width: 250px;
+        font-size: 16 px;
+    }
+    button.mat-stroked-button {
+        margin-right: 10px;
+    }
+}

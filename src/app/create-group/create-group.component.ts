@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { CreateGroupService } from '../services/creategroup.service';
+import { BehaviorSubject } from 'rxjs';
+import { group } from '../model/group';
+
 
 @Component({
   selector: 'app-create-group',
@@ -7,9 +11,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateGroupComponent implements OnInit {
 
-  constructor() { }
-
+   groupname: string = "";
+   grouptype: string = "";
+   subcategory: string = "";
+   zipcode: string = "";
+   shortdescription:string ="";
+   createdGroup: group;
+   
+  constructor(private createGroupService: CreateGroupService) { }
+  
   ngOnInit() {
+    this.createdGroup = new group();
+  }
+
+  creategroup() {
+    console.log("created Group " + this.createdGroup);
+    // A service call will be made here to validate the credentials against what we have stored in the DB
+    this.createGroupService.creategroup(this.createdGroup).subscribe();
   }
 
 }
