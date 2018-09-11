@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { group } from '../model/group';
+import { Group } from '../model/group';
 import { CreateGroupService } from '../services/creategroup.service';
 
 import { BehaviorSubject } from 'rxjs';
@@ -17,9 +17,9 @@ export class HomeComponent implements OnInit {
   unplugPoints: number = 7;
   lightsPoints: number = 5;
   name: string = '';
-  groupSource = new BehaviorSubject(new group());
+  groupSource = new BehaviorSubject(new Group());
   group$ = this.groupSource.asObservable();
-  group: group;
+  group: Group;
 
   constructor(private createGroupService: CreateGroupService) { }
 
