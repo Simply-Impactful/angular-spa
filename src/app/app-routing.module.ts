@@ -1,5 +1,5 @@
 import { NgModule }             from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, ActivatedRoute } from '@angular/router';
 
 import { LogInComponent }      from './log-in/log-in.component';
 import { LandingComponent } from './landing/landing.component';
@@ -10,6 +10,7 @@ import { CreateProfileComponent } from './create-profile/create-profile.componen
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { SecurityQuestionsComponent } from './security-questions/security-questions.component';
 import { ActionsComponent } from './actions/actions.component';
+import { ConfirmSignUpComponent } from './confirm-sign-up/confirm-sign-up.component';
 import { CreateGroupComponent } from './create-group/create-group.component';
 
 
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'security', component: SecurityQuestionsComponent },
   { path: 'resetpass', component: ResetPasswordComponent },
   { path: 'actions', component: ActionsComponent },
+  { path: 'confirmSignUp/:username', component: ConfirmSignUpComponent},
   { path: 'creategroup', component: CreateGroupComponent }
 
 ];

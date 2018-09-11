@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, InjectionToken } from '@angular/core';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
@@ -21,11 +20,16 @@ import { HomeComponent } from './home/home.component';
 import { AngularFileUploaderModule, AngularFileUploaderComponent } from "angular-file-uploader";
 import { UploadComponent } from './upload/upload.component';
 import { ActionsComponent } from './actions/actions.component';
+import { AwsUtil } from './services/aws.service';
+import { CreateProfileService } from './services/create-profile.service';
+import { ConfirmSignUpComponent } from './confirm-sign-up/confirm-sign-up.component';
 import { CreateGroupComponent } from './create-group/create-group.component';
 import { CreateGroupService } from './services/creategroup.service';
 import { ActionComponent } from './action/action.component';
 import { ActionDialogComponent } from './action-dialog/action-dialog.component';
 import { ActionService } from './services/action.service';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { CognitoUtil } from './services/cognito.service';
 
 
 @NgModule({
@@ -42,6 +46,7 @@ import { ActionService } from './services/action.service';
     HomeComponent,
     UploadComponent,
     ActionsComponent,
+    ConfirmSignUpComponent,
     CreateGroupComponent,
     ActionComponent,
     ActionDialogComponent
@@ -49,6 +54,9 @@ import { ActionService } from './services/action.service';
   imports: [
     [ BrowserModule, FormsModule],
     AppRoutingModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
     FlexLayoutModule,
     MaterialModule,
     ReactiveFormsModule,
@@ -59,7 +67,7 @@ import { ActionService } from './services/action.service';
   entryComponents: [
     ActionDialogComponent
   ],
-  providers: [ CreateGroupService, ActionService ],
+  providers: [ CreateGroupService, ActionService, CognitoUtil, AwsUtil, CreateProfileService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

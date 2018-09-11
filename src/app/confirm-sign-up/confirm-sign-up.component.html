@@ -1,0 +1,13 @@
+<main>
+  <h1 style="color:#4db6ac;">Confirm Your Account</h1>
+<p>
+    Copy and paste the verifcation code from your e-mail in the space below:
+    <br>
+    <mat-form-field appearance="outline" style="padding-top: 15px;">
+      <input [(ngModel)]="verificationCode" name="verificationCode" matInput placeholder="Enter Your Verification Code">
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="primary" (click)="confirmVerificationCode()">Submit</button>
+    <br>
+  </p>
+</main>

@@ -1,21 +1,39 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CognitoUtil, Callback, CognitoCallback } from '../services/cognito.service';
+import { CreateProfileService } from '../services/create-profile.service';
+import { _ } from 'lodash';
 
+/** User Registration Details */
+export class NewUser {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  username: string;
+  zipcode: string;
+  organization: string;
+}
 
 @Component({
   selector: 'app-create-profile',
   templateUrl: './create-profile.component.html',
   styleUrls: ['./create-profile.component.scss']
 })
-export class CreateProfileComponent implements OnInit {
+export class CreateProfileComponent implements OnInit, CognitoCallback {
+  newUser: NewUser
+  errorMessage: string;
   userType: any;
   private sub: any;
+  callback: Callback;
+  confirmPassword: string;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, public router: Router, public cognitoUtil: CognitoUtil, public createProfileService: CreateProfileService) {
+    let errorMessage = this.errorMessage;
   }
 
   ngOnInit() {
-
+    this.newUser = new NewUser();
     this.sub = this.route.params.subscribe(params => {
        this.userType = params['userType']; // (+) converts string 'id' to a number
 
@@ -23,21 +41,109 @@ export class CreateProfileComponent implements OnInit {
     });
   }
 
+  checkPasswords():boolean{
+    var password = this.newUser.password;
+      // Determine if the password is 8 characters long...
+      if(password.length>=8){
+        // Confirm they match
+        if(password != this.confirmPassword){
+          this.errorMessage="Passwords do not match";
+          console.log(this.errorMessage + " password " + password + "confirm Password " + this.confirmPassword);
+          return false;
+        }
+        // they match, so check if it has a number
+        else {
+            if(this.hasNumber(password)){
+              return true;
+            }
+            else{
+              this.errorMessage="Password is missing a number ";
+              console.log(this.errorMessage + " password " + password);
+              return false;
+            }
+          }
+       }
+        // password length is less than 8 chars.. need to override AWS req of 6?
+        else{
+          this.errorMessage="Password must be 8 characters long";
+          console.log(this.errorMessage);
+          return false;
+        }
+  }
+
+  hasNumber(password:string){
+    var numbers = "0123456789";
+    var checkForNumber = function(password){
+      for(var i = 0; i < numbers.length; i++){
+        if(password.indexOf(numbers[i]) > -1){
+          console.log("has number");
+          return true;
+        }
+        else{
+          return false;
+        }
+      }
+    }
+  }
+
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
 
-  save(){
-    console.log('save was called');
-    // A service call to the backend will be made here to store the user's data in DB
+  createAccount(){
+    var isValid = false;
+    // check if password is null
+    if(this.newUser.password != null){
+      // confirm passwords are the same
+     // isValid = this.checkPasswords();
+     isValid = true;
+    }
+    else{
+      this.errorMessage="Password must not be empty";
+      console.log(this.errorMessage);
+    }
+    if(isValid){
+      // if they match, try to register the user through the create profile service
+      this.createProfileService.register(this.newUser, this);
+    }
   }
 
-  upload(){
-    
-    var a= "test";
-   // a = this.fileUploadComp.uploadMsgText;
+  cognitoCallback(message: string, result: any) {
+    if (message != null) { //error
+        this.errorMessage = message;
+        console.log("result: " + this.errorMessage);
+    } else { //success
+        //move to the next step
+        console.log("redirecting");
+        this.router.navigate(['/confirmSignUp', result.user.username]);
+        //this.router.navigate(['/home']);
+    }
   }
-   
   
+  // might only be for the 'sign-in' flow?
+  getParameters(callback: Callback) {
+    let currentUser = this.cognitoUtil.getCurrentUser();
+    console.log("currentUser " + JSON.stringify(currentUser));
 
+    if (currentUser != null) {
+      currentUser.getSession(function (err, session) {
+            if (err)
+                console.log("UserParametersService: Couldn't retrieve the user");
+            else {
+              currentUser.getUserAttributes(function (err, result) {
+                    if (err) {
+                        console.log("UserParametersService: in getParameters: " + err);
+                    } else {
+                      console.log("get User Attributes result " + result);
+                      callback.callbackWithParam(result);
+                    }
+                });
+            }
+
+        });
+    } else {
+        callback.callbackWithParam(null);
+    }
+  
+  }
 }

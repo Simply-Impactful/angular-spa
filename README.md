@@ -54,6 +54,10 @@ Run `ng test` to execute the unit tests via [Karma][karma].
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor][protacter-test].
 
+## Known Issues
+
+- For the global undefined error with Cognito see => https://github.com/aws-amplify/amplify-js/issues/678
+
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README][angular-readme].
