@@ -14,6 +14,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatDividerModule} from '@angular/material/divider';
+import { MatDialogModule } from '@angular/material';
+import {MatBadgeModule} from '@angular/material/badge';
 
 @NgModule({
     imports: [
@@ -29,7 +31,9 @@ import {MatDividerModule} from '@angular/material/divider';
         MatToolbarModule,
         MatSelectModule,
         MatTabsModule,
-        MatDividerModule
+        MatDividerModule,
+        MatBadgeModule,
+        MatDialogModule
     ],
     exports: [
         MatButtonModule,
@@ -44,7 +48,9 @@ import {MatDividerModule} from '@angular/material/divider';
         MatToolbarModule,
         MatSelectModule,
         MatTabsModule,
-        MatDividerModule
+        MatDividerModule,
+        MatBadgeModule,
+        MatDialogModule
     ]
 })
 

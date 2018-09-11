@@ -10,28 +10,11 @@
       </mat-toolbar-row>
     </mat-toolbar>
   </div>
-  <!--<div class="top-row">
-    <mat-grid-list cols="3" rowHeight="100px">
-      <mat-grid-tile>
-        <mat-card>
-          <img src="/track-change-simplyimpactful/images/unplug.png" alt="Unplug the lights">
-        </mat-card>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <mat-card>
-          <img src="/track-change-simplyimpactful/images/turnoffaucet.png" alt="Turn off faucet">
-        </mat-card>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <mat-card>
-          <img src="/track-change-simplyimpactful/images/turnofflights.png" alt="Turn off lights">
-        </mat-card>
-      </mat-grid-tile>
-    </mat-grid-list>
-  </div> -->
 
   <div class="backimage">
     <form>
+      <app-action></app-action>
+
       <span class="score-box1">{{ unplugPoints }}</span>
       <img src="/track-change-simplyimpactful/images/unplug.png" alt="Unplug the lights" (click)="add('unplug')">
 
@@ -45,13 +28,27 @@
     <button mat-raised-button color="primary" (click)="save()" routerLink="/actions">View All</button>
   </div>
 
-  <h5 align="left" style="padding-top: 50px"> My Groups</h5>
+  <div fxLayout="row">
+    <div fxFlex="100">
+      <div align="left">
+        <h5 class="mygroup"> My Groups</h5>
+      </div>
+    </div>
+    <div fxFlex="100">
+      <div align="right">
+        <button mat-button color="primary" routerLink="/creategroup">Create Group</button>
+      </div>
+    </div>
+  </div>
   <mat-divider></mat-divider>
-
   <mat-tab-group>
     <mat-tab label="Group 1">
       <h1>This week top three leaders in Group 1</h1>
-      <p>...</p>
+      <p align="left" style="padding-left:10px;color:#4db6ac;size:50px">{{group.groupname}}</p>
+      <p align="left" style="padding-left:10px;color:#4db6ac;size:40px">{{group.grouptype}}</p>
+      <p align="left" style="padding-left:10px;color:#4db6ac;size:40px">{{group.subcategory}}</p>
+      <p align="left" style="padding-left:10px;color:#4db6ac;size:40px">{{group.shortdescription}}</p>
+      <p align="left" style="padding-left:10px;color:#4db6ac;size:40px">{{group.zipcode}}</p>
     </mat-tab>
     <mat-tab label="Group 2">
       <h1>This week top three leaders in Group 2</h1>

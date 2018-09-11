@@ -1,0 +1,24 @@
+<div>
+    <img src="/track-change-simplyimpactful/images/handheart.png">
+  <h2 mat-dialog-title>Way to go!</h2>
+  <hr>
+  <mat-dialog-content>
+    Congrats!! {{action.fact}}
+    <br>
+    <br>
+    You've just added {{action.points}} points to your score.  Keep up the good work
+    <br>
+    <br>
+    <p>Your current status is: </p><strong>{{action.status}}</strong>
+  </mat-dialog-content>
+  <hr>
+  <mat-dialog-actions>
+    <div align="left">
+      <button mat-button color="primary" (click)="onCloseConfirm()">UNDO</button>        
+    </div>
+
+    <div align="right">
+      <button mat-button color="primary" (click)="onCloseConfirm()">DONE</button>        
+    </div>
+  </mat-dialog-actions>
+</div>

@@ -11,55 +11,35 @@ import { ActionService } from '../services/action.service';
 })
 export class ActionComponent implements OnInit {
   action = new action();
-  dialogResult = '';
+  dialogResult = "";
 
   constructor(public dialog: MatDialog, public actionService: ActionService) { }
 
   ngOnInit() {
-    this.getActionsData();
-  }
-
-  // lists all actions in the DB - 3 details
-  // for View All actions page
-  getAllActions(){
 
   }
 
-  //actions data
-  getActionsData(name:string) {
+  getData(type:string) {
   // send GET request to DB to collect data for given type
-  // get back all the metadata, get back the frequency and cadence allowed
   // placeholders...
-    if (name === 'unplug') {
-      this.action.name='unplug';
+    if(type=="unplug"){
+      this.action.type="unplug";
       this.action.points=8;
-      this.action.fact='You saved 10 watts today';
+      this.action.fact="You saved 10 watts today";
+      this.action.status="Elephant";
     }
-
-    if (name === 'faucet') {
-      this.action.name='faucet';
+    if(type=="faucet"){
+      this.action.type="faucet";
       this.action.points=5;
-      this.action.fact='You saved 10 liters of water today';
+      this.action.fact="You saved 10 liters of water today";
     }
-
-    // get frequency
-    this.getPerformedActionsData();
-    // if the frequency is greater than allowed freq, give another popup
-    // don't let them re-take the action
-    // grey it out after they tried - for another session -- MVP1?
-
     // mock response
     return this.action;
   }
 
-  // user standpoint. different table from getActionsData
-  getPerformedActionsData(){
-   // pass username and action name to determine the history/frequency
-  }
-
-  openDialog(name:string){
+  openDialog(type:string){
    this.actionService.createAction(this.action).subscribe();
-   this.action = this.getActionsData(name);
+    this.action = this.getData(type);
     let dialogRef = this.dialog.open( ActionDialogComponent,{
       width: '600px', 
     //  data: {action:this.action}

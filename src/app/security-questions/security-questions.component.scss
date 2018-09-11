@@ -3,7 +3,7 @@ main {
     flex-direction: column;
     padding-left: 10em;
     padding-right: 10em;
-    padding-top: 80px;
+    padding-top: 50px;
 }
 
 mat-form-field {
@@ -13,4 +13,5 @@ mat-form-field {
 button.mat-raised-button {
     width: 250px;
     font-size: 18 px;
+    align-self: center;
 }
