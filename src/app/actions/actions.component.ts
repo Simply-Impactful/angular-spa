@@ -9,17 +9,13 @@ import { HomeComponent } from '../home/home.component';
 export class ActionsComponent implements OnInit {
 
   userscore: number;
-  username: string = 'Jack';
+  username = 'Jack';
 
   constructor() { }
-  
+
   ngOnInit() {
-
-   // this.userscore = valueFromTheDB;
+    // this.userscore = valueFromTheDB;
   }
 
-  add(name:string){
-
-  }
-
+  add(name: string) {}
 }

@@ -9,14 +9,14 @@ export class AppTopNavComponent implements OnInit {
   title: string = 'Change Is Simple';
   hideRightMenu: boolean = true;
   canSearch: boolean = false;
-  userscore: number = 35; //comes from an API 
+  userscore: number = 35; // comes from an API
   searchGroups: string[] = ['Pink', 'Red', 'Purple'];
 
   constructor() {
-   }
+  }
 
   ngOnInit() {
-    this.hideRightMenu = false;// TODO: https://stackoverflow.com/questions/43118592/angular-2-how-to-hide-nav-bar-in-some-components
+    this.hideRightMenu = false; // TODO: https://stackoverflow.com/questions/43118592/angular-2-how-to-hide-nav-bar-in-some-components
   }
 
 }

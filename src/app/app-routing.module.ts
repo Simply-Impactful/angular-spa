@@ -1,7 +1,7 @@
-import { NgModule }             from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes, ActivatedRoute } from '@angular/router';
 
-import { LogInComponent }      from './log-in/log-in.component';
+import { LogInComponent } from './log-in/log-in.component';
 import { LandingComponent } from './landing/landing.component';
 import { HomeComponent } from './home/home.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
@@ -23,11 +23,11 @@ const routes: Routes = [
   { path: 'security', component: SecurityQuestionsComponent },
   { path: 'resetpass', component: ResetPasswordComponent },
   { path: 'actions', component: ActionsComponent },
-  { path: 'confirmSignUp/:username', component: ConfirmSignUpComponent}
+  { path: 'confirmSignUp/:username', component: ConfirmSignUpComponent }
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

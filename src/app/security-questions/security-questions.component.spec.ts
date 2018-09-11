@@ -8,9 +8,9 @@ describe('SecurityQuestionsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SecurityQuestionsComponent ]
+      declarations: [SecurityQuestionsComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

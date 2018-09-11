@@ -10,35 +10,33 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class ConfirmSignUpComponent implements OnInit {
 
-  verificationCode: string ="";
-  username: string = "";
-  errorMessage: string = "";
+  verificationCode: string = '';
+  username: string = '';
+  errorMessage: string = '';
   private sub: any;
-  
+
   constructor(public createProfileService: CreateProfileService, public router: Router, public route: ActivatedRoute) { }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.username = params['username'];
 
-  });
-    console.log("verificationCode is " + this.verificationCode);
+    });
+    console.log('verificationCode is ' + this.verificationCode);
   }
-  
-  confirmVerificationCode(){
-    console.log("new user " + this.username);
+
+  confirmVerificationCode() {
     this.createProfileService.confirmVerificationCode(this.username, this.verificationCode, this);
-    console.log("confirming verification code...");
   }
 
   cognitoCallback(message: string, result: any) {
-    if (message != null) { //error
-        this.errorMessage = message;
-        console.log("message: " + this.errorMessage);
-    } else { //success
-        //move to the next step
-        this.router.navigate(['/home']);
+    if (message != null) {
+      this.errorMessage = message;
+      console.log('message: ' + this.errorMessage);
+    } else {
+      // move to the next step
+      this.router.navigate(['/home']);
     }
-}
+  }
 
 }

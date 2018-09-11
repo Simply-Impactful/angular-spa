@@ -1,6 +1,7 @@
 .top-row {
     margin-bottom: 0.25em;
 }
+
 button.cis-logo {
     height: 12.5em;
     width: 12.5em;
@@ -17,12 +18,13 @@ button.cis-logo {
     border: none;
 }
 
-form{
-    background-color:#D3D3D3;
-    padding-left:25px;
-    padding-right:25px;
+form {
+    background-color: #D3D3D3;
+    padding-left: 25px;
+    padding-right: 25px;
     cursor: hand;
 }
+
 img {
     height: 20em;
     width: 24em;
@@ -32,9 +34,9 @@ img {
     z-index: 1;
     position: relative;
     cursor: pointer;
-    border:none;
-}
-.score-box1{
-    height:50px;
+    border: none;
 }
 
+.score-box1 {
+    height: 50px;
+}

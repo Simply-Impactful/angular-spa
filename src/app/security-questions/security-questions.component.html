@@ -2,7 +2,7 @@
   <h3 style="color:#4db6ac;">Security Questions</h3>
   <form>
     <mat-grid-list cols="2" rowHeight="6em">
-  <!--    <div style="height:200px; width:1px; border-left:1px#bbb solid"> commenting out for now -->
+      <!--    <div style="height:200px; width:1px; border-left:1px#bbb solid"> commenting out for now -->
       <mat-grid-tile cols="1">
         <mat-form-field appearance="outline">
           <mat-select placeholder="Security Question 1">
@@ -45,10 +45,10 @@
           <input matInput placeholder="Answer...">
         </mat-form-field>
       </mat-grid-tile>
-        <mat-grid-tile cols="1">
+      <mat-grid-tile cols="1">
       </mat-grid-tile>
-     <!-- </div> -->
+      <!-- </div> -->
     </mat-grid-list>
-      <button *ngIf="isSecurity" mat-raised-button color="primary" (click)="save()" routerLink="/resetpass">Submit</button>
+    <button *ngIf="isSecurity" mat-raised-button color="primary" (click)="save()" routerLink="/resetpass">Submit</button>
   </form>
 </main>
