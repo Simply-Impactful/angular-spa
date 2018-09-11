@@ -1,6 +1,6 @@
-export class action {
+export class Action {
     name?: string;
-    username?:string;
+    username?: string;
     points?: number;
     status?: string;
     picture?: string;

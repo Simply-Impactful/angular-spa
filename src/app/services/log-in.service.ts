@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { User } from '../model/User';
+import { HttpClient } from '@angular/common/http';
+import { User } from '../model/user';
 import { LoggedInCallback, CognitoCallback, CognitoUtil } from './cognito.service';
 import { AuthenticationDetails, CognitoUser, CognitoUserSession } from 'amazon-cognito-identity-js';
 import * as AWS from 'aws-sdk/global';
@@ -20,16 +20,16 @@ export class LogInService {
     public apiEndpoint: string;
     public url: string = window.location.protocol + '//' + window.location.hostname;
     public user: User;
-    // public cognitoUtil: CognitoUtil;
 
-    constructor(private http: HttpClient, public cognitoUtil: CognitoUtil) {
+    constructor(
+        private http: HttpClient,
+        public cognitoUtil: CognitoUtil) {
+
         this.apiPort = window.location.port ? ':4200/' : '/';
         this.apiEndpoint = this.url + this.apiPort;
     }
 
     authenticate(username: string, password: string, callback: CognitoCallback) {
-        console.log('LogInService: starting the authentication');
-
         const authenticationData = {
             Username: username,
             Password: password,
@@ -45,7 +45,8 @@ export class LogInService {
         const cognitoUser = new CognitoUser(userData);
 
         cognitoUser.authenticateUser(authenticationDetails, {
-            newPasswordRequired: (userAttributes, requiredAttributes) => callback.cognitoCallback(`User needs to set password.`, null),
+            newPasswordRequired: (userAttributes, requiredAttributes) =>
+                callback.cognitoCallback('User needs to set password.', null),
             onSuccess: result => this.onLoginSuccess(callback, result),
             onFailure: err => this.onLoginError(callback, err)
         });

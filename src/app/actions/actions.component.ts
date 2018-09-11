@@ -1,19 +1,21 @@
 import { ActionDialogComponent } from './../action-dialog/action-dialog.component';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material'
-import { action } from '../model/action';
+import { MatDialog } from '@angular/material';
+import { Action } from '../model/action';
 import { ActionService } from '../services/action.service';
 
 @Component({
-  selector: 'app-action',
-  templateUrl: './action.component.html',
-  styleUrls: ['./action.component.scss']
+  selector: 'app-actions',
+  templateUrl: './actions.component.html',
+  styleUrls: ['./actions.component.scss']
 })
-export class ActionComponent implements OnInit {
-  action = new action();
+export class ActionsComponent implements OnInit {
+  action = new Action();
   dialogResult = '';
 
-  constructor(public dialog: MatDialog, public actionService: ActionService) { }
+  constructor(
+    public dialog: MatDialog,
+    public actionService: ActionService) { }
 
   ngOnInit() {
     this.getActionsData('');
@@ -21,11 +23,9 @@ export class ActionComponent implements OnInit {
 
   // lists all actions in the DB - 3 details
   // for View All actions page
-  getAllActions() {
+  getAllActions() { }
 
-  }
-
-  //actions data
+  // actions data
   getActionsData(name: string) {
     // send GET request to DB to collect data for given type
     // get back all the metadata, get back the frequency and cadence allowed
@@ -60,14 +60,13 @@ export class ActionComponent implements OnInit {
   openDialog(name: string) {
     this.actionService.createAction(this.action).subscribe();
     this.action = this.getActionsData(name);
-    let dialogRef = this.dialog.open(ActionDialogComponent, {
+    const dialogRef = this.dialog.open(ActionDialogComponent, {
       width: '600px',
-      //  data: {action:this.action}
+      //  data: { action:this.action }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog closed: ${result}`);
       this.dialogResult = result;
-    })
+    });
   }
 }

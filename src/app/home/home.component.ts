@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
     this.createGroupService.group$.subscribe(createdGroup => {
       this.group = createdGroup;
     });
-    console.log("created group: HOME COMPONENT " + JSON.stringify(this.group));
+    console.log('created group: HOME COMPONENT ' + JSON.stringify(this.group));
   }
 
   // Add the number of points assigned to each action

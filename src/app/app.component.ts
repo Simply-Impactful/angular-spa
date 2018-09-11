@@ -11,11 +11,13 @@ import { CognitoUtil, LoggedInCallback } from './services/cognito.service';
 
 export class AppComponent implements OnInit, LoggedInCallback {
 
-  constructor(public awsUtil: AwsUtil, public cognito: CognitoUtil, public loginService: LogInService) {
-  }
+  constructor(
+    public awsUtil: AwsUtil,
+    public cognito: CognitoUtil,
+    public loginService: LogInService) { }
 
   ngOnInit() {
-    // this.loginService.isAuthenticated(this);
+    this.loginService.isAuthenticated(this);
   }
 
   isLoggedIn(message: string, isLoggedIn: boolean) {

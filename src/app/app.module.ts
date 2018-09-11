@@ -29,6 +29,7 @@ import { ActionComponent } from './action/action.component';
 import { ActionDialogComponent } from './action-dialog/action-dialog.component';
 import { ActionService } from './services/action.service';
 import { CognitoUtil } from './services/cognito.service';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -44,9 +45,9 @@ import { CognitoUtil } from './services/cognito.service';
     HomeComponent,
     UploadComponent,
     ActionsComponent,
+    ActionComponent,
     ConfirmSignUpComponent,
     CreateGroupComponent,
-    ActionComponent,
     ActionDialogComponent
   ],
   imports: [
@@ -54,6 +55,7 @@ import { CognitoUtil } from './services/cognito.service';
     AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
+    FlexLayoutModule,
     FormsModule,
     MaterialModule,
     ReactiveFormsModule,

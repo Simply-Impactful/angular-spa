@@ -1,7 +1,7 @@
 import { ActionDialogComponent } from './../action-dialog/action-dialog.component';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material'
-import { action } from '../model/action';
+import { MatDialog } from '@angular/material';
+import { Action } from '../model/action';
 import { ActionService } from '../services/action.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { ActionService } from '../services/action.service';
   styleUrls: ['./action.component.scss']
 })
 export class ActionComponent implements OnInit {
-  action = new action();
+  action = new Action();
   dialogResult = '';
 
   constructor(public dialog: MatDialog, public actionService: ActionService) { }
@@ -40,7 +40,7 @@ export class ActionComponent implements OnInit {
   openDialog(type: string) {
     this.actionService.createAction(this.action).subscribe();
     this.action = this.getData(type);
-    let dialogRef = this.dialog.open(ActionDialogComponent, {
+    const dialogRef = this.dialog.open(ActionDialogComponent, {
       width: '600px',
       //  data: {action:this.action}
     });
@@ -48,6 +48,6 @@ export class ActionComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog closed: ${result}`);
       this.dialogResult = result;
-    })
+    });
   }
 }
