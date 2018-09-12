@@ -13,6 +13,7 @@ export class ConfirmSignUpComponent implements OnInit {
   username: string = '';
   errorMessage: string = '';
   private sub: any;
+  inputUsername: string = '';
 
   constructor(public createProfileService: CreateProfileService, public router: Router, public route: ActivatedRoute) { }
 
@@ -21,11 +22,14 @@ export class ConfirmSignUpComponent implements OnInit {
       this.username = params['username'];
 
     });
-    console.log('verificationCode is ' + this.verificationCode);
   }
 
   confirmVerificationCode() {
     this.createProfileService.confirmVerificationCode(this.username, this.verificationCode, this);
+  }
+
+  resendCode(){
+    this.createProfileService.resendCode(this.inputUsername, this);
   }
 
   cognitoCallback(message: string, result: any) {

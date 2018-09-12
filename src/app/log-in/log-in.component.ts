@@ -30,7 +30,7 @@ export class LogInComponent implements LoggedInCallback, OnInit {
   // LoggedInCallback interface
   isLoggedIn(message: string, isLoggedIn: boolean): void {
     if (isLoggedIn) {
-      // this.router.navigate(['/home']);
+       this.router.navigate(['/home']);
     }
   }
   // CognitoCallback interface
@@ -40,8 +40,7 @@ export class LogInComponent implements LoggedInCallback, OnInit {
       this.errorMessage = message;
       console.error('result: ' + this.errorMessage);
       if (this.errorMessage === 'User is not confirmed.') {
-        // this.regService.confirmRegistration(this.email, this.confirmationCode, this);
-        // this.router.navigate(['/home/confirmRegistration', this.email]);
+         this.router.navigate(['/confirmSignUp', this.username]);
       } else if (this.errorMessage === 'User needs to set password.') {
         console.log('redirecting to set new password');
         // this.router.navigate(['/home/newPassword']);

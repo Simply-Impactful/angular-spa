@@ -83,7 +83,7 @@ export class CreateProfileService {
         });
     }
 
-    /** TODO: NEED TO CALL THIS NEXT */
+    /** The user will enter the verification code from their email */
     confirmVerificationCode(username: string, confirmationCode: string, callback: CognitoCallback): void {
 
         const userData = {
@@ -94,6 +94,24 @@ export class CreateProfileService {
         const cognitoUser = new CognitoUser(userData);
 
         cognitoUser.confirmRegistration(confirmationCode, true, function (err, result) {
+            if (err) {
+                callback.cognitoCallback(err.message, null);
+            } else {
+                callback.cognitoCallback(null, result);
+            }
+        });
+    }
+
+    /** In case they didn't receive the code */
+    resendCode(username: string, callback: CognitoCallback): void {
+        let userData = {
+            Username: username,
+            Pool: this.cognitoUtil.getUserPool()
+        };
+
+        let cognitoUser = new CognitoUser(userData);
+
+        cognitoUser.resendConfirmationCode(function (err, result) {
             if (err) {
                 callback.cognitoCallback(err.message, null);
             } else {
