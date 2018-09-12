@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SecurityQuestionsComponent } from './security-questions.component';
+import { MaterialModule } from '../material.module';
 
 describe('SecurityQuestionsComponent', () => {
   let component: SecurityQuestionsComponent;
@@ -8,7 +9,11 @@ describe('SecurityQuestionsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SecurityQuestionsComponent]
+      declarations: [SecurityQuestionsComponent],
+      imports: [
+        MaterialModule
+      ],
+      providers: []
     })
       .compileComponents();
   }));
