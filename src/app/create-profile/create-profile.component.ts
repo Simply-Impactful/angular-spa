@@ -112,7 +112,6 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
     } else {
       // move to the next step
       this.router.navigate(['/confirmSignUp', result.user.username]);
-      // this.router.navigate(['/home']);
     }
   }
 
