@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CreateProfileService } from '../services/create-profile.service';
-import { CognitoCallback } from '../services/cognito.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({

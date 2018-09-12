@@ -1,6 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
+import { ActionComponent } from '../action/action.component';
 import { HomeComponent } from './home.component';
+import { MaterialModule } from '../material.module';
+import { CreateGroupService } from '../services/creategroup.service';
+import { ActionService } from '../services/action.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -8,7 +14,19 @@ describe('HomeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [HomeComponent]
+      declarations: [
+        ActionComponent,
+        HomeComponent
+      ],
+      imports: [
+        MaterialModule,
+        HttpClientTestingModule,
+        BrowserAnimationsModule
+      ],
+      providers: [
+        CreateGroupService,
+        ActionService
+      ]
     })
       .compileComponents();
   }));
