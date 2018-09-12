@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormBuilder } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ContactUsComponent } from './contact-us.component';
+import { MaterialModule } from '../material.module';
 
 describe('ContactUsComponent', () => {
   let component: ContactUsComponent;
@@ -8,9 +12,17 @@ describe('ContactUsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ContactUsComponent ]
+      declarations: [ContactUsComponent],
+      imports: [
+        MaterialModule,
+        MatFormFieldModule,
+        BrowserAnimationsModule
+      ],
+      providers: [
+        FormBuilder
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

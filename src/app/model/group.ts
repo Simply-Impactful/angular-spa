@@ -1,8 +1,8 @@
-export class group {
+export class Group {
     groupname?: string;
     zipcode?: string;
     grouptype?: string;
     subcategory?: string;
-    shortdescription?: string; 
-    isgroupCreated?:boolean;
+    shortdescription?: string;
+    isgroupCreated?: boolean;
 }

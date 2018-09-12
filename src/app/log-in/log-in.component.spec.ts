@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LogInComponent } from './log-in.component';
+import { MaterialModule } from '../material.module';
 
 describe('LogInComponent', () => {
   let component: LogInComponent;
@@ -8,9 +9,13 @@ describe('LogInComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LogInComponent ]
+      declarations: [LogInComponent],
+      imports: [
+        MaterialModule
+      ],
+      providers: []
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

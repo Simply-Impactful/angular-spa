@@ -3,7 +3,7 @@
 }
 
 .score-box1 {
-    z-index:999;
+    z-index: 999;
     height: 2.7em;
     width: 1.7em;
     background: url('/track-change-simplyimpactful/images/score-flag.png') center/2em no-repeat;
@@ -13,19 +13,19 @@
     border: none;
 }
 
-  .score-box2 {
-    z-index:999;
+.score-box2 {
+    z-index: 999;
     height: 2.7em;
     width: 1.7em;
     background: url('/track-change-simplyimpactful/images/score-flag.png') center/2em no-repeat;
-    position:absolute;
+    position: absolute;
     top: 171px;
     left: 1050px;
     border: none;
 }
 
-  .score-box3 {
-    z-index:999;
+.score-box3 {
+    z-index: 999;
     height: 2.7em;
     width: 1.7em;
     background: url('/track-change-simplyimpactful/images/score-flag.png') center/2em no-repeat;
@@ -35,7 +35,7 @@
     border: none;
 }
 
-  img {
+img {
     height: 20em;
     width: 24em;
     padding: 50px;
@@ -51,7 +51,7 @@
     width: 1.7em;
     background: url('/track-change-simplyimpactful/images/score-flag.png') center/1em no-repeat;
     border: none;
-  }
+}
 
 button.cis-logo {
     height: 12.5em;
@@ -60,39 +60,38 @@ button.cis-logo {
     background: url('/track-change-simplyimpactful/images/CiS_logo_2@3x.png') left/4.25em no-repeat;
     background-size: 80%;
     border: none;
-
 }
 
-
-.backimage{
-    background:url('/track-change-simplyimpactful/images/homepagepond.JPG');
+.backimage {
+    background: url('/track-change-simplyimpactful/images/homepagepond.JPG');
     background-size: 100%;
     padding-bottom: 20px;
     background-repeat: no-repeat;
- }
-
- form {
-     display: flex;
-     flex-direction: row;
-     justify-content:center;
 }
-      
- button.mat-raised-button {
+
+form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+button.mat-raised-button {
     padding-left: 2em;
     padding-right: 2em;
     width: 200px;
     font-size: 18 px;
 }
+
 button.mat-button {
     padding-left: 2em;
     padding-right: 2em;
     padding-top: 0.5em;
-
     width: 200px;
     font-size: 18 px;
 }
-.mygroup{
+
+.mygroup {
     padding-left: 2em;
     padding-top: 1em;
     font-size: 20 px;
- }
+}

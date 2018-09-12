@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CreateGroupComponent } from './create-group.component';
+import { MaterialModule } from '../material.module';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 describe('CreateGroupComponent', () => {
   let component: CreateGroupComponent;
@@ -8,9 +12,16 @@ describe('CreateGroupComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreateGroupComponent ]
+      declarations: [CreateGroupComponent],
+      imports: [
+        MaterialModule,
+        MatGridListModule,
+        MatFormFieldModule,
+        MatInputModule
+      ],
+      providers: []
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -10,56 +10,36 @@
       </mat-toolbar-row>
     </mat-toolbar>
   </div>
-<!--<div class="top-row">
-    <mat-grid-list cols="3" rowHeight="100px">
-      <mat-grid-tile>
-        <mat-card>
-          <img src="/track-change-simplyimpactful/images/unplug.png" alt="Unplug the lights">
-        </mat-card>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <mat-card>
-          <img src="/track-change-simplyimpactful/images/turnoffaucet.png" alt="Turn off faucet">
-        </mat-card>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <mat-card>
-          <img src="/track-change-simplyimpactful/images/turnofflights.png" alt="Turn off lights">
-        </mat-card>
-      </mat-grid-tile>
-    </mat-grid-list>
-  </div> -->
 
   <div class="backimage">
     <form>
-
       <app-action></app-action>
 
       <span class="score-box1">{{ unplugPoints }}</span>
       <img src="/track-change-simplyimpactful/images/unplug.png" alt="Unplug the lights" (click)="add('unplug')">
 
       <span class="score-box2">{{ faucetPoints }}</span>
-      <img src="/track-change-simplyimpactful/images/turnoffaucet.png" alt="Turn off faucet"(click)="add('faucet')">
+      <img src="/track-change-simplyimpactful/images/turnoffaucet.png" alt="Turn off faucet" (click)="add('faucet')">
 
       <span class="score-box3">{{ lightsPoints }}</span>
-      <img src="/track-change-simplyimpactful/images/turnofflights.png" alt="Turn off lights"(click)="add('lights')">
+      <img src="/track-change-simplyimpactful/images/turnofflights.png" alt="Turn off lights" (click)="add('lights')">
 
     </form>
-    <button mat-raised-button color="primary" (click)="save()" routerLink="/actions">View All</button> 
+    <button mat-raised-button color="primary" (click)="save()" routerLink="/actions">View All</button>
   </div>
 
   <div fxLayout="row">
     <div fxFlex="100">
       <div align="left">
-        <h5 class="mygroup"> My Groups</h5>          
+        <h5 class="mygroup"> My Groups</h5>
       </div>
     </div>
     <div fxFlex="100">
       <div align="right">
-        <button mat-button color="primary" routerLink="/creategroup">Create Group</button>         
+        <button mat-button color="primary" routerLink="/creategroup">Create Group</button>
       </div>
     </div>
-  </div> 
+  </div>
   <mat-divider></mat-divider>
   <mat-tab-group>
     <mat-tab label="Group 1">
@@ -77,7 +57,7 @@
     <mat-tab label="Group 3">
       <h1>This week top three leaders in Group 3</h1>
       <p>...</p>
-   </mat-tab>
+    </mat-tab>
     <mat-tab label="Group 4">
       <h1>This week top three leaders in Group 4</h1>
       <p>...</p>

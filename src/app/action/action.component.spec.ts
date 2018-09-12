@@ -1,6 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { ActionComponent } from './action.component';
+import { ActionService } from '../services/action.service';
+
+import { MaterialModule } from '../material.module';
+import { MatCardModule } from '@angular/material/card';
 
 describe('ActionComponent', () => {
   let component: ActionComponent;
@@ -8,9 +13,17 @@ describe('ActionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ActionComponent ]
+      declarations: [ActionComponent],
+      imports: [
+        HttpClientTestingModule,
+        MaterialModule,
+        MatCardModule
+      ],
+      providers: [
+        ActionService
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
