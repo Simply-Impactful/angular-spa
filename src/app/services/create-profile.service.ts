@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { CognitoCallback, CognitoUtil } from './cognito.service';
 import { AuthenticationDetails, CognitoUserAttribute, CognitoUser, CognitoUserPool } from 'amazon-cognito-identity-js';
-import { NewUser } from '../create-profile/create-profile.component';
+import { User } from '../model/User';
 import * as CognitoIdentity from 'aws-sdk/clients/cognitoidentity';
 // import { NewPasswordUser } from '../public/auth/newpassword/newpassword.component';
 import * as AWS from 'aws-sdk/global';
@@ -20,7 +20,7 @@ export class CreateProfileService {
         public cognitoUtil: CognitoUtil,
         public awsUtil: AwsUtil) {}
 
-    register(user: NewUser, callback: CognitoCallback): void {
+    register(user: User, callback: CognitoCallback): void {
 
         // lamda token - got from console.. need to integrate API Gateway to call this in the code
         // resource for the function used:
@@ -54,6 +54,10 @@ export class CreateProfileService {
             Name: 'picture',
             Value: ''
         };
+        const dataSecurity = {
+            Name: 'custom:security1',
+            Value: ''
+        };
 
         attributeList.push(new CognitoUserAttribute(dataFirstName));
         attributeList.push(new CognitoUserAttribute(dataEmail));
@@ -76,8 +80,6 @@ export class CreateProfileService {
                 console.error('Sign Up Error, sending to callback. ERROR ' + JSON.stringify(err) + 'MESSAGE' + err.message);
                 callback.cognitoCallback(err.message, null);
             } else {
-                // console.log('attribute list ' + JSON.stringify(attributeList));
-                // console.log('CreateProfileService: registered user is ' + JSON.stringify(result));
                 callback.cognitoCallback(null, result);
             }
         });

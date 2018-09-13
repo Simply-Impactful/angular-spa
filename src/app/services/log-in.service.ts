@@ -101,4 +101,43 @@ export class LogInService {
             callback.isLoggedIn('Can\'t retrieve the CurrentUser', false);
         }
     }
+
+    forgotPassword(username: string, callback: CognitoCallback) {
+        let userData = {
+            Username: username,
+            Pool: this.cognitoUtil.getUserPool()
+        };
+
+        let cognitoUser = new CognitoUser(userData);
+
+        cognitoUser.forgotPassword({
+            onSuccess: function () {
+
+            },
+            onFailure: function (err) {
+                callback.cognitoCallback(err.message, null);
+            },
+            inputVerificationCode() {
+                callback.cognitoCallback(null, null);
+            }
+        });
+    }
+
+    confirmNewPassword(email: string, verificationCode: string, password: string, callback: CognitoCallback) {
+        let userData = {
+            Username: email,
+            Pool: this.cognitoUtil.getUserPool()
+        };
+
+        let cognitoUser = new CognitoUser(userData);
+
+        cognitoUser.confirmPassword(verificationCode, password, {
+            onSuccess: function () {
+                callback.cognitoCallback(null, null);
+            },
+            onFailure: function (err) {
+                callback.cognitoCallback(err.message, null);
+            }
+        });
+    }
 }

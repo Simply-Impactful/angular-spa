@@ -33,6 +33,7 @@ export class LogInComponent implements LoggedInCallback, OnInit {
        this.router.navigate(['/home']);
     }
   }
+  
   // CognitoCallback interface
   cognitoCallback(message: string, result: any) {
     if (message != null) { // if there is an error
