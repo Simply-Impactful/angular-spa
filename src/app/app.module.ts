@@ -32,6 +32,8 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UploadComponent } from './upload/upload.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { SecurityQuestionsComponent } from './security-questions/security-questions.component';
+import { AdminViewComponent, AdminViewLanding, AdminViewActions, AdminViewCurriculum, AdminViewUsers } from './admin-view/admin-view.component';
+import { AdminTopNavComponent } from './admin-top-nav/admin-top-nav.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,13 @@ import { SecurityQuestionsComponent } from './security-questions/security-questi
     ActionComponent,
     ConfirmSignUpComponent,
     CreateGroupComponent,
-    ActionDialogComponent
+    ActionDialogComponent,
+    AdminViewComponent,
+    AdminTopNavComponent,
+    AdminViewLanding,
+    AdminViewActions,
+    AdminViewCurriculum,
+    AdminViewUsers 
   ],
   imports: [
     [BrowserModule, FormsModule],

@@ -1,7 +1,7 @@
 import { ActionDialogComponent } from './../action-dialog/action-dialog.component';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { Action } from '../model/action';
+import { Action } from '../model/Action';
 import { ActionService } from '../services/action.service';
 
 @Component({

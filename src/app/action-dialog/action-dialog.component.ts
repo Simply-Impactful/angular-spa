@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { Action } from '../model/action';
+import { Action } from '../model/Action';
 import { ActionService } from '../services/action.service';
 
 @Component({
@@ -10,7 +10,6 @@ import { ActionService } from '../services/action.service';
 })
 export class ActionDialogComponent implements OnInit {
 
-  // user:User;
   action: Action;
   constructor(
     public thisDialogRef: MatDialogRef<ActionDialogComponent>,

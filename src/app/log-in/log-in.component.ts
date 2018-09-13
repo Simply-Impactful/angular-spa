@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LogInService } from '../services/log-in.service';
-import { CognitoCallback, LoggedInCallback, ChallengeParameters } from '../services/cognito.service';
+import { CognitoUtil, CognitoCallback, LoggedInCallback, ChallengeParameters } from '../services/cognito.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,12 +14,13 @@ export class LogInComponent implements LoggedInCallback, OnInit {
   username: string = '';
   password: string = '';
 
-  constructor(public logInService: LogInService, public router: Router) { }
+  constructor(public logInService: LogInService, public router: Router, public cognitoUtil: CognitoUtil) { }
 
   ngOnInit() {
     this.errorMessage = null;
     console.log('Checking if the user is already authenticated. If so, then redirect to the home page');
     this.logInService.isAuthenticated(this);
+
   }
 
   login() {
@@ -30,7 +31,8 @@ export class LogInComponent implements LoggedInCallback, OnInit {
   // LoggedInCallback interface
   isLoggedIn(message: string, isLoggedIn: boolean): void {
     if (isLoggedIn) {
-       this.router.navigate(['/home']);
+      // will route to home page when authenticated is true
+      // this.router.navigate(['/home']);
     }
   }
   
@@ -47,7 +49,14 @@ export class LogInComponent implements LoggedInCallback, OnInit {
         // this.router.navigate(['/home/newPassword']);
       }
     } else { // success
-      this.router.navigate(['/home']);
+      const currentUser = this.cognitoUtil.getCurrentUser();
+      const username = currentUser.getUsername();
+      if(username == 'emilyhendricks' || 'superUser'){
+        this.router.navigate(['/admin']);
+      }else{
+        this.router.navigate(['/home']);
+      }
+     
     }
   }
   // CognitoCallback interface

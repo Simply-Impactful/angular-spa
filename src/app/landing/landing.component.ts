@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AdminViewComponent } from './../admin-view/admin-view.component';
 
 @Component({
   selector: 'app-landing',
@@ -6,11 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./landing.component.scss']
 })
 export class LandingComponent implements OnInit {
-  username = 'Jack';
+
 
   constructor() { }
+  
+
+  dynamicText: string  = '';
 
   ngOnInit() {
+    this.dynamicText = 'Americans use about 500 million plastic straws each day.'
+   // console.log("admin tex " + this.admin.dynamicText);
   }
+
 
 }
