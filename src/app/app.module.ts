@@ -5,6 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatInputModule } from '@angular/material';
+import { MatSelectModule } from '@angular/material';
 
 import { ActionsComponent } from './actions/actions.component';
 import { ActionComponent } from './action/action.component';
@@ -58,6 +60,8 @@ import { SecurityQuestionsComponent } from './security-questions/security-questi
     FlexLayoutModule,
     FormsModule,
     MaterialModule,
+    MatInputModule,
+    MatSelectModule,
     ReactiveFormsModule,
     HttpClientModule,
     AngularFileUploaderModule,

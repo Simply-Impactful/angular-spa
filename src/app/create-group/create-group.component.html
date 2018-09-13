@@ -17,31 +17,31 @@
       <mat-form-field appearance="outline">
         <mat-select [(ngModel)]="createdGroup.grouptype" name="grouptype" placeholder="Group Type">
           <mat-optgroup label="School">
-            <mat-option value="option">Club</mat-option>
-            <mat-option value="option">Classroom</mat-option>
+            <mat-option (click) ="toggleOption()" value="Club">Club</mat-option>
+            <mat-option (click) ="toggleOption()" value="Classroom">Classroom</mat-option>
           </mat-optgroup>
           <mat-optgroup label="Company">
-            <mat-option value="option">Entire Company</mat-option>
-            <mat-option value="option">Department</mat-option>
-            <mat-option value="option">Special Interest Group</mat-option>
-            <mat-option value="option">Board / Committee</mat-option>
+            <mat-option (click) ="toggleOption()" value="EntireCompany">Entire Company</mat-option>
+            <mat-option (click) ="toggleOption()" value="Department">Department</mat-option>
+            <mat-option (click) ="toggleOption()" value="SpecialInterestGroup">Special Interest Group</mat-option>
+            <mat-option (click) ="toggleOption()" value="BoardCommittee">Board / Committee</mat-option>
           </mat-optgroup>
-          <mat-option value="option">Sports Team</mat-option>
-          <mat-option value="option">Family/ Household</mat-option>
-          <mat-option value="option">Religious Group</mat-option>
+          <mat-option (click) ="toggleOption()" value="SportsTeam">Sports Team</mat-option>
+          <mat-option (click) ="toggleOption()" value="FamilyHousehold">Family/ Household</mat-option>
+          <mat-option (click) ="toggleOption()" value="ReligioudGroup">Religious Group</mat-option>
           <mat-optgroup label="Non-Profit">
-            <mat-option value="option">Entire Company</mat-option>
-            <mat-option value="option">Department</mat-option>
-            <mat-option value="option">Special Interest Group</mat-option>
-            <mat-option value="option">Board / Committee</mat-option>
+            <mat-option (click) ="toggleOption()" value="NPEntireCompany">Entire Company</mat-option>
+            <mat-option (click) ="toggleOption()" value="NPDepartment">Department</mat-option>
+            <mat-option (click) ="toggleOption()" value="NPSpecialInterestGroup">Special Interest Group</mat-option>
+            <mat-option (click) ="toggleOption()" value="NPBoardCommittee">Board / Committee</mat-option>
           </mat-optgroup>
-          <mat-option value="option">Other</mat-option>
+          <mat-option (click) ="toggleOption()" value="Other">Other</mat-option>
         </mat-select>
         <mat-hint>Required</mat-hint>
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile cols="1">
-      <mat-form-field appearance="outline">
+      <mat-form-field *ngIf = "isOther" appearance="outline">
         <input [(ngModel)]="createdGroup.other" name="other" matInput placeholder="Other">
         <mat-hint>Required</mat-hint>
       </mat-form-field>

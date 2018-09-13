@@ -14,7 +14,8 @@ export class CreateGroupComponent implements OnInit {
   grouptype: string = '';
   subcategory: string = '';
   zipcode: string = '';
-  shortdescription: string = '';
+  other: string = '';
+  isOther: Boolean = false;
   createdGroup: Group;
 
   constructor(private createGroupService: CreateGroupService) { }
@@ -23,9 +24,17 @@ export class CreateGroupComponent implements OnInit {
     this.createdGroup = new Group();
   }
 
+  toggleOption() {
+    if (this.createdGroup.grouptype === 'Other') {
+      this.isOther = true;
+    } else {
+      this.isOther = false;
+    }
+  }
+
   creategroup() {
     // A service call will be made here to validate the credentials against what we have stored in the DB
-    this.createGroupService.creategroup(this.createdGroup).subscribe();
+    this.createGroupService.createGroup(this.createdGroup).subscribe();
   }
 
 }

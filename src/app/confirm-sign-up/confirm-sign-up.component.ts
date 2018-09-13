@@ -28,7 +28,7 @@ export class ConfirmSignUpComponent implements OnInit {
     this.createProfileService.confirmVerificationCode(this.username, this.verificationCode, this);
   }
 
-  resendCode(){
+  resendCode() {
     this.createProfileService.resendCode(this.inputUsername, this);
   }
 

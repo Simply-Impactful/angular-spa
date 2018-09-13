@@ -104,12 +104,12 @@ export class CreateProfileService {
 
     /** In case they didn't receive the code */
     resendCode(username: string, callback: CognitoCallback): void {
-        let userData = {
+        const userData = {
             Username: username,
             Pool: this.cognitoUtil.getUserPool()
         };
 
-        let cognitoUser = new CognitoUser(userData);
+        const cognitoUser = new CognitoUser(userData);
 
         cognitoUser.resendConfirmationCode(function (err, result) {
             if (err) {

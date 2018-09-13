@@ -13,7 +13,7 @@ export class CreateGroupService {
     this.apiEndpoint = '';
   }
 
-  creategroup(group: Group): Observable<Group> {
+  createGroup(group: Group): Observable<Group> {
     this.groupSource.next(group);
     return this.group$;
   }
