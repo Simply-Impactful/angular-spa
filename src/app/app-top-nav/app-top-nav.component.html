@@ -3,7 +3,7 @@
   <mat-toolbar color="primary">
     <!-- top navigation with menu-->
     <mat-toolbar-row>
-      <button class="nav-logo" routerLink="/landing"></button>
+      <button class="nav-logo" title="Navigate to Landing page" routerLink="/landing"></button>
       <span class="spacer"></span>
       <!-- and a serach component -->
       <mat-form-field *ngIf="canSearch">
@@ -17,7 +17,6 @@
         <span class="spacer"></span>
         <button mat-button routerLink="/contactus">Contact us</button>
         <button mat-button [matMenuTriggerFor]="menu">Menu</button>
-
         <mat-menu #menu="matMenu">
           <button mat-menu-item routerLink="/userprofile">My Profile</button>
           <button mat-menu-item routerLink="/login">Logout</button>

@@ -12,7 +12,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
-
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatDialogModule } from '@angular/material';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @NgModule({
     imports: [
@@ -26,7 +29,11 @@ import { MatRadioModule } from '@angular/material/radio';
         MatMenuModule,
         MatRadioModule,
         MatToolbarModule,
-        MatSelectModule
+        MatSelectModule,
+        MatTabsModule,
+        MatDividerModule,
+        MatBadgeModule,
+        MatDialogModule
     ],
     exports: [
         MatButtonModule,
@@ -39,7 +46,11 @@ import { MatRadioModule } from '@angular/material/radio';
         MatMenuModule,
         MatRadioModule,
         MatToolbarModule,
-        MatSelectModule
+        MatSelectModule,
+        MatTabsModule,
+        MatDividerModule,
+        MatBadgeModule,
+        MatDialogModule
     ]
 })
 

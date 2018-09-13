@@ -1,0 +1,10 @@
+{
+  "userName": "ehendricks",
+  "role": "user",
+  "firstname": "EMILY",
+  "lastname": "HENDRICKS",
+  "token": "123XYZ",
+  "isLoggedIn": true,
+  "message": "Logged In"
+
+}

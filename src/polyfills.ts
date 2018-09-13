@@ -17,6 +17,8 @@
 /***************************************************************************************************
  * BROWSER POLYFILLS
  */
+(window as any).Buffer = window;
+(window as any).global = window;
 
 /** IE9, IE10 and IE11 requires all of the following polyfills. **/
 // import 'core-js/es6/symbol';

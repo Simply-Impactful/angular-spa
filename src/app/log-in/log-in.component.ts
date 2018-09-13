@@ -1,28 +1,67 @@
 import { Component, OnInit } from '@angular/core';
 import { LogInService } from '../services/log-in.service';
+import { CognitoUtil, CognitoCallback, LoggedInCallback, ChallengeParameters } from '../services/cognito.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-log-in',
   templateUrl: './log-in.component.html',
   styleUrls: ['./log-in.component.scss']
 })
-export class LogInComponent implements OnInit {
+export class LogInComponent implements LoggedInCallback, OnInit {
 
-  username: string = "";
-  password: string = "";
+  errorMessage: string = '';
+  username: string = '';
+  password: string = '';
 
-  constructor(public logInService: LogInService) { }
+  constructor(public logInService: LogInService, public router: Router, public cognitoUtil: CognitoUtil) { }
 
   ngOnInit() {
+    this.errorMessage = null;
+    console.log('Checking if the user is already authenticated. If so, then redirect to the home page');
+    this.logInService.isAuthenticated(this);
+
   }
 
   login() {
-    // A service call will be made here to validate the credentials against what we have stored in the DB
-    this.logInService.login(this.username, this.password).subscribe(
-      user => {
-        if (user.isLoggedIn) {
-          console.log("is logged in");
-        }
-      });
+    // Validate credentials and authentication
+    this.logInService.authenticate(this.username, this.password, this);
   }
+
+  // LoggedInCallback interface
+  isLoggedIn(message: string, isLoggedIn: boolean): void {
+    if (isLoggedIn) {
+      // will route to home page when authenticated is true
+      // this.router.navigate(['/home']);
+    }
+  }
+  
+  // CognitoCallback interface
+  cognitoCallback(message: string, result: any) {
+    if (message != null) { // if there is an error
+      // use a local variable as opposed to an instance var.
+      this.errorMessage = message;
+      console.error('result: ' + this.errorMessage);
+      if (this.errorMessage === 'User is not confirmed.') {
+         this.router.navigate(['/confirmSignUp', this.username]);
+      } else if (this.errorMessage === 'User needs to set password.') {
+        console.log('redirecting to set new password');
+        // this.router.navigate(['/home/newPassword']);
+      }
+    } else { // success
+      const currentUser = this.cognitoUtil.getCurrentUser();
+      const username = currentUser.getUsername();
+      if(username == 'emilyhendricks' || 'superUser'){
+        this.router.navigate(['/admin']);
+      }else{
+        this.router.navigate(['/home']);
+      }
+     
+    }
+  }
+  // CognitoCallback interface
+  handleMFAStep?(challengeName: string, challengeParameters: ChallengeParameters, callback: (confirmationCode: string) => any): void {
+    throw new Error('handleMFASetup Method not implemented.');
+  }
+
 }

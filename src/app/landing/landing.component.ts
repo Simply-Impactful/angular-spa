@@ -9,13 +9,13 @@ import { AdminViewComponent } from './../admin-view/admin-view.component';
 export class LandingComponent implements OnInit {
 
 
-  constructor(public admin: AdminViewComponent) { }
+  constructor() { }
   
 
-  dynamicText: string  = "";
+  dynamicText: string  = '';
 
   ngOnInit() {
-    this.dynamicText = this.admin.dynamicText;
+    this.dynamicText = 'Americans use about 500 million plastic straws each day.'
    // console.log("admin tex " + this.admin.dynamicText);
   }
 
