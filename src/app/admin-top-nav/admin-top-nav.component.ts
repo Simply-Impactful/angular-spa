@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-top-nav',
-  templateUrl: './app-top-nav.component.html',
-  styleUrls: ['./app-top-nav.component.scss']
+  selector: 'admin-top-nav',
+  templateUrl: './admin-top-nav.component.html',
+  styleUrls: ['./admin-top-nav.component.scss']
 })
 
-export class AppTopNavComponent implements OnInit {
+export class AdminTopNavComponent implements OnInit {
   title: string = 'Change Is Simple';
   hideRightMenu: boolean = true;
   canSearch: boolean = false;

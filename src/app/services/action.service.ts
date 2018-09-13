@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, catchError, tap, zip } from 'rxjs/operators';
-import { Action } from '../model/action';
+import { Action } from '../model/Action';
 
 @Injectable()
 export class ActionService {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Group } from '../model/group';
+import { Group } from '../model/Group';
 import { CreateGroupService } from '../services/creategroup.service';
 
 import { BehaviorSubject } from 'rxjs';
@@ -29,7 +29,6 @@ export class HomeComponent implements OnInit {
     this.createGroupService.group$.subscribe(createdGroup => {
       this.group = createdGroup;
     });
-    console.log('created group: HOME COMPONENT ' + JSON.stringify(this.group));
   }
 
   // Add the number of points assigned to each action

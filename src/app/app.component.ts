@@ -11,6 +11,7 @@ import { CognitoUtil, LoggedInCallback } from './services/cognito.service';
 
 export class AppComponent implements OnInit, LoggedInCallback {
 
+  isAdmin: boolean = false;
   constructor(
     public awsUtil: AwsUtil,
     public cognito: CognitoUtil,
@@ -21,7 +22,6 @@ export class AppComponent implements OnInit, LoggedInCallback {
   }
 
   isLoggedIn(message: string, isLoggedIn: boolean) {
-
     this.cognito.getIdToken({
       callback() {
       },
@@ -30,6 +30,11 @@ export class AppComponent implements OnInit, LoggedInCallback {
         this.awsUtil.initAwsService(null, isLoggedIn, token);
       }
     });
+  }
+
+  setAdmin(){
+    this.isAdmin = true;
+    console.log("isAdmin");
   }
 }
 
