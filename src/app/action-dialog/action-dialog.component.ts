@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { Action } from '../model/Action';
 import { ActionService } from '../services/action.service';
+import { User } from '../model/User';
 
 @Component({
   selector: 'app-action-dialog',
@@ -11,6 +12,7 @@ import { ActionService } from '../services/action.service';
 export class ActionDialogComponent implements OnInit {
 
   action: Action;
+  user: User;
   constructor(
     public thisDialogRef: MatDialogRef<ActionDialogComponent>,
     public actionService: ActionService) { }
@@ -31,6 +33,9 @@ export class ActionDialogComponent implements OnInit {
      * this.user.points = this.user.points + this.action.points;
      * the home page will have to subscribe to the User object in order to retrieve the points
      * just as we do above **/
+    this.actionService.takeAction(this.action).subscribe(response=>{
+      this.action = response;
+    });
     this.thisDialogRef.close('Confirm');
   }
 

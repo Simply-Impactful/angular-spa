@@ -3,20 +3,79 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse } from '@angul
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, catchError, tap, zip } from 'rxjs/operators';
 import { Action } from '../model/Action';
+import { User } from '../model/User';
+import { MatDialog } from '@angular/material';
+import { ActionDialogComponent } from './../action-dialog/action-dialog.component';
 
 @Injectable()
 export class ActionService {
   public apiEndpoint: string;
+
   actionSource = new BehaviorSubject(new Action());
   action$ = this.actionSource.asObservable();
+  action = new Action;
 
-  constructor(private http: HttpClient) {
+  userSource = new BehaviorSubject(new User());
+  user$ = this.userSource.asObservable();
+  // is this the best way to do this?
+  user = new User;
+
+  dialogResult = '';
+
+  constructor(private http: HttpClient, private dialog: MatDialog) {
     this.apiEndpoint = '';
   }
 
-  createAction(action: Action): Observable<Action> {
+  ngOnInit(){
+  }
+
+  openDialog(name: string) {
+    this.action = this.getData(name);
+    const dialogRef = this.dialog.open(ActionDialogComponent, {
+      width: '600px',
+      //  data: {action:this.action}
+    });
+    this.actionSource.next(this.action);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog closed: ${result}`);
+      this.dialogResult = result;
+    });
+  }
+
+  getData(name: string) {
+    // send GET request to DB to collect data for given action
+    // placeholders...
+    if (name === 'unplug') {
+      this.action.name = 'unplug';
+      this.action.points = 8;
+      this.action.fact = 'You saved 10 watts today';
+      this.action.status = 'Elephant';
+    }
+    if (name === 'faucet') {
+      this.action.name = 'faucet';
+      this.action.points = 5;
+      this.action.fact = 'You saved 10 liters of water today';
+      this.action.status = 'Giraffe';
+    }
+    if (name === 'light') {
+      this.action.name = 'light';
+      this.action.points = 7;
+      this.action.fact = 'You saved 10 watts today';
+      this.action.status = 'Giraffe';
+    }
+    // mock response
+    return this.action;
+  }
+
+  takeAction(action: Action): Observable<Action> {
+    console.log("action in take action "+JSON.stringify(action));
     this.actionSource.next(action);
-    // console.log("created action " + JSON.stringify(action)); ==> remove after test
+    // log points
+    var points = action.points;
+    this.user.points = this.user.points + points;
+    console.log("user points ======>" + this.user.points);
+    this.userSource.next(this.user);
     return this.action$;
   }
 

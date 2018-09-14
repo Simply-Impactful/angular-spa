@@ -1,21 +1,19 @@
-<mat-card class = "card-size">
-  <mat-card-content>
-      <img mat-card-image src="/track-change-simplyimpactful/images/unplug.png">
-  </mat-card-content>
-  <mat-card-actions>
-      <button mat-raised-button color="warn" (click)="openDialog('unplug')">8 POINTS</button>
-    </mat-card-actions>
-<mat-card-content>
-    <img mat-card-image src="/track-change-simplyimpactful/images/faucet.png">
-</mat-card-content>
-<mat-card-actions>
-    <button mat-raised-button color="warn" (click)="openDialog('faucet')">5 POINTS</button>
-    </mat-card-actions>
-    <mat-card-content>
-        <img mat-card-image src="/track-change-simplyimpactful/images/light.png">
-    </mat-card-content>
-    <mat-card-actions>
-        <button mat-raised-button color="warn" (click)="openDialog('light')">4 POINTS</button>
-        </mat-card-actions>
-    
+<mat-card class="card-container" style="margin-top:-20px"(click)="openDialog('unplug')">
+    <mat-card-header style="float:right;">
+        <div mat-card-image class="score-flag">8</div>
+    </mat-card-header>
+<img mat-card-image src="/track-change-simplyimpactful/images/icons/plug.png">
 </mat-card>
+<mat-card class="card-container" (click)="openDialog('faucet')">
+    <mat-card-header style="float:right;">
+            <div mat-card-image class="score-flag">5</div>
+    </mat-card-header>
+    <img mat-card-image src="/track-change-simplyimpactful/images//icons/faucet.png"> 
+</mat-card>
+<mat-card class="card-container" (click)="openDialog('light')">
+    <mat-card-header style="float:right;">
+            <div mat-card-image class="score-flag">4</div>
+    </mat-card-header>
+    <img mat-card-image src="/track-change-simplyimpactful/images/icons/lightbulb.png">
+</mat-card>
+<br>

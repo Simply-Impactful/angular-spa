@@ -6,7 +6,6 @@ export class Action {
     picture?: string;
     fact?: string;
     tileIcon?: string;
-    type?: string;
     maxFrequency?: number;
     frequencyCadence?: string;
 }

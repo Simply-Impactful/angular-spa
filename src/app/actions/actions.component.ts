@@ -2,7 +2,6 @@ import { ActionDialogComponent } from './../action-dialog/action-dialog.componen
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Action } from '../model/Action';
-import { ActionService } from '../services/action.service';
 
 @Component({
   selector: 'app-actions',
@@ -14,8 +13,7 @@ export class ActionsComponent implements OnInit {
   dialogResult = '';
 
   constructor(
-    public dialog: MatDialog,
-    public actionService: ActionService) { }
+    public dialog: MatDialog) { }
 
   ngOnInit() {
     this.getActionsData('');
@@ -58,7 +56,6 @@ export class ActionsComponent implements OnInit {
   }
 
   openDialog(name: string) {
-    this.actionService.createAction(this.action).subscribe();
     this.action = this.getActionsData(name);
     const dialogRef = this.dialog.open(ActionDialogComponent, {
       width: '600px',

@@ -12,22 +12,9 @@
   </div>
 
   <div class="backimage">
-    <form>
-      <app-action></app-action>
-
-      <span class="score-box1">{{ unplugPoints }}</span>
-      <img src="/track-change-simplyimpactful/images/unplug.png" alt="Unplug the lights" (click)="add('unplug')">
-
-      <span class="score-box2">{{ faucetPoints }}</span>
-      <img src="/track-change-simplyimpactful/images/turnoffaucet.png" alt="Turn off faucet" (click)="add('faucet')">
-
-      <span class="score-box3">{{ lightsPoints }}</span>
-      <img src="/track-change-simplyimpactful/images/turnofflights.png" alt="Turn off lights" (click)="add('lights')">
-
-    </form>
-    <button mat-raised-button color="primary" (click)="save()" routerLink="/actions">View All</button>
+     <app-action></app-action> 
+   <button mat-raised-button color="primary" (click)="save()" routerLink="/actions">View All</button>
   </div>
-
   <div fxLayout="row">
     <div fxFlex="100">
       <div align="left">
