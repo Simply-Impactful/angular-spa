@@ -49,8 +49,9 @@ export class ActionService {
     if (name === 'unplug') {
       this.action.name = 'unplug';
       this.action.points = 8;
-      this.action.fact = 'You saved 10 watts today';
+      this.action.fact = 'Did you know? Americans use about 18 millions barrels of oil everyday';
       this.action.status = 'Elephant';
+      this.action.imageUrl = '/track-change-simplyimpactful/images/FossilFuelsFacts.jpg'
     }
     if (name === 'faucet') {
       this.action.name = 'faucet';
