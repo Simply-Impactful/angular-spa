@@ -36,6 +36,9 @@ export class ActionDialogComponent implements OnInit {
     this.actionService.takeAction(this.action).subscribe(response=>{
       this.action = response;
     });
+
+  //  console.log("user data in dialog close " + JSON.stringify(this.user));
+    console.log("action data in dialog close " + JSON.stringify(this.action));
     this.thisDialogRef.close('Confirm');
   }
 

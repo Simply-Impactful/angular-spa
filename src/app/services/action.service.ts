@@ -44,6 +44,7 @@ export class ActionService {
   }
 
   getData(name: string) {
+    // Need to input this data into the DB from what the Admins upload
     // send GET request to DB to collect data for given action
     // placeholders...
     if (name === 'unplug') {
@@ -58,12 +59,14 @@ export class ActionService {
       this.action.points = 5;
       this.action.fact = 'You saved 10 liters of water today';
       this.action.status = 'Giraffe';
+      this.action.imageUrl = ''
     }
     if (name === 'light') {
       this.action.name = 'light';
       this.action.points = 7;
       this.action.fact = 'You saved 10 watts today';
       this.action.status = 'Giraffe';
+      this.action.imageUrl = ''
     }
     // mock response
     return this.action;
@@ -76,7 +79,8 @@ export class ActionService {
     var points = action.points;
     this.user.points = this.user.points + points;
     console.log("user points ======>" + this.user.points);
-    this.userSource.next(this.user);
+    
+    this.userSource.next(this.user); //user$ object
     return this.action$;
   }
 

@@ -10,10 +10,6 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./action.component.scss']
 })
 export class ActionComponent implements OnInit {
-  actionPoints: number = 0;
-  faucetPoints: number = 5;
-  unplugPoints: number = 7;
-  lightsPoints: number = 5;
   name: string = '';
   user: User;
 

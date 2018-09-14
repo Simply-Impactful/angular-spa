@@ -4,20 +4,6 @@ import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-view',
-  templateUrl: './admin-view.component.html',
-  styleUrls: ['./admin-view.component.scss']
-})
-export class AdminViewComponent implements OnInit {
-
-  constructor(public appComp: AppComponent) { }
-
-  ngOnInit() {
-    this.appComp.setAdmin();
-  }
-}
-
-@Component({
-  selector: 'app-admin-view',
   templateUrl: './sub/admin-view-landing.html',
   //styleUrls: ['./admin-view.component.scss']
 })
@@ -25,6 +11,7 @@ export class AdminViewLanding implements OnInit {
   inputText: string = '';
   // grab stored value from DB
   dynamicText: string = 'Americans user 500 million plastic straws each day.';
+  description: string = '';
 
   constructor(public appComp: AppComponent) { }
 

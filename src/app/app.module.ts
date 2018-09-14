@@ -32,7 +32,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UploadComponent } from './upload/upload.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { SecurityQuestionsComponent } from './security-questions/security-questions.component';
-import { AdminViewComponent, AdminViewLanding, AdminViewActions, AdminViewCurriculum, AdminViewUsers } from './admin-view/admin-view.component';
+import { AdminViewLanding, AdminViewActions, AdminViewCurriculum, AdminViewUsers } from './admin-view/admin-view.component';
 import { AdminTopNavComponent } from './admin-top-nav/admin-top-nav.component';
 
 @NgModule({
@@ -53,7 +53,6 @@ import { AdminTopNavComponent } from './admin-top-nav/admin-top-nav.component';
     ConfirmSignUpComponent,
     CreateGroupComponent,
     ActionDialogComponent,
-    AdminViewComponent,
     AdminTopNavComponent,
     AdminViewLanding,
     AdminViewActions,

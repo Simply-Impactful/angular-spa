@@ -12,7 +12,7 @@ import { SecurityQuestionsComponent } from './security-questions/security-questi
 import { ActionsComponent } from './actions/actions.component';
 import { ConfirmSignUpComponent } from './confirm-sign-up/confirm-sign-up.component';
 import { CreateGroupComponent } from './create-group/create-group.component';
-import { AdminViewComponent, AdminViewLanding, AdminViewActions, AdminViewCurriculum, AdminViewUsers } from './admin-view/admin-view.component';
+import { AdminViewLanding, AdminViewActions, AdminViewCurriculum, AdminViewUsers } from './admin-view/admin-view.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -27,7 +27,7 @@ const routes: Routes = [
   { path: 'actions', component: ActionsComponent },
   { path: 'confirmSignUp/:username', component: ConfirmSignUpComponent },
   { path: 'creategroup', component: CreateGroupComponent },
-  { path: 'admin', component: AdminViewComponent },
+  { path: 'admin', component: AdminViewLanding },
   { path: 'landingAdmin', component: AdminViewLanding },
   { path: 'actionsAdmin', component: AdminViewActions },
   { path: 'usersAdmin', component: AdminViewUsers },

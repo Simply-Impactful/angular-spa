@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminViewComponent } from './../admin-view/admin-view.component';
 
 @Component({
   selector: 'app-landing',
