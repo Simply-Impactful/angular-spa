@@ -12,12 +12,8 @@
     <img src={{action.imageUrl}}>
   </mat-dialog-content>
   <hr>
-    <mat-grid-list cols="2" rowHeight="3em">
-        <mat-grid-tile cols="1">
-        </mat-grid-tile>
-        <mat-grid-tile cols="1">
-          <button mat-stroked-button color="primary" (click)="onCloseConfirm()">UNDO</button> 
-          <button mat-stroked-button color="primary" (click)="onCloseConfirm()">CONFIRM</button>
-        </mat-grid-tile>
-      </mat-grid-list>      
+  <div align ="right">
+    <button mat-raised-button color="primary" (click)="onCloseConfirm()">UNDO</button> 
+    <button mat-raised-button color="primary" (click)="onCloseConfirm()">CONFIRM</button>
+  </div>      
 </div>
