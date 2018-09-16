@@ -17,7 +17,8 @@ export class AppTopNavComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.hideRightMenu = false; // TODO: https://stackoverflow.com/questions/43118592/angular-2-how-to-hide-nav-bar-in-some-components
+    this.hideRightMenu = false;
+    // TODO: https://stackoverflow.com/questions/43118592/angular-2-how-to-hide-nav-bar-in-some-components
   }
 
 }

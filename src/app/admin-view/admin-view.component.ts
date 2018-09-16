@@ -5,7 +5,7 @@ import { Route, Router } from '@angular/router';
 @Component({
   selector: 'app-admin-view',
   templateUrl: './sub/admin-view-landing.html',
-  //styleUrls: ['./admin-view.component.scss']
+  // styleUrls: ['./admin-view.component.scss']
 })
 export class AdminViewLanding implements OnInit {
   inputText: string = '';
@@ -19,7 +19,7 @@ export class AdminViewLanding implements OnInit {
     this.appComp.setAdmin();
   }
 
-  save(){
+  save() {
     // update stored value in database when the user clicks save
     this.dynamicText = this.inputText;
     console.log(this.dynamicText);
@@ -29,7 +29,7 @@ export class AdminViewLanding implements OnInit {
 @Component({
   selector: 'app-admin-view',
   templateUrl: './sub/admin-view-actions.html',
-  //styleUrls: ['./admin-view.component.scss']
+  // styleUrls: ['./admin-view.component.scss']
 })
 export class AdminViewActions implements OnInit {
 
@@ -43,7 +43,7 @@ export class AdminViewActions implements OnInit {
 @Component({
   selector: 'app-admin-view',
   templateUrl: './sub/admin-view-users.html',
-  //styleUrls: ['./admin-view.component.scss']
+  // styleUrls: ['./admin-view.component.scss']
 })
 export class AdminViewUsers implements OnInit {
 
@@ -57,7 +57,7 @@ export class AdminViewUsers implements OnInit {
 @Component({
   selector: 'app-admin-view',
   templateUrl: './sub/admin-view-curriculum.html',
-  //styleUrls: ['./admin-view.component.scss']
+  // styleUrls: ['./admin-view.component.scss']
 })
 export class AdminViewCurriculum implements OnInit {
 

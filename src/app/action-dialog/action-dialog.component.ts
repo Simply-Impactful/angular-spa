@@ -33,12 +33,12 @@ export class ActionDialogComponent implements OnInit {
      * this.user.points = this.user.points + this.action.points;
      * the home page will have to subscribe to the User object in order to retrieve the points
      * just as we do above **/
-    this.actionService.takeAction(this.action).subscribe(response=>{
+    this.actionService.takeAction(this.action).subscribe(response => {
       this.action = response;
     });
 
-  //  console.log("user data in dialog close " + JSON.stringify(this.user));
-    console.log("action data in dialog close " + JSON.stringify(this.action));
+    //  console.log("user data in dialog close " + JSON.stringify(this.user));
+    console.log('action data in dialog close ' + JSON.stringify(this.action));
     this.thisDialogRef.close('Confirm');
   }
 

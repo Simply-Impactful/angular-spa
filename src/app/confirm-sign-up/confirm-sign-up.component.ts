@@ -33,7 +33,7 @@ export class ConfirmSignUpComponent implements OnInit {
   }
 
   cognitoCallback(message: string, result: any) {
-    if (message != null) {
+    if (message !== null) {
       this.errorMessage = message;
       console.log('message: ' + this.errorMessage);
     } else {

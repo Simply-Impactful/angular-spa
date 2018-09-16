@@ -24,14 +24,14 @@ export class ResetPasswordComponent implements OnInit {
   ngOnInit() {}
 
    // step one of forgotPassword flow.. getting a new verification code
-  sendCode(){
+  sendCode() {
     this.loginService.forgotPassword(this.email, this);
   }
 
   // step 2 is resetting the password
-  resetPassword(){
-    if(this.password != this.confirmPassword){
-      this.errorMessage = 'The inputted passwords do not match.'
+  resetPassword() {
+    if (this.password !== this.confirmPassword) {
+      this.errorMessage = 'The inputted passwords do not match.';
     } else {
       this.onConfirm = true;
       this.loginService.confirmNewPassword(this.email, this.verificationCode, this.password, this);
@@ -39,14 +39,14 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   cognitoCallback(message: string, result: any) {
-    if (message != null) {
+    if (message !== null) {
       this.errorMessage = message;
       console.log('message: ' + this.errorMessage);
     } else {
-      this.resent=true;
+      this.resent = true;
       // Doing this because call back is being used for both calls,
       // but only want to route on the second call
-      if(this.onConfirm){
+      if (this.onConfirm) {
           // move to the next step
           this.router.navigate(['/home']);
       }

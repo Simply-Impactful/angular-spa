@@ -35,10 +35,10 @@ export class LogInComponent implements LoggedInCallback, OnInit {
       // this.router.navigate(['/home']);
     }
   }
-  
+
   // CognitoCallback interface
   cognitoCallback(message: string, result: any) {
-    if (message != null) { // if there is an error
+    if (message !== null) { // if there is an error
       // use a local variable as opposed to an instance var.
       this.errorMessage = message;
       console.error('result: ' + this.errorMessage);
@@ -51,12 +51,12 @@ export class LogInComponent implements LoggedInCallback, OnInit {
     } else { // success
       const currentUser = this.cognitoUtil.getCurrentUser();
       const username = currentUser.getUsername();
-      if(username == 'superUser'){
+      if (username === 'superUser') {
         this.router.navigate(['/landingAdmin']);
-      }else{
+      } else {
         this.router.navigate(['/home']);
       }
-     
+
     }
   }
   // CognitoCallback interface

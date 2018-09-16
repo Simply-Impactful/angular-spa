@@ -57,7 +57,7 @@ import { AdminTopNavComponent } from './admin-top-nav/admin-top-nav.component';
     AdminViewLanding,
     AdminViewActions,
     AdminViewCurriculum,
-    AdminViewUsers 
+    AdminViewUsers
   ],
   imports: [
     [BrowserModule, FormsModule],

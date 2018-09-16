@@ -106,12 +106,12 @@ export class LogInService {
     }
 
     forgotPassword(username: string, callback: CognitoCallback) {
-        let userData = {
+        const userData = {
             Username: username,
             Pool: this.cognitoUtil.getUserPool()
         };
 
-        let cognitoUser = new CognitoUser(userData);
+        const cognitoUser = new CognitoUser(userData);
 
         cognitoUser.forgotPassword({
             onSuccess: function () {
@@ -127,12 +127,12 @@ export class LogInService {
     }
 
     confirmNewPassword(email: string, verificationCode: string, password: string, callback: CognitoCallback) {
-        let userData = {
+        const userData = {
             Username: email,
             Pool: this.cognitoUtil.getUserPool()
         };
 
-        let cognitoUser = new CognitoUser(userData);
+        const cognitoUser = new CognitoUser(userData);
 
         cognitoUser.confirmPassword(verificationCode, password, {
             onSuccess: function () {

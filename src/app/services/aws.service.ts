@@ -26,7 +26,7 @@ export class AwsUtil {
             // Need to make sure I don't get into an infinite loop here, so need to exit if this method is running already
             console.log('AwsUtil: Aborting running initAwsService()...it\'s running already.');
             // instead of aborting here, it's best to put a timer
-            if (callback != null) {
+            if (callback !== null) {
                 callback.callback();
                 callback.callbackWithParam(null);
             }
@@ -68,7 +68,7 @@ export class AwsUtil {
             console.log('AwsUtil: User is not logged in');
         }
 
-        if (callback != null) {
+        if (callback !== null) {
             callback.callback();
             callback.callbackWithParam(null);
         }

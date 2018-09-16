@@ -107,7 +107,7 @@ export class CognitoUtil {
             throw new Error('CognitoUtil: callback in getAccessToken is null...returning');
         }
 
-        if (this.getCurrentUser() != null) {
+        if (this.getCurrentUser() !== null) {
 
             this.getCurrentUser().getSession(function (err, session) {
                 if (err) {
@@ -129,7 +129,7 @@ export class CognitoUtil {
             throw new Error('CognitoUtil: callback in getIdToken is null...returning');
         }
 
-        if (this.getCurrentUser() != null) {
+        if (this.getCurrentUser() !== null) {
             this.getCurrentUser().getSession(function (err, session) {
                 if (err) {
                     console.log('CognitoUtil: Can\'t set the credentials:' + err);
@@ -152,7 +152,7 @@ export class CognitoUtil {
             throw new Error('CognitoUtil: callback in getRefreshToken is null...returning');
         }
 
-        if (this.getCurrentUser() != null) {
+        if (this.getCurrentUser() !== null) {
             this.getCurrentUser().getSession(function (err, session) {
                 if (err) {
                     console.log('CognitoUtil: Can\'t set the credentials:' + err);

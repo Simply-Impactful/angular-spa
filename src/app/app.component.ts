@@ -32,9 +32,9 @@ export class AppComponent implements OnInit, LoggedInCallback {
     });
   }
 
-  setAdmin(){
+  setAdmin() {
     this.isAdmin = true;
-    console.log("isAdmin");
+    console.log('isAdmin');
   }
 }
 

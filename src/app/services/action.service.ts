@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, catchError, tap, zip } from 'rxjs/operators';
@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material';
 import { ActionDialogComponent } from './../action-dialog/action-dialog.component';
 
 @Injectable()
-export class ActionService {
+export class ActionService implements OnInit {
   public apiEndpoint: string;
 
   actionSource = new BehaviorSubject(new Action());
@@ -26,7 +26,7 @@ export class ActionService {
     this.apiEndpoint = '';
   }
 
-  ngOnInit(){
+  ngOnInit() {
   }
 
   openDialog(name: string) {
@@ -52,35 +52,35 @@ export class ActionService {
       this.action.points = 8;
       this.action.fact = 'Did you know? Americans use about 18 millions barrels of oil everyday';
       this.action.status = 'Elephant';
-      this.action.imageUrl = '/track-change-simplyimpactful/images/FossilFuelsFacts.jpg'
+      this.action.imageUrl = '/track-change-simplyimpactful/images/FossilFuelsFacts.jpg';
     }
     if (name === 'faucet') {
       this.action.name = 'faucet';
       this.action.points = 5;
       this.action.fact = 'You saved 10 liters of water today';
       this.action.status = 'Giraffe';
-      this.action.imageUrl = ''
+      this.action.imageUrl = '';
     }
     if (name === 'light') {
       this.action.name = 'light';
       this.action.points = 7;
       this.action.fact = 'You saved 10 watts today';
       this.action.status = 'Giraffe';
-      this.action.imageUrl = ''
+      this.action.imageUrl = '';
     }
     // mock response
     return this.action;
   }
 
   takeAction(action: Action): Observable<Action> {
-    console.log("action in take action "+JSON.stringify(action));
+    console.log('action in take action ' + JSON.stringify(action));
     this.actionSource.next(action);
     // log points
-    var points = action.points;
+    const points = action.points;
     this.user.points = this.user.points + points;
-    console.log("user points ======>" + this.user.points);
-    
-    this.userSource.next(this.user); //user$ object
+    console.log('user points ======>' + this.user.points);
+
+    this.userSource.next(this.user); // user$ object
     return this.action$;
   }
 

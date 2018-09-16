@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'admin-top-nav',
   templateUrl: './admin-top-nav.component.html',
   styleUrls: ['./admin-top-nav.component.scss']
@@ -17,7 +18,8 @@ export class AdminTopNavComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.hideRightMenu = false; // TODO: https://stackoverflow.com/questions/43118592/angular-2-how-to-hide-nav-bar-in-some-components
+    this.hideRightMenu = false;
+    // TODO: https://stackoverflow.com/questions/43118592/angular-2-how-to-hide-nav-bar-in-some-components
   }
 
 }

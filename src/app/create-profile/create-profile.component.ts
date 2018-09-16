@@ -11,83 +11,87 @@ import { User } from '../model/User';
   templateUrl: './create-profile.component.html',
   styleUrls: ['./create-profile.component.scss']
 })
-export class CreateProfileComponent implements OnInit, CognitoCallback {
-  newUser: User
+export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestroy {
+  newUser: User;
   errorMessage: string;
   userType: any;
   private sub: any;
   callback: Callback;
   confirmPassword: string;
 
-  constructor(private route: ActivatedRoute, public router: Router, public cognitoUtil: CognitoUtil, public createProfileService: CreateProfileService) {
-    let errorMessage = this.errorMessage;
+  constructor(
+    private route: ActivatedRoute,
+    public router: Router,
+    public cognitoUtil: CognitoUtil,
+    public createProfileService: CreateProfileService) {
+    const errorMessage = this.errorMessage;
   }
 
   ngOnInit() {
     this.newUser = new User();
     this.sub = this.route.params.subscribe(params => {
-       this.userType = params['userType']; // (+) converts string 'id' to a number
+      this.userType = params['userType']; // (+) converts string 'id' to a number
     });
   }
 
-  isPasswordValid():boolean{
-    var password = this.newUser.password;
-        // Confirm they match
-        if(password != this.confirmPassword){
-          this.errorMessage="Passwords do not match";
-          console.log(this.errorMessage + " password " + password + "confirm Password " + this.confirmPassword);
-          return false;
-        } else {
-          return true;
-        }
+  isPasswordValid(): boolean {
+    const password = this.newUser.password;
+    // Confirm they match
+    if (password !== this.confirmPassword) {
+      this.errorMessage = 'Passwords do not match';
+      console.log(this.errorMessage + ' password ' + password + 'confirm Password ' + this.confirmPassword);
+      return false;
+    } else {
+      return true;
+    }
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
 
-  createAccount(){
-    if (this.newUser.password != null && this.isPasswordValid()) {
+  createAccount() {
+    if (this.newUser.password !== null && this.isPasswordValid()) {
       this.createProfileService.register(this.newUser, this);
     } else {
-      this.errorMessage= "Password must not be empty";
+      this.errorMessage = 'Password must not be empty';
     }
   }
 
   cognitoCallback(message: string, result: any) {
-    if (message != null) { //error
-        this.errorMessage = message;
-        console.log("result: " + this.errorMessage);
-    } else { //success
-        //move to the next step
-        console.log("redirecting");
-        this.router.navigate(['/confirmSignUp', result.user.username]);
+    if (message !== null) { // error
+      this.errorMessage = message;
+      console.log('result: ' + this.errorMessage);
+    } else { // success
+      // move to the next step
+      console.log('redirecting');
+      this.router.navigate(['/confirmSignUp', result.user.username]);
     }
   }
 
   // might only be for the 'sign-in' flow?
   getParameters(callback: Callback) {
-    let currentUser = this.cognitoUtil.getCurrentUser();
-    console.log("currentUser " + JSON.stringify(currentUser));
+    const currentUser = this.cognitoUtil.getCurrentUser();
+    console.log('currentUser ' + JSON.stringify(currentUser));
 
-    if (currentUser != null) {
+    if (currentUser !== null) {
       currentUser.getSession(function (err, session) {
-            if (err)
-                console.log("UserParametersService: Couldn't retrieve the user");
-            else {
-              currentUser.getUserAttributes(function (err, result) {
-                    if (err) {
-                        console.log("UserParametersService: in getParameters: " + err);
-                    } else {
-                      console.log("get User Attributes result " + result);
-                      callback.callbackWithParam(result);
-                    }
-                });
+        if (err) {
+          console.log('UserParametersService: Couldn\'t retrieve the user');
+        } else {
+          currentUser.getUserAttributes(function (_err, result) {
+            if (_err) {
+              console.log('UserParametersService: in getParameters: ' + _err);
+            } else {
+              console.log('get User Attributes result ' + result);
+              callback.callbackWithParam(result);
             }
+          });
+        }
 
-        });
+      });
     } else {
-        callback.callbackWithParam(null);
+      callback.callbackWithParam(null);
     }
 
   }
