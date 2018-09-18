@@ -15,7 +15,7 @@ getTestBed().initTestEnvironment(
   platformBrowserDynamicTesting()
 );
 // Then we find all the tests.
-// const context = require.context('.\/app\/create\-group', true, /\.spec\.ts$/);
+// const context = require.context('.\/app\/create\-profile', true, /\.spec\.ts$/);
 const context = require.context('.\/app', true, /\.spec\.ts$/);
 
 // And load the modules.
