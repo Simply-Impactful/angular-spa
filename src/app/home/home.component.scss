@@ -58,7 +58,7 @@ button.mat-button {
    // padding-left: 1em;
     padding-right: 1em;
     padding-top: 0.5em;
-    width: 100px;
+    width: 150px;
     font-size: 14px;
 }
 .mygroup {
@@ -68,7 +68,7 @@ button.mat-button {
 mat-form-field {
     width: 380px;
 }
-img {
+.img-in-tab {
     height: 7%;
     width:7%;
     padding: 20px;
@@ -79,4 +79,18 @@ img {
     display: inline-block;
     height:15px;
     background-color: #F1F1F3;
+  }
+
+  .top-performer-card {
+    width: 300px;
+    margin: 4px;
+    height: 75px;
+    display: inline-block;
+    background-color: azure;
+    text-align: center;
+  }
+  
+  .top-performer-image {
+    background-image: url('/track-change-simplyimpactful/images/Congrats_icn.svg');
+    background-size: cover;
   }

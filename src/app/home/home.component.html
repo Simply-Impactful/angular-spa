@@ -10,10 +10,9 @@
       </mat-toolbar-row>
     </mat-toolbar>
   </div>
-
   <div class="backimage">
-     <app-action></app-action> 
-   <button mat-raised-button color="primary" (click)="save()" routerLink="/actions">View All</button>
+    <app-action></app-action> 
+    <button mat-raised-button color="primary" (click)="save()" routerLink="/actions">View All</button>
   </div>
   <div class="main-body">
     <div fxLayout="row">
@@ -37,18 +36,30 @@
         <p align="left" style="padding-left:10px;color:#4db6ac;size:40px">{{group.shortdescription}}</p>
         <p align="left" style="padding-left:10px;color:#4db6ac;size:40px">{{group.zipcode}}</p>
         <form>
-          <img src= "/track-change-simplyimpactful/images/Congrats_icn.svg">
+          <img class = "img-in-tab" src= "/track-change-simplyimpactful/images/CiS_bird_logo.png">
           <h3 style="padding: 20px; color:rgb(140,142,144)" > This week top three leaders in Group 1</h3>
         </form>
         <div align = "left">
-          <mat-card class="card-container" style="margin-top:-20px">
-            <img mat-card-image src="/track-change-simplyimpactful/images/Congrats_icn.svg">
+          <mat-card class="top-performer-card">
+            <mat-card-header>
+              <div mat-card-avatar class="top-performer-image"></div>
+              <mat-card-title>Emily Hendricks</mat-card-title>
+              <mat-card-subtitle>100 points</mat-card-subtitle>
+            </mat-card-header>
           </mat-card>
-          <mat-card class="card-container">
-            <img mat-card-image src="/track-change-simplyimpactful/images/Congrats_icn.svg"> 
+          <mat-card class="top-performer-card">
+            <mat-card-header>
+              <div mat-card-avatar class="top-performer-image"></div>
+              <mat-card-title>Diana Patel</mat-card-title>
+              <mat-card-subtitle>100 points</mat-card-subtitle>
+            </mat-card-header>
           </mat-card>
-          <mat-card class="card-container">
-            <img mat-card-image src="/track-change-simplyimpactful/images/Congrats_icn.svg">
+          <mat-card class="top-performer-card">
+            <mat-card-header>
+              <div mat-card-avatar class="top-performer-image"></div>
+              <mat-card-title>Anna Bachvarova</mat-card-title>
+              <mat-card-subtitle>100 points</mat-card-subtitle>
+            </mat-card-header>
           </mat-card>
         </div>
         <br>
@@ -67,7 +78,8 @@
       </mat-tab>
     </mat-tab-group>
     <div align ="left">
-    <button mat-button color="primary" (click)="save()" routerLink="/actions">View all groups</button>
+      <!--<button mat-button color="primary" (click)="save()" routerLink="/actions">View all groups</button>-->
+      <a routerLink="/actions"> View all groups</a>
     </div>
     <br>
     <div fxLayout="row">
@@ -84,9 +96,10 @@
     </div>
     <mat-divider></mat-divider>
     <div align = "left">
-    <h3 style="padding-top: 20px; color:rgb(140,142,144)" > You currently have no active competitions</h3>
-    <button mat-button color="primary" (click)="save()" routerLink="/actions">Competitions History</button>
-    <br>
+      <h3 style="padding-top: 20px; color:rgb(140,142,144)" > You currently have no active competitions</h3>
+      <!--><button mat-button color="primary" (click)="save()" routerLink="/actions">Competitions History</button>-->
+      <a routerLink="/actions" routerLinkActive="router-link-active">Competitions History</a>
+      <br>
+    </div>
   </div>
-   </div>
-  </main>
+</main>
