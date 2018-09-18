@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { User } from '../model/User';
 import { LoggedInCallback, CognitoCallback, CognitoUtil } from './cognito.service';
 import { AuthenticationDetails, CognitoUser, CognitoUserSession } from 'amazon-cognito-identity-js';
 import * as AWS from 'aws-sdk/global';
 import * as STS from 'aws-sdk/clients/sts';
 import { environment } from '../../environments/environment';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 // let's use a global object to inject the window object
 if (global === undefined) {
@@ -25,7 +24,6 @@ export class LogInService {
     public user = new User;
 
     constructor(
-        private http: HttpClient,
         public cognitoUtil: CognitoUtil) {
 
         this.apiPort = window.location.port ? ':4200/' : '/';

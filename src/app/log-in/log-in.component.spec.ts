@@ -1,4 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Router, ActivatedRoute } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { FormsModule } from '@angular/forms';
+import { CognitoUtil } from '../services/cognito.service';
+import { AwsUtil } from '../services/aws.service';
 
 import { LogInComponent } from './log-in.component';
 import { MaterialModule } from '../material.module';
@@ -11,9 +18,17 @@ describe('LogInComponent', () => {
     TestBed.configureTestingModule({
       declarations: [LogInComponent],
       imports: [
-        MaterialModule
+        BrowserAnimationsModule,
+        MaterialModule,
+        FormsModule,
+        HttpClientTestingModule
       ],
-      providers: []
+      providers: [
+        CognitoUtil,
+        AwsUtil,
+        { provide: Router, useValue: {} },
+        { provide: ActivatedRoute, useValue: {} },
+      ]
     })
       .compileComponents();
   }));

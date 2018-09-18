@@ -1,11 +1,17 @@
 import { TestBed, inject } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { LogInService } from './log-in.service';
+import { CognitoUtil } from '../services/cognito.service';
 
 describe('LogInService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [LogInService]
+      providers: [
+        CognitoUtil,
+        LogInService,
+        HttpClientTestingModule
+      ]
     });
   });
 

@@ -15,10 +15,10 @@ import { ActionService } from './services/action.service';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppTopNavComponent } from './app-top-nav/app-top-nav.component';
+import { SecurityQuestionsComponent } from './security-questions/security-questions.component';
 import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { AwsUtil } from './services/aws.service';
 import { CreateProfileService } from './services/create-profile.service';
-import { ConfirmSignUpComponent } from './confirm-sign-up/confirm-sign-up.component';
 import { CreateGroupComponent } from './create-group/create-group.component';
 import { CreateGroupService } from './services/creategroup.service';
 import { CognitoUtil } from './services/cognito.service';
@@ -31,8 +31,12 @@ import { MaterialModule } from './material.module';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UploadComponent } from './upload/upload.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { SecurityQuestionsComponent } from './security-questions/security-questions.component';
-import { AdminViewLanding, AdminViewActions, AdminViewCurriculum, AdminViewUsers } from './admin-view/admin-view.component';
+import {
+  AdminViewLanding,
+  AdminViewActions,
+  AdminViewCurriculum,
+  AdminViewUsers
+} from './admin-view/admin-view.component';
 import { AdminTopNavComponent } from './admin-top-nav/admin-top-nav.component';
 
 @NgModule({
@@ -50,7 +54,6 @@ import { AdminTopNavComponent } from './admin-top-nav/admin-top-nav.component';
     UploadComponent,
     ActionsComponent,
     ActionComponent,
-    ConfirmSignUpComponent,
     CreateGroupComponent,
     ActionDialogComponent,
     AdminTopNavComponent,

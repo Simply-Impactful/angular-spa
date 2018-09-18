@@ -1,11 +1,18 @@
 import { TestBed, inject } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { CreateGroupService } from './creategroup.service';
 
 describe('CreateGroupService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [CreateGroupService]
+      imports: [
+        HttpClientTestingModule
+      ],
+      providers: [
+        CreateGroupService,
+        HttpClientTestingModule
+      ]
     });
   });
 

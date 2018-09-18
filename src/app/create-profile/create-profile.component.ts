@@ -47,7 +47,9 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
   }
 
   ngOnDestroy() {
+    if (this.sub) {
     this.sub.unsubscribe();
+    }
   }
 
   createAccount() {
@@ -65,7 +67,7 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
     } else { // success
       // move to the next step
       console.log('redirecting');
-      this.router.navigate(['/confirmSignUp', result.user.username]);
+      this.router.navigate(['/home', result.user.username]);
     }
   }
 

@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { AngularFileUploaderModule } from 'angular-file-uploader';
 
-import { UploadComponent } from './upload.component';
+import { AdminTopNavComponent } from './admin-top-nav.component';
 import { MaterialModule } from '../material.module';
+import { MatSelectModule } from '@angular/material/select';
 
-describe('UploadComponent', () => {
-  let component: UploadComponent;
-  let fixture: ComponentFixture<UploadComponent>;
+describe('AppTopNavComponent', () => {
+  let component: AdminTopNavComponent;
+  let fixture: ComponentFixture<AdminTopNavComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UploadComponent],
+      declarations: [AdminTopNavComponent],
       imports: [
-        AngularFileUploaderModule,
-        MaterialModule
+        MaterialModule,
+        MatSelectModule
       ],
       providers: []
     })
@@ -21,7 +21,7 @@ describe('UploadComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UploadComponent);
+    fixture = TestBed.createComponent(AdminTopNavComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

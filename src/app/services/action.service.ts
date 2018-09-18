@@ -1,7 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map, catchError, tap, zip } from 'rxjs/operators';
 import { Action } from '../model/Action';
 import { User } from '../model/User';
 import { MatDialog } from '@angular/material';
