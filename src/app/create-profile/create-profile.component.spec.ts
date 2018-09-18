@@ -42,7 +42,7 @@ describe('CreateProfileComponent', () => {
         { provide: Router, useValue: {} },
         {
           provide: ActivatedRoute,
-          useValue: { params: from([{id: 1}]) },
+          useValue: { params: from([{ id: 1 }]) },
         }
       ]
     }).compileComponents();
@@ -57,7 +57,7 @@ describe('CreateProfileComponent', () => {
 
   afterEach(() => {
     component.ngOnDestroy();
- });
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
