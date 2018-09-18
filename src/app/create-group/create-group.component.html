@@ -43,7 +43,7 @@
     </mat-grid-tile>
     <mat-grid-tile cols="1">
       <mat-form-field *ngIf = "isOther" appearance="outline">
-        <input [(ngModel)]="createdGroup.other" name="other" matInput placeholder="Other">
+        <input [(ngModel)]="createdGroup.other" name="other" matInput placeholder="Please specify other group type">
         <mat-hint>Required</mat-hint>
       </mat-form-field>
     </mat-grid-tile>
@@ -60,14 +60,12 @@
       <app-upload></app-upload>
     </mat-grid-tile>
   </mat-grid-list>
-  <mat-grid-list cols="2" rowHeight="6em">
+  <mat-grid-list cols="2" rowHeight="12em">
       <mat-grid-tile cols="1">
       </mat-grid-tile>
       <mat-grid-tile cols="1">
-        <button mat-stroked-button color="primary" (click)="creategroup()" routerLink="/home">CANCEL</button>
-        <button mat-stroked-button color="primary" (click)="creategroup()" routerLink="/home">CREATE</button>
-      </mat-grid-tile>
-      <mat-grid-tile cols="1">
+        <button mat-raised-button color="primary" (click)="creategroup()" routerLink="/home">CANCEL</button>
+        <button mat-raised-button color="primary" (click)="creategroup()" routerLink="/home">CREATE</button>
       </mat-grid-tile>
     </mat-grid-list>  
 </main>
