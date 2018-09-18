@@ -3,6 +3,7 @@ export class Group {
     zipcode?: string;
     grouptype?: string;
     subcategory?: string;
+    shortdescription?: string;
     other?: string;
     isgroupCreated?: boolean;
 }

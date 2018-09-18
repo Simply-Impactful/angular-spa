@@ -9,6 +9,11 @@ import { Action } from '../model/Action';
   styleUrls: ['./actions.component.scss']
 })
 export class ActionsComponent implements OnInit {
+  username;
+  userscore;
+  unplugPoints;
+  faucetPoints;
+  lightsPoints;
   action = new Action();
   dialogResult = '';
 
@@ -19,6 +24,7 @@ export class ActionsComponent implements OnInit {
     this.getActionsData('');
   }
 
+  add(action) { }
   // lists all actions in the DB - 3 details
   // for View All actions page
   getAllActions() { }

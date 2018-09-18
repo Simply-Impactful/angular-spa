@@ -10,6 +10,7 @@ import { User } from '../model/User';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  username: string;
   userSource = new BehaviorSubject(new User());
   user$ = this.userSource.asObservable();
   user: User;
@@ -27,6 +28,9 @@ export class HomeComponent implements OnInit {
     this.createGroupService.group$.subscribe(createdGroup => {
       this.group = createdGroup;
     });
- //   console.log("HOME comp this.user " + JSON.stringify(this.user));
+  }
+
+  save() {
+
   }
 }

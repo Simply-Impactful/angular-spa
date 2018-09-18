@@ -38,6 +38,8 @@ export class AdminViewActions implements OnInit {
   ngOnInit() {
     this.appComp.setAdmin();
   }
+
+  save() {}
 }
 
 @Component({
@@ -46,12 +48,14 @@ export class AdminViewActions implements OnInit {
   // styleUrls: ['./admin-view.component.scss']
 })
 export class AdminViewUsers implements OnInit {
-
+  inputText;
   constructor(public appComp: AppComponent) { }
 
   ngOnInit() {
     this.appComp.setAdmin();
   }
+
+  save() {}
 }
 
 @Component({
@@ -60,10 +64,12 @@ export class AdminViewUsers implements OnInit {
   // styleUrls: ['./admin-view.component.scss']
 })
 export class AdminViewCurriculum implements OnInit {
+  inputText;
 
   constructor(public appComp: AppComponent) { }
 
   ngOnInit() {
     this.appComp.setAdmin();
   }
+  save() {}
 }
