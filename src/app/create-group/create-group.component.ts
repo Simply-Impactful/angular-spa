@@ -10,13 +10,15 @@ import { Group } from '../model/Group';
 })
 export class CreateGroupComponent implements OnInit {
 
-  groupname: string = '';
-  grouptype: string = '';
+  groupName: string = '';
+  groupType: string = '';
   subcategory: string = '';
   zipcode: string = '';
   other: string = '';
   isOther: Boolean = false;
   createdGroup: Group;
+  isGroupCreated: boolean;
+  groupLeader: string = '';
 
   constructor(private createGroupService: CreateGroupService) { }
 
@@ -25,7 +27,7 @@ export class CreateGroupComponent implements OnInit {
   }
 
   toggleOption() {
-    if (this.createdGroup.grouptype === 'Other') {
+    if (this.createdGroup.groupType === 'Other') {
       this.isOther = true;
     } else {
       this.isOther = false;

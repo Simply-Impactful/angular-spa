@@ -6,7 +6,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { SecurityQuestionsComponent } from '../security-questions/security-questions.component';
 import { CreateProfileComponent } from './create-profile.component';
 import { UploadComponent } from '../upload/upload.component';
 
@@ -25,8 +24,7 @@ describe('CreateProfileComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         UploadComponent,
-        CreateProfileComponent,
-        SecurityQuestionsComponent
+        CreateProfileComponent
       ],
       imports: [
         RouterTestingModule.withRoutes([]),

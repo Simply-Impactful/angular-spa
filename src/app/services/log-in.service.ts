@@ -87,6 +87,8 @@ export class LogInService {
         }
 
         const cognitoUser = this.cognitoUtil.getCurrentUser();
+        this.user.username = cognitoUser.getUsername();
+        this.userSource.next(this.user);
 
         if (cognitoUser !== null) {
             cognitoUser.getSession(function (err, session) {

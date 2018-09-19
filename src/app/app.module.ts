@@ -15,7 +15,6 @@ import { ActionService } from './services/action.service';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppTopNavComponent } from './app-top-nav/app-top-nav.component';
-import { SecurityQuestionsComponent } from './security-questions/security-questions.component';
 import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { AwsUtil } from './services/aws.service';
 import { CreateProfileService } from './services/create-profile.service';
@@ -48,7 +47,6 @@ import { AdminTopNavComponent } from './admin-top-nav/admin-top-nav.component';
     UserProfileComponent,
     CreateProfileComponent,
     ResetPasswordComponent,
-    SecurityQuestionsComponent,
     AppTopNavComponent,
     HomeComponent,
     UploadComponent,

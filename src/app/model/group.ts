@@ -1,8 +1,9 @@
 export class Group {
-    groupname?: string;
-    zipcode?: string;
-    grouptype?: string;
-    subcategory?: string;
-    other?: string;
-    isgroupCreated?: boolean;
+    groupLeader: string;
+    groupName: string;
+    zipcode: string;
+    groupType: string;
+    subcategory: string;
+    other: string;
+    groupImage: string;
 }

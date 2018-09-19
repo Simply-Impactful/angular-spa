@@ -26,8 +26,6 @@ import { MaterialModule } from './material.module';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UploadComponent } from './upload/upload.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { SecurityQuestionsComponent } from './security-questions/security-questions.component';
-
 
 import { AwsUtil } from './services/aws.service';
 import { CognitoUtil } from './services/cognito.service';
@@ -54,8 +52,7 @@ describe('AppComponent', () => {
         LandingComponent,
         UploadComponent,
         UserProfileComponent,
-        ResetPasswordComponent,
-        SecurityQuestionsComponent
+        ResetPasswordComponent
       ],
       imports: [
         [BrowserModule, FormsModule],

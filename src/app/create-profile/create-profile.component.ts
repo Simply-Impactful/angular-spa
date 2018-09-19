@@ -12,12 +12,13 @@ import { User } from '../model/User';
   styleUrls: ['./create-profile.component.scss']
 })
 export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestroy {
-  newUser: User;
+ // newUser: User;
+  newUser = new User();
   errorMessage: string;
-  userType: any;
   private sub: any;
   callback: Callback;
   confirmPassword: string;
+  genericMessage: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,9 +29,8 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
   }
 
   ngOnInit() {
-    this.newUser = new User();
     this.sub = this.route.params.subscribe(params => {
-      this.userType = params['userType']; // (+) converts string 'id' to a number
+      this.newUser.userType = params['userType']; // (+) converts string 'id' to a number
     });
   }
 
@@ -39,7 +39,6 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
     // Confirm they match
     if (password !== this.confirmPassword) {
       this.errorMessage = 'Passwords do not match';
-      console.log(this.errorMessage + ' password ' + password + 'confirm Password ' + this.confirmPassword);
       return false;
     } else {
       return true;
@@ -61,40 +60,16 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
   }
 
   cognitoCallback(message: string, result: any) {
-    if (message !== null) { // error
+    if (message !== null) { // AWS threw an error
       this.errorMessage = message;
-      console.log('result: ' + this.errorMessage);
+      if (message.endsWith('questions')) {
+        this.errorMessage = '';
+        this.genericMessage = message;
+        console.log(this.genericMessage);
+      }
     } else { // success
-      // move to the next step
-      console.log('redirecting');
-      this.router.navigate(['/home', result.user.username]);
-    }
-  }
-
-  // might only be for the 'sign-in' flow?
-  getParameters(callback: Callback) {
-    const currentUser = this.cognitoUtil.getCurrentUser();
-    console.log('currentUser ' + JSON.stringify(currentUser));
-
-    if (currentUser !== null) {
-      currentUser.getSession(function (err, session) {
-        if (err) {
-          console.log('UserParametersService: Couldn\'t retrieve the user');
-        } else {
-          currentUser.getUserAttributes(function (_err, result) {
-            if (_err) {
-              console.log('UserParametersService: in getParameters: ' + _err);
-            } else {
-              console.log('get User Attributes result ' + result);
-              callback.callbackWithParam(result);
-            }
-          });
-        }
-
-      });
-    } else {
-      callback.callbackWithParam(null);
-    }
-
+        // move to the next step
+        this.router.navigate(['/home']);
+      }
   }
 }
