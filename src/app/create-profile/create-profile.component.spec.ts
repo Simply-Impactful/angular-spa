@@ -5,12 +5,10 @@ import { Router, ActivatedRoute, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from '../material.module';
 
-import { SecurityQuestionsComponent } from '../security-questions/security-questions.component';
 import { CreateProfileComponent } from './create-profile.component';
 import { UploadComponent } from '../upload/upload.component';
-
-import { MaterialModule } from '../material.module';
 
 import { AwsUtil } from '../services/aws.service';
 import { CognitoUtil } from '../services/cognito.service';
@@ -25,8 +23,7 @@ describe('CreateProfileComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         UploadComponent,
-        CreateProfileComponent,
-        SecurityQuestionsComponent
+        CreateProfileComponent
       ],
       imports: [
         RouterTestingModule.withRoutes([]),
@@ -37,7 +34,7 @@ describe('CreateProfileComponent', () => {
       ],
       providers: [
         CreateProfileService,
-        { provide: CognitoUtil, useValue: {} },
+        CognitoUtil,
         { provide: AwsUtil, useValue: {} },
         { provide: Router, useValue: {} },
         {

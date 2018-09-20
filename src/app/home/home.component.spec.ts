@@ -4,9 +4,11 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ActionComponent } from '../action/action.component';
 import { HomeComponent } from './home.component';
 import { MaterialModule } from '../material.module';
+
 import { CreateGroupService } from '../services/creategroup.service';
 import { ActionService } from '../services/action.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CognitoUtil } from '../services/cognito.service';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -25,6 +27,7 @@ describe('HomeComponent', () => {
       ],
       providers: [
         CreateGroupService,
+        CognitoUtil,
         ActionService
       ]
     })

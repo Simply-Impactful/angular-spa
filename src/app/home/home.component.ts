@@ -3,6 +3,7 @@ import { Group } from '../model/Group';
 import { CreateGroupService } from '../services/creategroup.service';
 import { BehaviorSubject } from 'rxjs';
 import { User } from '../model/User';
+import { LogInService } from '../services/log-in.service';
 
 @Component({
   selector: 'app-home',
@@ -10,26 +11,29 @@ import { User } from '../model/User';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  username: string;
-  userSource = new BehaviorSubject(new User());
-  user$ = this.userSource.asObservable();
   user: User;
-
   userscore = '';
 
   groupSource = new BehaviorSubject(new Group());
   group$ = this.groupSource.asObservable();
   group: Group;
 
-  constructor(private createGroupService: CreateGroupService) { }
+  constructor(
+    private createGroupService: CreateGroupService,
+    private loginService: LogInService) { }
 
   ngOnInit() {
     // userscore = whatever is pulled from the db
+    this.loginService.user$.subscribe(user => {
+      this.user = user;
+    });
+    // TODO: need to subscribe to the user in the create profile service to get points
+
     this.createGroupService.group$.subscribe(createdGroup => {
       this.group = createdGroup;
     });
   }
-
+  // leave this for the builder to pass
   save() {
 
   }

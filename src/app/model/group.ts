@@ -6,4 +6,8 @@ export class Group {
     shortdescription?: string;
     other?: string;
     isgroupCreated?: boolean;
+    groupLeader: string;
+    groupName: string;
+    groupType: string;
+    groupImage: string;
 }

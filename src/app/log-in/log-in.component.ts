@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { LogInService } from '../services/log-in.service';
-import { CognitoUtil, CognitoCallback, LoggedInCallback, ChallengeParameters } from '../services/cognito.service';
+import {
+  CognitoUtil,
+  LoggedInCallback,
+  ChallengeParameters
+} from '../services/cognito.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,7 +18,10 @@ export class LogInComponent implements LoggedInCallback, OnInit {
   username: string = '';
   password: string = '';
 
-  constructor(public logInService: LogInService, public router: Router, public cognitoUtil: CognitoUtil) { }
+  constructor(
+    public logInService: LogInService,
+    public router: Router,
+    public cognitoUtil: CognitoUtil) { }
 
   ngOnInit() {
     this.errorMessage = null;
@@ -43,7 +50,7 @@ export class LogInComponent implements LoggedInCallback, OnInit {
       this.errorMessage = message;
       console.error('result: ' + this.errorMessage);
       if (this.errorMessage === 'User is not confirmed.') {
-         this.router.navigate(['/confirmSignUp', this.username]);
+        this.router.navigate(['/confirmSignUp', this.username]);
       } else if (this.errorMessage === 'User needs to set password.') {
         console.log('redirecting to set new password');
         // this.router.navigate(['/home/newPassword']);

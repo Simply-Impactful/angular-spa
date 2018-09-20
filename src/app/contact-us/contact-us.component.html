@@ -1,5 +1,4 @@
 <main>
-
   <h1>Contact Us</h1>
   <br>
   <form>
@@ -13,9 +12,8 @@
       <input matInput placeholder="Last Name">
     </mat-form-field>
     <br>
-    <mat-form-field appearance="outline">
-      <mat-label>Message</mat-label>
-      <input matInput placeholder="Message">
+    <mat-form-field appearance="outline" style="width: 380px">
+      <textarea class = "textarea" matInput placeholder="Short Description" maxlength="500" rows="12"></textarea>
     </mat-form-field>
     <br>
     <button mat-raised-button color="primary" routerLink="/landing">Send</button>
