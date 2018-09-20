@@ -14,7 +14,7 @@ export const environment = {
   // albumName: 'usercontent',
   bucketRegion: 'us-east-1',
   ddbTableName: '',
-  cognito_idp_endpoint: 'https://cognito-idp.us-east-1.amazonaws.com/',
+  cognito_idp_endpoint: '',
   cognito_identity_endpoint: '',
   sts_endpoint: '',
   dynamodb_endpoint: '',
