@@ -1,35 +1,50 @@
 import { Component, OnInit } from '@angular/core';
-import { Group } from '../model/Group';
+import { Group } from '../model/group';
 import { CreateGroupService } from '../services/creategroup.service';
 import { BehaviorSubject } from 'rxjs';
 import { User } from '../model/User';
 import { LogInService } from '../services/log-in.service';
+import { CognitoUtil, Callback, LoggedInCallback } from '../services/cognito.service';
+import { AwsUtil } from '../services/aws.service';
+import { CreateProfileService } from '../services/create-profile.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, LoggedInCallback {
   user: User;
-
+  userCopy: User;
   userscore = '';
 
   groupSource = new BehaviorSubject(new Group());
   group$ = this.groupSource.asObservable();
   group: Group;
 
-  constructor(private createGroupService: CreateGroupService, private loginService: LogInService) { }
+  constructor(private createGroupService: CreateGroupService, private loginService: LogInService,
+    private cognito: CognitoUtil, private createProfileService: CreateProfileService) { }
 
   ngOnInit() {
+
     // userscore = whatever is pulled from the db
     this.loginService.user$.subscribe(user => {
       this.user = user;
+      this.userscore = this.user.userPoints;
     });
-    // TODO: need to subscribe to the user in the create profile service to get points
+    // work in progress..
+    this.createProfileService.user$.subscribe(user => {
+      this.user = user;
+      this.userscore = this.user.userPoints;
+    });
 
     this.createGroupService.group$.subscribe(createdGroup => {
       this.group = createdGroup;
     });
+
+    this.loginService.isAuthenticated(this, this.user);
   }
+
+  /** Interface needed for LoggedInCallback */
+  isLoggedIn(message: string, isLoggedIn: boolean) {}
 }

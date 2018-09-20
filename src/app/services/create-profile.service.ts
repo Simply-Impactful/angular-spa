@@ -12,8 +12,9 @@ import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class CreateProfileService {
-
-    user: User;
+    userSource = new BehaviorSubject(new User());
+    user$ = this.userSource.asObservable();
+    user = new User;
     accessKeyId: string = '';
     secretAccessKey: string = '';
     sessionToken: string = '';
@@ -23,13 +24,12 @@ export class CreateProfileService {
         public awsUtil: AwsUtil) {}
 
     register(user: User, callback: CognitoCallback): void {
-        console.log(this.user);
 
         const attributeList = [];
 
         const dataFirstName = {
             Name: 'name',
-            Value: user.firstName
+            Value: user.name
         };
         const dataLastName = {
             Name: 'custom:lastName',
@@ -41,7 +41,7 @@ export class CreateProfileService {
         };
         const dataZipcode = {
             Name: 'address',
-            Value: user.zipcode
+            Value: user.address
         };
         const dataOrganization = {
             Name: 'custom:organization',
@@ -96,6 +96,8 @@ export class CreateProfileService {
 
         // if the user inputted the security Questions and answers, we can autoConfirm them
         if (user.securityQuestion1 && user.securityAnswer1) {
+            this.user.name = user.name;
+            this.userSource.next(this.user);
             userPool.signUp(user.username, user.password, attributeList, null, function (err, result) {
                 if (err) {
                     console.error('Sign Up Error, sending to callback. ERROR ' + JSON.stringify(err) + 'MESSAGE' + err.message);

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CreateGroupService } from '../services/creategroup.service';
-import { Group } from '../model/Group';
+import { Group } from '../model/group';
 
 
 @Component({
@@ -13,7 +13,7 @@ export class CreateGroupComponent implements OnInit {
   groupName: string = '';
   groupType: string = '';
   subcategory: string = '';
-  zipcode: string = '';
+  address: string = '';
   other: string = '';
   isOther: Boolean = false;
   createdGroup: Group;

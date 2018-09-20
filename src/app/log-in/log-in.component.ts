@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LogInService } from '../services/log-in.service';
 import { CognitoUtil, CognitoCallback, LoggedInCallback, ChallengeParameters } from '../services/cognito.service';
 import { Router } from '@angular/router';
+import { User } from '../model/User';
 
 @Component({
   selector: 'app-log-in',
@@ -13,13 +14,14 @@ export class LogInComponent implements LoggedInCallback, OnInit {
   errorMessage: string = '';
   username: string = '';
   password: string = '';
+  user: User;
 
   constructor(public logInService: LogInService, public router: Router, public cognitoUtil: CognitoUtil) { }
 
   ngOnInit() {
     this.errorMessage = null;
     console.log('Checking if the user is already authenticated. If so, then redirect to the home page');
-    this.logInService.isAuthenticated(this);
+    this.logInService.isAuthenticated(this, this.user);
 
   }
 
@@ -33,6 +35,8 @@ export class LogInComponent implements LoggedInCallback, OnInit {
     if (isLoggedIn) {
       // will route to home page when authenticated is true
       // this.router.navigate(['/home']);
+    } else {
+      // this.router.navigate(['/landing']); // or login?
     }
   }
 

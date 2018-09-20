@@ -76,8 +76,8 @@ export class ActionService implements OnInit {
     this.actionSource.next(action);
     // log points
     const points = action.points;
-    this.user.points = this.user.points + points;
-    console.log('user points ======>' + this.user.points);
+    this.user.userPoints = this.user.userPoints + points;
+    console.log('user points ======>' + this.user.userPoints);
 
     this.userSource.next(this.user); // user$ object
     return this.action$;

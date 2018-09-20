@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../model/User';
 import { LoggedInCallback, CognitoCallback, CognitoUtil } from './cognito.service';
-import { AuthenticationDetails, CognitoUser, CognitoUserSession } from 'amazon-cognito-identity-js';
+import { AuthenticationDetails, CognitoUser, CognitoUserSession, CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import * as AWS from 'aws-sdk/global';
 import * as STS from 'aws-sdk/clients/sts';
 import { environment } from '../../environments/environment';
@@ -21,7 +21,6 @@ export class LogInService {
     public url: string = window.location.protocol + '//' + window.location.hostname;
     userSource = new BehaviorSubject(new User());
     user$ = this.userSource.asObservable();
-    public user = new User;
 
     constructor(
         public cognitoUtil: CognitoUtil) {
@@ -78,17 +77,14 @@ export class LogInService {
         // always print the error
         console.error(err.message);
         callback.cognitoCallback(err.message, null);
-
     }
 
-    isAuthenticated(callback: LoggedInCallback) {
+    isAuthenticated(callback: LoggedInCallback, user: User) {
+        const params = new Parameters();
         if (callback === null) {
             throw new Error('LogInService: Callback in isAuthenticated() cannot be null');
         }
-
         const cognitoUser = this.cognitoUtil.getCurrentUser();
-        this.user.username = cognitoUser.getUsername();
-        this.userSource.next(this.user);
 
         if (cognitoUser !== null) {
             cognitoUser.getSession(function (err, session) {
@@ -97,6 +93,15 @@ export class LogInService {
                     callback.isLoggedIn(err, false);
                 } else {
                     callback.isLoggedIn(err, session.isValid());
+                    cognitoUser.getUserAttributes(function (error, result) {
+                        if (err) {
+                            console.log('LogInService: in getUserAttributes: ' + error);
+                        } else {
+                            console.log('result ' + result);
+                            // callback.callbackWithParam(result);
+                           user = params.buildUser(result, cognitoUser, user);
+                        }
+                    });
                 }
             });
         } else {
@@ -104,6 +109,7 @@ export class LogInService {
             callback.isLoggedIn('Can\'t retrieve the CurrentUser', false);
         }
     }
+
 
     forgotPassword(username: string, callback: CognitoCallback) {
         const userData = {
@@ -142,5 +148,20 @@ export class LogInService {
                 callback.cognitoCallback(err.message, null);
             }
         });
+    }
+}
+
+export class Parameters {
+  //  public userCopy = new User;
+    name: string;
+    value: string;
+
+    buildUser(result: CognitoUserAttribute[], cognitoUser: CognitoUser, user: User) {
+        for (let i = 0; i < result.length; i++) {
+            const property = result[i].getName();
+            user[property] = result[i].getValue();
+        }
+        user.username = cognitoUser.getUsername();
+        return user;
     }
 }
