@@ -84,6 +84,6 @@ import { AdminTopNavComponent } from './admin-top-nav/admin-top-nav.component';
     CognitoUtil,
     AwsUtil,
     CreateProfileService],
-  bootstrap: [AppComponent]
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

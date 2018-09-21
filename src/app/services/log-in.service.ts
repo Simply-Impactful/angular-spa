@@ -16,20 +16,6 @@ if (global === undefined) {
     providedIn: 'root'
 })
 
-export class Parameters {
-    //  public userCopy = new User;
-      name: string;
-      value: string;
-        buildUser(result: CognitoUserAttribute[], cognitoUser: CognitoUser, user: User) {
-          for (let i = 0; i < result.length; i++) {
-              const property = result[i].getName();
-              user[property] = result[i].getValue();
-          }
-          user.username = cognitoUser.getUsername();
-          return user;
-      }
-    }
-
 export class LogInService {
     public apiPort: string;
     public apiEndpoint: string;
@@ -96,7 +82,7 @@ export class LogInService {
     }
 
     isAuthenticated(callback: LoggedInCallback, user: User) {
-        const params = new Parameters();
+        // const params = new Parameters();
         if (callback === null) {
             throw new Error('LogInService: Callback in isAuthenticated() cannot be null');
         }
@@ -115,7 +101,7 @@ export class LogInService {
                         } else {
                             console.log('result ' + result);
                             // callback.callbackWithParam(result);
-                           user = params.buildUser(result, cognitoUser, user);
+                           // user = params.buildUser(result, cognitoUser, user);
                         }
                     });
                 }
