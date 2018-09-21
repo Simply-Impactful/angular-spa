@@ -15,6 +15,21 @@ if (global === undefined) {
 @Injectable({
     providedIn: 'root'
 })
+
+export class Parameters {
+    //  public userCopy = new User;
+      name: string;
+      value: string;
+        buildUser(result: CognitoUserAttribute[], cognitoUser: CognitoUser, user: User) {
+          for (let i = 0; i < result.length; i++) {
+              const property = result[i].getName();
+              user[property] = result[i].getValue();
+          }
+          user.username = cognitoUser.getUsername();
+          return user;
+      }
+    }
+
 export class LogInService {
     public apiPort: string;
     public apiEndpoint: string;
@@ -28,6 +43,7 @@ export class LogInService {
         this.apiPort = window.location.port ? ':4200/' : '/';
         this.apiEndpoint = this.url + this.apiPort;
     }
+
 
     authenticate(username: string, password: string, callback: CognitoCallback) {
         const authenticationData = {
@@ -151,17 +167,3 @@ export class LogInService {
     }
 }
 
-export class Parameters {
-  //  public userCopy = new User;
-    name: string;
-    value: string;
-
-    buildUser(result: CognitoUserAttribute[], cognitoUser: CognitoUser, user: User) {
-        for (let i = 0; i < result.length; i++) {
-            const property = result[i].getName();
-            user[property] = result[i].getValue();
-        }
-        user.username = cognitoUser.getUsername();
-        return user;
-    }
-}

@@ -1,5 +1,6 @@
 export class Group {
     groupLeader: string;
+    groupMember: string;
     groupName: string;
     zipcode: string;
     groupType: string;
