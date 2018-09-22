@@ -30,13 +30,11 @@ import { MaterialModule } from './material.module';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UploadComponent } from './upload/upload.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import {
-  AdminViewLanding,
-  AdminViewActions,
-  AdminViewCurriculum,
-  AdminViewUsers
-} from './admin-view/admin-view.component';
 import { AdminTopNavComponent } from './admin-top-nav/admin-top-nav.component';
+import { AdminAccessLandingComponent } from './admin-access-landing/admin-access-landing.component';
+import { AdminAccessActionsComponent } from './admin-access-actions/admin-access-actions.component';
+import { AdminAccessUsersComponent } from './admin-access-users/admin-access-users.component';
+import { AdminAccessCurriculumComponent } from './admin-access-curriculum/admin-access-curriculum.component';
 
 @NgModule({
   declarations: [
@@ -55,10 +53,10 @@ import { AdminTopNavComponent } from './admin-top-nav/admin-top-nav.component';
     CreateGroupComponent,
     ActionDialogComponent,
     AdminTopNavComponent,
-    AdminViewLanding,
-    AdminViewActions,
-    AdminViewCurriculum,
-    AdminViewUsers
+    AdminAccessLandingComponent,
+    AdminAccessActionsComponent,
+    AdminAccessUsersComponent,
+    AdminAccessCurriculumComponent
   ],
   imports: [
     [BrowserModule, FormsModule],

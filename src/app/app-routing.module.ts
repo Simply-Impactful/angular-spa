@@ -10,7 +10,13 @@ import { CreateProfileComponent } from './create-profile/create-profile.componen
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ActionsComponent } from './actions/actions.component';
 import { CreateGroupComponent } from './create-group/create-group.component';
-import { AdminViewLanding, AdminViewActions, AdminViewCurriculum, AdminViewUsers } from './admin-view/admin-view.component';
+import { AdminAccessLandingComponent } from './admin-access-landing/admin-access-landing.component';
+import { AdminAccessActionsComponent } from './admin-access-actions/admin-access-actions.component';
+import { AdminAccessUsersComponent } from './admin-access-users/admin-access-users.component';
+import { AdminAccessCurriculumComponent } from './admin-access-curriculum/admin-access-curriculum.component';
+
+
+// import { AdminViewLanding, AdminViewActions, AdminViewCurriculum, AdminViewUsers } from './admin-view/admin-view.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -23,11 +29,15 @@ const routes: Routes = [
   { path: 'resetpass', component: ResetPasswordComponent },
   { path: 'actions', component: ActionsComponent },
   { path: 'creategroup', component: CreateGroupComponent },
-  { path: 'admin', component: AdminViewLanding },
-  { path: 'landingAdmin', component: AdminViewLanding },
-  { path: 'actionsAdmin', component: AdminViewActions },
-  { path: 'usersAdmin', component: AdminViewUsers },
-  { path: 'curriculumAdmin', component: AdminViewCurriculum },
+  { path: 'adminaccesslanding', component: AdminAccessLandingComponent },
+  { path: 'adminaccessusers', component: AdminAccessUsersComponent },
+  { path: 'adminaccessactions', component: AdminAccessActionsComponent },
+  { path: 'adminaccesscurriculum', component: AdminAccessCurriculumComponent },
+  // { path: 'admin', component: AdminViewLanding },
+  // { path: 'landingAdmin', component: AdminViewLanding },
+  // { path: 'actionsAdmin', component: AdminViewActions },
+ // { path: 'usersAdmin', component: AdminViewUsers },
+  // { path: 'curriculumAdmin', component: AdminViewCurriculum },
 ];
 
 @NgModule({
