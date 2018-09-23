@@ -67,6 +67,22 @@ export class CreateProfileService {
             Name: 'custom:securityAnswer1',
             Value: user.securityAnswer1
         };
+        const dataSecurityQuestion2 = {
+            Name: 'custom:securityQuestion2',
+            Value: user.securityQuestion2
+        };
+        const dataSecurityAnswer2 = {
+            Name: 'custom:securityAnswer2',
+            Value: user.securityAnswer2
+        };
+        const dataSecurityQuestion3 = {
+            Name: 'custom:securityQuestion3',
+            Value: user.securityQuestion3
+        };
+        const dataSecurityAnswer3 = {
+            Name: 'custom:securityAnswer3',
+            Value: user.securityAnswer3
+        };
 
         attributeList.push(new CognitoUserAttribute(dataFirstName));
         attributeList.push(new CognitoUserAttribute(dataLastName));
@@ -78,10 +94,10 @@ export class CreateProfileService {
         attributeList.push(new CognitoUserAttribute(dataUserType));
         attributeList.push(new CognitoUserAttribute(dataSecurityQuestion1));
         attributeList.push(new CognitoUserAttribute(dataSecurityAnswer1));
-     //   attributeList.push(new CognitoUserAttribute(dataSecurityQuestion3));
-     //   attributeList.push(new CognitoUserAttribute(dataSecurityQuestion1));
-     //   attributeList.push(new CognitoUserAttribute(dataSecurityQuestion1));
-    //    attributeList.push(new CognitoUserAttribute(dataSecurityQuestion1));
+        attributeList.push(new CognitoUserAttribute(dataSecurityQuestion2));
+        attributeList.push(new CognitoUserAttribute(dataSecurityAnswer2));
+        attributeList.push(new CognitoUserAttribute(dataSecurityQuestion3));
+        attributeList.push(new CognitoUserAttribute(dataSecurityAnswer3));
 
         const poolData = {
             UserPoolId: CognitoUtil._USER_POOL_ID,
