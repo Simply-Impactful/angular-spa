@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { Group } from '../model/Group';
+import { Group } from '../model/group';
 
 @Injectable()
 export class CreateGroupService {

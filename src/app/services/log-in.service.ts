@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../model/User';
 import { LoggedInCallback, CognitoCallback, CognitoUtil } from './cognito.service';
-import { AuthenticationDetails, CognitoUser, CognitoUserSession } from 'amazon-cognito-identity-js';
+import { AuthenticationDetails, CognitoUser, CognitoUserSession, CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import * as AWS from 'aws-sdk/global';
 import * as STS from 'aws-sdk/clients/sts';
 import { environment } from '../../environments/environment';
@@ -15,20 +15,34 @@ if (global === undefined) {
 @Injectable({
     providedIn: 'root'
 })
+
+export class Parameters {
+    //  public userCopy = new User;
+      name: string;
+      value: string;
+      userSource = new BehaviorSubject(new User());
+      user$ = this.userSource.asObservable();
+
+      buildUser(result: CognitoUserAttribute[], cognitoUser: CognitoUser, user: User) {
+          for (let i = 0; i < result.length; i++) {
+              let property = result[i].getName();
+              if (property.startsWith('custom:')) {
+                property = property.substring(7);
+              }
+              user[property] = result[i].getValue();
+          }
+          user.username = cognitoUser.getUsername();
+          this.userSource.next(user);
+          return user;
+      }
+  }
+
 export class LogInService {
-    public apiPort: string;
-    public apiEndpoint: string;
-    public url: string = window.location.protocol + '//' + window.location.hostname;
     userSource = new BehaviorSubject(new User());
     user$ = this.userSource.asObservable();
-    public user = new User;
 
     constructor(
-        public cognitoUtil: CognitoUtil) {
-
-        this.apiPort = window.location.port ? ':4200/' : '/';
-        this.apiEndpoint = this.url + this.apiPort;
-    }
+        public cognitoUtil: CognitoUtil) {}
 
     authenticate(username: string, password: string, callback: CognitoCallback) {
         const authenticationData = {
@@ -78,17 +92,14 @@ export class LogInService {
         // always print the error
         console.error(err.message);
         callback.cognitoCallback(err.message, null);
-
     }
 
-    isAuthenticated(callback: LoggedInCallback) {
+    isAuthenticated(callback: LoggedInCallback, user: User) {
+        const params = new Parameters();
         if (callback === null) {
             throw new Error('LogInService: Callback in isAuthenticated() cannot be null');
         }
-
         const cognitoUser = this.cognitoUtil.getCurrentUser();
-        this.user.username = cognitoUser.getUsername();
-        this.userSource.next(this.user);
 
         if (cognitoUser !== null) {
             cognitoUser.getSession(function (err, session) {
@@ -97,6 +108,16 @@ export class LogInService {
                     callback.isLoggedIn(err, false);
                 } else {
                     callback.isLoggedIn(err, session.isValid());
+                    cognitoUser.getUserAttributes(function (error, result) {
+                        if (err) {
+                            console.log('LogInService: in getUserAttributes: ' + error);
+                        } else {
+                            if (result) {
+                            //  callback.callbackWithParam(result);
+                           user = params.buildUser(result, cognitoUser, user);
+                        }
+                      }
+                    });
                 }
             });
         } else {

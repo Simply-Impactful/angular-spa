@@ -1,12 +1,12 @@
 export class User {
-    firstName: string;
+    name: string;
     lastName: string;
     email: string;
     password: string;
     username: string;
-    zipcode: string;
+    address: string;
     organization: string;
-    points: number;
+    userPoints: string;
     userType: string;
     securityQuestion1: string;
     securityQuestion2: string;

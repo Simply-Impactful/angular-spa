@@ -9,11 +9,13 @@ import { environment } from '../../environments/environment';
 import * as awsservice from 'aws-sdk/lib/service';
 import { AwsUtil } from './aws.service';
 import { BehaviorSubject } from 'rxjs';
+import { LogInService } from './log-in.service';
 
 @Injectable()
 export class CreateProfileService {
-
-    user: User;
+    userSource = new BehaviorSubject(new User());
+    user$ = this.userSource.asObservable();
+    user = new User;
     accessKeyId: string = '';
     secretAccessKey: string = '';
     sessionToken: string = '';
@@ -23,13 +25,12 @@ export class CreateProfileService {
         public awsUtil: AwsUtil) {}
 
     register(user: User, callback: CognitoCallback): void {
-        console.log(this.user);
 
         const attributeList = [];
 
         const dataFirstName = {
             Name: 'name',
-            Value: user.firstName
+            Value: user.name
         };
         const dataLastName = {
             Name: 'custom:lastName',
@@ -41,7 +42,7 @@ export class CreateProfileService {
         };
         const dataZipcode = {
             Name: 'address',
-            Value: user.zipcode
+            Value: user.address
         };
         const dataOrganization = {
             Name: 'custom:organization',
@@ -67,6 +68,22 @@ export class CreateProfileService {
             Name: 'custom:securityAnswer1',
             Value: user.securityAnswer1
         };
+        const dataSecurityQuestion2 = {
+            Name: 'custom:securityQuestion2',
+            Value: user.securityQuestion2
+        };
+        const dataSecurityAnswer2 = {
+            Name: 'custom:securityAnswer2',
+            Value: user.securityAnswer2
+        };
+        const dataSecurityQuestion3 = {
+            Name: 'custom:securityQuestion3',
+            Value: user.securityQuestion3
+        };
+        const dataSecurityAnswer3 = {
+            Name: 'custom:securityAnswer3',
+            Value: user.securityAnswer3
+        };
 
         attributeList.push(new CognitoUserAttribute(dataFirstName));
         attributeList.push(new CognitoUserAttribute(dataLastName));
@@ -78,10 +95,10 @@ export class CreateProfileService {
         attributeList.push(new CognitoUserAttribute(dataUserType));
         attributeList.push(new CognitoUserAttribute(dataSecurityQuestion1));
         attributeList.push(new CognitoUserAttribute(dataSecurityAnswer1));
-     //   attributeList.push(new CognitoUserAttribute(dataSecurityQuestion3));
-     //   attributeList.push(new CognitoUserAttribute(dataSecurityQuestion1));
-     //   attributeList.push(new CognitoUserAttribute(dataSecurityQuestion1));
-    //    attributeList.push(new CognitoUserAttribute(dataSecurityQuestion1));
+        attributeList.push(new CognitoUserAttribute(dataSecurityQuestion2));
+        attributeList.push(new CognitoUserAttribute(dataSecurityAnswer2));
+        attributeList.push(new CognitoUserAttribute(dataSecurityQuestion3));
+        attributeList.push(new CognitoUserAttribute(dataSecurityAnswer3));
 
         const poolData = {
             UserPoolId: CognitoUtil._USER_POOL_ID,
@@ -94,6 +111,7 @@ export class CreateProfileService {
             Pool: userPool
         };
 
+        const loginService = new LogInService(this.cognitoUtil);
         // if the user inputted the security Questions and answers, we can autoConfirm them
         if (user.securityQuestion1 && user.securityAnswer1) {
             userPool.signUp(user.username, user.password, attributeList, null, function (err, result) {
@@ -101,7 +119,9 @@ export class CreateProfileService {
                     console.error('Sign Up Error, sending to callback. ERROR ' + JSON.stringify(err) + 'MESSAGE' + err.message);
                     callback.cognitoCallback(err.message, null);
                 } else {
-                    callback.cognitoCallback(null, result);
+                    // authenticate the user
+                    loginService.authenticate(user.username, user.password, callback);
+                    // callback.cognitoCallback(null, result);
                 }
             });
         } else {

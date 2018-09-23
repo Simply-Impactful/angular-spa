@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AwsUtil } from './services/aws.service';
 import { LogInService } from './services/log-in.service';
 import { CognitoUtil, LoggedInCallback } from './services/cognito.service';
+import { User } from './model/User';
 
 @Component({
   selector: 'app-root',
@@ -12,13 +13,14 @@ import { CognitoUtil, LoggedInCallback } from './services/cognito.service';
 export class AppComponent implements OnInit, LoggedInCallback {
 
   isAdmin: boolean = false;
+  user: User;
   constructor(
     public awsUtil: AwsUtil,
     public cognito: CognitoUtil,
     public loginService: LogInService) { }
 
   ngOnInit() {
-    this.loginService.isAuthenticated(this);
+    this.loginService.isAuthenticated(this, this.user);
   }
 
   isLoggedIn(message: string, isLoggedIn: boolean) {

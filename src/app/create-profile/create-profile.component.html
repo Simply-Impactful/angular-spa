@@ -9,7 +9,7 @@
         <div align="center">
           <mat-form-field appearance="outline">
             <mat-label>First Name</mat-label>
-            <input [(ngModel)]="newUser.firstName" matInput placeholder="First Name">
+            <input [(ngModel)]="newUser.name" matInput placeholder="First Name">
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline">
@@ -45,7 +45,7 @@
           <br>
           <mat-form-field appearance="outline">
             <mat-label>Zip Code</mat-label>
-            <input [(ngModel)]="newUser.zipcode" matInput placeholder="Zip Code">
+            <input [(ngModel)]="newUser.address" matInput placeholder="Zip Code">
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline">
@@ -62,25 +62,25 @@
         <div align="center">
           <mat-form-field appearance="outline">
             <mat-select [(ngModel)]="newUser.securityQuestion1" placeholder="Security Question 1">
-              <mat-option value="option">What is your favorite color?</mat-option>
-              <mat-option value="option">Name of your best friend?</mat-option>
-              <mat-option value="option">Favorite Disney character?</mat-option>
+              <mat-option value="What is your favorite color?">What is your favorite color?</mat-option>
+              <mat-option value="Name of your best friend?">Name of your best friend?</mat-option>
+              <mat-option value="Favorite Disney character?">Favorite Disney character?</mat-option>
             </mat-select>
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline">
-            <mat-select placeholder="Security Question 2">
-              <mat-option value="option">What is your favorite movie?</mat-option>
-              <mat-option value="option">What is your favorite meal?</mat-option>
-              <mat-option value="option">What is your favorite sport?</mat-option>
+            <mat-select [(ngModel)]="newUser.securityQuestion2" placeholder="Security Question 2">
+              <mat-option value="What is your favorite movie?">What is your favorite movie?</mat-option>
+              <mat-option value="What is your favorite meal?">What is your favorite meal?</mat-option>
+              <mat-option value="What is your favorite sport?">What is your favorite sport?</mat-option>
             </mat-select>
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline">
-            <mat-select placeholder="Security Question 3">
-              <mat-option value="option">Who is your favorite Superhero?</mat-option>
-              <mat-option value="option">What is your favorite Color?</mat-option>
-              <mat-option value="option">What city were you born in?</mat-option>
+            <mat-select [(ngModel)]="newUser.securityQuestion3" placeholder="Security Question 3">
+              <mat-option value="Who is your favorite Superhero?">Who is your favorite Superhero?</mat-option>
+              <mat-option value="What is your favorite Color?">What is your favorite Color?</mat-option>
+              <mat-option value="What city were you born in?">What city were you born in?</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -93,11 +93,11 @@
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline">
-            <input matInput placeholder="Answer...">
+            <input [(ngModel)]="newUser.securityAnswer2" matInput placeholder="Answer...">
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline">
-            <input matInput placeholder="Answer...">
+            <input [(ngModel)]="newUser.securityAnswer3" matInput placeholder="Answer...">
           </mat-form-field>
         </div>
       </div>

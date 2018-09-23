@@ -6,6 +6,7 @@ import {
   ChallengeParameters
 } from '../services/cognito.service';
 import { Router } from '@angular/router';
+import { User } from '../model/User';
 
 @Component({
   selector: 'app-log-in',
@@ -17,6 +18,7 @@ export class LogInComponent implements LoggedInCallback, OnInit {
   errorMessage: string = '';
   username: string = '';
   password: string = '';
+  user: User;
 
   constructor(
     public logInService: LogInService,
@@ -26,7 +28,7 @@ export class LogInComponent implements LoggedInCallback, OnInit {
   ngOnInit() {
     this.errorMessage = null;
     console.log('Checking if the user is already authenticated. If so, then redirect to the home page');
-    this.logInService.isAuthenticated(this);
+    this.logInService.isAuthenticated(this, this.user);
 
   }
 
@@ -40,7 +42,14 @@ export class LogInComponent implements LoggedInCallback, OnInit {
     if (isLoggedIn) {
       // will route to home page when authenticated is true
       // this.router.navigate(['/home']);
+    } else {
+       this.router.navigate(['/landing']); // or login?
     }
+  }
+
+  forgotPass() {
+    this.router.navigate(['/resetpass']);
+    // this.logInService.forgotPassword();
   }
 
   // CognitoCallback interface
@@ -49,9 +58,7 @@ export class LogInComponent implements LoggedInCallback, OnInit {
       // use a local variable as opposed to an instance var.
       this.errorMessage = message;
       console.error('result: ' + this.errorMessage);
-      if (this.errorMessage === 'User is not confirmed.') {
-        this.router.navigate(['/confirmSignUp', this.username]);
-      } else if (this.errorMessage === 'User needs to set password.') {
+       if (this.errorMessage === 'User needs to set password.') {
         console.log('redirecting to set new password');
         // this.router.navigate(['/home/newPassword']);
       }
@@ -67,7 +74,9 @@ export class LogInComponent implements LoggedInCallback, OnInit {
     }
   }
   // CognitoCallback interface
-  handleMFAStep?(challengeName: string, challengeParameters: ChallengeParameters, callback: (confirmationCode: string) => any): void {
+  handleMFAStep?(challengeName: string,
+    challengeParameters:
+    ChallengeParameters, callback: (confirmationCode: string) => any): void {
     throw new Error('handleMFASetup Method not implemented.');
   }
 

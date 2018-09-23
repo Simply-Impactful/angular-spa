@@ -1,4 +1,3 @@
-CreateGroup html
 <main>
   <h2>Create a New Group</h2>
   <mat-grid-list cols="2" rowHeight="6em">
@@ -31,7 +30,7 @@ CreateGroup html
           <mat-option (click) ="toggleOption()" value="FamilyHousehold">Family/ Household</mat-option>
           <mat-option (click) ="toggleOption()" value="ReligioudGroup">Religious Group</mat-option>
           <mat-optgroup label="Non-Profit">
-            <mat-option (click) ="toggleOption()" value="NPEntireCompany">Entire Company</mat-option>
+            <mat-option (click) ="toggleOption()" value="NPEntireOrganiation">Entire Organization</mat-option>
             <mat-option (click) ="toggleOption()" value="NPDepartment">Department</mat-option>
             <mat-option (click) ="toggleOption()" value="NPSpecialInterestGroup">Special Interest Group</mat-option>
             <mat-option (click) ="toggleOption()" value="NPBoardCommittee">Board / Committee</mat-option>
@@ -45,6 +44,18 @@ CreateGroup html
       <mat-form-field *ngIf = "isOther" appearance="outline">
         <input [(ngModel)]="createdGroup.other" name="other" matInput placeholder="Please specify other group type">
         <mat-hint>Required</mat-hint>
+      </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile cols="1">
+      <mat-form-field appearance="outline">
+        <input [(ngModel)]="createdGroup.groupLeader" name="groupLeader" matInput placeholder="Group Leader">
+        <mat-hint>Required</mat-hint>
+      </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile cols="1">
+      <mat-form-field appearance="outline">
+        <input [(ngModel)]="createdGroup.groupMembers" name="groupMembers" matInput placeholder="Group Members">
+        <mat-hint>Type member usernames separated by commas to add them to group</mat-hint>
       </mat-form-field>
     </mat-grid-tile>
   </mat-grid-list>
@@ -64,7 +75,7 @@ CreateGroup html
       <mat-grid-tile cols="1">
       </mat-grid-tile>
       <mat-grid-tile cols="1">
-        <button mat-raised-button color="primary" (click)="creategroup()" routerLink="/home">CANCEL</button>
+        <button mat-stroked-button color="primary" (click)="creategroup()" routerLink="/home">CANCEL</button>
         <button mat-raised-button color="primary" (click)="creategroup()" routerLink="/home">CREATE</button>
       </mat-grid-tile>
     </mat-grid-list>  

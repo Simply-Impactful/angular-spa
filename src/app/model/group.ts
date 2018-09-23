@@ -7,6 +7,7 @@ export class Group {
     other?: string;
     isgroupCreated?: boolean;
     groupLeader: string;
+    groupMember: string;
     groupName: string;
     groupType: string;
     groupImage: string;

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CognitoUtil, CognitoCallback } from '../services/cognito.service';
+import { CognitoUtil, CognitoCallback, LoggedInCallback } from '../services/cognito.service';
 import { CognitoUser } from 'amazon-cognito-identity-js';
-import { LogInService } from '../services/log-in.service';
+import { LogInService, Parameters } from '../services/log-in.service';
+import { User } from '../model/User';
 
 @Component({
   selector: 'app-reset-password',
@@ -10,7 +11,7 @@ import { LogInService } from '../services/log-in.service';
   styleUrls: ['./reset-password.component.scss']
 })
 
-export class ResetPasswordComponent implements OnInit {
+export class ResetPasswordComponent implements OnInit, LoggedInCallback {
   password: string = '';
   confirmPassword: string = '';
   errorMessage: string = '';
@@ -18,13 +19,25 @@ export class ResetPasswordComponent implements OnInit {
   verificationCode: string = '';
   resent: boolean = false;
   onConfirm: boolean = false;
+  user: User;
+  securityQuestion1: string = '';
+  securityQuestion2: string = '';
+  securityQuestion3: string = '';
+  securityAnswer1: string = '';
+  securityAnswer2: string = '';
+  securityAnswer3: string = '';
 
-  constructor(private router: Router, private cognitoUtil: CognitoUtil, private loginService: LogInService) { }
+  constructor(private router: Router, private cognitoUtil: CognitoUtil,
+    private loginService: LogInService, private params: Parameters) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
+  isLoggedIn(message: string, loggedIn: boolean): void {
+ //   throw new Error("Method not implemented.");
+  }
 
-   // step one of forgotPassword flow.. getting a new verification code
-  sendCode() {
+   // step 1 of forgotPassword flow.. getting a new verification code
+  validateAnswers() {
     this.loginService.forgotPassword(this.email, this);
   }
 
