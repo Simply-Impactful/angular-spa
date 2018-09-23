@@ -1,4 +1,4 @@
-# track-change-simplyimpactful
+# italladdsup
 
 A web application for Change is Simple Org that gamifies eco-friendly actions.
 
@@ -7,7 +7,7 @@ This project was generated with [Angular CLI][angular-cli] version 6.0.8.
 
 ## Home Page in AWS S3
 
-https://s3.amazonaws.com/track-change-simplyimpactful/index.html
+https://s3.amazonaws.com/italladdsup/index.html
 
 ## Angular Material
 
@@ -30,7 +30,7 @@ To start the server locallu run `ng serve -o`. Navigate to `http://localhost:420
 
 ## Building AWS S3 Assets and Deployment 
 
-We are using the `serverless` framework configured with AWS as a provider. The chosen name for the application (S3 Bucket Name and URL): is `track-change-simplyimpactful`. In the package.json you will find 2 scripts, which when concatenated, can be used to create the assets and then push them to AWS:
+We are using the `serverless` framework configured with AWS as a provider. The chosen name for the application (S3 Bucket Name and URL): is `italladdsup`. In the package.json you will find 2 scripts, which when concatenated, can be used to create the assets and then push them to AWS:
 
 - `build:prod`
 - `deploy:assets-move`
@@ -40,7 +40,7 @@ For convenience, `deploy:dev` calls them in order so you can execute the followi
 
 `npm run deploy:dev`
 
-**Note**: assets (images, vendor files, fonts, etc) are saved on the `/src/assets` folder following Angular's conventions locally. Becuase we are using S3 and we need to match our local references to what S3 is looking for, we have some configuration to force Angular to build the application and copy the assets to the `/track-change-simplyimpactful/` folder. We can make the reference to files like: `/track-change-simplyimpactful/images/logo.png`. The script `./scripts/extract-assets.sh` handles copying the contents of `/dist/track-change-simplyimpactful` to the root of `dist` to maintain the same structure on deployment.
+**Note**: assets (images, vendor files, fonts, etc) are saved on the `/src/assets` folder following Angular's conventions locally. Becuase we are using S3 and we need to match our local references to what S3 is looking for, we have some configuration to force Angular to build the application and copy the assets to the `/italladdsup/` folder. We can make the reference to files like: `/italladdsup/images/logo.png`. The script `./scripts/extract-assets.sh` handles copying the contents of `/dist/italladdsup` to the root of `dist` to maintain the same structure on deployment.
 
 ## Code scaffolding
 

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular.track-change-simplyimpactful": {
+    "angular.italladdsup": {
       "root": "",
       "projectType": "application",
       "prefix": "app",
@@ -30,7 +30,7 @@
               {
                 "glob": "**/*",
                 "input": "src/assets",
-                "output": "/track-change-simplyimpactful"
+                "output": "/italladdsup"
               }
             ],
             "styles": [
@@ -48,7 +48,7 @@
               ],
               "optimization": true,
               "outputHashing": "none",
-              "deployUrl": "/track-change-simplyimpactful/",
+              "deployUrl": "/italladdsup/",
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
@@ -62,18 +62,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular.track-change-simplyimpactful:build"
+            "browserTarget": "angular.italladdsup:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular.track-change-simplyimpactful:build:production"
+              "browserTarget": "angular.italladdsup:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular.track-change-simplyimpactful:build"
+            "browserTarget": "angular.italladdsup:build"
           }
         },
         "test": {
@@ -117,7 +117,7 @@
         }
       }
     },
-    "angular.track-change-simplyimpactful-e2e": {
+    "angular.italladdsup-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -125,7 +125,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "angular.track-change-simplyimpactful:serve"
+            "devServerTarget": "angular.italladdsup:serve"
           }
         },
         "lint": {
