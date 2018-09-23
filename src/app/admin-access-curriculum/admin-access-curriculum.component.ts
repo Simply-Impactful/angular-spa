@@ -8,10 +8,13 @@ import { Route, Router } from '@angular/router';
   styleUrls: ['./admin-access-curriculum.component.scss']
 })
 export class AdminAccessCurriculumComponent implements OnInit {
+  inputText;
 
   constructor(public appComp: AppComponent) { }
 
   ngOnInit() {
     this.appComp.setAdmin();
   }
+
+  save() {}
 }

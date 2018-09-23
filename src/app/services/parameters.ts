@@ -1,8 +1,13 @@
+import { BehaviorSubject } from 'rxjs';
+import { CognitoUser, CognitoUserAttribute } from 'amazon-cognito-identity-js';
+import { User } from '../model/User';
+
 export class Parameters {
+    userSource = new BehaviorSubject(new User());
+
     //  public userCopy = new User;
       name: string;
       value: string;
-      userSource = new BehaviorSubject(new User());
       user$ = this.userSource.asObservable();
 
       buildUser(result: CognitoUserAttribute[], cognitoUser: CognitoUser, user: User) {

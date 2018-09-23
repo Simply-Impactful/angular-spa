@@ -15,4 +15,6 @@ export class AdminAccessActionsComponent implements OnInit {
     this.appComp.setAdmin();
   }
 
+  save() {}
+
 }

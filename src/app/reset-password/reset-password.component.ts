@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CognitoUtil, CognitoCallback, LoggedInCallback } from '../services/cognito.service';
-import { CognitoUser } from 'amazon-cognito-identity-js';
-import { LogInService, Parameters } from '../services/log-in.service';
+import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
+import { LogInService } from '../services/log-in.service';
+import { Parameters} from '../services/parameters';
 import { User } from '../model/User';
 
 @Component({
@@ -20,6 +20,7 @@ export class ResetPasswordComponent implements OnInit, LoggedInCallback {
   resent: boolean = false;
   onConfirm: boolean = false;
   user: User;
+  valid: any;
   securityQuestion1: string = '';
   securityQuestion2: string = '';
   securityQuestion3: string = '';
@@ -27,8 +28,11 @@ export class ResetPasswordComponent implements OnInit, LoggedInCallback {
   securityAnswer2: string = '';
   securityAnswer3: string = '';
 
-  constructor(private router: Router, private cognitoUtil: CognitoUtil,
-    private loginService: LogInService, private params: Parameters) { }
+  constructor(
+    private router: Router,
+    private cognitoUtil: CognitoUtil,
+    private loginService: LogInService,
+    private params: Parameters) { }
 
   ngOnInit() {
   }

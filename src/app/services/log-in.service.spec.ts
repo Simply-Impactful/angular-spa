@@ -3,6 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { LogInService } from './log-in.service';
 import { CognitoUtil } from '../services/cognito.service';
+import { Parameters } from './parameters';
 
 describe('LogInService', () => {
   beforeEach(() => {
@@ -10,6 +11,7 @@ describe('LogInService', () => {
       providers: [
         CognitoUtil,
         LogInService,
+        Parameters,
         HttpClientTestingModule
       ]
     });

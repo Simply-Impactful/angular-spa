@@ -1,6 +1,7 @@
 {
-    "appName": "TrackChange",
-    "bucketName": "italladdsup",
+    "appName": "ItallAddsUp",
+    "serviceName": "italladdsup",
+    "bucketName": "italladdsup.com",
     "createdBy": "SimplyImpactful-FidelityInvestments",
     "organization": "ChangeIsSimple",
     "contentPath": "dist/",

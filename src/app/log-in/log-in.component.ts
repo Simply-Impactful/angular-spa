@@ -74,7 +74,8 @@ export class LogInComponent implements LoggedInCallback, OnInit {
     }
   }
   // CognitoCallback interface
-  handleMFAStep?(challengeName: string,
+  handleMFAStep?(
+    challengeName: string,
     challengeParameters:
     ChallengeParameters, callback: (confirmationCode: string) => any): void {
     throw new Error('handleMFASetup Method not implemented.');
