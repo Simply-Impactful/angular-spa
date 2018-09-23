@@ -9,6 +9,7 @@ import { environment } from '../../environments/environment';
 import * as awsservice from 'aws-sdk/lib/service';
 import { AwsUtil } from './aws.service';
 import { BehaviorSubject } from 'rxjs';
+import { LogInService } from './log-in.service';
 
 @Injectable()
 export class CreateProfileService {
@@ -94,16 +95,17 @@ export class CreateProfileService {
             Pool: userPool
         };
 
+        const loginService = new LogInService(this.cognitoUtil);
         // if the user inputted the security Questions and answers, we can autoConfirm them
         if (user.securityQuestion1 && user.securityAnswer1) {
-            this.user.name = user.name;
-            this.userSource.next(this.user);
             userPool.signUp(user.username, user.password, attributeList, null, function (err, result) {
                 if (err) {
                     console.error('Sign Up Error, sending to callback. ERROR ' + JSON.stringify(err) + 'MESSAGE' + err.message);
                     callback.cognitoCallback(err.message, null);
                 } else {
-                    callback.cognitoCallback(null, result);
+                    // authenticate the user
+                    loginService.authenticate(user.username, user.password, callback);
+                    // callback.cognitoCallback(null, result);
                 }
             });
         } else {

@@ -16,17 +16,11 @@ if (global === undefined) {
     providedIn: 'root'
 })
 export class LogInService {
-    public apiPort: string;
-    public apiEndpoint: string;
-    public url: string = window.location.protocol + '//' + window.location.hostname;
     userSource = new BehaviorSubject(new User());
     user$ = this.userSource.asObservable();
 
     constructor(
         public cognitoUtil: CognitoUtil) {
-
-        this.apiPort = window.location.port ? ':4200/' : '/';
-        this.apiEndpoint = this.url + this.apiPort;
     }
 
     authenticate(username: string, password: string, callback: CognitoCallback) {
@@ -97,8 +91,7 @@ export class LogInService {
                         if (err) {
                             console.log('LogInService: in getUserAttributes: ' + error);
                         } else {
-                            console.log('result ' + result);
-                            // callback.callbackWithParam(result);
+                         //  callback.callbackWithParam(result);
                            user = params.buildUser(result, cognitoUser, user);
                         }
                     });
@@ -109,7 +102,6 @@ export class LogInService {
             callback.isLoggedIn('Can\'t retrieve the CurrentUser', false);
         }
     }
-
 
     forgotPassword(username: string, callback: CognitoCallback) {
         const userData = {
