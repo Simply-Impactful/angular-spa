@@ -15,6 +15,7 @@ if (global === undefined) {
 @Injectable({
     providedIn: 'root'
 })
+
 export class LogInService {
     userSource = new BehaviorSubject(new User());
     user$ = this.userSource.asObservable();
@@ -74,7 +75,7 @@ export class LogInService {
     }
 
     isAuthenticated(callback: LoggedInCallback, user: User) {
-        const params = new Parameters();
+         const params = new Parameters();
         if (callback === null) {
             throw new Error('LogInService: Callback in isAuthenticated() cannot be null');
         }
@@ -144,16 +145,16 @@ export class LogInService {
 }
 
 export class Parameters {
-  //  public userCopy = new User;
-    name: string;
-    value: string;
+    //  public userCopy = new User;
+      name: string;
+      value: string;
 
-    buildUser(result: CognitoUserAttribute[], cognitoUser: CognitoUser, user: User) {
-        for (let i = 0; i < result.length; i++) {
-            const property = result[i].getName();
-            user[property] = result[i].getValue();
-        }
-        user.username = cognitoUser.getUsername();
-        return user;
-    }
-}
+      buildUser(result: CognitoUserAttribute[], cognitoUser: CognitoUser, user: User) {
+          for (let i = 0; i < result.length; i++) {
+              const property = result[i].getName();
+              user[property] = result[i].getValue();
+          }
+          user.username = cognitoUser.getUsername();
+          return user;
+      }
+  }

@@ -13,12 +13,14 @@ export class CreateGroupComponent implements OnInit {
   groupName: string = '';
   groupType: string = '';
   subcategory: string = '';
-  address: string = '';
+  zipcode: string = '';
   other: string = '';
+  groupLeader: string = '';
+  groupMember: string = '';
   isOther: Boolean = false;
   createdGroup: Group;
   isGroupCreated: boolean;
-  groupLeader: string = '';
+
 
   constructor(private createGroupService: CreateGroupService) { }
 
