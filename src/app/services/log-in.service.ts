@@ -92,9 +92,11 @@ export class LogInService {
                         if (err) {
                             console.log('LogInService: in getUserAttributes: ' + error);
                         } else {
-                         //  callback.callbackWithParam(result);
+                            if (result) {
+                            //  callback.callbackWithParam(result);
                            user = params.buildUser(result, cognitoUser, user);
                         }
+                      }
                     });
                 }
             });
@@ -148,13 +150,19 @@ export class Parameters {
     //  public userCopy = new User;
       name: string;
       value: string;
+      userSource = new BehaviorSubject(new User());
+      user$ = this.userSource.asObservable();
 
       buildUser(result: CognitoUserAttribute[], cognitoUser: CognitoUser, user: User) {
           for (let i = 0; i < result.length; i++) {
-              const property = result[i].getName();
+              let property = result[i].getName();
+              if (property.startsWith('custom:')) {
+                property = property.substring(7);
+              }
               user[property] = result[i].getValue();
           }
           user.username = cognitoUser.getUsername();
+          this.userSource.next(user);
           return user;
       }
   }

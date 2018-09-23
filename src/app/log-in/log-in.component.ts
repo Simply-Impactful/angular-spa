@@ -40,6 +40,11 @@ export class LogInComponent implements LoggedInCallback, OnInit {
     }
   }
 
+  forgotPass() {
+    this.router.navigate(['/resetpass']);
+    // this.logInService.forgotPassword();
+  }
+
   // CognitoCallback interface
   cognitoCallback(message: string, result: any) {
     if (message !== null) { // if there is an error

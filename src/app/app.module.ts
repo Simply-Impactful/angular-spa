@@ -35,6 +35,7 @@ import { AdminAccessLandingComponent } from './admin-access-landing/admin-access
 import { AdminAccessActionsComponent } from './admin-access-actions/admin-access-actions.component';
 import { AdminAccessUsersComponent } from './admin-access-users/admin-access-users.component';
 import { AdminAccessCurriculumComponent } from './admin-access-curriculum/admin-access-curriculum.component';
+import { Parameters } from './services/log-in.service';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import { AdminAccessCurriculumComponent } from './admin-access-curriculum/admin-
     ActionService,
     CognitoUtil,
     AwsUtil,
-    CreateProfileService],
+    CreateProfileService,
+    Parameters],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
