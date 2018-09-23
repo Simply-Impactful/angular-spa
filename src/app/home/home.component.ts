@@ -32,11 +32,6 @@ export class HomeComponent implements OnInit, LoggedInCallback {
       this.user = user;
       this.userscore = this.user.userPoints;
     });
-    // work in progress..
-    this.createProfileService.user$.subscribe(user => {
-      this.user = user;
-      this.userscore = this.user.userPoints;
-    });
 
     this.createGroupService.group$.subscribe(createdGroup => {
       this.group = createdGroup;

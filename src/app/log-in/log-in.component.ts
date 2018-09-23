@@ -36,7 +36,7 @@ export class LogInComponent implements LoggedInCallback, OnInit {
       // will route to home page when authenticated is true
       // this.router.navigate(['/home']);
     } else {
-      // this.router.navigate(['/landing']); // or login?
+       this.router.navigate(['/landing']); // or login?
     }
   }
 
@@ -46,9 +46,7 @@ export class LogInComponent implements LoggedInCallback, OnInit {
       // use a local variable as opposed to an instance var.
       this.errorMessage = message;
       console.error('result: ' + this.errorMessage);
-      if (this.errorMessage === 'User is not confirmed.') {
-         this.router.navigate(['/confirmSignUp', this.username]);
-      } else if (this.errorMessage === 'User needs to set password.') {
+       if (this.errorMessage === 'User needs to set password.') {
         console.log('redirecting to set new password');
         // this.router.navigate(['/home/newPassword']);
       }

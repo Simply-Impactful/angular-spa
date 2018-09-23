@@ -17,19 +17,12 @@ if (global === undefined) {
 })
 
 export class LogInService {
-    public apiPort: string;
-    public apiEndpoint: string;
-    public url: string = window.location.protocol + '//' + window.location.hostname;
     userSource = new BehaviorSubject(new User());
     user$ = this.userSource.asObservable();
 
     constructor(
         public cognitoUtil: CognitoUtil) {
-
-        this.apiPort = window.location.port ? ':4200/' : '/';
-        this.apiEndpoint = this.url + this.apiPort;
     }
-
 
     authenticate(username: string, password: string, callback: CognitoCallback) {
         const authenticationData = {
@@ -82,7 +75,7 @@ export class LogInService {
     }
 
     isAuthenticated(callback: LoggedInCallback, user: User) {
-        // const params = new Parameters();
+         const params = new Parameters();
         if (callback === null) {
             throw new Error('LogInService: Callback in isAuthenticated() cannot be null');
         }
@@ -99,9 +92,8 @@ export class LogInService {
                         if (err) {
                             console.log('LogInService: in getUserAttributes: ' + error);
                         } else {
-                            console.log('result ' + result);
-                            // callback.callbackWithParam(result);
-                           // user = params.buildUser(result, cognitoUser, user);
+                         //  callback.callbackWithParam(result);
+                           user = params.buildUser(result, cognitoUser, user);
                         }
                     });
                 }
@@ -111,7 +103,6 @@ export class LogInService {
             callback.isLoggedIn('Can\'t retrieve the CurrentUser', false);
         }
     }
-
 
     forgotPassword(username: string, callback: CognitoCallback) {
         const userData = {
@@ -153,3 +144,17 @@ export class LogInService {
     }
 }
 
+export class Parameters {
+    //  public userCopy = new User;
+      name: string;
+      value: string;
+
+      buildUser(result: CognitoUserAttribute[], cognitoUser: CognitoUser, user: User) {
+          for (let i = 0; i < result.length; i++) {
+              const property = result[i].getName();
+              user[property] = result[i].getValue();
+          }
+          user.username = cognitoUser.getUsername();
+          return user;
+      }
+  }

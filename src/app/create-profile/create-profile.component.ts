@@ -68,8 +68,8 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
         console.log(this.genericMessage);
       }
     } else { // success
-        // move to the next step
-        if (result.accessToken.jwtToken ) {
+        // move to the next page if the user is authenticated
+        if (result.idToken.jwtToken) {
           this.router.navigate(['/home']);
         }
       }
