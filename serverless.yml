@@ -45,11 +45,6 @@ custom:
             CacheControl: 'no-cache'
         - "*.js":
             CacheControl: 'public, max-age=31536000'
-    - bucketName: ${self:custom.bucketNameSubdomain}
-      localDir: ${self:custom.contentPath}
-      acl: public-read
-      followSymlinks: true
-      defaultContentType: text/html
 
 package:
   exclude:
@@ -63,6 +58,10 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${self:custom.bucketNameSubdomain}
+        WebsiteConfiguration:
+          RedirectAllRequestsTo: 
+            HostName: ${self:custom.bucketName}
+            Protocol: http
     StaticSite:
       Type: AWS::S3::Bucket
       Properties:

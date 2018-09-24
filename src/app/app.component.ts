@@ -15,8 +15,8 @@ export class AppComponent implements OnInit, LoggedInCallback {
   isAdmin: boolean = false;
   user: User;
   constructor(
-    public awsUtil: AwsUtil,
     public cognito: CognitoUtil,
+    public awsUtil: AwsUtil,
     public loginService: LogInService) { }
 
   ngOnInit() {
@@ -28,8 +28,9 @@ export class AppComponent implements OnInit, LoggedInCallback {
       callback() {
       },
       callbackWithParam(token: any) {
+        console.log(this.awsUtil);
         // Include the passed-in callback here as well so that it's executed downstream
-        this.awsUtil.initAwsService(null, isLoggedIn, token);
+        // this.awsUtil.initAwsService(null, isLoggedIn, token);
       }
     });
   }

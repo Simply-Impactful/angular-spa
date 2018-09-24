@@ -51,7 +51,7 @@ export class ActionService implements OnInit {
       this.action.points = 8;
       this.action.fact = 'Did you know? Americans use about 18 millions barrels of oil everyday';
       this.action.status = 'Elephant';
-      this.action.imageUrl = '/italladdsup/images/FossilFuelsFacts.jpg';
+      this.action.imageUrl = '/assets/images/FossilFuelsFacts.jpg';
     }
     if (name === 'faucet') {
       this.action.name = 'faucet';

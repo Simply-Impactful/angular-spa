@@ -1,11 +1,11 @@
-# italladdsup
+# It All Adds Up
 
 A web application for Change is Simple Org that gamifies eco-friendly actions.
 
 This project was generated with [Angular CLI][angular-cli] version 6.0.8.
 
 
-## Home Page in AWS S3
+## Home Page
 
 https://s3.amazonaws.com/italladdsup/index.html
 
@@ -30,17 +30,14 @@ To start the server locallu run `ng serve -o`. Navigate to `http://localhost:420
 
 ## Building AWS S3 Assets and Deployment 
 
-We are using the `serverless` framework configured with AWS as a provider. The chosen name for the application (S3 Bucket Name and URL): is `italladdsup`. In the package.json you will find 2 scripts, which when concatenated, can be used to create the assets and then push them to AWS:
+We are using the `serverless` framework configured with AWS as a provider. The chosen name for the application (S3 Bucket Name and URL): is `italladdsup.world`. In the package.json you will find 2 scripts, which when concatenated, can be used to create the assets and then push them to AWS:
 
 - `build:prod`
-- `deploy:assets-move`
-- `sls:deploy:dev`
+- `sls:deploy:prod`
 
-For convenience, `deploy:dev` calls them in order so you can execute the following when you are ready to sync your changes to the S3 bucket:
+For convenience, `deploy:prod` calls them in order so you can execute the following when you are ready to sync your changes to the S3 bucket:
 
-`npm run deploy:dev`
-
-**Note**: assets (images, vendor files, fonts, etc) are saved on the `/src/assets` folder following Angular's conventions locally. Becuase we are using S3 and we need to match our local references to what S3 is looking for, we have some configuration to force Angular to build the application and copy the assets to the `/italladdsup/` folder. We can make the reference to files like: `/italladdsup/images/logo.png`. The script `./scripts/extract-assets.sh` handles copying the contents of `/dist/italladdsup` to the root of `dist` to maintain the same structure on deployment.
+`npm run deploy:prod`
 
 ## Code scaffolding
 
@@ -58,6 +55,11 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor][protacter-test].
 
 - For the global undefined error with Cognito see => https://github.com/aws-amplify/amplify-js/issues/678
 
+
+## Domain Configuration to S3 bucket.
+
+To configure the traffic routing to the S3 bucket, we followed the AWS instructions [here][aws-s3-route53]. In our scenario, we have the domain (`italladdsup.world`) registered with GoDaddy, so after following those steps we had to update the nameservers in GoDaddy (under manage DNS) with the AWS Hosted Zones NS values. [Here][aws-route53-goddady] is a helpful video used to accomplish this last part.
+
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README][angular-readme].
@@ -66,3 +68,5 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 [angular-readme]: https://github.com/angular/angular-cli/blob/master/README.md
 [karma]: https://karma-runner.github.io
 [protacter-test]: http://www.protractortest.org/
+[aws-s3-route53]: https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/getting-started.html#getting-started-find-domain-name
+[aws-route53-goddady]: https://www.youtube.com/watch?v=8Pcc13m60os

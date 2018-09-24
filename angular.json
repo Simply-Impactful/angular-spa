@@ -30,7 +30,7 @@
               {
                 "glob": "**/*",
                 "input": "src/assets",
-                "output": "/italladdsup"
+                "output": "/assets"
               }
             ],
             "styles": [
@@ -48,7 +48,6 @@
               ],
               "optimization": true,
               "outputHashing": "none",
-              "deployUrl": "/italladdsup/",
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
@@ -93,7 +92,7 @@
               {
                 "glob": "favicon.ico",
                 "input": "src/",
-                "output": "/"
+                "output": "/assets"
               },
               {
                 "glob": "**/*",

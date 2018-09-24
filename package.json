@@ -5,13 +5,17 @@
     "ng": "ng",
     "start": "ng serve -o",
     "test": "ng test",
+    "build": "ng build",
     "build:prod": "ng build --prod --aot",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "sls:deploy:dev": "sls deploy -s dev",
     "sls:remove:dev": "sls remove -s dev",
+    "sls:deploy:prod": "sls deploy -s prod",
+    "sls:remove:prod": "sls remove -s dev",
     "deploy:assets-move": "./scripts/extract-assets.sh",
-    "deploy:dev": "npm run build:prod && npm run deploy:assets-move && npm run sls:deploy:dev"
+    "deploy:dev": "npm run build && npm run deploy:assets-move && npm run sls:deploy:dev",
+    "deploy:prod": "npm run build:prod && npm run deploy:assets-move && npm run sls:deploy:prod"
   },
   "private": true,
   "dependencies": {
