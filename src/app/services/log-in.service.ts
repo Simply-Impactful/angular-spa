@@ -17,8 +17,7 @@ if (global === undefined) {
 })
 export class LogInService {
     constructor(
-        public cognitoUtil: CognitoUtil,
-        private params: Parameters) { }
+        public cognitoUtil: CognitoUtil) { }
 
     authenticate(username: string, password: string, callback: CognitoCallback) {
         const authenticationData = {

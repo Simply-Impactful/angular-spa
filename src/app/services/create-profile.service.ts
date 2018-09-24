@@ -108,7 +108,7 @@ export class CreateProfileService {
             Pool: userPool
         };
 
-        // const loginService = new LogInService(this.cognitoUtil);
+         const loginService = new LogInService(this.cognitoUtil);
         // if the user inputted the security Questions and answers, we can autoConfirm them
         if (user.securityQuestion1 && user.securityAnswer1) {
             userPool.signUp(user.username, user.password, attributeList, null, function (err, result) {
@@ -117,7 +117,7 @@ export class CreateProfileService {
                     callback.cognitoCallback(err.message, null);
                 } else {
                     // authenticate the user
-                    this.loginService.authenticate(user.username, user.password, callback);
+                    loginService.authenticate(user.username, user.password, callback);
                     // callback.cognitoCallback(null, result);
                 }
             });

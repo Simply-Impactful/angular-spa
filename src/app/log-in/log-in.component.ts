@@ -60,7 +60,6 @@ export class LogInComponent implements LoggedInCallback, OnInit {
       console.error('result: ' + this.errorMessage);
        if (this.errorMessage === 'User needs to set password.') {
         console.log('redirecting to set new password');
-        // this.router.navigate(['/home/newPassword']);
       }
     } else { // success
       const currentUser = this.cognitoUtil.getCurrentUser();
