@@ -12,64 +12,42 @@
   </div>
 
   <form>
-    <span class="score-box1">{{ unplugPoints }}</span>
-    <img src="/assets/images/unplug.png" alt="Unplug the lights" (click)="add('unplug')">
-
-    <span class="score-box2">{{ faucetPoints }}</span>
-    <img src="/assets/images/turnoffaucet.png" alt="Turn off faucet" (click)="add('faucet')">
-
-    <span class="score-box3">{{ lightsPoints }}</span>
-    <img src="/assets/images/turnofflights.png" alt="Turn off lights" (click)="add('lights')">
-
-    <span class="score-box3">{{ lightsPoints }}</span>
-    <img src="/assets/images/turnofflights.png" alt="Turn off lights" (click)="add('lights')">
-
-    <span class="score-box3">{{ lightsPoints }}</span>
-    <img src="/assets/images/turnofflights.png" alt="Turn off lights" (click)="add('lights')">
-
-    <span class="score-box3">{{ lightsPoints }}</span>
-    <img src="/assets/images/turnofflights.png" alt="Turn off lights" (click)="add('lights')">
-
-    <span class="score-box3">{{ lightsPoints }}</span>
-    <img src="/assets/images/turnofflights.png" alt="Turn off lights" (click)="add('lights')">
-
-    <span class="score-box3">{{ lightsPoints }}</span>
-    <img src="/assets/images/turnofflights.png" alt="Turn off lights" (click)="add('lights')">
-    <span class="score-box1">{{ unplugPoints }}</span>
-    <img src="/assets/images/unplug.png" alt="Unplug the lights" (click)="add('unplug')">
-
-    <span class="score-box2">{{ faucetPoints }}</span>
-    <img src="/assets/images/turnoffaucet.png" alt="Turn off faucet" (click)="add('faucet')">
-
-    <span class="score-box3">{{ lightsPoints }}</span>
-    <img src="/assets/images/turnofflights.png" alt="Turn off lights" (click)="add('lights')">
-
-    <span class="score-box3">{{ lightsPoints }}</span>
-    <img src="/assets/images/turnofflights.png" alt="Turn off lights" (click)="add('lights')">
-
-    <span class="score-box3">{{ lightsPoints }}</span>
-    <img src="/assets/images/turnofflights.png" alt="Turn off lights" (click)="add('lights')">
-
-    <span class="score-box3">{{ lightsPoints }}</span>
-    <img src="/assets/images/turnofflights.png" alt="Turn off lights" (click)="add('lights')">
-
-    <span class="score-box3">{{ lightsPoints }}</span>
-    <img src="/assets/images/turnofflights.png" alt="Turn off lights" (click)="add('lights')">
-
-    <span class="score-box3">{{ lightsPoints }}</span>
-    <img src="/assets/images/turnofflights.png" alt="Turn off lights" (click)="add('lights')">
-
-    <span class="score-box3">{{ lightsPoints }}</span>
-    <img src="/assets/images/turnofflights.png" alt="Turn off lights" (click)="add('lights')">
-
-    <span class="score-box3">{{ lightsPoints }}</span>
-    <img src="/assets/images/turnofflights.png" alt="Turn off lights" (click)="add('lights')">
-
-    <span class="score-box3">{{ lightsPoints }}</span>
-    <img src="/assets/images/turnofflights.png" alt="Turn off lights" (click)="add('lights')">
-
-    <span class="score-box3">{{ lightsPoints }}</span>
-    <img src="/assets/images/turnofflights.png" alt="Turn off lights" (click)="add('lights')">
-
+    <mat-card class="card-container" style="margin-top:-20px"(click)="openDialog('unplug')">
+      <mat-card-header style="float:right;">
+          <div mat-card-image class="score-flag">8</div>
+      </mat-card-header>
+  <img mat-card-image src="/assets/images/icons/plug.png">
+  </mat-card>
+  <mat-card class="card-container" (click)="openDialog('faucet')">
+      <mat-card-header style="float:right;">
+              <div mat-card-image class="score-flag">5</div>
+      </mat-card-header>
+      <img mat-card-image src="/assets/images/icons/faucet.png"> 
+  </mat-card>
+  <mat-card class="card-container" (click)="openDialog('light')">
+      <mat-card-header style="float:right;">
+              <div mat-card-image class="score-flag">4</div>
+      </mat-card-header>
+      <img mat-card-image src="/assets/images/icons/lightbulb.png">
+  </mat-card>
+  <mat-card class="card-container" style="margin-top:-20px"(click)="openDialog('unplug')">
+    <mat-card-header style="float:right;">
+        <div mat-card-image class="score-flag">8</div>
+    </mat-card-header>
+<img mat-card-image src="/assets/images/icons/plug.png">
+</mat-card>
+<mat-card class="card-container" (click)="openDialog('faucet')">
+    <mat-card-header style="float:right;">
+            <div mat-card-image class="score-flag">5</div>
+    </mat-card-header>
+    <img mat-card-image src="/assets/images/icons/faucet.png"> 
+</mat-card>
+<mat-card class="card-container" (click)="openDialog('light')">
+    <mat-card-header style="float:right;">
+            <div mat-card-image class="score-flag">4</div>
+    </mat-card-header>
+    <img mat-card-image src="/assets/images/icons/lightbulb.png">
+</mat-card>
+  <br>
   </form>
 </main>

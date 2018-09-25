@@ -12,10 +12,9 @@ button.cis-logo {
 }
 
 .score-flag {
-    height: 1.77em;
-    width: 1.7em;
-    background: url('/assets/images/score-flag.png') center/1em no-repeat;
-    border: none;
+    height: 2.77em;
+    margin-top:-24px;
+    background: url('/assets/images/score-flag.png') no-repeat;
 }
 
 form {
@@ -23,20 +22,21 @@ form {
     padding-left: 25px;
     padding-right: 25px;
     cursor: hand;
-}
-
-img {
-    height: 20em;
-    width: 24em;
-    padding: 50px;
-    padding-top: 25px;
-    padding-bottom: 40px;
-    z-index: 1;
-    position: relative;
-    cursor: pointer;
-    border: none;
-}
+}img {
+    margin-top:20px;
+    height: 80%;
+    width: 60%;
+  }
 
 .score-box1 {
     height: 50px;
 }
+
+.card-container {
+    margin: 50px;
+    width: 200px;
+    display: inline-block;
+    height:200px;
+    background-color: #F1F1F3;
+    cursor: pointer;
+  }
