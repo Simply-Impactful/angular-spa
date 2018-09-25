@@ -40,8 +40,8 @@ import { Parameters } from './services/parameters';
 
 @NgModule({
   declarations: [
-    AppComponent,
     LogInComponent,
+    AppComponent,
     LandingComponent,
     ContactUsComponent,
     UserProfileComponent,

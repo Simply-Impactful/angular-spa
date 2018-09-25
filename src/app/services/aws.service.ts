@@ -33,7 +33,6 @@ export class AwsUtil {
             return;
         }
 
-        console.log('AwsUtil: Starting to run initAwsService() ... Here\'s the token ' + idToken);
         AwsUtil.runningInit = true;
 
         // First check if the user is authenticated already

@@ -16,6 +16,7 @@ export interface CognitoCallback {
 
 export interface LoggedInCallback {
     isLoggedIn(message: string, loggedIn: boolean): void;
+    callbackWithParam(result: any): void;
 }
 
 export interface ChallengeParameters {

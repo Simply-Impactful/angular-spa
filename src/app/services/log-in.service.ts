@@ -75,7 +75,6 @@ export class LogInService {
             throw new Error('LogInService: Callback in isAuthenticated() cannot be null');
         }
         const cognitoUser = this.cognitoUtil.getCurrentUser();
-
         if (cognitoUser !== null) {
             cognitoUser.getSession(function (err, session) {
                 if (err) {
@@ -85,12 +84,10 @@ export class LogInService {
                     callback.isLoggedIn(err, session.isValid());
                     cognitoUser.getUserAttributes(function (error, result) {
                         if (err) {
-                            console.log('LogInService: in getUserAttributes: ' + error);
+                            console.log('LogInService ERROR: in getUserAttributes: ' + error.message);
                         } else {
                             if (result) {
-                                //  callback.callbackWithParam(result);
-                                user = this.params.buildUser(result, cognitoUser, user);
-                            }
+                                callback.callbackWithParam(result);                          }
                         }
                     });
                 }

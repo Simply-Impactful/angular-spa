@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
+import { CognitoUtil } from '../services/cognito.service';
 import { LogInService } from '../services/log-in.service';
 import { Parameters} from '../services/parameters';
 import { User } from '../model/User';
@@ -11,7 +11,7 @@ import { User } from '../model/User';
   styleUrls: ['./reset-password.component.scss']
 })
 
-export class ResetPasswordComponent implements OnInit, LoggedInCallback {
+export class ResetPasswordComponent implements OnInit {
   password: string = '';
   confirmPassword: string = '';
   errorMessage: string = '';
@@ -35,9 +35,6 @@ export class ResetPasswordComponent implements OnInit, LoggedInCallback {
     private params: Parameters) { }
 
   ngOnInit() {
-  }
-  isLoggedIn(message: string, loggedIn: boolean): void {
- //   throw new Error("Method not implemented.");
   }
 
    // step 1 of forgotPassword flow.. getting a new verification code

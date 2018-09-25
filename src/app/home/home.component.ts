@@ -7,6 +7,7 @@ import { LogInService } from '../services/log-in.service';
 import { Parameters} from '../services/parameters';
 import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
 import { CreateProfileService } from '../services/create-profile.service';
+import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
 
 @Component({
   selector: 'app-home',
@@ -25,7 +26,7 @@ export class HomeComponent implements OnInit, LoggedInCallback {
   constructor(
     private createGroupService: CreateGroupService,
     private loginService: LogInService,
-    private cognito: CognitoUtil,
+    private cognitoUtil: CognitoUtil,
     private createProfileService: CreateProfileService,
     private params: Parameters) { }
 
@@ -46,7 +47,15 @@ export class HomeComponent implements OnInit, LoggedInCallback {
 
   /** Interface needed for LoggedInCallback */
   isLoggedIn(message: string, isLoggedIn: boolean) {
+   // console.log('is logged in');
   }
+  // needed to persist the data returned from login service
+  callbackWithParam(result: CognitoUserAttribute[]) {
+    const cognitoUser = this.cognitoUtil.getCurrentUser();
+    const params = new Parameters();
+    this.user = params.buildUser(result, cognitoUser);
+  }
+
   // leave this for the builder to pass
   save() {
 

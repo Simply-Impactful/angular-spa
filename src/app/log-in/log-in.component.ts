@@ -7,6 +7,7 @@ import {
 } from '../services/cognito.service';
 import { Router } from '@angular/router';
 import { User } from '../model/User';
+import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
 
 @Component({
   selector: 'app-log-in',
@@ -72,6 +73,8 @@ export class LogInComponent implements LoggedInCallback, OnInit {
 
     }
   }
+  /** Interface required for LoggedInCallback */
+  callbackWithParam(result: CognitoUserAttribute[]) {}
   // CognitoCallback interface
   handleMFAStep?(
     challengeName: string,
