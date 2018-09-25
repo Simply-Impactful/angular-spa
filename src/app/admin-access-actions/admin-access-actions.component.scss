@@ -1,0 +1,39 @@
+main {
+    display: flex;
+    flex-direction: column;
+    padding-top: 0em;
+    padding-right: 10em;
+    padding-left: 10em;
+    }
+  
+  .actiondata-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+  }
+  
+  mat-cell {
+    display:flex;
+    justify-content:center;
+  }
+  
+  mat-header-row {
+    display:flex;
+    justify-content: center;
+  }
+  th.mat-header-cell {
+    text-align: center;
+    font-weight: bold;
+}
+
+  button.mat-raised-button {
+    margin-right: 15px;
+    width: 150px;
+    align-self: flex-end;
+}
+
+button.mat-button {
+    margin-right: 15px;
+    width: 150px;
+    align-self: flex-start;
+}

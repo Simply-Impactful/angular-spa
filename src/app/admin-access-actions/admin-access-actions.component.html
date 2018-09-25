@@ -1,8 +1,21 @@
 <main>
-  <h1 style="color:#4db6ac; padding-top:20px;">Actions Page Settings</h1>
-  <p>
+  <h3 align = "left" style="padding-top:20px;">Add new, remove or edit existing actions</h3>
+
     <br>
     <br>
-    <button mat-raised-button color="primary" (click)="save()">Save</button>
-  </p>
+    <button mat-button color="primary" (click)="save()"> + Create New</button>
+    <br>
+    <div class="actiondata-container mat-elevation-z8">
+    <table mat-table [dataSource]="data">
+      <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+        <th class = mat-header-cell *matHeaderCellDef> {{column}}</th>
+        <td mat-cell *matCellDef="let actiondata"> {{actiondata[column]}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+    </table>
+  </div>
+  <br>
+    <button mat-raised-button color="primary" (click)="save()">Save changes</button>
 </main>
