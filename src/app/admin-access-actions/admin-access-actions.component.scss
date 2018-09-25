@@ -5,33 +5,26 @@ main {
     padding-right: 10em;
     padding-left: 10em;
     }
-  
-  .actiondata-container {
+ .actiondata-container {
     display: flex;
     flex-direction: column;
     min-width: 300px;
   }
-  
   mat-cell {
-    display:flex;
-    justify-content:center;
+    display:flex !important;
+    justify-content:center!important;
+    font-size: 12px;
   }
-  
-  mat-header-row {
-    display:flex;
-    justify-content: center;
-  }
-  th.mat-header-cell {
-    text-align: center;
+  mat-header-cell {
     font-weight: bold;
+    justify-content:center;
+    font-size: 12px;
 }
-
   button.mat-raised-button {
     margin-right: 15px;
     width: 150px;
     align-self: flex-end;
 }
-
 button.mat-button {
     margin-right: 15px;
     width: 150px;

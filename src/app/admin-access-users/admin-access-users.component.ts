@@ -42,9 +42,7 @@ export class AdminAccessUsersComponent implements OnInit {
   displayedColumns = ['name', 'username', 'email', 'zipcode', 'actionstaken', 'totalpoints'];
   dataSource = new MatTableDataSource(USER_DATA);
 
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
 
   constructor(public appComp: AppComponent) { }
 
