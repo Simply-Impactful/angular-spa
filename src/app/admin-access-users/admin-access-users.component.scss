@@ -1,0 +1,24 @@
+main {
+    display: flex;
+    flex-direction: column;
+    padding-top: 0em;
+    padding-right: 10em;
+    padding-left: 10em;
+    }
+
+.userdata-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+  }
+  
+mat-cell {
+    display:flex !important;
+    justify-content:center!important;
+  }
+  
+mat-header-cell {
+    display:flex;
+    justify-content:center;
+    font-weight: bold;
+  }
