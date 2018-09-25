@@ -7,7 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatInputModule } from '@angular/material';
 import { MatSelectModule } from '@angular/material';
-import { MatTableModule} from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material';
 
 import { ActionsComponent } from './actions/actions.component';
 import { ActionComponent } from './action/action.component';
@@ -78,7 +79,8 @@ import { Parameters } from './services/parameters';
     ReactiveFormsModule,
     HttpClientModule,
     AngularFileUploaderModule,
-    MatTableModule
+    MatTableModule,
+    MatPaginatorModule
   ],
   entryComponents: [
     ActionDialogComponent

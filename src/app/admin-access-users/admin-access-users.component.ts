@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AppComponent } from '../app.component';
 import { Route, Router } from '@angular/router';
-import {MatTableDataSource} from '@angular/material';
+import {MatPaginator, MatTableDataSource} from '@angular/material';
 
 
 export interface UserData {
@@ -42,10 +42,15 @@ export class AdminAccessUsersComponent implements OnInit {
   displayedColumns = ['name', 'username', 'email', 'zipcode', 'actionstaken', 'totalpoints'];
   dataSource = new MatTableDataSource(USER_DATA);
 
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+
   constructor(public appComp: AppComponent) { }
 
   ngOnInit() {
     this.appComp.setAdmin();
+    this.dataSource.paginator = this.paginator;
   }
 }
 
