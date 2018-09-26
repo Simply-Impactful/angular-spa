@@ -2,13 +2,15 @@ import { ActionDialogComponent } from './../action-dialog/action-dialog.componen
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Action } from '../model/Action';
+import { ActionService } from '../services/action.service';
+import { LoggedInCallback } from '../services/cognito.service';
 
 @Component({
   selector: 'app-actions',
   templateUrl: './actions.component.html',
   styleUrls: ['./actions.component.scss']
 })
-export class ActionsComponent implements OnInit {
+export class ActionsComponent implements OnInit, LoggedInCallback {
   username;
   userscore;
   unplugPoints;
@@ -17,11 +19,15 @@ export class ActionsComponent implements OnInit {
   action = new Action();
   dialogResult = '';
 
+  actions: Action[];
+
   constructor(
-    public dialog: MatDialog) { }
+    public dialog: MatDialog, public actionService: ActionService) { }
 
   ngOnInit() {
-    this.getActionsData('');
+   // this.getActionsData('');
+   this.actionService.getActions(this);
+
   }
 
   add(action) { }
@@ -36,13 +42,13 @@ export class ActionsComponent implements OnInit {
     // placeholders...
     if (name === 'unplug') {
       this.action.name = 'unplug';
-      this.action.points = 8;
+      this.action.eligiblePoints = 8;
       this.action.fact = 'You saved 10 watts today';
     }
 
     if (name === 'faucet') {
       this.action.name = 'faucet';
-      this.action.points = 5;
+      this.action.eligiblePoints = 5;
       this.action.fact = 'You saved 10 liters of water today';
     }
 
@@ -62,6 +68,10 @@ export class ActionsComponent implements OnInit {
   }
 
   openDialog(name: string) {
+    this.actionService.actions$.subscribe(response => {
+      this.actions = response;
+    });
+    console.log('Action result ' + JSON.stringify(this.actions));
     this.action = this.getActionsData(name);
     const dialogRef = this.dialog.open(ActionDialogComponent, {
       width: '600px',
@@ -71,5 +81,14 @@ export class ActionsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.dialogResult = result;
     });
+  }
+
+  isLoggedIn(message: string, loggedIn: boolean): void {
+   // throw new Error('Method not implemented.');
+  }
+  callbackWithParam(result: any): void {
+    console.log('result: ' + result);
+    console.log('body: ' + result.body);
+  //  throw new Error('Method not implemented');
   }
 }

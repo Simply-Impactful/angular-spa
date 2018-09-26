@@ -66,7 +66,7 @@ export class LogInComponent implements LoggedInCallback, OnInit {
       const currentUser = this.cognitoUtil.getCurrentUser();
       const username = currentUser.getUsername();
       if (username === 'superUser') {
-        this.router.navigate(['/landingAdmin']);
+        this.router.navigate(['/adminaccesslanding']);
       } else {
         this.router.navigate(['/home']);
       }
