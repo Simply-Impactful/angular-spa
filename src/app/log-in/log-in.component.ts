@@ -8,6 +8,7 @@ import {
 import { Router } from '@angular/router';
 import { User } from '../model/User';
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
+import { AWSError } from 'aws-sdk';
 
 @Component({
   selector: 'app-log-in',
@@ -66,7 +67,7 @@ export class LogInComponent implements LoggedInCallback, OnInit {
       const currentUser = this.cognitoUtil.getCurrentUser();
       const username = currentUser.getUsername();
       if (username === 'superUser') {
-        this.router.navigate(['/landingAdmin']);
+        this.router.navigate(['/adminaccesslanding']);
       } else {
         this.router.navigate(['/home']);
       }
@@ -74,7 +75,7 @@ export class LogInComponent implements LoggedInCallback, OnInit {
     }
   }
   /** Interface required for LoggedInCallback */
-  callbackWithParam(result: CognitoUserAttribute[]) {}
+  callbackWithParam(error: AWSError, result: CognitoUserAttribute[]) {}
   // CognitoCallback interface
   handleMFAStep?(
     challengeName: string,

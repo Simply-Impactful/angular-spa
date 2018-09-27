@@ -37,6 +37,7 @@ import { AdminAccessUsersComponent } from './admin-access-users/admin-access-use
 import { AdminViewLanding, AdminViewActions, AdminViewUsers, AdminViewCurriculum } from './admin-view/admin-view.component';
 import { AdminAccessCurriculumComponent } from './admin-access-curriculum/admin-access-curriculum.component';
 import { Parameters } from './services/parameters';
+import { LambdaInvocationService } from './services/lambdaInvocation.service';
 
 @NgModule({
   declarations: [
@@ -88,7 +89,8 @@ import { Parameters } from './services/parameters';
     CognitoUtil,
     AwsUtil,
     CreateProfileService,
-    Parameters],
+    Parameters,
+    LambdaInvocationService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
