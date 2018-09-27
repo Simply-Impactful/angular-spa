@@ -24,17 +24,15 @@ export class ActionService implements OnInit {
   action = new Action;
   userSource = new BehaviorSubject(new User());
   user$ = this.userSource.asObservable();
-  // is this the best way to do this?
+
   user = new User;
   dialogResult = '';
   length: number;
   errorMessage: string = '';
 
   public cognitoUtil: CognitoUtil;
-  // public dynamoDb = new AWS.DynamoDB.DocumentClient();
 
   constructor(private http: HttpClient, private dialog: MatDialog) {
-    this.apiEndpoint = 'https://ww27t3z96d.execute-api.us-east-1.amazonaws.com/cis/';
   }
 
   ngOnInit() {
@@ -97,45 +95,5 @@ export class ActionService implements OnInit {
 
     this.userSource.next(this.user); // user$ object
     return this.action$;
-  }
-
-  getActions(callback: LoggedInCallback) {
- //   AWS.config.update({region: 'us-east-1'});
-  //  AWS.config.credentials = new AWS.CognitoIdentityCredentials({IdentityPoolId: identityPoolId});
-    AWS.config.region = environment.region;
-    AWS.config.update({ accessKeyId: environment.AWS_ACCESS_KEY_ID, secretAccessKey: environment.AWS_SECRET_ACCESS_KEY,
-      region: environment.region });
-
-    const lambda = new AWS.Lambda({region: 'us-east-1', apiVersion: '2015-03-31'});
-    let pullResults;
-    const pullParams = {
-      FunctionName: 'listActions',
-      InvocationType: 'RequestResponse',
-      LogType: 'None'
-  };
-    lambda.invoke(pullParams, function(error, data) {
-
-      if (error) {
-        console.log('error: ' + error);
-      } else {
-     //   pullResults = JSON.stringify(data.Payload);
-        pullResults = data.Payload;
-        callback.callbackWithParam(pullResults);
-      }
-    });
-
-  /**   return this.http.get<Action[]>(this.apiEndpoint + 'actions')
-     .pipe(
-      map(response => {
-        if (response) {
-          this.length = response.length;
-       //   const actionItem = response.filter((action) => action.hasOwnProperty('eligiblePoints'));
-          this.actionsSource.next(response);
-          return response;
-        } else {
-          console.log('error getting actions');
-          this.errorMessage = 'Error getting Actions';
-        }
-      })); **/
   }
 }
