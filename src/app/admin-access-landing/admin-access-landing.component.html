@@ -1,19 +1,36 @@
 <main>
-  <h1 style="color:#4db6ac; padding-top:20px">Landing Page Settings</h1>
-  <p>
-    <br>
-    <mat-grid-list cols="2" rowHeight="20em">
+  <body class = "admin-background">
+    <br><br>
+    <mat-grid-list cols="2" rowHeight="6em">
+      <mat-grid-tile cols="1">
+        <h3 align = "left" style = "padding-top:50px;font-weight: bold">Change background image or environmental fact here</h3>
+      </mat-grid-tile>
+      <mat-grid-tile cols="1">
+        <div class ="text-inside-grid">
+          <h3 style = "padding-top:50px; color: rgb(144,142,142)">Enter environmental fact</h3> 
+        </div>             
+      </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="2" rowHeight="12em">
       <mat-grid-tile cols="1">
         <app-upload></app-upload>
       </mat-grid-tile>
       <mat-grid-tile cols="1">
-        <mat-form-field appearance="outline" style="width:500px">
-          <textarea [(ngModel)]="description" name="shortdescription" matInput placeholder="Enter Home Page Fact" maxlength="500" rows="5"></textarea>
-          <mat-hint>500 Characters limit</mat-hint>
-        </mat-form-field>
+        <div class ="text-inside-grid">
+          <mat-form-field appearance="outline" style="width:500px; font-weight:bold">
+            <textarea [(ngModel)]="description" name="shortdescription" style ="color:black" 
+              matInput placeholder="Americans use about 500 million plastic straws each day" maxlength="500" rows="6"></textarea>
+            <mat-hint>500 Characters limit</mat-hint> 
+          </mat-form-field>
+        </div>
       </mat-grid-tile>
     </mat-grid-list>
-    <br>
-    <button mat-raised-button color="primary" (click)="save()">Save</button>
-  </p>
+    <mat-grid-list cols="2" rowHeight="45em">
+      <mat-grid-tile cols="1">
+      </mat-grid-tile>
+      <mat-grid-tile cols="1">
+        <button mat-raised-button color="primary" (click)="save()">Save Changes</button>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </body>
 </main>
