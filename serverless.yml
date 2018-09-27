@@ -22,13 +22,13 @@ stackTags:
 custom:
   CONF: ${file(./conf/conf.json)}
   stage: ${opt:stage}
-  serviceName: ${self:custom.CONF.serviceName}
   appName: ${self:custom.CONF.appName}
+  prefix: ${self:custom.appName}-${opt:stage}
+  serviceName: ${self:custom.CONF.serviceName}
   bucketName: ${self:custom.CONF.bucketName}
   bucketNameSubdomain: www.${self:custom.CONF.bucketName}
   createdBy: ${self:custom.CONF.createdBy}
   organization: ${self:custom.CONF.organization}
-  prefix: ${self:custom.appName}-${opt:stage}
   # AWS Specific confs
   awsAccountId: ${self:custom.CONF.awsAccountId}
   awsRegion: ${self:custom.CONF.awsRegion}

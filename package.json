@@ -12,10 +12,9 @@
     "sls:deploy:dev": "sls deploy -s dev",
     "sls:remove:dev": "sls remove -s dev",
     "sls:deploy:prod": "sls deploy -s prod",
-    "sls:remove:prod": "sls remove -s dev",
     "deploy:assets-move": "./scripts/extract-assets.sh",
-    "deploy:dev": "npm run build && npm run deploy:assets-move && npm run sls:deploy:dev",
-    "deploy:prod": "npm run build:prod && npm run deploy:assets-move && npm run sls:deploy:prod"
+    "deploy:dev": "npm run build && npm run sls:deploy:dev",
+    "deploy:prod": "npm run build:prod && npm run sls:deploy:dev"
   },
   "private": true,
   "dependencies": {
