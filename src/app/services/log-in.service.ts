@@ -85,10 +85,9 @@ export class LogInService {
                     cognitoUser.getUserAttributes(function (error, result) {
                         if (err) {
                             console.log('LogInService ERROR: in getUserAttributes: ' + error.message);
-                            callback.callbackWithParam(err, null);
                         } else {
                             if (result) {
-                                callback.callbackWithParam(null, result);                          }
+                                callback.callbackWithParam(result);                          }
                         }
                     });
                 }

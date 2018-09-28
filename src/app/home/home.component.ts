@@ -8,7 +8,6 @@ import { Parameters} from '../services/parameters';
 import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
 import { CreateProfileService } from '../services/create-profile.service';
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
-import { AWSError } from 'aws-sdk';
 
 @Component({
   selector: 'app-home',
@@ -51,7 +50,7 @@ export class HomeComponent implements OnInit, LoggedInCallback {
    // console.log('is logged in');
   }
   // needed to persist the data returned from login service
-  callbackWithParam(error: AWSError, result: CognitoUserAttribute[]) {
+  callbackWithParam(result: CognitoUserAttribute[]) {
     const cognitoUser = this.cognitoUtil.getCurrentUser();
     const params = new Parameters();
     this.user = params.buildUser(result, cognitoUser);

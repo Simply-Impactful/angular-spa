@@ -4,7 +4,6 @@ import { CognitoUserPool } from 'amazon-cognito-identity-js';
 import * as AWS from 'aws-sdk/global';
 import * as awsservice from 'aws-sdk/lib/service';
 import * as CognitoIdentity from 'aws-sdk/clients/cognitoidentity';
-import { AWSError } from 'aws-sdk/global';
 
 /**
  * Created by Vladimir Budilov
@@ -17,7 +16,7 @@ export interface CognitoCallback {
 
 export interface LoggedInCallback {
     isLoggedIn(message: string, loggedIn: boolean): void;
-    callbackWithParam(error: AWSError, result: any): void;
+    callbackWithParam(result: any): void;
 }
 
 export interface ChallengeParameters {

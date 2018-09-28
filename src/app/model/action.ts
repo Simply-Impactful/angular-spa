@@ -1,7 +1,7 @@
 export class Action {
     name?: string;
     username?: string;
-    eligiblePoints?: number;
+    points?: number;
     status?: string;
     picture?: string;
     fact?: string;
