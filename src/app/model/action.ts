@@ -1,12 +1,11 @@
 export class Action {
-    name?: string;
-    username?: string;
-    points?: number;
-    status?: string;
-    picture?: string;
-    fact?: string;
-    tileIcon?: string;
+    eligiblePoints?: number;
+    updatedAt?: number;
+    funFactImageUrl?: string;
+    funFact?: string;
+    createdAt?: number;
     maxFrequency?: number;
+    tileIconUrl?: string;
+    name?: string;
     frequencyCadence?: string;
-    imageUrl?: string;
 }

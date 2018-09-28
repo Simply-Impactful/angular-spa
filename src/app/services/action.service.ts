@@ -1,28 +1,38 @@
 import { Injectable, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Action } from '../model/Action';
 import { User } from '../model/User';
 import { MatDialog } from '@angular/material';
 import { ActionDialogComponent } from './../action-dialog/action-dialog.component';
+import * as AWS from 'aws-sdk';
+import { CognitoUtil, LoggedInCallback } from './cognito.service';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class ActionService implements OnInit {
-  public apiEndpoint: string;
+
+  public apiEndpoint: string = '';
+
+  actionsSource = new BehaviorSubject(new Array<Action>());
+  actions$ = this.actionsSource.asObservable();
 
   actionSource = new BehaviorSubject(new Action());
   action$ = this.actionSource.asObservable();
-  action = new Action;
 
+  action = new Action;
   userSource = new BehaviorSubject(new User());
   user$ = this.userSource.asObservable();
-  // is this the best way to do this?
-  user = new User;
 
+  user = new User;
   dialogResult = '';
+  length: number;
+  errorMessage: string = '';
+
+  public cognitoUtil: CognitoUtil;
 
   constructor(private http: HttpClient, private dialog: MatDialog) {
-    this.apiEndpoint = '';
   }
 
   ngOnInit() {
@@ -48,48 +58,39 @@ export class ActionService implements OnInit {
     // placeholders...
     if (name === 'unplug') {
       this.action.name = 'unplug';
-      this.action.points = 8;
-      this.action.fact = 'Did you know? Americans use about 18 millions barrels of oil everyday';
-      this.action.status = 'Elephant';
-      this.action.imageUrl = '/assets/images/FossilFuelsFacts.jpg';
+      this.action.eligiblePoints = 8;
+      this.action.funFact = 'Did you know? Americans use about 18 millions barrels of oil everyday';
+      this.action.funFactImageUrl = '/assets/images/FossilFuelsFacts.jpg';
     }
     if (name === 'faucet') {
       this.action.name = 'faucet';
-      this.action.points = 5;
-      this.action.fact = 'You saved 10 liters of water today';
-      this.action.status = 'Giraffe';
-      this.action.imageUrl = '';
+      this.action.eligiblePoints = 5;
+      this.action.funFact = 'You saved 10 liters of water today';
+      this.action.funFactImageUrl = '';
     }
     if (name === 'light') {
       this.action.name = 'light';
-      this.action.points = 7;
-      this.action.fact = 'You saved 10 watts today';
-      this.action.status = 'Giraffe';
-      this.action.imageUrl = '';
+      this.action.eligiblePoints = 7;
+      this.action.funFact = 'You saved 10 watts today';
+      this.action.funFactImageUrl = '';
     }
     // mock response
     return this.action;
+  }
+
+  createAction() {
+
   }
 
   takeAction(action: Action): Observable<Action> {
     console.log('action in take action ' + JSON.stringify(action));
     this.actionSource.next(action);
     // log points
-    const points = action.points;
+    const points = action.eligiblePoints;
     this.user.userPoints = this.user.userPoints + points;
     console.log('user points ======>' + this.user.userPoints);
 
     this.userSource.next(this.user); // user$ object
     return this.action$;
   }
-
-  // this doesn't exist yet, but the controller will route to the node.js login API call to validate credentials
-  /**    return this.http.post<action[]>(this.apiEndpoint + 'action',requestBody)
-      .pipe(
-        map(action => {
-            this.actionSource.next(action);
-            console.log("action " + action);
-            return action;
-        })
-      ) **/
 }

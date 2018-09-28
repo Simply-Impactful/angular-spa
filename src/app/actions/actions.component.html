@@ -12,13 +12,13 @@
   </div>
 
   <form>
-    <mat-card class="card-container" style="margin-top:-20px"(click)="openDialog('unplug')">
+    <mat-card *ngFor="let action of actions" class="card-container" style="margin-top:20px"(click)="openDialog('unplug')">
       <mat-card-header style="float:right;">
-          <div mat-card-image class="score-flag">8</div>
+          <div mat-card-image class="score-flag">{{actionsData.eligiblePoints}}</div>
       </mat-card-header>
-  <img mat-card-image src="/assets/images/icons/plug.png">
+  <img mat-card-image src='https://s3.amazonaws.com/simply-impactful-image-data/IMG_20180828_152438%5B1%5D.jpg'>
   </mat-card>
-  <mat-card class="card-container" (click)="openDialog('faucet')">
+  <!--<mat-card class="card-container" (click)="openDialog('faucet')">
       <mat-card-header style="float:right;">
               <div mat-card-image class="score-flag">5</div>
       </mat-card-header>
@@ -47,7 +47,7 @@
             <div mat-card-image class="score-flag">4</div>
     </mat-card-header>
     <img mat-card-image src="/assets/images/icons/lightbulb.png">
-</mat-card>
+</mat-card> -->
   <br>
   </form>
 </main>

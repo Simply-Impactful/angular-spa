@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 import { Parameters } from './parameters';
 import * as AWS from 'aws-sdk/global';
 import * as STS from 'aws-sdk/clients/sts';
+import { AWSError } from 'aws-sdk';
 
 // let's use a global object to inject the window object
 if (global === undefined) {
@@ -85,9 +86,11 @@ export class LogInService {
                     cognitoUser.getUserAttributes(function (error, result) {
                         if (err) {
                             console.log('LogInService ERROR: in getUserAttributes: ' + error.message);
+                            callback.callbackWithParam(err, null);
                         } else {
                             if (result) {
-                                callback.callbackWithParam(result);                          }
+                                callback.callbackWithParam(null, result);
+                            }
                         }
                     });
                 }

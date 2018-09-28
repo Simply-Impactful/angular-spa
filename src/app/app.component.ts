@@ -4,6 +4,7 @@ import { LogInService } from './services/log-in.service';
 import { CognitoUtil, LoggedInCallback } from './services/cognito.service';
 import { User } from './model/User';
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
+import { AWSError } from 'aws-sdk';
 
 @Component({
   selector: 'app-root',
@@ -33,7 +34,7 @@ export class AppComponent implements OnInit, LoggedInCallback {
       }
     });
   }
-  callbackWithParam(result: CognitoUserAttribute[]) {
+  callbackWithParam(error: AWSError, result: CognitoUserAttribute[]) {
     console.log('result ' + result);
   }
 
