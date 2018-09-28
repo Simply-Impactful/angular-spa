@@ -19,8 +19,8 @@ export const environment = {
   sts_endpoint: '',
   dynamodb_endpoint: '',
   s3_endpoint: '',
-  AWS_ACCESS_KEY_ID: '****** ask emily *****',
-  AWS_SECRET_ACCESS_KEY: '**** ask emily *****'
+  AWS_ACCESS_KEY_ID: 'AKIAI3FCRKZRMQ7VBM5Q',
+  AWS_SECRET_ACCESS_KEY: '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'
 };
 
 /*
