@@ -38,7 +38,7 @@ export class ResetPasswordComponent implements OnInit {
   }
 
    // step 1 of forgotPassword flow.. getting a new verification code
-  validateAnswers() {
+   sendCode() {
     this.loginService.forgotPassword(this.email, this);
   }
 

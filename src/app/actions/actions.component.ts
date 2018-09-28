@@ -43,7 +43,7 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
   }
 
   openDialog(name: string, action: Action) {
-    console.log('Action result ' + JSON.stringify(name));
+   // required for page render
     this.actionService.openDialog(name, action);
    // this.action = this.getActionsData(name);
   }
