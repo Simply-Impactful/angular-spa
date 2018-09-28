@@ -18,7 +18,7 @@ export class ActionComponent implements OnInit {
   ngOnInit() {
   }
 
-  openDialog(name: string) {
-    this.actionService.openDialog(name);
+  openDialog(name: string, action: Action) {
+    this.actionService.openDialog(name, action);
   }
 }

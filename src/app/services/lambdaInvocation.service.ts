@@ -38,20 +38,6 @@ export class LambdaInvocationService implements OnInit {
   ngOnInit() {
   }
 
-  openDialog(name: string) {
-    this.action = this.actionService.getData(name);
-    const dialogRef = this.dialog.open(ActionDialogComponent, {
-      width: '600px',
-      //  data: {action:this.action}
-    });
-    this.actionSource.next(this.action);
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog closed: ${result}`);
-      this.dialogResult = result;
-    });
-  }
-
   listActions(callback: LoggedInCallback) {
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
     AWS.config.region = environment.region;

@@ -18,9 +18,10 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
   unplugPoints;
   faucetPoints;
   lightsPoints;
-  action = new Action();
   dialogResult = '';
   actionsLength: string = '';
+  action: Action;
+  eligiblePoints: number;
 
   actions: Action[];
 
@@ -41,21 +42,12 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
     // pass username and action name to determine the history/frequency
   }
 
-  openDialog(name: string) {
-    this.actionService.actions$.subscribe(response => {
-      this.actions = response;
-    });
-    console.log('Action result ' + JSON.stringify(this.actions));
+  openDialog(name: string, action: Action) {
+    console.log('Action result ' + JSON.stringify(name));
+    this.actionService.openDialog(name, action);
    // this.action = this.getActionsData(name);
-    const dialogRef = this.dialog.open(ActionDialogComponent, {
-      width: '600px',
-      //  data: { action:this.action }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.dialogResult = result;
-    });
   }
+
   isLoggedIn(message: string, loggedIn: boolean): void {
     // throw new Error('Method not implemented.');
    }
@@ -63,6 +55,8 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
      const response = JSON.parse(result);
      this.actions = response.body;
      this.actionsLength = response.body.length;
-     console.log('responseLength ' + this.actionsLength);
+    for ( let i = 0; i < response.body.length; i++) {
+      this.action = response.body[i];
+    }
    }
   }

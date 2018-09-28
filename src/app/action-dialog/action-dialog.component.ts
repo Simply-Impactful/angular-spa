@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Action } from '../model/Action';
 import { ActionService } from '../services/action.service';
 import { User } from '../model/User';
@@ -13,15 +13,20 @@ export class ActionDialogComponent implements OnInit {
 
   action: Action;
   user: User;
+  public thisDialogRef: MatDialogRef<ActionDialogComponent>;
+  public actionService: ActionService;
+
   constructor(
-    public thisDialogRef: MatDialogRef<ActionDialogComponent>,
-    public actionService: ActionService) { }
-  // ,@Inject(MAT_DIALOG_DATA)public data: action) { }
+    @Inject(MAT_DIALOG_DATA)public data: Action) { }
 
   ngOnInit() {
-    this.actionService.action$.subscribe(data => {
+/**    this.actionService.action$.subscribe(data => {
       this.action = data;
-    });
+    }); **/
+    this.action = this.data;
+    console.log('this.action ' + JSON.stringify(this.action));
+
+    console.log('this.action.eligilbePoints ' + JSON.stringify(this.action.eligiblePoints));
   }
 
   onCloseConfirm() {
@@ -33,9 +38,9 @@ export class ActionDialogComponent implements OnInit {
      * this.user.points = this.user.points + this.action.points;
      * the home page will have to subscribe to the User object in order to retrieve the points
      * just as we do above **/
-    this.actionService.takeAction(this.action).subscribe(response => {
+ /**   this.actionService.takeAction(this.action).subscribe(response => {
       this.action = response;
-    });
+    }); **/
 
     //  console.log("user data in dialog close " + JSON.stringify(this.user));
     console.log('action data in dialog close ' + JSON.stringify(this.action));

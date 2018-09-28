@@ -15,9 +15,6 @@ export class ActionService implements OnInit {
 
   public apiEndpoint: string = '';
 
-  actionsSource = new BehaviorSubject(new Array<Action>());
-  actions$ = this.actionsSource.asObservable();
-
   actionSource = new BehaviorSubject(new Action());
   action$ = this.actionSource.asObservable();
 
@@ -38,44 +35,16 @@ export class ActionService implements OnInit {
   ngOnInit() {
   }
 
-  openDialog(name: string) {
-    this.action = this.getData(name);
+  openDialog(name: string, action: Action) {
     const dialogRef = this.dialog.open(ActionDialogComponent, {
       width: '600px',
-      //  data: {action:this.action}
+        data: action
     });
-    this.actionSource.next(this.action);
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog closed: ${result}`);
       this.dialogResult = result;
     });
-  }
-
-  getData(name: string) {
-    // Need to input this data into the DB from what the Admins upload
-    // send GET request to DB to collect data for given action
-    // placeholders...
-    if (name === 'unplug') {
-      this.action.name = 'unplug';
-      this.action.eligiblePoints = 8;
-      this.action.funFact = 'Did you know? Americans use about 18 millions barrels of oil everyday';
-      this.action.funFactImageUrl = '/assets/images/FossilFuelsFacts.jpg';
-    }
-    if (name === 'faucet') {
-      this.action.name = 'faucet';
-      this.action.eligiblePoints = 5;
-      this.action.funFact = 'You saved 10 liters of water today';
-      this.action.funFactImageUrl = '';
-    }
-    if (name === 'light') {
-      this.action.name = 'light';
-      this.action.eligiblePoints = 7;
-      this.action.funFact = 'You saved 10 watts today';
-      this.action.funFactImageUrl = '';
-    }
-    // mock response
-    return this.action;
   }
 
   createAction() {

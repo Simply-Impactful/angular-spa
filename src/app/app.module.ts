@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatInputModule } from '@angular/material';
+import { MatInputModule, MatDialogRef } from '@angular/material';
 import { MatSelectModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material';
@@ -84,16 +84,16 @@ import { LambdaInvocationService } from './services/lambdaInvocation.service';
     MatPaginatorModule
   ],
   entryComponents: [
-    ActionDialogComponent
+    ActionDialogComponent,
   ],
   providers: [
     CreateGroupService,
-    ActionService,
     CognitoUtil,
     AwsUtil,
     CreateProfileService,
     Parameters,
-    LambdaInvocationService],
+    LambdaInvocationService,
+    ActionService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
