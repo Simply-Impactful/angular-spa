@@ -13,20 +13,14 @@ export class ActionDialogComponent implements OnInit {
 
   action: Action;
   user: User;
-  public thisDialogRef: MatDialogRef<ActionDialogComponent>;
   public actionService: ActionService;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA)public data: Action) { }
+    @Inject(MAT_DIALOG_DATA)public data: Action, public thisDialogRef: MatDialogRef<ActionDialogComponent>) { }
 
   ngOnInit() {
-/**    this.actionService.action$.subscribe(data => {
-      this.action = data;
-    }); **/
     this.action = this.data;
     console.log('this.action ' + JSON.stringify(this.action));
-
-    console.log('this.action.eligilbePoints ' + JSON.stringify(this.action.eligiblePoints));
   }
 
   onCloseConfirm() {
@@ -41,9 +35,6 @@ export class ActionDialogComponent implements OnInit {
  /**   this.actionService.takeAction(this.action).subscribe(response => {
       this.action = response;
     }); **/
-
-    //  console.log("user data in dialog close " + JSON.stringify(this.user));
-    console.log('action data in dialog close ' + JSON.stringify(this.action));
     this.thisDialogRef.close('Confirm');
   }
 

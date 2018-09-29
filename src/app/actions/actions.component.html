@@ -3,9 +3,9 @@
     <mat-toolbar style="background-color: transparent">
       <mat-toolbar-row>
         <a href="http://www.changeissimple.org/" target="_blank"><button class="cis-logo" title="Navigate to ChangeIsSimple.org"></button></a>
+        <span>Hi {{user.username}}, what actions have you taken today?</span>
         <span class="spacer"></span>
-        <span class="spacer"></span>
-        Your Score:<span class="score-flag"></span>
+        Your Score:<span class="score-flag">{{user.userPoints}}</span>
       </mat-toolbar-row>
     </mat-toolbar>
   </div>

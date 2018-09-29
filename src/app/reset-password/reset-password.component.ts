@@ -16,11 +16,13 @@ export class ResetPasswordComponent implements OnInit {
   confirmPassword: string = '';
   errorMessage: string = '';
   email: string = '';
+  username: string = '';
   verificationCode: string = '';
-  resent: boolean = false;
+  unsent: boolean = true;
+  sent: boolean = false;
   onConfirm: boolean = false;
   user: User;
-  valid: any;
+
   securityQuestion1: string = '';
   securityQuestion2: string = '';
   securityQuestion3: string = '';
@@ -39,7 +41,7 @@ export class ResetPasswordComponent implements OnInit {
 
    // step 1 of forgotPassword flow.. getting a new verification code
    sendCode() {
-    this.loginService.forgotPassword(this.email, this);
+    this.loginService.forgotPassword(this.username, this);
   }
 
   // step 2 is resetting the password
@@ -48,7 +50,7 @@ export class ResetPasswordComponent implements OnInit {
       this.errorMessage = 'The inputted passwords do not match.';
     } else {
       this.onConfirm = true;
-      this.loginService.confirmNewPassword(this.email, this.verificationCode, this.password, this);
+      this.loginService.confirmNewPassword(this.username, this.verificationCode, this.password, this);
     }
   }
 
@@ -57,7 +59,8 @@ export class ResetPasswordComponent implements OnInit {
       this.errorMessage = message;
       console.log('message: ' + this.errorMessage);
     } else {
-      this.resent = true;
+      this.unsent = false;
+      this.sent = true;
       // Doing this because call back is being used for both calls,
       // but only want to route on the second call
       if (this.onConfirm) {

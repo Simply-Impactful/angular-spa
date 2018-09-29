@@ -18,7 +18,6 @@ import { AWSError } from 'aws-sdk';
 export class HomeComponent implements OnInit, LoggedInCallback {
   user: User;
   userCopy: User;
-  userscore = '';
 
   groupSource = new BehaviorSubject(new Group());
   group$ = this.groupSource.asObservable();
@@ -36,7 +35,7 @@ export class HomeComponent implements OnInit, LoggedInCallback {
     // userscore = whatever is pulled from the db
     this.params.user$.subscribe(user => {
       this.user = user;
-      this.userscore = this.user.userPoints;
+      this.user.userPoints = user.userPoints;
     });
 
     this.createGroupService.group$.subscribe(createdGroup => {

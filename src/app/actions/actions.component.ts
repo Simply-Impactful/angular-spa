@@ -6,6 +6,9 @@ import { ActionService } from '../services/action.service';
 import { LoggedInCallback } from '../services/cognito.service';
 import { AWSError } from 'aws-sdk';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
+import { Parameters } from '../services/parameters';
+import { User } from '../model/User';
+
 
 @Component({
   selector: 'app-actions',
@@ -19,16 +22,22 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
   faucetPoints;
   lightsPoints;
   dialogResult = '';
-  actionsLength: string = '';
+  actionsLength: number;
   action: Action;
   eligiblePoints: number;
+  user: User;
 
   actions: Action[];
 
   constructor(
-    public dialog: MatDialog, public actionService: ActionService, public lambdaService: LambdaInvocationService) { }
+    public dialog: MatDialog, public actionService: ActionService,
+    public lambdaService: LambdaInvocationService, public params: Parameters) { }
 
   ngOnInit() {
+    this.params.user$.subscribe(user => {
+      this.user = user;
+      this.userscore = this.user.userPoints;
+    });
     // the value of the actions returned is stored as this.actions array object
     // in the callbackWithParams method
    this.lambdaService.listActions(this);
@@ -54,9 +63,5 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
    callbackWithParam(error: AWSError, result: any): void {
      const response = JSON.parse(result);
      this.actions = response.body;
-     this.actionsLength = response.body.length;
-    for ( let i = 0; i < response.body.length; i++) {
-      this.action = response.body[i];
-    }
    }
   }

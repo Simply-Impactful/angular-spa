@@ -122,9 +122,9 @@ export class LogInService {
         });
     }
 
-    confirmNewPassword(email: string, verificationCode: string, password: string, callback: CognitoCallback) {
+    confirmNewPassword(username: string, verificationCode: string, password: string, callback: CognitoCallback) {
         const userData = {
-            Username: email,
+            Username: username,
             Pool: this.cognitoUtil.getUserPool()
         };
 
