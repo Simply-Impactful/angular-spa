@@ -64,4 +64,9 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
      const response = JSON.parse(result);
      this.actions = response.body;
    }
+
+   // Skeletal method we need to put here in order to use the lambdaService
+   callbackWithParams(error: AWSError, result: any): void {
+
+   }
   }

@@ -75,7 +75,7 @@ export class LogInComponent implements LoggedInCallback, OnInit {
     }
   }
   /** Interface required for LoggedInCallback */
-  callbackWithParam(error: AWSError, result: CognitoUserAttribute[]) {}
+  callbackWithParams(error: AWSError, result: CognitoUserAttribute[]) {}
   // CognitoCallback interface
   handleMFAStep?(
     challengeName: string,

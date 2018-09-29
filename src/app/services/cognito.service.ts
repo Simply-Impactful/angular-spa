@@ -17,7 +17,7 @@ export interface CognitoCallback {
 
 export interface LoggedInCallback {
     isLoggedIn(message: string, loggedIn: boolean): void;
-    callbackWithParam(error: AWSError, result: any): void;
+    callbackWithParams(error: AWSError, result: any);
 }
 
 export interface ChallengeParameters {
@@ -28,6 +28,7 @@ export interface ChallengeParameters {
 export interface Callback {
     callback(): void;
     callbackWithParam(result: any): void;
+    // callbackWithParams(error: AWSError, result: any);
 }
 
 @Injectable()

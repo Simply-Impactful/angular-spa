@@ -9,6 +9,8 @@ import { ActionDialogComponent } from './../action-dialog/action-dialog.componen
 import * as AWS from 'aws-sdk';
 import { CognitoUtil, LoggedInCallback } from './cognito.service';
 import { environment } from '../../environments/environment';
+import { LambdaInvocationService } from './lambdaInvocation.service';
+import { AWSError } from 'aws-sdk';
 
 @Injectable()
 export class ActionService implements OnInit {
@@ -51,15 +53,24 @@ export class ActionService implements OnInit {
 
   }
 
-  takeAction(action: Action): Observable<Action> {
+  takeAction(user: User, action: Action): Observable<Action> {
     console.log('action in take action ' + JSON.stringify(action));
     this.actionSource.next(action);
-    // log points
-    const points = action.eligiblePoints;
-    this.user.userPoints = this.user.userPoints + points;
-    console.log('user points ======>' + this.user.userPoints);
 
+    this.user.userPoints = this.user.userPoints + action.eligiblePoints;
     this.userSource.next(this.user); // user$ object
+
+    // this.lambdaService.performAction(this, user, action);
+
     return this.action$;
   }
+
+  // Skeletal methods we need to put here in order to use the lambdaService
+  isLoggedIn(message: string, loggedIn: boolean): void {
+    // throw new Error('Method not implemented.');
+   }
+
+   callbackWithParams(error: AWSError, result: any): void {
+
+   }
 }

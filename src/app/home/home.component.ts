@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit, LoggedInCallback {
    // console.log('is logged in');
   }
   // needed to persist the data returned from login service
-  callbackWithParam(error: AWSError, result: CognitoUserAttribute[]) {
+  callbackWithParams(error: AWSError, result: CognitoUserAttribute[]) {
     const cognitoUser = this.cognitoUtil.getCurrentUser();
     const params = new Parameters();
     this.user = params.buildUser(result, cognitoUser);

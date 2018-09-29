@@ -7,14 +7,19 @@ import { User } from '../model/User';
 import { MatDialog } from '@angular/material';
 import { ActionDialogComponent } from './../action-dialog/action-dialog.component';
 import * as AWS from 'aws-sdk';
-import { CognitoUtil, LoggedInCallback } from './cognito.service';
+import { CognitoUtil, LoggedInCallback, Callback } from './cognito.service';
 import { environment } from '../../environments/environment';
-import { ActionService } from './action.service';
 
 @Injectable()
 export class LambdaInvocationService implements OnInit {
 
   public apiEndpoint: string = '';
+
+  region = environment.region;
+
+  apiVersion = '2015-03-31';
+
+  lambda = new AWS.Lambda();
 
   actionsSource = new BehaviorSubject(new Array<Action>());
   actions$ = this.actionsSource.asObservable();
@@ -33,29 +38,58 @@ export class LambdaInvocationService implements OnInit {
 
   public cognitoUtil: CognitoUtil;
 
-  constructor(private http: HttpClient, private dialog: MatDialog, public actionService: ActionService) {  }
+  constructor() {  }
 
   ngOnInit() {
   }
 
   listActions(callback: LoggedInCallback) {
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
-    AWS.config.region = environment.region;
- /**   AWS.config.update({ accessKeyId: environment.AWS_ACCESS_KEY_ID, secretAccessKey: environment.AWS_SECRET_ACCESS_KEY,
-      region: environment.region }); **/
-
-    const lambda = new AWS.Lambda({region: 'us-east-1', apiVersion: '2015-03-31'});
+    AWS.config.region = this.region;
+    this.lambda = new AWS.Lambda({region: this.region, apiVersion: this.apiVersion});
     const pullParams = {
       FunctionName: 'listActions',
       InvocationType: 'RequestResponse',
       LogType: 'None'
   };
-    lambda.invoke(pullParams, function(error, data) {
+    this.lambda.invoke(pullParams, function(error, data) {
       if (error) {
-        callback.callbackWithParam(error, null);
+        callback.callbackWithParams(error, null);
       } else {
-        callback.callbackWithParam(null, data.Payload);
+        callback.callbackWithParams(null, data.Payload);
       }
     });
+  }
+
+  performAction(callback: LoggedInCallback, user: User, action: Action) {
+    const requestBody = {
+      body: {
+      username: user.username,
+    actionTaken: action.name,
+    email: user.email,
+    pointsEarned: action.eligiblePoints,
+    recordedFrequency: 1 }};
+    console.log(JSON.stringify(requestBody));
+
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+    AWS.config.region = this.region;
+    this.lambda = new AWS.Lambda({region: this.region, apiVersion: this.apiVersion});
+    const putParams = {
+      FunctionName: 'createUserActions',
+      InvocationType: 'RequestResponse',
+      LogType: 'None',
+      Payload: JSON.stringify(requestBody)
+    };
+
+    this.lambda.invoke(putParams, function(error, data) {
+      if (error) {
+        console.log(error);
+        callback.callbackWithParams(error, null);
+      } else {
+        console.log(data);
+        callback.callbackWithParams(null, data.Payload);
+      }
+    });
+
   }
 }

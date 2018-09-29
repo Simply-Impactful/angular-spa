@@ -34,7 +34,7 @@ export class AppComponent implements OnInit, LoggedInCallback {
       }
     });
   }
-  callbackWithParam(error: AWSError, result: CognitoUserAttribute[]) {
+  callbackWithParams(error: AWSError, result: CognitoUserAttribute[]) {
     console.log('result ' + result);
   }
 
