@@ -60,7 +60,7 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
   isLoggedIn(message: string, loggedIn: boolean): void {
     // throw new Error('Method not implemented.');
    }
-   callbackWithParam(error: AWSError, result: any): void {
+   callbackWithParams(error: AWSError, result: any): void {
      const response = JSON.parse(result);
      this.actions = response.body;
    }

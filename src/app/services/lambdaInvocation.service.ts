@@ -7,7 +7,7 @@ import { User } from '../model/User';
 import { MatDialog } from '@angular/material';
 import { ActionDialogComponent } from './../action-dialog/action-dialog.component';
 import * as AWS from 'aws-sdk';
-import { CognitoUtil, LoggedInCallback } from './cognito.service';
+import { CognitoUtil, LoggedInCallback, Callback } from './cognito.service';
 import { environment } from '../../environments/environment';
 import { ActionService } from './action.service';
 
@@ -36,25 +36,38 @@ export class LambdaInvocationService implements OnInit {
   constructor(private http: HttpClient, private dialog: MatDialog, public actionService: ActionService) {  }
 
   ngOnInit() {
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+    AWS.config.region = environment.region;
   }
 
   listActions(callback: LoggedInCallback) {
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
-    AWS.config.region = environment.region;
- /**   AWS.config.update({ accessKeyId: environment.AWS_ACCESS_KEY_ID, secretAccessKey: environment.AWS_SECRET_ACCESS_KEY,
-      region: environment.region }); **/
-
-    const lambda = new AWS.Lambda({region: 'us-east-1', apiVersion: '2015-03-31'});
+    const lambda = new AWS.Lambda({region: AWS.config.region, apiVersion: '2015-03-31'});
     const pullParams = {
       FunctionName: 'listActions',
       InvocationType: 'RequestResponse',
       LogType: 'None'
-  };
+    };
     lambda.invoke(pullParams, function(error, data) {
       if (error) {
-        callback.callbackWithParam(error, null);
+        callback.callbackWithParams(error, null);
       } else {
-        callback.callbackWithParam(null, data.Payload);
+        callback.callbackWithParams(null, data.Payload);
+      }
+    });
+  }
+
+  adminCreateAction(callback: Callback) {
+    const lambda = new AWS.Lambda({region: AWS.config.region, apiVersion: '2015-03-31'});
+    const pullParams = {
+      FunctionName: 'listActions',
+      InvocationType: 'RequestResponse',
+      LogType: 'None'
+    };
+    lambda.invoke(pullParams, function(error, data) {
+      if (error) {
+        callback.callbackWithParam(error);
+      } else {
+        callback.callbackWithParam(data.Payload);
       }
     });
   }
