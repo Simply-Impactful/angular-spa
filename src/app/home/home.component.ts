@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit, LoggedInCallback {
     });
 
     this.createGroupService.group$.subscribe(createdGroup => {
-      this.group = createdGroup;
+    this.group = createdGroup;
     });
 
     this.loginService.isAuthenticated(this, this.user);

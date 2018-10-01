@@ -8,4 +8,5 @@ export class Action {
     tileIconUrl?: string;
     name?: string;
     frequencyCadence?: string;
+    body?: any;
 }

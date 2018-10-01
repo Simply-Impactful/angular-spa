@@ -22,6 +22,7 @@ export class ActionComponent implements OnInit, LoggedInCallback {
   constructor(public actionService: ActionService, public lambdaService: LambdaInvocationService) { }
 
   ngOnInit() {
+    console.log('on inint');
     this.lambdaService.listActions(this);
   }
 

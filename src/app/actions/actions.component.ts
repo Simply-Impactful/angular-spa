@@ -61,6 +61,7 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
     // throw new Error('Method not implemented.');
    }
    callbackWithParams(error: AWSError, result: any): void {
+     console.log('result ' + JSON.stringify(result));
      const response = JSON.parse(result);
      this.actions = response.body;
    }

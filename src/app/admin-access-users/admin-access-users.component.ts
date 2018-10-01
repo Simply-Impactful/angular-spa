@@ -9,26 +9,25 @@ export interface UserData {
   username: string;
   email: string;
   zipcode: number;
-  actionstaken: string;
+  carbon: string;
   totalpoints: number;
 }
 
 const USER_DATA: UserData[] = [
-  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, actionstaken: 'walked to school', totalpoints: 10},
-  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, actionstaken: 'walked to school', totalpoints: 10},
-  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, actionstaken: 'walked to school', totalpoints: 10},
-  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, actionstaken: 'walked to school', totalpoints: 10},
-  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, actionstaken: 'walked to school', totalpoints: 10},
-  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, actionstaken: 'walked to school', totalpoints: 10},
-  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, actionstaken: 'walked to school', totalpoints: 10},
-  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, actionstaken: 'walked to school', totalpoints: 10},
-  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, actionstaken: 'walked to school', totalpoints: 10},
-  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, actionstaken: 'walked to school', totalpoints: 10},
-  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, actionstaken: 'walked to school', totalpoints: 10},
-  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, actionstaken: 'walked to school', totalpoints: 10},
-  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, actionstaken: 'walked to school', totalpoints: 10},
-  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, actionstaken: 'walked to school', totalpoints: 10},
-
+  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, carbon: '3 lbs', totalpoints: 10},
+  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, carbon: '3 lbs', totalpoints: 10},
+  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, carbon: '3 lbs', totalpoints: 10},
+  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, carbon: '3 lbs', totalpoints: 10},
+  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, carbon: '3 lbs', totalpoints: 10},
+  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, carbon: '3 lbs', totalpoints: 10},
+  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, carbon: '3 lbs', totalpoints: 10},
+  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, carbon: '3 lbs', totalpoints: 10},
+  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, carbon: '3 lbs', totalpoints: 10},
+  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, carbon: '3 lbs', totalpoints: 10},
+  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, carbon: '3 lbs', totalpoints: 10},
+  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, carbon: '3 lbs', totalpoints: 10},
+  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, carbon: '3 lbs', totalpoints: 10},
+  {name: 'Sarah', username: 'Sarah1', email: 'sarah@gmail.com', zipcode: 12345, carbon: '3 lbs', totalpoints: 10}
 ];
 
 @Component({
@@ -39,7 +38,7 @@ const USER_DATA: UserData[] = [
 
 export class AdminAccessUsersComponent implements OnInit {
 
-  displayedColumns = ['name', 'username', 'email', 'zipcode', 'actionstaken', 'totalpoints'];
+  displayedColumns = ['name', 'username', 'email', 'zipcode', 'carbon', 'totalpoints'];
   dataSource = new MatTableDataSource(USER_DATA);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

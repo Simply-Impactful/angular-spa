@@ -3,6 +3,10 @@ import { AppComponent } from '../app.component';
 import { Route, Router } from '@angular/router';
 import {MatTableDataSource, MatPaginator, MatButton, MatCheckbox} from '@angular/material';
 import {SelectionModel} from '@angular/cdk/collections';
+import { LambdaInvocationService } from '../services/lambdaInvocation.service';
+import { LoggedInCallback } from '../services/cognito.service';
+import { AWSError } from 'aws-sdk';
+import { Action } from '../model/Action';
 
 
 export interface ActionData {
@@ -61,15 +65,18 @@ const ACTION_DATA: ActionData[] = [
   styleUrls: ['./admin-access-actions.component.scss']
 })
 
-export class AdminAccessActionsComponent implements OnInit {
+export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
  displayedColumns = ['action', 'points', 'limit', 'frequency', 'fact', 'image', 'icon', 'delete'];
  datasource = new MatTableDataSource(ACTION_DATA);
  selection = new SelectionModel<ActionData>(true, []);
  data: ActionData[] = ACTION_DATA;
+ isEditing: boolean = false;
+ actionData: Action;
+ action: Action[];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(public appComp: AppComponent) { }
+  constructor(public appComp: AppComponent, public lambdaService: LambdaInvocationService) { }
 
   ngOnInit() {
     this.appComp.setAdmin();
@@ -88,6 +95,37 @@ export class AdminAccessActionsComponent implements OnInit {
     this.isAllSelected() ?
         this.selection.clear() :
         this.data.forEach(row => this.selection.select(row));
+  }
+
+  create() {
+   this.isEditing = true;
+   const actionData = {
+    'eligiblePoints': 5,
+    'frequencyCadence': 'perDay',
+    'funFact': 'Americans user 3 million straws per day',
+    'funFactImageUrl': 'https://s3.amazonaws.com/simply-impactful-image-data/straws2.png',
+    'maxFrequency': 2,
+    'name': 'Skipped the straw',
+    'tileIconUrl': 'https://s3.amazonaws.com/simply-impactful-image-data/straw.png',
+   };
+   console.log('actionData ' + JSON.stringify(actionData));
+   this.save(actionData);
+  }
+
+  save(actionData: any) {
+    this.lambdaService.adminCreateAction(actionData, this);
+  }
+
+  isLoggedIn(message: string, loggedIn: boolean): void {
+    // throw new Error('Method not implemented.');
+  }
+  callbackWithParams(error: AWSError, result: any): void {
+    const response = JSON.parse(result);
+    console.log('result ' + JSON.stringify(response));
+    console.log('error ' + error);
+  //  this.actions = response.body;
+   // this.actionsLength = response.body.length;
+
   }
 }
 
