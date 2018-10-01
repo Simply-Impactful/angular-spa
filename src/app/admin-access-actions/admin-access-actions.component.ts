@@ -103,7 +103,7 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
     'eligiblePoints': 5,
     'frequencyCadence': 'perDay',
     'funFact': 'Americans user 3 million straws per day',
-    'funFactImageUrl': 'https://s3.amazonaws.com/simply-impactful-image-data/straws2.png',
+    'funFactImageUrl': 'https://s3.amazonaws.com/simply-impactful-image-data/StrawFactImage.jpg',
     'maxFrequency': 2,
     'name': 'Skipped the straw',
     'tileIconUrl': 'https://s3.amazonaws.com/simply-impactful-image-data/straw.png',

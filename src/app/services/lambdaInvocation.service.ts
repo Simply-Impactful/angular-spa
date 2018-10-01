@@ -17,6 +17,12 @@ export class LambdaInvocationService implements OnInit {
 
   public apiEndpoint: string = '';
 
+  region = environment.region;
+
+  apiVersion = '2015-03-31';
+
+  lambda = new AWS.Lambda();
+
   actionsSource = new BehaviorSubject(new Array<Action>());
   actions$ = this.actionsSource.asObservable();
 
@@ -34,7 +40,7 @@ export class LambdaInvocationService implements OnInit {
 
   public cognitoUtil: CognitoUtil;
 
-  constructor(private http: HttpClient, private dialog: MatDialog, public actionService: ActionService) {  }
+  constructor() {  }
 
   ngOnInit() {
   }
@@ -94,5 +100,37 @@ export class LambdaInvocationService implements OnInit {
         callback.callbackWithParams(null, data.Payload);
       }
     });
+  }
+
+  performAction(callback: LoggedInCallback, user: User, action: Action) {
+    const requestBody = {
+      body: {
+      username: user.username,
+    actionTaken: action.name,
+    email: user.email,
+    pointsEarned: action.eligiblePoints,
+    recordedFrequency: 1 }};
+    console.log(JSON.stringify(requestBody));
+
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+    AWS.config.region = this.region;
+    this.lambda = new AWS.Lambda({region: this.region, apiVersion: this.apiVersion});
+    const putParams = {
+      FunctionName: 'createUserActions',
+      InvocationType: 'RequestResponse',
+      LogType: 'None',
+      Payload: JSON.stringify(requestBody)
+    };
+
+    this.lambda.invoke(putParams, function(error, data) {
+      if (error) {
+        console.log(error);
+        callback.callbackWithParams(error, null);
+      } else {
+        console.log(data);
+        callback.callbackWithParams(null, data.Payload);
+      }
+    });
+
   }
 }

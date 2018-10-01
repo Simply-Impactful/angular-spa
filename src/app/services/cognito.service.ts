@@ -29,6 +29,7 @@ export interface ChallengeParameters {
 export interface Callback {
     callback(): void;
     callbackWithParam(result: any): void;
+    // callbackWithParams(error: AWSError, result: any);
 }
 
 @Injectable()
