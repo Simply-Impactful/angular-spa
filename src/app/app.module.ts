@@ -43,15 +43,15 @@ import { LambdaInvocationService } from './services/lambdaInvocation.service';
 
 @NgModule({
   declarations: [
-    LogInComponent,
     AppComponent,
+    HomeComponent,
+    LogInComponent,
     LandingComponent,
     ContactUsComponent,
     UserProfileComponent,
     CreateProfileComponent,
     ResetPasswordComponent,
     AppTopNavComponent,
-    HomeComponent,
     UploadComponent,
     ActionsComponent,
     ActionComponent,

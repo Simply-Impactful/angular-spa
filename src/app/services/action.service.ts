@@ -71,6 +71,8 @@ export class ActionService implements OnInit {
    }
 
    callbackWithParams(error: AWSError, result: any): void {
-
+   }
+   callbackWithParam(result: any): void {
+    // throw new Error('Method not implemented.');
    }
 }

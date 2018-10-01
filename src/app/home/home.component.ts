@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit, LoggedInCallback {
   ngOnInit() {
 
     // userscore = whatever is pulled from the db
-    this.params.user$.subscribe(user => {
+   this.params.user$.subscribe(user => {
       this.user = user;
       this.user.userPoints = user.userPoints;
     });
@@ -41,23 +41,21 @@ export class HomeComponent implements OnInit, LoggedInCallback {
     this.createGroupService.group$.subscribe(createdGroup => {
     this.group = createdGroup;
     });
-
     this.loginService.isAuthenticated(this, this.user);
+
   }
 
   /** Interface needed for LoggedInCallback */
   isLoggedIn(message: string, isLoggedIn: boolean) {
-   // console.log('is logged in');
   }
   // needed to persist the data returned from login service
   callbackWithParams(error: AWSError, result: CognitoUserAttribute[]) {
+  }
+
+  // response of isAuthenticated method in login service
+  callbackWithParam(result: any): void {
     const cognitoUser = this.cognitoUtil.getCurrentUser();
     const params = new Parameters();
     this.user = params.buildUser(result, cognitoUser);
-  }
-
-  // leave this for the builder to pass
-  save() {
-
-  }
+   }
 }

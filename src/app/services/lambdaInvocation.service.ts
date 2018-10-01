@@ -21,8 +21,6 @@ export class LambdaInvocationService implements OnInit {
 
   apiVersion = '2015-03-31';
 
-  lambda = new AWS.Lambda();
-
   actionsSource = new BehaviorSubject(new Array<Action>());
   actions$ = this.actionsSource.asObservable();
 
@@ -76,8 +74,8 @@ export class LambdaInvocationService implements OnInit {
     const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
 
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
-    AWS.config.region = environment.region;
-    const lambda = new AWS.Lambda({region: AWS.config.region, apiVersion: '2015-03-31'});
+    AWS.config.region = this.region;
+    const lambda = new AWS.Lambda({region: this.region, apiVersion: this.apiVersion});
     const putParams = {
       FunctionName: 'createActions',
       InvocationType: 'RequestResponse',
@@ -103,26 +101,35 @@ export class LambdaInvocationService implements OnInit {
   }
 
   performAction(callback: LoggedInCallback, user: User, action: Action) {
-    const requestBody = {
-      body: {
+    const JSON_BODY = {
       username: user.username,
-    actionTaken: action.name,
-    email: user.email,
-    pointsEarned: action.eligiblePoints,
-    recordedFrequency: 1 }};
-    console.log(JSON.stringify(requestBody));
+      actionTaken: action.name,
+      email: user.email,
+      pointsEarned: action.eligiblePoints,
+      recordedFrequency: 1
+    };
+    const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
 
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
     AWS.config.region = this.region;
-    this.lambda = new AWS.Lambda({region: this.region, apiVersion: this.apiVersion});
+    const lambda = new AWS.Lambda({region: this.region, apiVersion: this.apiVersion});
     const putParams = {
       FunctionName: 'createUserActions',
       InvocationType: 'RequestResponse',
       LogType: 'None',
-      Payload: JSON.stringify(requestBody)
+      Payload: JSON.stringify({
+        httpMethod: 'POST',
+        path: '/userActions',
+        resource: '',
+        queryStringParameters: {
+        },
+        pathParameters: {
+        },
+        body: body
+      })
     };
 
-    this.lambda.invoke(putParams, function(error, data) {
+    lambda.invoke(putParams, function(error, data) {
       if (error) {
         console.log(error);
         callback.callbackWithParams(error, null);
@@ -131,6 +138,5 @@ export class LambdaInvocationService implements OnInit {
         callback.callbackWithParams(null, data.Payload);
       }
     });
-
   }
 }

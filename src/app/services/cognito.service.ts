@@ -18,6 +18,7 @@ export interface CognitoCallback {
 export interface LoggedInCallback {
     isLoggedIn(message: string, loggedIn: boolean): void;
     callbackWithParams(error: AWSError, result: any): void;
+    callbackWithParam(result: any): void;
 
 }
 

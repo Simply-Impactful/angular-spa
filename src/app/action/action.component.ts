@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, INJECTOR, Inject } from '@angular/core';
 import { Action } from '../model/Action';
 import { ActionService } from '../services/action.service';
 import { User } from '../model/User';
@@ -6,6 +6,8 @@ import { BehaviorSubject } from 'rxjs';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { AWSError } from 'aws-sdk';
 import { LoggedInCallback } from '../services/cognito.service';
+import { Parameters } from 'src/app/services/parameters';
+import { LogInService } from '../services/log-in.service';
 
 @Component({
   selector: 'app-action',
@@ -13,16 +15,19 @@ import { LoggedInCallback } from '../services/cognito.service';
   styleUrls: ['./action.component.scss']
 })
 export class ActionComponent implements OnInit, LoggedInCallback {
+
   name: string = '';
-  user: User;
   actions: Action[];
 //  action: Action;
   actionsLength: number;
+  user: User;
+ //  @Input() user: User;
 
-  constructor(public actionService: ActionService, public lambdaService: LambdaInvocationService) { }
+  constructor(public actionService: ActionService,
+    public params: Parameters, public lambdaService: LambdaInvocationService,
+    public loginService: LogInService) { }
 
   ngOnInit() {
-    console.log('on inint');
     this.lambdaService.listActions(this);
   }
 
@@ -30,6 +35,7 @@ export class ActionComponent implements OnInit, LoggedInCallback {
     this.actionService.openDialog(name, action);
   }
   isLoggedIn(message: string, loggedIn: boolean): void {
+
     // throw new Error('Method not implemented.');
    }
    callbackWithParams(error: AWSError, result: any): void {
@@ -40,5 +46,7 @@ export class ActionComponent implements OnInit, LoggedInCallback {
      for ( let i = this.actionsLength; i > 3; i -- ) {
       this.actions.pop();
      }
+    }
+    callbackWithParam(result: any): void {
     }
   }

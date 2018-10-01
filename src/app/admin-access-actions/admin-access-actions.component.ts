@@ -125,8 +125,10 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
     console.log('error ' + error);
   //  this.actions = response.body;
    // this.actionsLength = response.body.length;
-
   }
+  callbackWithParam(result: any): void {
+    // throw new Error('Method not implemented.');
+   }
 }
 
 
