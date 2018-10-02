@@ -8,7 +8,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 })
 export class UploadComponent implements OnInit {
   resetUpload: boolean;
-  token: string = 'lkdjlfjld';
+ // token: string = 'lkdjlfjld';
   afuConfig = {
     uploadAPI: {
       url: 'https://slack.com/api/files.upload'
@@ -27,14 +27,12 @@ export class UploadComponent implements OnInit {
     }) */
   }
   DocUpload(env) {
+    console.log('upload');
     console.log(env);
   }
 
   resetfu(id) {
-    // this.rfu.resetFileUpload(id);
-    // id === 1 ? this.afuref1.resetFileUpload() : this.afuref2.resetFileUpload();
     this[`afuref${id}`].resetFileUpload();
-    // this.resetUpload1 = true;
   }
 
 }

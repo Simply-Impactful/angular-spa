@@ -1,5 +1,4 @@
 import { Injectable, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Action } from '../model/Action';
@@ -31,7 +30,7 @@ export class ActionService implements OnInit {
 
   public cognitoUtil: CognitoUtil;
 
-  constructor(private http: HttpClient, private dialog: MatDialog) {
+  constructor(private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -47,22 +46,6 @@ export class ActionService implements OnInit {
       console.log(`Dialog closed: ${result}`);
       this.dialogResult = result;
     });
-  }
-
-  createAction() {
-
-  }
-
-  takeAction(user: User, action: Action): Observable<Action> {
-    console.log('action in take action ' + JSON.stringify(action));
-    this.actionSource.next(action);
-
-    this.user.userPoints = this.user.userPoints + action.eligiblePoints;
-    this.userSource.next(this.user); // user$ object
-
-    // this.lambdaService.performAction(this, user, action);
-
-    return this.action$;
   }
 
   // Skeletal methods we need to put here in order to use the lambdaService

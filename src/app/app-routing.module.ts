@@ -15,9 +15,6 @@ import { AdminAccessActionsComponent } from './admin-access-actions/admin-access
 import { AdminAccessUsersComponent } from './admin-access-users/admin-access-users.component';
 import { AdminAccessCurriculumComponent } from './admin-access-curriculum/admin-access-curriculum.component';
 
-
-// import { AdminViewLanding, AdminViewActions, AdminViewCurriculum, AdminViewUsers } from './admin-view/admin-view.component';
-
 const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
   { path: 'landing', component: LandingComponent },

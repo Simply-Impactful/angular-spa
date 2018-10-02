@@ -36,10 +36,10 @@ import { AdminTopNavComponent } from './admin-top-nav/admin-top-nav.component';
 import { AdminAccessLandingComponent } from './admin-access-landing/admin-access-landing.component';
 import { AdminAccessActionsComponent } from './admin-access-actions/admin-access-actions.component';
 import { AdminAccessUsersComponent } from './admin-access-users/admin-access-users.component';
-import { AdminViewLanding, AdminViewActions, AdminViewUsers, AdminViewCurriculum } from './admin-view/admin-view.component';
 import { AdminAccessCurriculumComponent } from './admin-access-curriculum/admin-access-curriculum.component';
 import { Parameters } from './services/parameters';
 import { LambdaInvocationService } from './services/lambdaInvocation.service';
+import { AdminActionDialogComponent } from './admin-action-dialog/admin-action-dialog.component';
 
 @NgModule({
   declarations: [
@@ -62,10 +62,7 @@ import { LambdaInvocationService } from './services/lambdaInvocation.service';
     AdminAccessActionsComponent,
     AdminAccessUsersComponent,
     AdminAccessCurriculumComponent,
-    AdminViewLanding,
-    AdminViewActions,
-    AdminViewUsers,
-    AdminViewCurriculum
+    AdminActionDialogComponent
   ],
   imports: [
     [BrowserModule, FormsModule],
@@ -85,6 +82,7 @@ import { LambdaInvocationService } from './services/lambdaInvocation.service';
   ],
   entryComponents: [
     ActionDialogComponent,
+    AdminActionDialogComponent
   ],
   providers: [
     CreateGroupService,

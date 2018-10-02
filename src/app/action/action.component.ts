@@ -18,10 +18,8 @@ export class ActionComponent implements OnInit, LoggedInCallback {
 
   name: string = '';
   actions: Action[];
-//  action: Action;
   actionsLength: number;
   user: User;
- //  @Input() user: User;
 
   constructor(public actionService: ActionService,
     public params: Parameters, public lambdaService: LambdaInvocationService,

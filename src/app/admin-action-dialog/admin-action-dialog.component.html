@@ -1,0 +1,32 @@
+<div>
+  <hr> <h1 style="font-size:15px">Enter the below fields to create an action</h1>
+  <mat-dialog-content>
+    <mat-form-field appearance="outline" style="margin-right:5px">
+      <input matInput [(ngModel)]="action.name" matInput placeholder="Action Name">
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="margin-right:5px">
+      <input matInput [(ngModel)]="action.eligiblePoints" matInput placeholder="Points">
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="margin-right:5px">
+      <input matInput [(ngModel)]="action.funFact" placeholder="Fact">
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="margin-right:5px">
+        <input matInput [(ngModel)]="action.maxFrequency" matInput placeholder="Max Frequency">
+      </mat-form-field>
+    <mat-form-field appearance="outline" style="margin-right:5px">
+      <input matInput [(ngModel)]="action.frequencyCadence" matInput placeholder="Frequency Cadence">
+    </mat-form-field>
+    <br>
+    <p>Fact Image
+    <input type="file" (change)="uploadFunFactImage($event.target.files)"/>
+    </p><br>
+    <p>Tile Icon </p>
+    <br>
+    <input style="align-self:center" type="file" (change)="uploadTileIcon($event.target.files)" />
+  </mat-dialog-content>
+  <hr>
+  <div align ="right">
+    <button mat-stroked-button color="primary" (click)="onCloseConfirm()">UNDO</button> 
+    <button mat-raised-button color="primary" (click)="onCloseConfirm()">CONFIRM</button>
+  </div>      
+</div>

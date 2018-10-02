@@ -4,9 +4,8 @@ export class Action {
     funFactImageUrl?: string;
     funFact?: string;
     createdAt?: number;
-    maxFrequency?: number;
     tileIconUrl?: string;
     name?: string;
     frequencyCadence?: string;
-    body?: any;
+    maxFrequency?: number;
 }

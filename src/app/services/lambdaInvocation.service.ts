@@ -68,7 +68,8 @@ export class LambdaInvocationService implements OnInit {
       funFactImageUrl: actionData.funFactImageUrl,
       funFact: actionData.funFact,
       maxFrequency: actionData.maxFrequency,
-      tileIconUrl: actionData.tileIconUrl
+      tileIconUrl: actionData.tileIconUrl,
+      frequencyCadence: actionData.frequencyCadence
     };
 
     const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
