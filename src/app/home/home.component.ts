@@ -18,13 +18,11 @@ import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 })
 export class HomeComponent implements OnInit, LoggedInCallback {
   user: User;
-  userActions: User[];
 
   groupSource = new BehaviorSubject(new Group());
   group$ = this.groupSource.asObservable();
   group: Group;
   cognitoAttributes: ICognitoUserAttributeData[];
-
 
   constructor(
     private createGroupService: CreateGroupService,
@@ -50,18 +48,18 @@ export class HomeComponent implements OnInit, LoggedInCallback {
   /** Interface needed for LoggedInCallback */
   isLoggedIn(message: string, isLoggedIn: boolean) {
   }
-  // needed to persist the data returned from login service
+  // API Response for getUserActions
   callbackWithParams(error: AWSError, result: any) {
-    console.log('callback with params' + result);
-    // const response = JSON.parse(result);
-    this.userActions = result;
-    const totalPoints = 0;
-    console.log('user actions' + this.userActions);
-    const userActionsLength = this.userActions.length;
-    console.log( 'userAction Length' + userActionsLength);
-     // for ( let i = 0; i < userActionsLength; i++ ) {
-        // console.log ('' + i + this.userActions[i]);
-     // }
+
+    const response = JSON.parse(result);
+    const userActions = response.body;
+    const userActionsLength = userActions.length;
+
+      for ( let i = 0; i < userActionsLength; i++ ) {
+        if (userActions[i].totalPoints) {
+          this.user.userPoints = userActions[i].totalPoints;
+        }
+  }
   }
 
   // response of isAuthenticated method in login service

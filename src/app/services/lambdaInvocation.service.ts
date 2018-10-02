@@ -168,7 +168,7 @@ export class LambdaInvocationService implements OnInit {
         console.log(error);
         callback.callbackWithParams(error, null);
       } else {
-        cognitoUtil.updateUserAttribute(callback, addedPoints, user);
+    //    cognitoUtil.updateUserAttribute(callback, addedPoints, user);
         console.log(data);
         callback.callbackWithParams(null, data.Payload);
       }

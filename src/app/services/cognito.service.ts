@@ -128,7 +128,7 @@ export class CognitoUtil {
         }
     }
 
-    updateUserAttribute(callback: LoggedInCallback, addedPoints: number, user: User) {
+/**    updateUserAttribute(callback: LoggedInCallback, addedPoints: number, user: User) {
         const cognitoUser = this.getCurrentUser();
         if (cognitoUser !== null) {
             cognitoUser.getSession(function (err, session) {
@@ -161,7 +161,7 @@ export class CognitoUtil {
             }
             console.log('call result: ' + result1);
         });
-    }
+    } **/
 
     getIdToken(callback: Callback): void {
         if (callback === null) {
