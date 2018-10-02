@@ -61,6 +61,37 @@ export class LambdaInvocationService implements OnInit {
     });
   }
 
+  getUserActions(callback: LoggedInCallback, user: User) {
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+    AWS.config.region = environment.region;
+    const lambda = new AWS.Lambda({region: AWS.config.region, apiVersion: '2015-03-31'});
+    const pullParams = {
+      FunctionName: 'getUserActions',
+      InvocationType: 'RequestResponse',
+      LogType: 'None',
+      Payload:  JSON.stringify({
+          httpMethod:  'GET',
+          path:  '/userActions',
+          resource:  '',
+          queryStringParameters:  {
+                      },
+            pathParameters:  {
+              username: user.username
+                            },
+    })
+
+
+    };
+    lambda.invoke(pullParams, function(error, data) {
+      if (error) {
+        callback.callbackWithParams(error, null);
+      } else {
+        console.log('user action' + data.Payload);
+        callback.callbackWithParams(null, data.Payload);
+      }
+    });
+  }
+
   adminCreateAction(actionData: Action, callback: LoggedInCallback) {
     const JSON_BODY = {
       name: actionData.name,
