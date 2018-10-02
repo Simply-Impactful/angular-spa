@@ -1,8 +1,41 @@
-.action-card {
-    max-width: 400px;
+main {
+    display: flex;
+    flex-direction: column;
+    padding-top:  75px;
+    padding-left: 20em;
+    padding-right:20em;
 }
 
-.action-header-image {
-    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-    background-size: cover;
+mat-form-field {
+    width: 300px;
+    height: 4px;
+    margin: 10px;
+    padding: 0px;
+    box-sizing: content-box;
 }
+button.mat-button {
+    padding-left: 2em;
+    padding-right: 2em;
+    width: 300px;
+    font-size: 18 px;
+    margin: 10px;
+}
+
+button.mat-raised-button {
+    font-size: 18 px;
+}
+
+.user-profile-card {
+    width: 0px;
+    margin: 4px;
+    height: 75px;
+    padding: 0px;
+    display: inline-block;
+    background-color: white;
+    align-self: center;
+  }
+  
+  .user-profile-image {
+    background-image: url('/assets/images/Congrats_icn.svg');
+    background-size: cover;
+  }
