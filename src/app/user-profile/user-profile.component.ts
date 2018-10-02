@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 export interface Tile {
   color: string;
@@ -15,13 +15,23 @@ export interface Tile {
 
 export class UserProfileComponent {
 
+  username: string = '';
+  email: string = '';
+  zipcode: string = '';
+  organization: string = '';
+  isEditProfile: Boolean = false;
+  isUserProfile: Boolean = true;
+
+
   constructor() { }
 
-  // tiles: Tile[] = [
-  //   { text: 'One', cols: 3, rows: 1, color: 'lightblue' },
-  //   { text: 'Two', cols: 1, rows: 2, color: 'lightgreen' },
-  //   { text: 'Three', cols: 1, rows: 1, color: 'lightpink' },
-  //   { text: 'Four', cols: 2, rows: 1, color: '#DDBDF1' },
-  // ];
-
+  editProfile() {
+    this.isUserProfile = false;
+      this.isEditProfile = true;
+  }
+  userProfile() {
+    this.isEditProfile = false;
+    this.isUserProfile = true;
+  }
 }
+
