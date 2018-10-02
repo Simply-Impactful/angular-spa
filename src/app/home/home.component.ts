@@ -72,4 +72,8 @@ export class HomeComponent implements OnInit, LoggedInCallback {
     this.lambdaService.getUserActions(this, this.user);
 
    }
+
+   save() {
+    console.log('need to implement');
+   }
 }
