@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../model/User';
 import { LoggedInCallback, CognitoCallback, CognitoUtil } from './cognito.service';
-import { AuthenticationDetails, CognitoUser, CognitoUserSession, CognitoUserAttribute } from 'amazon-cognito-identity-js';
+import { AuthenticationDetails, CognitoUser, CognitoUserSession } from 'amazon-cognito-identity-js';
 import { environment } from '../../environments/environment';
 import { Parameters } from './parameters';
 import * as AWS from 'aws-sdk/global';
@@ -17,6 +17,7 @@ if (global === undefined) {
     providedIn: 'root'
 })
 export class LogInService {
+    public accessToken = null;
     constructor(
         public cognitoUtil: CognitoUtil) { }
 
@@ -44,6 +45,7 @@ export class LogInService {
     }
 
     private onLoginSuccess = (callback: CognitoCallback, session: CognitoUserSession) => {
+        this.accessToken = session.getAccessToken();
         AWS.config.credentials = this.cognitoUtil.buildCognitoCreds(session.getIdToken().getJwtToken());
 
         // So, when CognitoIdentity authenticates a user, it doesn't actually hand us the IdentityID,
@@ -71,7 +73,6 @@ export class LogInService {
     }
 
     isAuthenticated(callback: LoggedInCallback, user: User) {
-
         if (callback === null) {
             throw new Error('LogInService: Callback in isAuthenticated() cannot be null');
         }
@@ -83,17 +84,16 @@ export class LogInService {
                     callback.isLoggedIn(err, false);
                 } else {
                     callback.isLoggedIn(err, session.isValid());
-                    console.log('getting user attributes');
-                    cognitoUser.getUserAttributes(function (error, result) {
-                        if (err) {
-                            console.log('LogInService ERROR: in getUserAttributes: ' + error.message);
-                            callback.callbackWithParam(err);
-                        } else {
-                            if (result) {
-                                callback.callbackWithParam(result);
+                        cognitoUser.getUserAttributes(function (error, result) {
+                            if (err) {
+                                console.log('LogInService ERROR: in getUserAttributes: ' + error.message);
+                                callback.callbackWithParam(err);
+                            } else {
+                                if (result) {
+                                    callback.callbackWithParam(result);
+                                }
                             }
-                        }
-                    });
+                        });
                 }
             });
         } else {

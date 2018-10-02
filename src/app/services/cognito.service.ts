@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { CognitoUserPool } from 'amazon-cognito-identity-js';
+import { CognitoUserPool, CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import * as AWS from 'aws-sdk/global';
 import * as awsservice from 'aws-sdk/lib/service';
 import * as CognitoIdentity from 'aws-sdk/clients/cognitoidentity';
 import { AWSError } from 'aws-sdk/global';
-
+import { User } from '../model/User';
 /**
  * Created by Vladimir Budilov
  */
@@ -16,10 +16,9 @@ export interface CognitoCallback {
 }
 
 export interface LoggedInCallback {
-    isLoggedIn(message: string, loggedIn: boolean): void;
     callbackWithParams(error: AWSError, result: any): void;
+    isLoggedIn(message: string, loggedIn: boolean): void;
     callbackWithParam(result: any): void;
-
 }
 
 export interface ChallengeParameters {
@@ -127,6 +126,41 @@ export class CognitoUtil {
         } else {
             callback.callbackWithParam(null);
         }
+    }
+
+    updateUserAttribute(callback: LoggedInCallback, addedPoints: number, user: User) {
+        const cognitoUser = this.getCurrentUser();
+        if (cognitoUser !== null) {
+            cognitoUser.getSession(function (err, session) {
+                if (err) {
+                    callback.isLoggedIn(err, false);
+                } else {
+                    callback.isLoggedIn(err, session.isValid());
+                }
+            });
+        } else {
+            callback.isLoggedIn('Can\'t retrieve the CurrentUser', false);
+        }
+
+        // Need to total up the existing points with the new added points
+        const userPoints = Number(user.userPoints);
+        const value = userPoints + addedPoints;
+
+        const attributeList = [];
+        const attribute = {
+            Name : 'custom:userPoints',
+            Value : JSON.stringify(value)
+        };
+        const attribute1 = new CognitoUserAttribute(attribute);
+        attributeList.push(attribute1);
+
+        cognitoUser.updateAttributes(attributeList, function(err1, result1) {
+            if (err1) {
+                alert(err1);
+                return;
+            }
+            console.log('call result: ' + result1);
+        });
     }
 
     getIdToken(callback: Callback): void {

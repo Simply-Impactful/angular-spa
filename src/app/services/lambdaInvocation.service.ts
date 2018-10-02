@@ -102,6 +102,7 @@ export class LambdaInvocationService implements OnInit {
   }
 
   performAction(callback: LoggedInCallback, user: User, action: Action) {
+    const cognitoUtil = new CognitoUtil;
     const JSON_BODY = {
       username: user.username,
       actionTaken: action.name,
@@ -130,11 +131,13 @@ export class LambdaInvocationService implements OnInit {
       })
     };
 
+    const addedPoints = JSON_BODY.pointsEarned;
     lambda.invoke(putParams, function(error, data) {
       if (error) {
         console.log(error);
         callback.callbackWithParams(error, null);
       } else {
+        cognitoUtil.updateUserAttribute(callback, addedPoints, user);
         console.log(data);
         callback.callbackWithParams(null, data.Payload);
       }

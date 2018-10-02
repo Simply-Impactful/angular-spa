@@ -7,14 +7,14 @@ import { Parameters } from '../services/parameters';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { AWSError } from 'aws-sdk';
 import { LogInService } from '../services/log-in.service';
-import { CognitoUtil } from '../services/cognito.service';
+import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
 
 @Component({
   selector: 'app-action-dialog',
   templateUrl: './action-dialog.component.html',
   styleUrls: ['./action-dialog.component.scss']
 })
-export class ActionDialogComponent implements OnInit {
+export class ActionDialogComponent implements OnInit, LoggedInCallback {
 
   action: Action;
   user: User;

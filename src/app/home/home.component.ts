@@ -7,7 +7,7 @@ import { LogInService } from '../services/log-in.service';
 import { Parameters} from '../services/parameters';
 import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
 import { CreateProfileService } from '../services/create-profile.service';
-import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
+import { CognitoUserAttribute, ICognitoUserAttributeData } from 'amazon-cognito-identity-js';
 import { AWSError } from 'aws-sdk';
 
 @Component({
@@ -22,6 +22,8 @@ export class HomeComponent implements OnInit, LoggedInCallback {
   groupSource = new BehaviorSubject(new Group());
   group$ = this.groupSource.asObservable();
   group: Group;
+  cognitoAttributes: ICognitoUserAttributeData[];
+
 
   constructor(
     private createGroupService: CreateGroupService,
@@ -31,7 +33,6 @@ export class HomeComponent implements OnInit, LoggedInCallback {
     private params: Parameters) { }
 
   ngOnInit() {
-
     // userscore = whatever is pulled from the db
    this.params.user$.subscribe(user => {
       this.user = user;
@@ -42,20 +43,22 @@ export class HomeComponent implements OnInit, LoggedInCallback {
     this.group = createdGroup;
     });
     this.loginService.isAuthenticated(this, this.user);
-
   }
 
   /** Interface needed for LoggedInCallback */
   isLoggedIn(message: string, isLoggedIn: boolean) {
   }
   // needed to persist the data returned from login service
-  callbackWithParams(error: AWSError, result: CognitoUserAttribute[]) {
+  callbackWithParams(error: AWSError, result: any) {
+    console.log('callback with params');
   }
 
   // response of isAuthenticated method in login service
   callbackWithParam(result: any): void {
+    console.log('result of user attributes?' + JSON.stringify(result));
     const cognitoUser = this.cognitoUtil.getCurrentUser();
     const params = new Parameters();
+    this.cognitoAttributes = result;
     this.user = params.buildUser(result, cognitoUser);
    }
 }
