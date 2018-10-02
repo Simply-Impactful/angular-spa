@@ -21,8 +21,6 @@ export class LambdaInvocationService implements OnInit {
 
   apiVersion = '2015-03-31';
 
-  lambda = new AWS.Lambda();
-
   actionsSource = new BehaviorSubject(new Array<Action>());
   actions$ = this.actionsSource.asObservable();
 
@@ -70,14 +68,15 @@ export class LambdaInvocationService implements OnInit {
       funFactImageUrl: actionData.funFactImageUrl,
       funFact: actionData.funFact,
       maxFrequency: actionData.maxFrequency,
-      tileIconUrl: actionData.tileIconUrl
+      tileIconUrl: actionData.tileIconUrl,
+      frequencyCadence: actionData.frequencyCadence
     };
 
     const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
 
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
-    AWS.config.region = environment.region;
-    const lambda = new AWS.Lambda({region: AWS.config.region, apiVersion: '2015-03-31'});
+    AWS.config.region = this.region;
+    const lambda = new AWS.Lambda({region: this.region, apiVersion: this.apiVersion});
     const putParams = {
       FunctionName: 'createActions',
       InvocationType: 'RequestResponse',
@@ -103,34 +102,45 @@ export class LambdaInvocationService implements OnInit {
   }
 
   performAction(callback: LoggedInCallback, user: User, action: Action) {
-    const requestBody = {
-      body: {
+    const cognitoUtil = new CognitoUtil;
+    const JSON_BODY = {
       username: user.username,
-    actionTaken: action.name,
-    email: user.email,
-    pointsEarned: action.eligiblePoints,
-    recordedFrequency: 1 }};
-    console.log(JSON.stringify(requestBody));
+      actionTaken: action.name,
+      email: user.email,
+      pointsEarned: action.eligiblePoints,
+      recordedFrequency: 1
+    };
+    const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
 
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
     AWS.config.region = this.region;
-    this.lambda = new AWS.Lambda({region: this.region, apiVersion: this.apiVersion});
+    const lambda = new AWS.Lambda({region: this.region, apiVersion: this.apiVersion});
     const putParams = {
       FunctionName: 'createUserActions',
       InvocationType: 'RequestResponse',
       LogType: 'None',
-      Payload: JSON.stringify(requestBody)
+      Payload: JSON.stringify({
+        httpMethod: 'POST',
+        path: '/userActions',
+        resource: '',
+        queryStringParameters: {
+        },
+        pathParameters: {
+        },
+        body: body
+      })
     };
 
-    this.lambda.invoke(putParams, function(error, data) {
+    const addedPoints = JSON_BODY.pointsEarned;
+    lambda.invoke(putParams, function(error, data) {
       if (error) {
         console.log(error);
         callback.callbackWithParams(error, null);
       } else {
+        cognitoUtil.updateUserAttribute(callback, addedPoints, user);
         console.log(data);
         callback.callbackWithParams(null, data.Payload);
       }
     });
-
   }
 }

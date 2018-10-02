@@ -21,6 +21,7 @@
     background: transparent url('/assets/images/CiS_bird_logo.png') left/4.25em no-repeat;
     background-size: 70%;
     border: none;
+    background-color: none;
 }
 
 .search-group {
@@ -40,3 +41,22 @@
 .white-text {
     color: white;
 }
+
+.mat-card:not([class*=mat-elevation-z]) {
+    box-shadow: none;
+ //   background-color: none;
+  }
+.mat-card {
+    display: inline-block;
+}
+
+.avatar-card {
+    background: none;
+    max-width: 20px;
+    margin: 4px;
+  }
+  
+  .avatar-header-image {
+    background: transparent url('/assets/images/CiS_bird_logo.png');
+    background-size: cover;
+  }

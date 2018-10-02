@@ -85,7 +85,7 @@
     <div fxLayout="row">
       <div fxFlex="100">
         <div align="left">
-          <h5 class="mygroup" style="font-weight: bold"> C&nbsp;O&nbsp;M&nbsp;P&nbsp;E&nbsp;T&nbsp;I&nbsp;T&nbsp;I&nbsp;O&nbsp;N&nbsp;S </h5>
+          <h5 class="mygroup" style="font-weight: bold"> C&nbsp;U&nbsp;R&nbsp;R&nbsp;I&nbsp;C&nbsp;U&nbsp;L&nbsp;U&nbsp;M </h5>
         </div>
       </div>
       <div fxFlex="100">
@@ -96,9 +96,10 @@
     </div>
     <mat-divider></mat-divider>
     <div align = "left">
-      <h3 style="padding-top: 20px; color:rgb(140,142,144)" > You currently have no active competitions</h3>
+      <h3 style="padding-top: 20px; color:rgb(140,142,144)" > You currently have no assignments available</h3>
       <!--><button mat-button color="primary" (click)="save()" routerLink="/actions">Competitions History</button>-->
-      <a routerLink="/actions" routerLinkActive="router-link-active">Competitions History</a>
+      <a routerLink="/actions" routerLinkActive="router-link-active">All Assignments</a>
+      <button mat-button color="primary" (click)="update()"> + Update User Attribtues</button>
       <br>
     </div>
   </div>

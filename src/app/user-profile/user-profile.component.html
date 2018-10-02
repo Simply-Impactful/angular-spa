@@ -1,19 +1,68 @@
-<h1>Your Profile</h1>
-
-<mat-grid-list cols="3" rowHeight="100px">
-    <mat-grid-tile>
-        <mat-card class="action-card">
-            <mat-card-title>Name</mat-card-title>
+<main>
+  <div fxLayout="row">
+    <div fxFlex="100">
+      <div align="right" style ="text-align:left">
+        <mat-card class="user-profile-card">
+          <div mat-card-avatar class="user-profile-image"></div>
         </mat-card>
-      </mat-grid-tile>
-  <mat-grid-tile>
-    <mat-card class="action-card">
-        <mat-card-title>Last Name</mat-card-title>
-    </mat-card>
-  </mat-grid-tile>
-  <mat-grid-tile>
-      <mat-card class="action-card">
-          <mat-card-title>Phone</mat-card-title>
-      </mat-card>
+        <h4 style ="font-weight: bold"> Jack Green </h4>
+        <br>
+        <h5> Total Points: 35 </h5>
+        <br>
+        <h5> Status: Elephant </h5>
+        <br>
+      </div>
+    </div>
+    <div fxFlex="100">
+      <div align="center" style = "text-align: right">
+        <br>
+        <h5  style ="font-weight: bold"> USER NAME :</h5>
+        <br>
+        <h5  style ="font-weight: bold"> EMAIL:</h5>
+        <br>
+        <h5  style ="font-weight: bold"> ZIP CODE:</h5>
+        <br>
+        <h5 style ="font-weight: bold"> SCHOOL/COMPANY:</h5>
+      </div>
+    </div>
+    <div fxFlex="100" *ngIf = "isUserProfile">
+      <div align="left" style = "padding-left: 1em">
+        <br>
+        <h5> JGreen</h5>
+        <br>
+        <h5> Jack@gmail.com</h5>
+        <br>
+        <h5> 02452</h5>
+        <br>
+        <h5> Fidelity</h5>
+      </div>
+    </div>
+    <div fxFlex="100" *ngIf = "isEditProfile">
+      <div align="left" style = "padding-left: 1em; font-size: 12px">
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="JGreen">
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="Jack@gmail.com">
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="02452">
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="Fidelity">
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <mat-grid-list cols="2" rowHeight="6em">
+    <mat-grid-tile></mat-grid-tile>
+    <mat-grid-tile>
+      <button mat-button color="primary" (click)="editProfile()" *ngIf = "isUserProfile">EDIT PROFILE</button>
+      <button mat-raised-button color="primary" (click)="userProfile()" *ngIf = "isEditProfile" >SAVE CHANGES</button>
+      <button mat-button style="font-size: 10px; widows: 150em" color="primary" *ngIf = "isEditProfile" (click)="createAccount()">CHANGE PASSWORD / SECURITY QUESTIONS</button>
     </mat-grid-tile>
-</mat-grid-list>
+  </mat-grid-list>
+</main>

@@ -1,14 +1,14 @@
 import { ActionDialogComponent } from './../action-dialog/action-dialog.component';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Action } from '../model/Action';
 import { ActionService } from '../services/action.service';
-import { LoggedInCallback } from '../services/cognito.service';
+import { LoggedInCallback, CognitoUtil } from '../services/cognito.service';
 import { AWSError } from 'aws-sdk';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { Parameters } from '../services/parameters';
 import { User } from '../model/User';
-
+import { LogInService } from '../services/log-in.service';
 
 @Component({
   selector: 'app-actions',
@@ -16,7 +16,7 @@ import { User } from '../model/User';
   styleUrls: ['./actions.component.scss']
 })
 export class ActionsComponent implements OnInit, LoggedInCallback {
-  username;
+  username: string = '';
   userscore;
   unplugPoints;
   faucetPoints;
@@ -26,21 +26,26 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
   action: Action;
   eligiblePoints: number;
   user: User;
+ // @Input() user: User;
 
   actions: Action[];
 
   constructor(
     public dialog: MatDialog, public actionService: ActionService,
-    public lambdaService: LambdaInvocationService, public params: Parameters) { }
+    public lambdaService: LambdaInvocationService, public params: Parameters,
+    public loginService: LogInService, public cognitoUtil: CognitoUtil) { }
 
   ngOnInit() {
-    this.params.user$.subscribe(user => {
+   this.params.user$.subscribe(user => {
       this.user = user;
-      this.userscore = this.user.userPoints;
+      this.user.userPoints = user.userPoints;
     });
-    // the value of the actions returned is stored as this.actions array object
-    // in the callbackWithParams method
+
    this.lambdaService.listActions(this);
+
+   // to get the user data that's diplayed across the top
+   this.loginService.isAuthenticated(this, this.user);
+
   }
 
   add(action) { }
@@ -58,11 +63,17 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
   }
 
   isLoggedIn(message: string, loggedIn: boolean): void {
-    // throw new Error('Method not implemented.');
-   }
-   callbackWithParams(error: AWSError, result: any): void {
-     console.log('result ' + JSON.stringify(result));
-     const response = JSON.parse(result);
-     this.actions = response.body;
-   }
   }
+
+  // response of lamdba list Actions API call
+  callbackWithParams(error: AWSError, result: any): void {
+    const response = JSON.parse(result);
+    this.actions = response.body;
+  }
+  // response of isAuthenticated method in login service
+  callbackWithParam(result: any): void {
+    const cognitoUser = this.cognitoUtil.getCurrentUser();
+    const params = new Parameters();
+    this.user = params.buildUser(result, cognitoUser);
+  }
+}

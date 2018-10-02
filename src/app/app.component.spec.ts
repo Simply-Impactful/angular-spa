@@ -3,12 +3,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import {
-  AdminViewLanding,
-  AdminViewActions,
-  AdminViewCurriculum,
-  AdminViewUsers
-} from './admin-view/admin-view.component';
 import { AdminTopNavComponent } from './admin-top-nav/admin-top-nav.component';
 import { ActionsComponent } from './actions/actions.component';
 import { ActionComponent } from './action/action.component';
@@ -39,10 +33,6 @@ describe('AppComponent', () => {
         ActionsComponent,
         ActionComponent,
         AdminTopNavComponent,
-        AdminViewLanding,
-        AdminViewActions,
-        AdminViewCurriculum,
-        AdminViewUsers,
         AppTopNavComponent,
         CreateProfileComponent,
         CreateGroupComponent,

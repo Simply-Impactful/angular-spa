@@ -42,6 +42,9 @@ export class AppComponent implements OnInit, LoggedInCallback {
     this.isAdmin = true;
     console.log('isAdmin');
   }
+  callbackWithParam(result: any): void {
+    // throw new Error('Method not implemented.');
+   }
 }
 
 

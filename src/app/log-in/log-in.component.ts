@@ -83,5 +83,7 @@ export class LogInComponent implements LoggedInCallback, OnInit {
     ChallengeParameters, callback: (confirmationCode: string) => any): void {
     throw new Error('handleMFASetup Method not implemented.');
   }
-
+  callbackWithParam(result: any): void {
+    // throw new Error('Method not implemented.');
+   }
 }
