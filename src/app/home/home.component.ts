@@ -9,6 +9,7 @@ import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
 import { CreateProfileService } from '../services/create-profile.service';
 import { CognitoUserAttribute, ICognitoUserAttributeData } from 'amazon-cognito-identity-js';
 import { AWSError } from 'aws-sdk';
+import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,7 @@ import { AWSError } from 'aws-sdk';
 })
 export class HomeComponent implements OnInit, LoggedInCallback {
   user: User;
-  userCopy: User;
+  userActions: User[];
 
   groupSource = new BehaviorSubject(new Group());
   group$ = this.groupSource.asObservable();
@@ -30,7 +31,8 @@ export class HomeComponent implements OnInit, LoggedInCallback {
     private loginService: LogInService,
     private cognitoUtil: CognitoUtil,
     private createProfileService: CreateProfileService,
-    private params: Parameters) { }
+    private params: Parameters,
+    private lambdaService: LambdaInvocationService ) { }
 
   ngOnInit() {
     // userscore = whatever is pulled from the db
@@ -43,14 +45,23 @@ export class HomeComponent implements OnInit, LoggedInCallback {
     this.group = createdGroup;
     });
     this.loginService.isAuthenticated(this, this.user);
-  }
+   }
 
   /** Interface needed for LoggedInCallback */
   isLoggedIn(message: string, isLoggedIn: boolean) {
   }
   // needed to persist the data returned from login service
   callbackWithParams(error: AWSError, result: any) {
-    console.log('callback with params');
+    console.log('callback with params' + result);
+    // const response = JSON.parse(result);
+    this.userActions = result;
+    const totalPoints = 0;
+    console.log('user actions' + this.userActions);
+    const userActionsLength = this.userActions.length;
+    console.log( 'userAction Length' + userActionsLength);
+     // for ( let i = 0; i < userActionsLength; i++ ) {
+        // console.log ('' + i + this.userActions[i]);
+     // }
   }
 
   // response of isAuthenticated method in login service
@@ -60,5 +71,7 @@ export class HomeComponent implements OnInit, LoggedInCallback {
     const params = new Parameters();
     this.cognitoAttributes = result;
     this.user = params.buildUser(result, cognitoUser);
+    this.lambdaService.getUserActions(this, this.user);
+
    }
 }
