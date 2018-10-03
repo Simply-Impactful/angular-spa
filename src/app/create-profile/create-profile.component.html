@@ -56,52 +56,6 @@
         </div>
       </div>
     </div>
-    <h3 style="color:#4db6ac; padding-bottom:25px; margin-top:20px;">Security Questions</h3>
-    <div fxLayout="row">
-      <div fxFlex="100">
-        <div align="center">
-          <mat-form-field appearance="outline">
-            <mat-select [(ngModel)]="newUser.securityQuestion1" placeholder="Security Question 1">
-              <mat-option value="What is your favorite color?">What is your favorite color?</mat-option>
-              <mat-option value="Name of your best friend?">Name of your best friend?</mat-option>
-              <mat-option value="Favorite Disney character?">Favorite Disney character?</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <br>
-          <mat-form-field appearance="outline">
-            <mat-select [(ngModel)]="newUser.securityQuestion2" placeholder="Security Question 2">
-              <mat-option value="What is your favorite movie?">What is your favorite movie?</mat-option>
-              <mat-option value="What is your favorite meal?">What is your favorite meal?</mat-option>
-              <mat-option value="What is your favorite sport?">What is your favorite sport?</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <br>
-          <mat-form-field appearance="outline">
-            <mat-select [(ngModel)]="newUser.securityQuestion3" placeholder="Security Question 3">
-              <mat-option value="Who is your favorite Superhero?">Who is your favorite Superhero?</mat-option>
-              <mat-option value="What is your favorite Color?">What is your favorite Color?</mat-option>
-              <mat-option value="What city were you born in?">What city were you born in?</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
-      <div style="height:200px; width:1px; border-left:1px#bbb solid"></div>
-      <div fxFlex="100">
-        <div align="center">
-          <mat-form-field appearance="outline">
-            <input [(ngModel)]="newUser.securityAnswer1" matInput placeholder="Answer...">
-          </mat-form-field>
-          <br>
-          <mat-form-field appearance="outline">
-            <input [(ngModel)]="newUser.securityAnswer2" matInput placeholder="Answer...">
-          </mat-form-field>
-          <br>
-          <mat-form-field appearance="outline">
-            <input [(ngModel)]="newUser.securityAnswer3" matInput placeholder="Answer...">
-          </mat-form-field>
-        </div>
-      </div>
-    </div>
   </main>
 </div>
 <mat-grid-list cols="2" rowHeight="15em">

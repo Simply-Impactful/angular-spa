@@ -24,17 +24,11 @@ const routes: Routes = [
   { path: 'createuser/:userType', component: CreateProfileComponent },
   { path: 'userprofile', component: UserProfileComponent },
   { path: 'resetpass', component: ResetPasswordComponent },
-  { path: 'actions', component: ActionsComponent },
   { path: 'creategroup', component: CreateGroupComponent },
   { path: 'adminaccesslanding', component: AdminAccessLandingComponent },
   { path: 'adminaccessusers', component: AdminAccessUsersComponent },
   { path: 'adminaccessactions', component: AdminAccessActionsComponent },
-  { path: 'adminaccesscurriculum', component: AdminAccessCurriculumComponent },
-  // { path: 'admin', component: AdminViewLanding },
-  // { path: 'landingAdmin', component: AdminViewLanding },
-  // { path: 'actionsAdmin', component: AdminViewActions },
- // { path: 'usersAdmin', component: AdminViewUsers },
-  // { path: 'curriculumAdmin', component: AdminViewCurriculum },
+  { path: 'adminaccesscurriculum', component: AdminAccessCurriculumComponent }
 ];
 
 @NgModule({

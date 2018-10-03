@@ -18,29 +18,27 @@ import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 })
 export class HomeComponent implements OnInit, LoggedInCallback {
   user: User;
-
   groupSource = new BehaviorSubject(new Group());
   group$ = this.groupSource.asObservable();
   group: Group;
   cognitoAttributes: ICognitoUserAttributeData[];
+  isViewAll: boolean = false;
+  isHomePage: boolean = true;
 
   constructor(
     private createGroupService: CreateGroupService,
     private loginService: LogInService,
     private cognitoUtil: CognitoUtil,
     private createProfileService: CreateProfileService,
-    private params: Parameters,
-    private lambdaService: LambdaInvocationService ) { }
+    private params: Parameters, private lambdaService: LambdaInvocationService) { }
 
   ngOnInit() {
-    // userscore = whatever is pulled from the db
+    console.log('on init');
    this.params.user$.subscribe(user => {
       this.user = user;
-      this.user.userPoints = user.userPoints;
     });
-
     this.createGroupService.group$.subscribe(createdGroup => {
-    this.group = createdGroup;
+      this.group = createdGroup;
     });
     this.loginService.isAuthenticated(this, this.user);
    }
@@ -50,7 +48,6 @@ export class HomeComponent implements OnInit, LoggedInCallback {
   }
   // API Response for getUserActions
   callbackWithParams(error: AWSError, result: any) {
-
     const response = JSON.parse(result);
     const userActions = response.body;
     const userActionsLength = userActions.length;
@@ -58,22 +55,29 @@ export class HomeComponent implements OnInit, LoggedInCallback {
       for ( let i = 0; i < userActionsLength; i++ ) {
         if (userActions[i].totalPoints) {
           this.user.userPoints = userActions[i].totalPoints;
+     //     this.userPoints = Number(this.user.userPoints);
         }
-  }
+    }
   }
 
   // response of isAuthenticated method in login service
   callbackWithParam(result: any): void {
-    console.log('result of user attributes?' + JSON.stringify(result));
     const cognitoUser = this.cognitoUtil.getCurrentUser();
     const params = new Parameters();
     this.cognitoAttributes = result;
     this.user = params.buildUser(result, cognitoUser);
     this.lambdaService.getUserActions(this, this.user);
-
    }
 
+   // for switching back and forth between actions page
    save() {
+     this.isViewAll = true;
+     this.isHomePage = false;
     console.log('need to implement');
    }
+    // for switching back and forth between actions
+   backHome() {
+    this.isHomePage = true;
+    this.isViewAll = false;
+  }
 }

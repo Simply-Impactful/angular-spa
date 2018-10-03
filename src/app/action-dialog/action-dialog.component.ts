@@ -53,6 +53,7 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback {
    }
 
    callbackWithParams(error: AWSError, result: any): void {
+   // console.log('action dialog ' + JSON.stringify(result));
    }
    callbackWithParam(result: any): void {
     const cognitoUser = this.cognitoUtil.getCurrentUser();

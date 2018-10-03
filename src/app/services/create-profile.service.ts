@@ -45,41 +45,14 @@ export class CreateProfileService {
             Name: 'custom:organization',
             Value: user.organization
         };
+        // TODO
         const dataPicture = {
             Name: 'picture',
             Value: ''
         };
-        const dataUserPoints = {
-            Name: 'custom:userPoints',
-            Value: '0'
-        };
         const dataUserType = {
             Name: 'custom:userType',
             Value: user.userType
-        };
-        const dataSecurityQuestion1 = {
-            Name: 'custom:securityQuestion1',
-            Value: user.securityQuestion1
-        };
-        const dataSecurityAnswer1 = {
-            Name: 'custom:securityAnswer1',
-            Value: user.securityAnswer1
-        };
-        const dataSecurityQuestion2 = {
-            Name: 'custom:securityQuestion2',
-            Value: user.securityQuestion2
-        };
-        const dataSecurityAnswer2 = {
-            Name: 'custom:securityAnswer2',
-            Value: user.securityAnswer2
-        };
-        const dataSecurityQuestion3 = {
-            Name: 'custom:securityQuestion3',
-            Value: user.securityQuestion3
-        };
-        const dataSecurityAnswer3 = {
-            Name: 'custom:securityAnswer3',
-            Value: user.securityAnswer3
         };
 
         attributeList.push(new CognitoUserAttribute(dataFirstName));
@@ -88,14 +61,7 @@ export class CreateProfileService {
         attributeList.push(new CognitoUserAttribute(dataZipcode));
         attributeList.push(new CognitoUserAttribute(dataOrganization));
         attributeList.push(new CognitoUserAttribute(dataPicture));
-        attributeList.push(new CognitoUserAttribute(dataUserPoints));
         attributeList.push(new CognitoUserAttribute(dataUserType));
-        attributeList.push(new CognitoUserAttribute(dataSecurityQuestion1));
-        attributeList.push(new CognitoUserAttribute(dataSecurityAnswer1));
-        attributeList.push(new CognitoUserAttribute(dataSecurityQuestion2));
-        attributeList.push(new CognitoUserAttribute(dataSecurityAnswer2));
-        attributeList.push(new CognitoUserAttribute(dataSecurityQuestion3));
-        attributeList.push(new CognitoUserAttribute(dataSecurityAnswer3));
 
         const poolData = {
             UserPoolId: CognitoUtil._USER_POOL_ID,
@@ -109,8 +75,8 @@ export class CreateProfileService {
         };
 
          const loginService = new LogInService(this.cognitoUtil);
-        // if the user inputted the security Questions and answers, we can autoConfirm them
-        if (user.securityQuestion1 && user.securityAnswer1) {
+        // if the user inputted an email address, we can autoConfirm them
+        if (user.email) {
             userPool.signUp(user.username, user.password, attributeList, null, function (err, result) {
                 if (err) {
                     console.error('Sign Up Error, sending to callback. ERROR ' + JSON.stringify(err) + 'MESSAGE' + err.message);

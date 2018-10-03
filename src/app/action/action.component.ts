@@ -20,6 +20,7 @@ export class ActionComponent implements OnInit, LoggedInCallback {
   actions: Action[];
   actionsLength: number;
   user: User;
+  @Input() totalPoints: number;
 
   constructor(public actionService: ActionService,
     public params: Parameters, public lambdaService: LambdaInvocationService,

@@ -45,7 +45,6 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
 
    // to get the user data that's diplayed across the top
    this.loginService.isAuthenticated(this, this.user);
-
   }
 
   add(action) { }

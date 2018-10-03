@@ -21,7 +21,6 @@ export class Parameters {
           }
           this.user.username = cognitoUser.getUsername();
           this.userSource.next(this.user);
-          console.log('built user ' + JSON.stringify(this.user));
           return this.user;
       }
   }

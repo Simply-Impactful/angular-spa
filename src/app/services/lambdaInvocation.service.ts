@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable, OnInit  } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -11,32 +11,17 @@ import { CognitoUtil, LoggedInCallback, Callback } from './cognito.service';
 import { environment } from '../../environments/environment';
 import { ActionService } from './action.service';
 import { Buffer } from 'buffer';
+import { LogInService } from '../services/log-in.service';
+import { Parameters} from '../services/parameters';
+import { CreateGroupService } from '../services/creategroup.service';
+import { CreateProfileService } from '../services/create-profile.service';
 
 @Injectable()
 export class LambdaInvocationService implements OnInit {
 
-  public apiEndpoint: string = '';
-
   region = environment.region;
 
   apiVersion = '2015-03-31';
-
-  actionsSource = new BehaviorSubject(new Array<Action>());
-  actions$ = this.actionsSource.asObservable();
-
-  actionSource = new BehaviorSubject(new Action());
-  action$ = this.actionSource.asObservable();
-
-  action = new Action;
-  userSource = new BehaviorSubject(new User());
-  user$ = this.userSource.asObservable();
-  // is this the best way to do this?
-  user = new User;
-  dialogResult = '';
-  length: number;
-  errorMessage: string = '';
-
-  public cognitoUtil: CognitoUtil;
 
   constructor() {  }
 
@@ -73,14 +58,11 @@ export class LambdaInvocationService implements OnInit {
           httpMethod:  'GET',
           path:  '/userActions',
           resource:  '',
-          queryStringParameters:  {
-                      },
+          queryStringParameters:  {},
             pathParameters:  {
               username: user.username
-                            },
-    })
-
-
+        }
+      })
     };
     lambda.invoke(pullParams, function(error, data) {
       if (error) {
@@ -133,7 +115,6 @@ export class LambdaInvocationService implements OnInit {
   }
 
   performAction(callback: LoggedInCallback, user: User, action: Action) {
-    const cognitoUtil = new CognitoUtil;
     const JSON_BODY = {
       username: user.username,
       actionTaken: action.name,
@@ -162,7 +143,6 @@ export class LambdaInvocationService implements OnInit {
       })
     };
 
-    const addedPoints = JSON_BODY.pointsEarned;
     lambda.invoke(putParams, function(error, data) {
       if (error) {
         console.log(error);
@@ -170,6 +150,7 @@ export class LambdaInvocationService implements OnInit {
       } else {
     //    cognitoUtil.updateUserAttribute(callback, addedPoints, user);
         console.log(data);
+    //    homeComponent.ngOnInit();
         callback.callbackWithParams(null, data.Payload);
       }
     });
