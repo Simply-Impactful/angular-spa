@@ -33,7 +33,6 @@ export class HomeComponent implements OnInit, LoggedInCallback {
     private params: Parameters, private lambdaService: LambdaInvocationService) { }
 
   ngOnInit() {
-    console.log('on init');
    this.params.user$.subscribe(user => {
       this.user = user;
     });

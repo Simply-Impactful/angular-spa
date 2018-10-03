@@ -128,7 +128,8 @@ export class CognitoUtil {
         }
     }
 
-/**    updateUserAttribute(callback: LoggedInCallback, addedPoints: number, user: User) {
+    updateUserAttribute(callback: LoggedInCallback, user: User) {
+        console.log('user array ' + JSON.stringify(user));
         const cognitoUser = this.getCurrentUser();
         if (cognitoUser !== null) {
             cognitoUser.getSession(function (err, session) {
@@ -141,16 +142,12 @@ export class CognitoUtil {
         } else {
             callback.isLoggedIn('Can\'t retrieve the CurrentUser', false);
         }
-
-        // Need to total up the existing points with the new added points
-        const userPoints = Number(user.userPoints);
-        const value = userPoints + addedPoints;
-
         const attributeList = [];
         const attribute = {
-            Name : 'custom:userPoints',
-            Value : JSON.stringify(value)
-        };
+            // need to replace with the dynamic values passed from user
+              Name : 'user',
+               Value : 'user.values'
+       };
         const attribute1 = new CognitoUserAttribute(attribute);
         attributeList.push(attribute1);
 
@@ -161,7 +158,7 @@ export class CognitoUtil {
             }
             console.log('call result: ' + result1);
         });
-    } **/
+    }
 
     getIdToken(callback: Callback): void {
         if (callback === null) {

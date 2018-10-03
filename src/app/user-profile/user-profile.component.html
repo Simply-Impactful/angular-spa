@@ -5,9 +5,9 @@
         <mat-card class="user-profile-card">
           <div mat-card-avatar class="user-profile-image"></div>
         </mat-card>
-        <h4 style ="font-weight: bold"> Jack Green </h4>
+        <h4 style ="font-weight: bold"> {{user.name}} {{user.lastName}}</h4>
         <br>
-        <h5> Total Points: 35 </h5>
+        <h5> Total Points: {{user.userPoints}} </h5>
         <br>
         <h5> Status: Elephant </h5>
         <br>
@@ -28,31 +28,31 @@
     <div fxFlex="100" *ngIf = "isUserProfile">
       <div align="left" style = "padding-left: 1em">
         <br>
-        <h5> JGreen</h5>
+        <h5> {{user.username}}</h5>
         <br>
-        <h5> Jack@gmail.com</h5>
+        <h5> {{user.email}}</h5>
         <br>
-        <h5> 02452</h5>
+        <h5> {{user.address}}</h5>
         <br>
-        <h5> Fidelity</h5>
+        <h5> {{user.organization}}</h5>
       </div>
     </div>
     <div fxFlex="100" *ngIf = "isEditProfile">
       <div align="left" style = "padding-left: 1em; font-size: 12px">
         <mat-form-field appearance="outline">
-          <input matInput placeholder="JGreen">
+          <input [(ngModel)]="updatedUser.username" matInput placeholder="{{user.username}}">
         </mat-form-field>
         <br>
         <mat-form-field appearance="outline">
-          <input matInput placeholder="Jack@gmail.com">
+          <input [(ngModel)]="updatedUser.email" matInput placeholder="{{user.email}}">
         </mat-form-field>
         <br>
         <mat-form-field appearance="outline">
-          <input matInput placeholder="02452">
+          <input [(ngModel)]="updatedUser.address" matInput placeholder="{{user.address}}">
         </mat-form-field>
         <br>
         <mat-form-field appearance="outline">
-          <input matInput placeholder="Fidelity">
+          <input [(ngModel)]="updatedUser.organization" matInput placeholder="{{user.organization}}">
         </mat-form-field>
       </div>
     </div>

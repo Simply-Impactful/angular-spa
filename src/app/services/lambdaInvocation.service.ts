@@ -1,7 +1,4 @@
-import { Injectable, OnInit  } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { Injectable, OnInit } from '@angular/core';
 import { Action } from '../model/Action';
 import { User } from '../model/User';
 import { MatDialog } from '@angular/material';
@@ -11,10 +8,13 @@ import { CognitoUtil, LoggedInCallback, Callback } from './cognito.service';
 import { environment } from '../../environments/environment';
 import { ActionService } from './action.service';
 import { Buffer } from 'buffer';
-import { LogInService } from '../services/log-in.service';
-import { Parameters} from '../services/parameters';
-import { CreateGroupService } from '../services/creategroup.service';
+import { HomeComponent } from '../home/home.component';
 import { CreateProfileService } from '../services/create-profile.service';
+import { CognitoUserAttribute, ICognitoUserAttributeData } from 'amazon-cognito-identity-js';
+import { AWSError } from 'aws-sdk';
+import { CreateGroupService } from '../services/creategroup.service';
+import { LogInService } from '../services/log-in.service';
+
 
 @Injectable()
 export class LambdaInvocationService implements OnInit {
@@ -22,6 +22,8 @@ export class LambdaInvocationService implements OnInit {
   region = environment.region;
 
   apiVersion = '2015-03-31';
+
+  public cognitoUtil: CognitoUtil;
 
   constructor() {  }
 
@@ -115,6 +117,7 @@ export class LambdaInvocationService implements OnInit {
   }
 
   performAction(callback: LoggedInCallback, user: User, action: Action) {
+    const cognitoUtil = new CognitoUtil;
     const JSON_BODY = {
       username: user.username,
       actionTaken: action.name,
@@ -143,6 +146,8 @@ export class LambdaInvocationService implements OnInit {
       })
     };
 
+//    const homeComponent = new HomeComponent(this.createGroupService, this.loginService, this.cognitoUtil,
+ //     this.createProfileService, this.params);
     lambda.invoke(putParams, function(error, data) {
       if (error) {
         console.log(error);
