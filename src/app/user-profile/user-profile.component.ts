@@ -10,6 +10,7 @@ import { CreateProfileService } from '../services/create-profile.service';
 import { CognitoUserAttribute, ICognitoUserAttributeData } from 'amazon-cognito-identity-js';
 import { AWSError } from 'aws-sdk';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
+import { Buffer } from 'buffer';
 
 @Component({
   selector: 'app-user-profile',
@@ -22,6 +23,7 @@ export class UserProfileComponent implements OnInit, LoggedInCallback {
   isEditProfile: Boolean = false;
   isUserProfile: Boolean = true;
   updatedUser = new User();
+  name: string;
 
   constructor(
     private loginService: LogInService,
@@ -72,11 +74,12 @@ export class UserProfileComponent implements OnInit, LoggedInCallback {
   userProfile() {
     this.isEditProfile = false;
     this.isUserProfile = true;
-    const updatedString = JSON.stringify(this.updatedUser);
- //   console.log("updated[0] " + JSON.stringify(updatedString[0]));
-    const object = JSON.parse(updatedString);
- //   console.log('object ' + JSON.stringify(object.address));
-//    console.log("this.updatedUser[0] " + JSON.stringify(this.updatedUser[0]));
-    this.cognitoUtil.updateUserAttribute(this, object);
+
+    for (const key of Object.keys(this.updatedUser)) {
+      if (this.updatedUser[key]) {
+        // need to add logic to tack on 'custom:' to the custom attributes
+        this.cognitoUtil.updateUserAttribute(this, key, this.updatedUser[key]);
+      }
+    }
   }
 }

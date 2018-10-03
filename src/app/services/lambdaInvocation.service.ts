@@ -70,7 +70,7 @@ export class LambdaInvocationService implements OnInit {
       if (error) {
         callback.callbackWithParams(error, null);
       } else {
-        console.log('user action' + data.Payload);
+     //   console.log('user action' + data.Payload);
         callback.callbackWithParams(null, data.Payload);
       }
     });

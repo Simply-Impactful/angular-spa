@@ -6,6 +6,7 @@ import * as awsservice from 'aws-sdk/lib/service';
 import * as CognitoIdentity from 'aws-sdk/clients/cognitoidentity';
 import { AWSError } from 'aws-sdk/global';
 import { User } from '../model/User';
+
 /**
  * Created by Vladimir Budilov
  */
@@ -128,8 +129,8 @@ export class CognitoUtil {
         }
     }
 
-    updateUserAttribute(callback: LoggedInCallback, user: User) {
-        console.log('user array ' + JSON.stringify(user));
+    updateUserAttribute(callback: LoggedInCallback, key: string, value: string) {
+    //    console.log('user array ' + JSON.stringify(user));
         const cognitoUser = this.getCurrentUser();
         if (cognitoUser !== null) {
             cognitoUser.getSession(function (err, session) {
@@ -145,11 +146,12 @@ export class CognitoUtil {
         const attributeList = [];
         const attribute = {
             // need to replace with the dynamic values passed from user
-              Name : 'user',
-               Value : 'user.values'
+              Name : key,
+               Value : value
        };
         const attribute1 = new CognitoUserAttribute(attribute);
         attributeList.push(attribute1);
+        console.log('attributeList ' + JSON.stringify(attributeList));
 
         cognitoUser.updateAttributes(attributeList, function(err1, result1) {
             if (err1) {

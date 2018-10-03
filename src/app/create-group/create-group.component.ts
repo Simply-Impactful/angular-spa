@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CreateGroupService } from '../services/creategroup.service';
 import { Group } from '../model/Group';
+// import { CognitoIdentityServiceProvider } from 'aws-sdk';
+// import { CognitoIdentityServiceProvider } from '../services/cognito.service';
+import * as AWS from 'aws-sdk/global';
+import { environment } from '../../environments/environment';
+import { AuthenticationDetails, CognitoUserAttribute, CognitoUser, CognitoUserPool } from 'amazon-cognito-identity-js';
+import { CognitoCallback, CognitoUtil } from '../services/cognito.service';
 
 
 @Component({
@@ -20,12 +26,20 @@ export class CreateGroupComponent implements OnInit {
   isOther: Boolean = false;
   createdGroup: Group;
   isGroupCreated: boolean;
+ // cognitoIdentityServiceProvider: CognitoIdentityServiceProvider;
 
 
-  constructor(private createGroupService: CreateGroupService) { }
+  constructor(private createGroupService: CreateGroupService, public cognitoUtil: CognitoUtil) { }
 
   ngOnInit() {
+//    AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+ //   AWS.config.region = environment.region;
+    //  const identityServiceProvider = new CognitoIdentityServiceProvider;
+  //  this.cognitoIdentityServiceProvider.listUsers();
+  //    AWS.identityServiceProvider.listUsers();
+    // const client =  new CognitoIdentityServiceProvider({ apiVersion: '2015-03-31, region: 'us-east-1' });
     this.createdGroup = new Group();
+
   }
 
   toggleOption() {
@@ -34,6 +48,13 @@ export class CreateGroupComponent implements OnInit {
     } else {
       this.isOther = false;
     }
+  }
+
+  addMember() {
+
+//  userPool.listUsers();
+
+    // x
   }
 
   creategroup() {
