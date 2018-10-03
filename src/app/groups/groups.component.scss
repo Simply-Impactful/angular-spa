@@ -1,0 +1,29 @@
+main {
+  display: flex;
+  flex-direction: column;
+  padding-top: 0em;
+  padding-right: 10em;
+  padding-left: 10em;
+  }
+.userdata-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+mat-cell {
+  display:flex !important;
+  justify-content:center!important;
+  font-size: 12px;
+}
+mat-header-cell {
+  display:flex;
+  justify-content:center;
+  font-weight: bold;
+  font-size: 12px;
+  color: black;
+}
+button.mat-button {
+  margin-right: 15px;
+  width: 150px;
+  align-self: flex-start;
+}

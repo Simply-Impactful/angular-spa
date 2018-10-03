@@ -9,6 +9,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CreateProfileComponent } from './create-profile/create-profile.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ActionsComponent } from './actions/actions.component';
+import { GroupsComponent } from './groups/groups.component';
 import { CreateGroupComponent } from './create-group/create-group.component';
 import { AdminAccessLandingComponent } from './admin-access-landing/admin-access-landing.component';
 import { AdminAccessActionsComponent } from './admin-access-actions/admin-access-actions.component';
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'createuser/:userType', component: CreateProfileComponent },
   { path: 'userprofile', component: UserProfileComponent },
   { path: 'resetpass', component: ResetPasswordComponent },
+  { path: 'groups', component: GroupsComponent },
   { path: 'creategroup', component: CreateGroupComponent },
   { path: 'adminaccesslanding', component: AdminAccessLandingComponent },
   { path: 'adminaccessusers', component: AdminAccessUsersComponent },

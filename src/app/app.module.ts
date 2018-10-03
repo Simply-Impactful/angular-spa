@@ -20,6 +20,7 @@ import { AppTopNavComponent } from './app-top-nav/app-top-nav.component';
 import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { AwsUtil } from './services/aws.service';
 import { CreateProfileService } from './services/create-profile.service';
+import {GroupsComponent } from './groups/groups.component';
 import { CreateGroupComponent } from './create-group/create-group.component';
 import { CreateGroupService } from './services/creategroup.service';
 import { CognitoUtil } from './services/cognito.service';
@@ -55,6 +56,7 @@ import { AdminActionDialogComponent } from './admin-action-dialog/admin-action-d
     UploadComponent,
     ActionsComponent,
     ActionComponent,
+    GroupsComponent,
     CreateGroupComponent,
     ActionDialogComponent,
     AdminTopNavComponent,
