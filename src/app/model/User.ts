@@ -11,4 +11,5 @@ export class User {
     organization: string;
     userPoints: string;
     userType: string;
+    picture: string;
 }

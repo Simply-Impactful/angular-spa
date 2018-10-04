@@ -28,7 +28,6 @@ export class UserProfileComponent implements OnInit, LoggedInCallback {
     public router: Router) { }
 
   ngOnInit() {
-    console.log('on init');
    this.params.user$.subscribe(user => {
       this.user = user;
     });
@@ -61,6 +60,9 @@ export class UserProfileComponent implements OnInit, LoggedInCallback {
     const cognitoUser = this.cognitoUtil.getCurrentUser();
     const params = new Parameters();
     this.user = params.buildUser(result, cognitoUser);
+    if (!this.user.picture) {
+      this.user.picture = 'https://s3.amazonaws.com/simply-impactful-image-data/default-profile-pic.png';
+    }
     this.lambdaService.getUserActions(this, this.user);
    }
 

@@ -7,7 +7,6 @@ import { LogInService } from '../services/log-in.service';
 import { Parameters} from '../services/parameters';
 import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
 import { CreateProfileService } from '../services/create-profile.service';
-import { CognitoUserAttribute, ICognitoUserAttributeData } from 'amazon-cognito-identity-js';
 import { AWSError } from 'aws-sdk';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 
@@ -21,7 +20,6 @@ export class HomeComponent implements OnInit, LoggedInCallback {
   groupSource = new BehaviorSubject(new Group());
   group$ = this.groupSource.asObservable();
   group: Group;
-  cognitoAttributes: ICognitoUserAttributeData[];
   isViewAll: boolean = false;
   isHomePage: boolean = true;
 
@@ -62,8 +60,8 @@ export class HomeComponent implements OnInit, LoggedInCallback {
   callbackWithParam(result: any): void {
     const cognitoUser = this.cognitoUtil.getCurrentUser();
     const params = new Parameters();
-    this.cognitoAttributes = result;
     this.user = params.buildUser(result, cognitoUser);
+//    console.log('this.user ' + JSON.stringify(this.user));
     this.lambdaService.getUserActions(this, this.user);
    }
 

@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
+import { Parameters} from '../services/parameters';
+import { LogInService } from '../services/log-in.service';
+import { User } from '../model/User';
+import { AWSError } from 'aws-sdk';
 
 @Component({
   selector: 'app-top-nav',
@@ -6,19 +11,35 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app-top-nav.component.scss']
 })
 
-export class AppTopNavComponent implements OnInit {
+export class AppTopNavComponent implements OnInit, LoggedInCallback {
   title: string = 'Change Is Simple';
   hideRightMenu: boolean = true;
   canSearch: boolean = false;
-  userscore: number = 35; // comes from an API
-  searchGroups: string[] = ['Pink', 'Red', 'Purple'];
+  userscore: number = 35;
+  user: User;
+  // comes from an API
+//  searchGroups: string[] = ['Pink', 'Red', 'Purple'];
 
-  constructor() {
-  }
+  constructor(private params: Parameters, private loginService: LogInService, 
+    private cognitoUtil: CognitoUtil) {}
 
   ngOnInit() {
+    this.params.user$.subscribe(user => {
+      this.user = user;
+    });
     this.hideRightMenu = false;
-    // TODO: https://stackoverflow.com/questions/43118592/angular-2-how-to-hide-nav-bar-in-some-components
+    this.loginService.isAuthenticated(this, this.user);
   }
+  // response of isAuthenticated method in login service
+  callbackWithParam(result: any): void {
+    const cognitoUser = this.cognitoUtil.getCurrentUser();
+    const params = new Parameters();
+    this.user = params.buildUser(result, cognitoUser);
+    console.log('this.user ' + JSON.stringify(this.user));
+  }
+    /** Interface needed for LoggedInCallback */
+    isLoggedIn(message: string, isLoggedIn: boolean) {}
+    // API Response
+    callbackWithParams(error: AWSError, result: any) {}
 
 }
