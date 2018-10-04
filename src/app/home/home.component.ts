@@ -45,14 +45,18 @@ export class HomeComponent implements OnInit, LoggedInCallback {
   }
   // API Response for getUserActions
   callbackWithParams(error: AWSError, result: any) {
-    const response = JSON.parse(result);
-    const userActions = response.body;
-    const userActionsLength = userActions.length;
-
-      for ( let i = 0; i < userActionsLength; i++ ) {
-        if (userActions[i].totalPoints) {
-          this.user.userPoints = userActions[i].totalPoints;
-        }
+    if (result) {
+      console.log('result');
+      const response = JSON.parse(result);
+      const userActions = response.body;
+      const userActionsLength = userActions.length;
+        for ( let i = 0; i < userActionsLength; i++ ) {
+          if (userActions[i].totalPoints) {
+            this.user.userPoints = userActions[i].totalPoints;
+          }
+      }
+    } else {
+      window.location.reload();
     }
   }
 
@@ -61,7 +65,7 @@ export class HomeComponent implements OnInit, LoggedInCallback {
     const cognitoUser = this.cognitoUtil.getCurrentUser();
     const params = new Parameters();
     this.user = params.buildUser(result, cognitoUser);
-//    console.log('this.user ' + JSON.stringify(this.user));
+    console.log('this.user ' + JSON.stringify(this.user));
     this.lambdaService.getUserActions(this, this.user);
    }
 

@@ -38,6 +38,11 @@ export class ActionComponent implements OnInit, LoggedInCallback {
     // throw new Error('Method not implemented.');
    }
    callbackWithParams(error: AWSError, result: any): void {
+     if (result) {
+       console.log('result in action');
+     } else {
+      window.location.reload();
+     }
      const response = JSON.parse(result);
      this.actions = response.body;
      this.actionsLength = response.body.length;

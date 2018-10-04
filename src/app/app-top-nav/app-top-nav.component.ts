@@ -20,13 +20,14 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
   // comes from an API
 //  searchGroups: string[] = ['Pink', 'Red', 'Purple'];
 
-  constructor(private params: Parameters, private loginService: LogInService, 
+  constructor(private params: Parameters, private loginService: LogInService,
     private cognitoUtil: CognitoUtil) {}
 
   ngOnInit() {
     this.params.user$.subscribe(user => {
       this.user = user;
     });
+
     this.hideRightMenu = false;
     this.loginService.isAuthenticated(this, this.user);
   }
@@ -35,6 +36,9 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
     const cognitoUser = this.cognitoUtil.getCurrentUser();
     const params = new Parameters();
     this.user = params.buildUser(result, cognitoUser);
+    if (!this.user.picture) {
+      this.user.picture = 'https://s3.amazonaws.com/simply-impactful-image-data/default-profile-pic.png';
+    }
     console.log('this.user ' + JSON.stringify(this.user));
   }
     /** Interface needed for LoggedInCallback */
