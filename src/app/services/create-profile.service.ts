@@ -48,7 +48,7 @@ export class CreateProfileService {
         // TODO
         const dataPicture = {
             Name: 'picture',
-            Value: ''
+            Value: 'https://s3.amazonaws.com/simply-impactful-image-data/default-profile-pic.png'
         };
         const dataUserType = {
             Name: 'custom:userType',
