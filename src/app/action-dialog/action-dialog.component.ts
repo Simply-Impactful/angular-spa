@@ -46,12 +46,14 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback {
   // Skeletal methods we need to put here in order to use the lambdaService
   isLoggedIn(message: string, loggedIn: boolean): void {}
 
+  // response from perform action API
   callbackWithParams(error: AWSError, result: any): void {
-     // if update is successful, reload the page
+     // if perform action is successful, reload the page so the numbers update
     if (result) {
       window.location.reload();
     }
   }
+
   callbackWithParam(result: any): void {
     const cognitoUser = this.cognitoUtil.getCurrentUser();
     const params = new Parameters();

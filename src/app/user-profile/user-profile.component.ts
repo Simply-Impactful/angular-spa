@@ -82,7 +82,4 @@ export class UserProfileComponent implements OnInit, LoggedInCallback {
     // refreshes component for changes to be visible
     window.location.reload();
   }
-  backHome() {
-    this.router.navigate(['/home']);
-  }
 }

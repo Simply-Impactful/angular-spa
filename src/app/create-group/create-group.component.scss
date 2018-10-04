@@ -1,3 +1,4 @@
+
 main {
     display: flex;
     flex-direction: column;
@@ -12,9 +13,9 @@ main {
         display: flex;
         flex-direction: row;
         justify-content:center;
-         }
+    }
     button.mat-button {
-    //width: 250px;
+        //width: 250px;
         font-size: 16 px;
     }
     button.mat-raised-button {

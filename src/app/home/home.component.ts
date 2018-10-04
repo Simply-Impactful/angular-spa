@@ -41,12 +41,13 @@ export class HomeComponent implements OnInit, LoggedInCallback {
    }
 
   /** Interface needed for LoggedInCallback */
-  isLoggedIn(message: string, isLoggedIn: boolean) {
-  }
-  // API Response for getUserActions
+  isLoggedIn(message: string, isLoggedIn: boolean) {}
+
+  // API Response for getUserActions - body null on first time user
+  // Don't throw an error in that scenario
   callbackWithParams(error: AWSError, result: any) {
     if (result) {
-      console.log('result');
+   //   console.log('result');
       const response = JSON.parse(result);
       const userActions = response.body;
       const userActionsLength = userActions.length;
@@ -55,8 +56,6 @@ export class HomeComponent implements OnInit, LoggedInCallback {
             this.user.userPoints = userActions[i].totalPoints;
           }
       }
-    } else {
-      window.location.reload();
     }
   }
 
@@ -66,6 +65,7 @@ export class HomeComponent implements OnInit, LoggedInCallback {
     const params = new Parameters();
     this.user = params.buildUser(result, cognitoUser);
     console.log('this.user ' + JSON.stringify(this.user));
+    // get the user actions if they are authenticated
     this.lambdaService.getUserActions(this, this.user);
    }
 

@@ -76,6 +76,10 @@ export class LambdaInvocationService implements OnInit {
     });
   }
 
+  adminDeleteAction() {
+    // need to implement
+  }
+
   adminCreateAction(actionData: Action, callback: LoggedInCallback) {
     const JSON_BODY = {
       name: actionData.name,

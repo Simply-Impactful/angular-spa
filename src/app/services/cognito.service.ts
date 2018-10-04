@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { CognitoUserPool, CognitoUserAttribute } from 'amazon-cognito-identity-js';
-import * as AWS from 'aws-sdk/global';
+import * as AWS from 'aws-sdk';
 import * as awsservice from 'aws-sdk/lib/service';
 import * as CognitoIdentity from 'aws-sdk/clients/cognitoidentity';
 import { AWSError } from 'aws-sdk/global';
