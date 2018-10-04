@@ -1,3 +1,9 @@
+<body>
+    <button mat-button color="primary" style="text-align:left; margin-left:10px;  width:150px;"routerLink="/home">
+      Back Home
+    </button>
+    <div style="text-align:center;color:red">{{errorMessage}}</div>
+  </body>
 <main>
   <div fxLayout="row">
     <div fxFlex="100">
@@ -5,7 +11,7 @@
         <mat-card class="user-profile-card">
           <div mat-card-avatar class="user-profile-image"></div>
         </mat-card>
-        <h4 style ="font-weight: bold"> {{user.name}} {{user.lastName}}</h4>
+        <h4 style ="font-weight: bold"> {{user.username}} </h4>
         <br>
         <h5> Total Points: {{user.userPoints}} </h5>
         <br>
@@ -16,7 +22,9 @@
     <div fxFlex="100">
       <div align="center" style = "text-align: right">
         <br>
-        <h5  style ="font-weight: bold"> USER NAME :</h5>
+        <h5  style ="font-weight: bold"> FIRST NAME :</h5>
+        <br>
+        <h5  style ="font-weight: bold"> LAST NAME :</h5>
         <br>
         <h5  style ="font-weight: bold"> EMAIL:</h5>
         <br>
@@ -25,10 +33,12 @@
         <h5 style ="font-weight: bold"> SCHOOL/COMPANY:</h5>
       </div>
     </div>
-    <div fxFlex="100" *ngIf = "isUserProfile">
+    <div fxFlex="100" *ngIf = "isViewProfile">
       <div align="left" style = "padding-left: 1em">
         <br>
-        <h5> {{user.username}}</h5>
+        <h5> {{user.name}} </h5>
+        <br>
+        <h5> {{user.lastName}} </h5>
         <br>
         <h5> {{user.email}}</h5>
         <br>
@@ -40,8 +50,12 @@
     <div fxFlex="100" *ngIf = "isEditProfile">
       <div align="left" style = "padding-left: 1em; font-size: 12px">
         <mat-form-field appearance="outline">
-          <input [(ngModel)]="updatedUser.username" matInput placeholder="{{user.username}}">
+          <input [(ngModel)]="updatedUser.name" matInput placeholder="{{user.name}}">
         </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline">
+            <input [(ngModel)]="updatedUser.lastName" matInput placeholder="{{user.lastName}}">
+          </mat-form-field>
         <br>
         <mat-form-field appearance="outline">
           <input [(ngModel)]="updatedUser.email" matInput placeholder="{{user.email}}">
@@ -60,9 +74,9 @@
   <mat-grid-list cols="2" rowHeight="6em">
     <mat-grid-tile></mat-grid-tile>
     <mat-grid-tile>
-      <button mat-button color="primary" (click)="editProfile()" *ngIf = "isUserProfile">EDIT PROFILE</button>
-      <button mat-raised-button color="primary" (click)="userProfile()" *ngIf = "isEditProfile" >SAVE CHANGES</button>
-      <button mat-button style="font-size: 10px; widows: 150em" color="primary" *ngIf = "isEditProfile" (click)="createAccount()">CHANGE PASSWORD / SECURITY QUESTIONS</button>
+      <button mat-button color="primary" (click)="editProfile()" *ngIf = "isViewProfile">EDIT PROFILE</button>
+      <button mat-raised-button color="primary" (click)="saveChanges()" *ngIf = "isEditProfile" >SAVE CHANGES</button>
+      <button mat-button style="font-size: 10px; widows: 150em" color="primary" *ngIf = "isEditProfile" routerLink="/resetpass" (click)="createAccount()">CHANGE PASSWORD</button>
     </mat-grid-tile>
   </mat-grid-list>
 </main>

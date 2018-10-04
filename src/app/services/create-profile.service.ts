@@ -48,7 +48,7 @@ export class CreateProfileService {
         // TODO
         const dataPicture = {
             Name: 'picture',
-            Value: ''
+            Value: 'https://s3.amazonaws.com/simply-impactful-image-data/default-profile-pic.png'
         };
         const dataUserType = {
             Name: 'custom:userType',
@@ -75,20 +75,15 @@ export class CreateProfileService {
         };
 
          const loginService = new LogInService(this.cognitoUtil);
-        // if the user inputted an email address, we can autoConfirm them
-        if (user.email) {
-            userPool.signUp(user.username, user.password, attributeList, null, function (err, result) {
-                if (err) {
-                    console.error('Sign Up Error, sending to callback. ERROR ' + JSON.stringify(err) + 'MESSAGE' + err.message);
-                    callback.cognitoCallback(err.message, null);
-                } else {
-                    // authenticate the user
-                    loginService.authenticate(user.username, user.password, callback);
-                    // callback.cognitoCallback(null, result);
-                }
-            });
-        } else {
-            callback.cognitoCallback('Please input an answer for each of the security questions', null);
-        }
+         userPool.signUp(user.username, user.password, attributeList, null, function (err, result) {
+            if (err) {
+                console.error('Sign Up Error, sending to callback. ERROR ' + JSON.stringify(err) + 'MESSAGE' + err.message);
+                callback.cognitoCallback(err.message, null);
+            } else {
+                // authenticate the user
+                loginService.authenticate(user.username, user.password, callback);
+                // callback.cognitoCallback(null, result);
+            }
+        });
     }
 }

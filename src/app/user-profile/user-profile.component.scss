@@ -16,9 +16,9 @@ mat-form-field {
 button.mat-button {
     padding-left: 2em;
     padding-right: 2em;
-    width: 300px;
-    font-size: 18 px;
-    margin: 10px;
+ //   width: 100px;
+    font-size: 58 px;
+  //  margin: 10px;
 }
 
 button.mat-raised-button {
@@ -33,9 +33,4 @@ button.mat-raised-button {
     display: inline-block;
     background-color: white;
     align-self: center;
-  }
-  
-  .user-profile-image {
-    background-image: url('/assets/images/Congrats_icn.svg');
-    background-size: cover;
   }

@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { CognitoUserPool, CognitoUserAttribute } from 'amazon-cognito-identity-js';
-import * as AWS from 'aws-sdk/global';
+import * as AWS from 'aws-sdk';
 import * as awsservice from 'aws-sdk/lib/service';
 import * as CognitoIdentity from 'aws-sdk/clients/cognitoidentity';
 import { AWSError } from 'aws-sdk/global';
 import { User } from '../model/User';
+
 /**
  * Created by Vladimir Budilov
  */
@@ -128,8 +129,10 @@ export class CognitoUtil {
         }
     }
 
-    updateUserAttribute(callback: LoggedInCallback, user: User) {
-        console.log('user array ' + JSON.stringify(user));
+    updateUserAttribute(callback: LoggedInCallback, key: string, value: string) {
+        if (key.includes('organization' || 'lastName' || 'picture')) {
+            key = 'custom:' + key;
+        }
         const cognitoUser = this.getCurrentUser();
         if (cognitoUser !== null) {
             cognitoUser.getSession(function (err, session) {
@@ -144,19 +147,20 @@ export class CognitoUtil {
         }
         const attributeList = [];
         const attribute = {
-            // need to replace with the dynamic values passed from user
-              Name : 'user',
-               Value : 'user.values'
+              Name : key,
+              Value : value
        };
         const attribute1 = new CognitoUserAttribute(attribute);
         attributeList.push(attribute1);
 
-        cognitoUser.updateAttributes(attributeList, function(err1, result1) {
-            if (err1) {
-                alert(err1);
+        cognitoUser.updateAttributes(attributeList, function(error, result1) {
+            if (error) {
+                console.log('error ' + error);
+             // not working because of type. Add an error callback?
+             // callback.callbackWithParams(error, null);
                 return;
             }
-            console.log('call result: ' + result1);
+            console.log('Update call result: ' + result1);
         });
     }
 

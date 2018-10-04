@@ -1,6 +1,7 @@
 <main>
   <h3 align = "left" style="padding-top:50px; font-weight: bold">Add new, remove or edit existing actions</h3>
   <button mat-button color="primary" (click)="create()"> + Create New</button>
+  <button aligh = "right" mat-button color="primary" (click)="refresh()"> Refresh</button>
   <br>
   <div class="actions-container mat-elevation-z8">
     <mat-table #table [dataSource]="actions">
@@ -37,14 +38,18 @@
       
       <!-- Fact Image Column -->
       <ng-container matColumnDef="funFactImageUrl">
-        <mat-header-cell *matHeaderCellDef> IMAGE </mat-header-cell>
-        <mat-cell *matCellDef="let actions"> {{actions.funFactImageUrl}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef> FACT IMAGE </mat-header-cell>
+        <mat-cell *matCellDef="let actions">
+            <img src={{actions.funFactImageUrl}} style="width:100px; height:75px">
+          </mat-cell>
       </ng-container>
 
       <!-- Tile Icon Column -->
       <ng-container matColumnDef="tileIconUrl">
         <mat-header-cell *matHeaderCellDef> ICON </mat-header-cell>
-        <mat-cell *matCellDef="let actions"> {{actions.tileIconUrl}} </mat-cell>
+        <mat-cell *matCellDef="let actions"> 
+            <img src="{{actions.tileIconUrl}}" style="max-width:75px; max-height:75px">
+          </mat-cell>
       </ng-container>
 
       <!-- checkbox Column -->

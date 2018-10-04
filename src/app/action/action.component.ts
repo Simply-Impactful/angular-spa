@@ -33,19 +33,23 @@ export class ActionComponent implements OnInit, LoggedInCallback {
   openDialog(name: string, action: Action) {
     this.actionService.openDialog(name, action);
   }
-  isLoggedIn(message: string, loggedIn: boolean): void {
+  isLoggedIn(message: string, loggedIn: boolean): void {}
 
-    // throw new Error('Method not implemented.');
-   }
-   callbackWithParams(error: AWSError, result: any): void {
-     const response = JSON.parse(result);
-     this.actions = response.body;
-     this.actionsLength = response.body.length;
-     // display the first three in the list.. need to make it most common 3?
-     for ( let i = this.actionsLength; i > 3; i -- ) {
-      this.actions.pop();
-     }
+  // Result is response of listActions API lambda call
+  callbackWithParams(error: AWSError, result: any): void {
+    // if list Actions fails (probably an auth error), reload the page
+    if (result) {
+      console.log('result in action');
+    } else {
+    window.location.reload();
     }
-    callbackWithParam(result: any): void {
+    const response = JSON.parse(result);
+    this.actions = response.body;
+    this.actionsLength = response.body.length;
+    // display the first three in the list.. need to make it most common 3?
+    for ( let i = this.actionsLength; i > 3; i -- ) {
+      this.actions.pop();
     }
   }
+  callbackWithParam(result: any): void {}
+}

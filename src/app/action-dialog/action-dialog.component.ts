@@ -32,14 +32,10 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback {
     });
     // get the user attributes that are set in the login service
     this.loginService.isAuthenticated(this, this.user);
-
   }
 
   onCloseConfirm() {
     this.lambdaService.performAction(this, this.user, this.action);
-    /*this.actionService.takeAction(this.user, this.action).subscribe(response => {
-      this.action = response;
-    });*/
     this.thisDialogRef.close('Confirm');
   }
 
@@ -48,17 +44,19 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback {
   }
 
   // Skeletal methods we need to put here in order to use the lambdaService
-  isLoggedIn(message: string, loggedIn: boolean): void {
-    // throw new Error('Method not implemented.');
-   }
+  isLoggedIn(message: string, loggedIn: boolean): void {}
 
-   callbackWithParams(error: AWSError, result: any): void {
-   // console.log('action dialog ' + JSON.stringify(result));
-   }
-   callbackWithParam(result: any): void {
+  // response from perform action API
+  callbackWithParams(error: AWSError, result: any): void {
+     // if perform action is successful, reload the page so the numbers update
+    if (result) {
+      window.location.reload();
+    }
+  }
+
+  callbackWithParam(result: any): void {
     const cognitoUser = this.cognitoUtil.getCurrentUser();
     const params = new Parameters();
     this.user = params.buildUser(result, cognitoUser);
    }
-
 }

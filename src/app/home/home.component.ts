@@ -7,7 +7,6 @@ import { LogInService } from '../services/log-in.service';
 import { Parameters} from '../services/parameters';
 import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
 import { CreateProfileService } from '../services/create-profile.service';
-import { CognitoUserAttribute, ICognitoUserAttributeData } from 'amazon-cognito-identity-js';
 import { AWSError } from 'aws-sdk';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 
@@ -21,7 +20,6 @@ export class HomeComponent implements OnInit, LoggedInCallback {
   groupSource = new BehaviorSubject(new Group());
   group$ = this.groupSource.asObservable();
   group: Group;
-  cognitoAttributes: ICognitoUserAttributeData[];
   isViewAll: boolean = false;
   isHomePage: boolean = true;
 
@@ -43,19 +41,21 @@ export class HomeComponent implements OnInit, LoggedInCallback {
    }
 
   /** Interface needed for LoggedInCallback */
-  isLoggedIn(message: string, isLoggedIn: boolean) {
-  }
-  // API Response for getUserActions
-  callbackWithParams(error: AWSError, result: any) {
-    const response = JSON.parse(result);
-    const userActions = response.body;
-    const userActionsLength = userActions.length;
+  isLoggedIn(message: string, isLoggedIn: boolean) {}
 
-      for ( let i = 0; i < userActionsLength; i++ ) {
-        if (userActions[i].totalPoints) {
-          this.user.userPoints = userActions[i].totalPoints;
-     //     this.userPoints = Number(this.user.userPoints);
-        }
+  // API Response for getUserActions - body null on first time user
+  // Don't throw an error in that scenario
+  callbackWithParams(error: AWSError, result: any) {
+    if (result) {
+   //   console.log('result');
+      const response = JSON.parse(result);
+      const userActions = response.body;
+      const userActionsLength = userActions.length;
+        for ( let i = 0; i < userActionsLength; i++ ) {
+          if (userActions[i].totalPoints) {
+            this.user.userPoints = userActions[i].totalPoints;
+          }
+      }
     }
   }
 
@@ -63,8 +63,9 @@ export class HomeComponent implements OnInit, LoggedInCallback {
   callbackWithParam(result: any): void {
     const cognitoUser = this.cognitoUtil.getCurrentUser();
     const params = new Parameters();
-    this.cognitoAttributes = result;
     this.user = params.buildUser(result, cognitoUser);
+    console.log('this.user ' + JSON.stringify(this.user));
+    // get the user actions if they are authenticated
     this.lambdaService.getUserActions(this, this.user);
    }
 
@@ -72,7 +73,6 @@ export class HomeComponent implements OnInit, LoggedInCallback {
    save() {
      this.isViewAll = true;
      this.isHomePage = false;
-    console.log('need to implement');
    }
     // for switching back and forth between actions
    backHome() {

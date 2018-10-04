@@ -27,6 +27,7 @@ export class AdminActionDialogComponent implements OnInit {
     private lambdaService: LambdaInvocationService, private loginService: LogInService) { }
 
   ngOnInit() {
+    console.log('this.data.. current action info?' + JSON.stringify(this.data));
     this.action = new Action();
   }
 

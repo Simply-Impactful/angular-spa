@@ -40,6 +40,9 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
     return numSelected === numRows;
   }
 
+  refresh() {
+    window.location.reload();
+  }
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     this.isAllSelected() ?
@@ -50,7 +53,8 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
   create() {
     const dialogRef = this.dialog.open(AdminActionDialogComponent, {
       width: '800px',
-      height: '500px'
+      height: '500px',
+      data: this.actions
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -66,12 +70,10 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
 
   isLoggedIn(message: string, loggedIn: boolean): void {}
 
-  // result of lambda invoke
+  // result of lambda listActions API
   callbackWithParams(error: AWSError, result: any): void {
     const response = JSON.parse(result);
     this.actions = response.body;
-    console.log('result ' + JSON.stringify(this.actions));
-    console.log('error ' + error);
   }
   callbackWithParam(result: any): void {}
 }

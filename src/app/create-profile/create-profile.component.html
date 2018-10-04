@@ -10,6 +10,7 @@
           <mat-form-field appearance="outline">
             <mat-label>First Name</mat-label>
             <input [(ngModel)]="newUser.name" matInput placeholder="First Name">
+            <mat-hint style="color: red; font-size: 85%">{{nullNameError}}</mat-hint>
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline">
@@ -20,12 +21,16 @@
           <mat-form-field appearance="outline">
             <mat-label>Username</mat-label>
             <input [(ngModel)]="newUser.username" matInput placeholder="Username">
+            <mat-hint style="color: red; font-size: 85%">{{nullUsernameError}}</mat-hint>
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline">
             <mat-label>Password</mat-label>
             <input [(ngModel)]="newUser.password" type="password" matInput placeholder="Password">
             <mat-hint>Minimum 8 characters, must contain number and special character </mat-hint>
+            <mat-hint style="color:red; margin-top:20px; margin-left:-310px; margin-bottom:20px; font-size: 85%">
+                {{passwordError}}
+              </mat-hint>
           </mat-form-field>
         </div>
       </div>
@@ -35,17 +40,19 @@
           <mat-form-field appearance="outline">
             <mat-label>Confirm Password</mat-label>
             <input [(ngModel)]="confirmPassword" type="password" matInput placeholder="Confirm Password">
-            <mat-hint style="color: red; font-size: 85%">{{errorMessage}}</mat-hint>
+            <mat-hint style="color: red; font-size: 85%">{{confirmPassError}}</mat-hint>
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline">
             <mat-label>Email</mat-label>
             <input [(ngModel)]="newUser.email" matInput placeholder="Email">
+            <mat-hint style="color: red; font-size: 85%">{{emailError}}</mat-hint>
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline">
             <mat-label>Zip Code</mat-label>
             <input [(ngModel)]="newUser.address" matInput placeholder="Zip Code">
+            <mat-hint style="color: red; font-size: 85%">{{nullZipError}}</mat-hint>
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline">
@@ -63,7 +70,7 @@
     <app-upload></app-upload>
   </mat-grid-tile>
   <mat-grid-tile>
-    <button mat-raised-button color="primary" (click)="createAccount()">Create</button>
-    <mat-hint style="color: red; font-size: 85%">{{genericMessage}}</mat-hint>
+      <button mat-raised-button color="primary" (click)="createAccount()">Create</button>
   </mat-grid-tile>
 </mat-grid-list>
+<mat-hint style="color: red; font-size: 75%">{{genericMessage}}</mat-hint>

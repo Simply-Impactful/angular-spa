@@ -111,9 +111,7 @@ export class LogInService {
         const cognitoUser = new CognitoUser(userData);
 
         cognitoUser.forgotPassword({
-            onSuccess: function () {
-
-            },
+            onSuccess: function () {},
             onFailure: function (err) {
                 callback.cognitoCallback(err.message, null);
             },

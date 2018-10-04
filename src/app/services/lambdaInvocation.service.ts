@@ -70,10 +70,14 @@ export class LambdaInvocationService implements OnInit {
       if (error) {
         callback.callbackWithParams(error, null);
       } else {
-        console.log('user action' + data.Payload);
+     //   console.log('user action' + data.Payload);
         callback.callbackWithParams(null, data.Payload);
       }
     });
+  }
+
+  adminDeleteAction() {
+    // need to implement
   }
 
   adminCreateAction(actionData: Action, callback: LoggedInCallback) {
@@ -153,7 +157,6 @@ export class LambdaInvocationService implements OnInit {
         console.log(error);
         callback.callbackWithParams(error, null);
       } else {
-    //    cognitoUtil.updateUserAttribute(callback, addedPoints, user);
         console.log(data);
     //    homeComponent.ngOnInit();
         callback.callbackWithParams(null, data.Payload);
