@@ -46,6 +46,36 @@
       </mat-table>
       <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
     </div>
-  </main>
+        
+ <div>
+ <mat-accordion>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Soccer Team
+            </mat-panel-title>
+            <mat-panel-description>
+                Johana Smith
+            </mat-panel-description>
+            <mat-panel-description>
+                08.10.2018
+            </mat-panel-description>
+            <mat-panel-description>
+                80
+            </mat-panel-description>
+            <mat-hint style="font-size:10px;">View All Members</mat-hint>
+        </mat-expansion-panel-header>
+        <mat-list>
+                <h3 mat-subheader>Members</h3>
+                <mat-list-item *ngFor="let member of Members">
+                  <mat-icon>folder</mat-icon>
+                  <h4 mat-line>{{member.name}}</h4>
+                  <p mat-line> {{member.points}} </p>
+        </mat-list-item>
+            </mat-list>
+    </mat-expansion-panel>
+</mat-accordion>
+</div>
+</main>
   
   
