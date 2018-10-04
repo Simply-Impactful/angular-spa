@@ -130,7 +130,9 @@ export class CognitoUtil {
     }
 
     updateUserAttribute(callback: LoggedInCallback, key: string, value: string) {
-    //    console.log('user array ' + JSON.stringify(user));
+        if (key.includes('organization' || 'lastName' || 'picture')) {
+            key = 'custom:' + key;
+        }
         const cognitoUser = this.getCurrentUser();
         if (cognitoUser !== null) {
             cognitoUser.getSession(function (err, session) {
@@ -145,20 +147,20 @@ export class CognitoUtil {
         }
         const attributeList = [];
         const attribute = {
-            // need to replace with the dynamic values passed from user
               Name : key,
-               Value : value
+              Value : value
        };
         const attribute1 = new CognitoUserAttribute(attribute);
         attributeList.push(attribute1);
-        console.log('attributeList ' + JSON.stringify(attributeList));
 
-        cognitoUser.updateAttributes(attributeList, function(err1, result1) {
-            if (err1) {
-                alert(err1);
+        cognitoUser.updateAttributes(attributeList, function(error, result1) {
+            if (error) {
+                console.log('error ' + error);
+             // not working because of type. Add an error callback?
+             // callback.callbackWithParams(error, null);
                 return;
             }
-            console.log('call result: ' + result1);
+            console.log('Update call result: ' + result1);
         });
     }
 

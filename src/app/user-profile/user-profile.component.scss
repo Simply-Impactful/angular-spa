@@ -5,7 +5,9 @@ main {
     padding-left: 20em;
     padding-right:20em;
 }
-
+body{
+    text-align: left;
+}
 mat-form-field {
     width: 300px;
     height: 4px;
@@ -16,8 +18,8 @@ mat-form-field {
 button.mat-button {
     padding-left: 2em;
     padding-right: 2em;
-    width: 300px;
-    font-size: 18 px;
+    width: 100px;
+    font-size: 58 px;
     margin: 10px;
 }
 

@@ -1,16 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Group } from '../model/Group';
-import { CreateGroupService } from '../services/creategroup.service';
-import { BehaviorSubject } from 'rxjs';
 import { User } from '../model/User';
 import { LogInService } from '../services/log-in.service';
 import { Parameters} from '../services/parameters';
 import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
 import { CreateProfileService } from '../services/create-profile.service';
-import { CognitoUserAttribute, ICognitoUserAttributeData } from 'amazon-cognito-identity-js';
 import { AWSError } from 'aws-sdk';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
-import { Buffer } from 'buffer';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-user-profile',
@@ -19,18 +16,19 @@ import { Buffer } from 'buffer';
 })
 export class UserProfileComponent implements OnInit, LoggedInCallback {
   user: User;
-  cognitoAttributes: ICognitoUserAttributeData[];
   isEditProfile: Boolean = false;
-  isUserProfile: Boolean = true;
+  isViewProfile: Boolean = true;
   updatedUser = new User();
-  name: string;
+  errorMessage: string = '';
 
   constructor(
     private loginService: LogInService,
     private cognitoUtil: CognitoUtil,
-    private params: Parameters, private lambdaService: LambdaInvocationService) { }
+    private params: Parameters, private lambdaService: LambdaInvocationService,
+    public router: Router) { }
 
   ngOnInit() {
+    console.log('on init');
    this.params.user$.subscribe(user => {
       this.user = user;
     });
@@ -44,6 +42,9 @@ export class UserProfileComponent implements OnInit, LoggedInCallback {
 
   // API Response for any lambda calls
   callbackWithParams(error: AWSError, result: any) {
+    if (error) {
+      this.errorMessage = error.message;
+    }
     const response = JSON.parse(result);
     const userActions = response.body;
     const userActionsLength = userActions.length;
@@ -51,7 +52,6 @@ export class UserProfileComponent implements OnInit, LoggedInCallback {
       for ( let i = 0; i < userActionsLength; i++ ) {
         if (userActions[i].totalPoints) {
           this.user.userPoints = userActions[i].totalPoints;
-     //     this.userPoints = Number(this.user.userPoints);
         }
     }
   }
@@ -60,26 +60,27 @@ export class UserProfileComponent implements OnInit, LoggedInCallback {
   callbackWithParam(result: any): void {
     const cognitoUser = this.cognitoUtil.getCurrentUser();
     const params = new Parameters();
-    this.cognitoAttributes = result;
     this.user = params.buildUser(result, cognitoUser);
     this.lambdaService.getUserActions(this, this.user);
    }
 
    // for switching back and forth between edit and read mode
    editProfile() {
-    this.isUserProfile = false;
+    this.isViewProfile = false;
     this.isEditProfile = true;
   }
   // save and switch mode back to view
-  userProfile() {
-    this.isEditProfile = false;
-    this.isUserProfile = true;
-
+  saveChanges() {
     for (const key of Object.keys(this.updatedUser)) {
       if (this.updatedUser[key]) {
-        // need to add logic to tack on 'custom:' to the custom attributes
         this.cognitoUtil.updateUserAttribute(this, key, this.updatedUser[key]);
       }
     }
+    // sets booleans back to defaults
+    // refreshes component for changes to be visible
+    window.location.reload();
+  }
+  backHome() {
+    this.router.navigate(['/home']);
   }
 }

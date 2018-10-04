@@ -54,7 +54,6 @@ export class HomeComponent implements OnInit, LoggedInCallback {
       for ( let i = 0; i < userActionsLength; i++ ) {
         if (userActions[i].totalPoints) {
           this.user.userPoints = userActions[i].totalPoints;
-     //     this.userPoints = Number(this.user.userPoints);
         }
     }
   }
@@ -72,7 +71,6 @@ export class HomeComponent implements OnInit, LoggedInCallback {
    save() {
      this.isViewAll = true;
      this.isHomePage = false;
-    console.log('need to implement');
    }
     // for switching back and forth between actions
    backHome() {

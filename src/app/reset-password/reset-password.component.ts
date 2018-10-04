@@ -23,13 +23,6 @@ export class ResetPasswordComponent implements OnInit {
   onConfirm: boolean = false;
   user: User;
 
-  securityQuestion1: string = '';
-  securityQuestion2: string = '';
-  securityQuestion3: string = '';
-  securityAnswer1: string = '';
-  securityAnswer2: string = '';
-  securityAnswer3: string = '';
-
   constructor(
     private router: Router,
     private cognitoUtil: CognitoUtil,
