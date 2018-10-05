@@ -2,9 +2,9 @@ main {
     display: flex;
     flex-direction: column;
     padding-top: 0em;
-    padding-right: 10em;
-    padding-left: 10em;
-    }
+    padding-right: 8em;
+    padding-left: 8em;
+  }
  .actiondata-container {
     display: flex;
     flex-direction: column;
@@ -14,6 +14,20 @@ main {
     display:flex !important;
     justify-content:center!important;
     font-size: 12px;
+  }
+ 
+  mat-icon {
+    color: white;
+  }
+  mat-row:hover{
+   mat-icon {
+    color: rgba(79, 163, 241, 0.972);
+    outline-color: rgba(2, 56, 107, 0.972);
+    cursor: pointer;
+    }
+  }
+  mat-cell:first-child, mat-footer-cell:first-child, mat-header-cell:first-child {
+    padding-left: 1px;
   }
   mat-header-cell {
     font-weight: bold;

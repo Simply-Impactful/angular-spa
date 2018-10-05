@@ -5,10 +5,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatInputModule, MatDialogRef } from '@angular/material';
-import { MatSelectModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material';
+import { MatPaginatorModule,
+  MatIconModule,
+  MatInputModule,
+  MatDialogRef,
+  MatSelectModule } from '@angular/material';
 
 import { ActionsComponent } from './actions/actions.component';
 import { ActionComponent } from './action/action.component';
@@ -80,7 +82,8 @@ import { AdminActionDialogComponent } from './admin-action-dialog/admin-action-d
     HttpClientModule,
     AngularFileUploaderModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatIconModule
   ],
   entryComponents: [
     ActionDialogComponent,

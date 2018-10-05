@@ -9,6 +9,7 @@ import { AWSError } from 'aws-sdk';
 import { LogInService } from '../services/log-in.service';
 import { CognitoUtil } from '../services/cognito.service';
 import { HttpClient } from '@angular/common/http';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-admin-action-dialog',
@@ -27,8 +28,7 @@ export class AdminActionDialogComponent implements OnInit {
     private lambdaService: LambdaInvocationService, private loginService: LogInService) { }
 
   ngOnInit() {
-    console.log('this.data.. current action info?' + JSON.stringify(this.data));
-    this.action = new Action();
+    this.action = this.data;
   }
 
   uploadFunFactImage(file: File) {
@@ -54,9 +54,11 @@ export class AdminActionDialogComponent implements OnInit {
       });
   }
 
+  // adminCreateAction is used for both 'create' and 'edit' calls
+  // NEED TO confirm if they are trying to create a name that already exists
   onCloseConfirm() {
     this.lambdaService.adminCreateAction(this.action, this);
-    console.log('action ' + JSON.stringify(this.action));
+   // window.location.reload();
     this.thisDialogRef.close('Confirm');
   }
 
@@ -65,9 +67,7 @@ export class AdminActionDialogComponent implements OnInit {
   }
 
   // Skeletal methods we need to put here in order to use the lambdaService
-  isLoggedIn(message: string, loggedIn: boolean): void {
-    // throw new Error('Method not implemented.');
-   }
+  isLoggedIn(message: string, loggedIn: boolean): void {}
 
    // response of lambda call
    callbackWithParams(error: AWSError, result: any): void {
