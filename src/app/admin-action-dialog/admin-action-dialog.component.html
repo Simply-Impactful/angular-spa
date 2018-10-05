@@ -1,9 +1,11 @@
 <div>
-  <hr> <h1 style="font-size:15px">Enter the below fields to create an action</h1>
-  <mat-dialog-content>
-    <mat-form-field appearance="outline" style="margin-right:5px">
+  <h3 style="font-size:20px">Enter the below fields to {{displayText}} an action</h3>
+  <mat-dialog-content style="padding-left:25px; padding-right: 25px">
+    <mat-form-field class="edit-action-name" *ngIf="isCreating" appearance="outline" style="margin-right:5px">
       <input matInput [(ngModel)]="action.name" matInput placeholder="Action Name">
     </mat-form-field>
+    <h1 style="text-align: left; font-size:15px; color:grey" *ngIf="isEditing"> Action Name: {{action.name}}  </h1>
+    <h3 style="text-align: left; font-size:15px; color:grey" *ngIf="isEditing"> Points:</h3>
     <mat-form-field appearance="outline" style="margin-right:5px">
       <input matInput [(ngModel)]="action.eligiblePoints" matInput placeholder="Eligible Points">
     </mat-form-field>
@@ -24,9 +26,11 @@
     <br>
     <input style="align-self:center" type="file" (change)="uploadTileIcon($event.target.files)" />
   </mat-dialog-content>
-  <hr>
+  <div style="color:red; font-size: 85%">
+    {{errorMessage}}
+  </div>
   <div align ="right">
-    <button mat-stroked-button color="primary" (click)="onCloseCancel()">UNDO</button> 
+    <button mat-stroked-button color="primary" (click)="onCloseCancel()">UNDO</button>
     <button mat-raised-button color="primary" (click)="onCloseConfirm()">CONFIRM</button>
   </div>      
 </div>

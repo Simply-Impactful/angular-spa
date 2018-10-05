@@ -9,7 +9,7 @@ export class User {
     username: string;
     address: string;
     organization: string;
-    userPoints: string;
+    userPoints: number;
     userType: string;
     picture: string;
 }

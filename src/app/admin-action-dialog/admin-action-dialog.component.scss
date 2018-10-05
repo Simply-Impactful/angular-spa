@@ -2,6 +2,9 @@ img{
     max-width: 300px;
     max-height: 300px;
 }
+mat-dialog-content{
+    display: inline-block;
+}
 button.mat-stroked-button {
     margin-right: 10px;
     width: 80px;
@@ -13,4 +16,12 @@ button.mat-raised-button {
     width: 80px;
     text-align: center;
     padding: 0px;
+}
+.edit-action-name{
+    width: 450px;
+}
+
+.fun-fact{
+    width: 450px;
+    height: 200px;
 }

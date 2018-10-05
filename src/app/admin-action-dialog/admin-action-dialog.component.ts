@@ -7,7 +7,7 @@ import { Parameters } from '../services/parameters';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { AWSError } from 'aws-sdk';
 import { LogInService } from '../services/log-in.service';
-import { CognitoUtil } from '../services/cognito.service';
+import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
 import { HttpClient } from '@angular/common/http';
 import {MatIconModule} from '@angular/material/icon';
 
@@ -16,10 +16,15 @@ import {MatIconModule} from '@angular/material/icon';
   templateUrl: './admin-action-dialog.component.html',
   styleUrls: ['./admin-action-dialog.component.scss']
 })
-export class AdminActionDialogComponent implements OnInit {
+export class AdminActionDialogComponent implements OnInit, LoggedInCallback {
 
   action: Action;
   http:  HttpClient;
+  existingActions: Action[];
+  errorMessage = '';
+  isCreating: boolean = false;
+  isEditing: boolean = false;
+  displayText = 'Edit';
 
   constructor(
     @Inject(MAT_DIALOG_DATA)public data: Action,
@@ -28,7 +33,16 @@ export class AdminActionDialogComponent implements OnInit {
     private lambdaService: LambdaInvocationService, private loginService: LogInService) { }
 
   ngOnInit() {
+    this.lambdaService.listActions(this);
     this.action = this.data;
+    // if no data was passed forward, create was called
+    if (!this.action) {
+      this.action = new Action();
+      this.isCreating = true;
+      this.displayText = 'Create';
+    } else {
+      this.isEditing = true;
+    }
   }
 
   uploadFunFactImage(file: File) {
@@ -57,9 +71,29 @@ export class AdminActionDialogComponent implements OnInit {
   // adminCreateAction is used for both 'create' and 'edit' calls
   // NEED TO confirm if they are trying to create a name that already exists
   onCloseConfirm() {
-    this.lambdaService.adminCreateAction(this.action, this);
-   // window.location.reload();
-    this.thisDialogRef.close('Confirm');
+    let isError = false;
+    const name = this.action.name;
+    if (this.isCreating) {
+      for (let i = 0; i < this.existingActions.length; i++) {
+              if (this.existingActions[i].name === name) {
+                      this.errorMessage = 'Error: Unable to create an action with a name that already exists.' +
+                     'Please Hit UNDO and edit the action instead.';
+                     isError = true;
+                     break;
+              }
+            }
+    } else { // they're editing
+      this.lambdaService.adminCreateAction(this.action, this);
+      this.thisDialogRef.close('Confirm');
+   //   window.location.reload();
+    }
+    if (!isError) {
+      this.lambdaService.adminCreateAction(this.action, this);
+      this.thisDialogRef.close('Confirm');
+    }
+    if (!isError && this.isCreating) {
+      window.location.reload();
+    }
   }
 
   onCloseCancel() {
@@ -69,9 +103,11 @@ export class AdminActionDialogComponent implements OnInit {
   // Skeletal methods we need to put here in order to use the lambdaService
   isLoggedIn(message: string, loggedIn: boolean): void {}
 
-   // response of lambda call
+   // response of lambda calls
    callbackWithParams(error: AWSError, result: any): void {
-     console.log('create result ' + result);
+  //   console.log('create result ' + result);
+     const response = JSON.parse(result);
+     this.existingActions = response.body;
    }
    // response of is auth
    callbackWithParam(result: any): void {}

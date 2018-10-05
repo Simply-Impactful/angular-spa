@@ -27,9 +27,9 @@ export class LambdaInvocationService implements OnInit {
 
   constructor() {  }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
+  // list all the actions created by the admins
   listActions(callback: LoggedInCallback) {
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
     AWS.config.region = environment.region;
@@ -48,6 +48,8 @@ export class LambdaInvocationService implements OnInit {
     });
   }
 
+  // get the actions for a user BY their username
+  // TODO add same call to get ALL users without specifying the username
   getUserActions(callback: LoggedInCallback, user: User) {
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
     AWS.config.region = environment.region;
@@ -76,19 +78,35 @@ export class LambdaInvocationService implements OnInit {
     });
   }
 
-  adminDeleteAction(actionData: Action[], callback: LoggedInCallback) {
-    // console.log('actionData ' + JSON.stringify(actionData));
-/**
-    const JSON_BODY = {
-      name: actionData.name,
-      eligiblePoints: actionData.eligiblePoints,
-      funFactImageUrl: actionData.funFactImageUrl,
-      funFact: actionData.funFact,
-      maxFrequency: actionData.maxFrequency,
-      tileIconUrl: actionData.tileIconUrl,
-      frequencyCadence: actionData.frequencyCadence
-    };*/
+  // get all of the users - need to put a distinct filter on the result
+  listUsers(callback: LoggedInCallback) {
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+    AWS.config.region = environment.region;
+    const lambda = new AWS.Lambda({region: AWS.config.region, apiVersion: '2015-03-31'});
+    const pullParams = {
+      FunctionName: 'listUserActions',
+      InvocationType: 'RequestResponse',
+      LogType: 'None',
+      Payload:  JSON.stringify({
+          httpMethod:  'GET',
+          path:  '/actions',
+          resource:  '',
+          queryStringParameters:  {},
+            pathParameters:  {}
+      })
+    };
+    lambda.invoke(pullParams, function(error, data) {
+      if (error) {
+        callback.callbackWithParams(error, null);
+      } else {
+     //   console.log('user action' + data.Payload);
+        callback.callbackWithParams(null, data.Payload);
+      }
+    });
+  }
 
+  // Allow admins to delete an action - bulk or single
+  adminDeleteAction(actionData: Action[], callback: LoggedInCallback) {
     const body = new Buffer(JSON.stringify(actionData)).toString('utf8');
 
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
@@ -118,6 +136,7 @@ export class LambdaInvocationService implements OnInit {
     });
   }
 
+  // Allow admins to add more actions for users to take
   adminCreateAction(actionData: Action, callback: LoggedInCallback) {
     const JSON_BODY = {
       name: actionData.name,
@@ -158,6 +177,7 @@ export class LambdaInvocationService implements OnInit {
     });
   }
 
+  // Records points when a user takes an action
   performAction(callback: LoggedInCallback, user: User, action: Action) {
     const cognitoUtil = new CognitoUtil;
     const JSON_BODY = {
@@ -165,7 +185,8 @@ export class LambdaInvocationService implements OnInit {
       actionTaken: action.name,
       email: user.email,
       pointsEarned: action.eligiblePoints,
-      recordedFrequency: 1
+      recordedFrequency: 1,
+      zipcode: user.address
     };
     const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
 
@@ -188,15 +209,12 @@ export class LambdaInvocationService implements OnInit {
       })
     };
 
-//    const homeComponent = new HomeComponent(this.createGroupService, this.loginService, this.cognitoUtil,
- //     this.createProfileService, this.params);
     lambda.invoke(putParams, function(error, data) {
       if (error) {
         console.log(error);
         callback.callbackWithParams(error, null);
       } else {
-        console.log(data);
-    //    homeComponent.ngOnInit();
+        console.log('perform action data ' + data);
         callback.callbackWithParams(null, data.Payload);
       }
     });

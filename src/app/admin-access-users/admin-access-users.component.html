@@ -1,42 +1,36 @@
 <main>
   <h3 align = "left" style = "padding-top:50px;font-weight: bold"> View existing user information </h3>
   <div class="userdata-container mat-elevation-z8">
-	  <mat-table #table [dataSource]="dataSource">
-
-			<!-- Name Column -->
-		<ng-container matColumnDef="name">
-			<mat-header-cell *matHeaderCellDef> NAME </mat-header-cell>
-			<mat-cell *matCellDef="let userdata"> {{userdata.name}}</mat-cell>
-		</ng-container>
+	  <mat-table #table [dataSource]="users">
 
 		  <!-- Username Column -->
 		<ng-container matColumnDef="username">
 			<mat-header-cell *matHeaderCellDef> USERNAME </mat-header-cell>
-			<mat-cell *matCellDef="let userdata"> {{userdata.username}} </mat-cell>
+			<mat-cell *matCellDef="let users"> {{users.username}} </mat-cell>
 		</ng-container>
 
 		  <!-- Email Column -->
 		<ng-container matColumnDef="email">
 			<mat-header-cell *matHeaderCellDef> EMAIL </mat-header-cell>
-			<mat-cell *matCellDef="let userdata"> {{userdata.email}}</mat-cell>
+			<mat-cell *matCellDef="let users"> {{users.email}}</mat-cell>
 		</ng-container>
 
 		  <!-- ZipCode Column -->
 		<ng-container matColumnDef="zipcode">
 			<mat-header-cell *matHeaderCellDef> ZIPCODE </mat-header-cell>
-			<mat-cell *matCellDef="let userdata">{{userdata.zipcode}} </mat-cell>
+			<mat-cell *matCellDef="let users">{{users.zipcode}} </mat-cell>
         </ng-container>
     
     		<!-- Action taken Column -->
 		<ng-container matColumnDef="carbon">
         	<mat-header-cell *matHeaderCellDef> CARBON REDUCTION </mat-header-cell>
-			<mat-cell *matCellDef="let userdata"> {{userdata.carbon}} </mat-cell>
+			<mat-cell *matCellDef="let users"> {{users.carbon}} </mat-cell>
 		</ng-container>
 
 		  <!-- Total Points Column -->
 		<ng-container matColumnDef="totalpoints">
 			<mat-header-cell *matHeaderCellDef> TOTAL POINTS </mat-header-cell>
-        	<mat-cell *matCellDef="let userdata"> {{userdata.totalpoints}} </mat-cell>
+        	<mat-cell *matCellDef="let users"> {{users.totalpoints}} </mat-cell>
 		</ng-container>
 
 		<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

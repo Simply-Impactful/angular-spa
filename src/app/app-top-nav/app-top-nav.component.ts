@@ -15,7 +15,7 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
   title: string = 'Change Is Simple';
   hideRightMenu: boolean = true;
   canSearch: boolean = false;
-  userscore: number = 35;
+ // userscore: number = 35;
   user: User;
   // comes from an API
 //  searchGroups: string[] = ['Pink', 'Red', 'Purple'];

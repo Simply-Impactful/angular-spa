@@ -79,7 +79,6 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
     const dialogRef = this.dialog.open(AdminActionDialogComponent, {
       width: '800px',
       height: '500px',
-      data: this.actions
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -91,7 +90,6 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
   }
 
   saveDelete() {
-    this.isDeleted = true;
     // delete the selected row
     for (let i = 0; i < this.selectedRow.length; i++) {
       console.log('this.selectedRow.length ' + this.selectedRow.length);
@@ -99,6 +97,7 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
       this.deleteActions.push(this.actions[this.selectedRow[i]]);
     }
     this.lambdaService.adminDeleteAction(this.deleteActions, this);
+    this.isDeleted = true;
     // clear the selection.. does this work?
     this.selectedRow = null;
   }
@@ -111,12 +110,12 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
       console.log('result');
       const response = JSON.parse(result);
       this.actions = response.body;
-      if (this.isDeleted) {
-         window.location.reload();
-      }
     } else {
       console.log('error ' + JSON.stringify(error));
     }
+    if (this.isDeleted) {
+        window.location.reload();
+     }
   }
   callbackWithParam(result: any): void {}
 }
