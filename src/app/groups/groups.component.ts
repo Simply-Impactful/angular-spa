@@ -31,6 +31,7 @@ const USER_DATA: UserData[] = [
   templateUrl: './groups.component.html',
   styleUrls: ['./groups.component.scss']
 })
+
 export class GroupsComponent implements OnInit {
 
   displayedColumns = ['name', 'description', 'username', 'email', 'zipcode', 'carbon'];
@@ -46,4 +47,18 @@ export class GroupsComponent implements OnInit {
   }
 }
 
+export interface Member {
+  name: string;
+  points: number;
+}
 
+export const groupMembers: Member[] = [
+  {
+    'name': 'Paul',
+    'points': 20
+  },
+  {
+    'name': 'Tom',
+    'points': 10
+  }
+];

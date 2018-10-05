@@ -16,6 +16,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDialogModule } from '@angular/material';
 import { MatBadgeModule } from '@angular/material/badge';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
     imports: [
@@ -33,7 +35,9 @@ import { MatBadgeModule } from '@angular/material/badge';
         MatTabsModule,
         MatDividerModule,
         MatBadgeModule,
-        MatDialogModule
+        MatDialogModule,
+        MatExpansionModule,
+        MatListModule
     ],
     exports: [
         MatButtonModule,
@@ -50,7 +54,9 @@ import { MatBadgeModule } from '@angular/material/badge';
         MatTabsModule,
         MatDividerModule,
         MatBadgeModule,
-        MatDialogModule
+        MatDialogModule,
+        MatExpansionModule,
+        MatListModule
     ]
 })
 
