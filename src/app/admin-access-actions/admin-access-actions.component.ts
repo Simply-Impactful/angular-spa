@@ -17,15 +17,27 @@ import { AdminActionDialogComponent } from './../admin-action-dialog/admin-actio
 
 export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
  actions: Action[];
- displayedColumns = ['name', 'eligiblePoints', 'maxFrequency', 'frequencyCadence', 'funFact', 'funFactImageUrl', 'tileIconUrl', 'delete'];
+ deleteActions = new Array<Action>();
+ action: Action;
+ displayedColumns = ['edit', 'name', 'eligiblePoints',
+ 'maxFrequency', 'frequencyCadence', 'funFact', 'funFactImageUrl', 'tileIconUrl', 'delete'];
  datasource = new MatTableDataSource(this.actions);
  selection = new SelectionModel<Action>(true, []);
  dialogResult = '';
+ selectedRow = [];
+ index = '';
+ isDeleted: boolean = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(public appComp: AppComponent, public lambdaService: LambdaInvocationService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog) {
+      this.setClickedRow = function(index) {
+        this.index = index;
+        this.selectedRow.push(index);
+        console.log('this.selectedRow ' + JSON.stringify(this.selectedRow));
+      };
+    }
 
   ngOnInit() {
     this.appComp.setAdmin();
@@ -33,6 +45,22 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
     this.lambdaService.listActions(this);
   }
 
+  // needed for the constructor method to determine which row we are displaying current action data for
+  setClickedRow(i: any) {}
+
+  edit() {
+    const dialogRef = this.dialog.open(AdminActionDialogComponent, {
+      width: '800px',
+      height: '500px',
+      data: this.actions[this.index]
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog closed: ${result}`);
+      this.dialogResult = result;
+      this.selection.clear();
+    });
+  }
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -40,9 +68,6 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
     return numSelected === numRows;
   }
 
-  refresh() {
-    window.location.reload();
-  }
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     this.isAllSelected() ?
@@ -61,19 +86,37 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
       console.log(`Dialog closed: ${result}`);
       this.dialogResult = result;
     });
+    // does this work?
+    this.selection.clear();
   }
 
-  save() {
-    console.log('selection ' + JSON.stringify(this.selection));
-  // only needed for the DELETE
+  saveDelete() {
+    this.isDeleted = true;
+    // delete the selected row
+    for (let i = 0; i < this.selectedRow.length; i++) {
+      console.log('this.selectedRow.length ' + this.selectedRow.length);
+      console.log('row to DELETE ' + JSON.stringify(this.actions[this.selectedRow[i]]));
+      this.deleteActions.push(this.actions[this.selectedRow[i]]);
+    }
+    this.lambdaService.adminDeleteAction(this.deleteActions, this);
+    // clear the selection.. does this work?
+    this.selectedRow = null;
   }
 
   isLoggedIn(message: string, loggedIn: boolean): void {}
 
-  // result of lambda listActions API
+  // result of lambda listActions and Delete Actions API
   callbackWithParams(error: AWSError, result: any): void {
-    const response = JSON.parse(result);
-    this.actions = response.body;
+    if (result) {
+      console.log('result');
+      const response = JSON.parse(result);
+      this.actions = response.body;
+      if (this.isDeleted) {
+         window.location.reload();
+      }
+    } else {
+      console.log('error ' + JSON.stringify(error));
+    }
   }
   callbackWithParam(result: any): void {}
 }

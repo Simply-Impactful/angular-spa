@@ -1,6 +1,6 @@
-<body>
-    <button mat-button color="primary" style="text-align:left; margin-left:10px;  width:150px;"routerLink="/home">
-      Back Home
+<body style="background-color: rgb(240, 233, 233); height: 150px ; padding:0px; margin:0px">
+      <button mat-button style="font-weight:bold; text-align:left; margin-left:10px;  width:150px;"routerLink="/home">
+      < Back 
     </button>
     <div style="text-align:center;color:red">{{errorMessage}}</div>
   </body>
@@ -9,8 +9,9 @@
     <div fxFlex="100">
       <div align="right" style ="text-align:left">
         <mat-card class="user-profile-card">
-          <div mat-card-avatar class="user-profile-image"></div>
+          <img class = "avatar-size" mat-card-avatar src="{{user.picture}}">
         </mat-card>
+        <br>
         <h4 style ="font-weight: bold"> {{user.username}} </h4>
         <br>
         <h5> Total Points: {{user.userPoints}} </h5>
@@ -71,7 +72,7 @@
       </div>
     </div>
   </div>
-  <mat-grid-list cols="2" rowHeight="6em">
+  <mat-grid-list cols="2" rowHeight="8em">
     <mat-grid-tile></mat-grid-tile>
     <mat-grid-tile>
       <button mat-button color="primary" (click)="editProfile()" *ngIf = "isViewProfile">EDIT PROFILE</button>

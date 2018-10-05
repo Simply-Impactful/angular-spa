@@ -76,8 +76,46 @@ export class LambdaInvocationService implements OnInit {
     });
   }
 
-  adminDeleteAction() {
-    // need to implement
+  adminDeleteAction(actionData: Action[], callback: LoggedInCallback) {
+    // console.log('actionData ' + JSON.stringify(actionData));
+/**
+    const JSON_BODY = {
+      name: actionData.name,
+      eligiblePoints: actionData.eligiblePoints,
+      funFactImageUrl: actionData.funFactImageUrl,
+      funFact: actionData.funFact,
+      maxFrequency: actionData.maxFrequency,
+      tileIconUrl: actionData.tileIconUrl,
+      frequencyCadence: actionData.frequencyCadence
+    };*/
+
+    const body = new Buffer(JSON.stringify(actionData)).toString('utf8');
+
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+    AWS.config.region = this.region;
+    const lambda = new AWS.Lambda({region: this.region, apiVersion: this.apiVersion});
+    const putParams = {
+      FunctionName: 'deleteActions',
+      InvocationType: 'RequestResponse',
+      LogType: 'None',
+      Payload: JSON.stringify({
+        httpMethod: 'POST',
+        path: '/actions/delete',
+        resource: '',
+        queryStringParameters: {
+        },
+        pathParameters: {
+        },
+        body: body
+      })
+    };
+    lambda.invoke(putParams, function(error, data) {
+      if (error) {
+        callback.callbackWithParams(error, null);
+      } else {
+        callback.callbackWithParams(null, data.Payload);
+      }
+    });
   }
 
   adminCreateAction(actionData: Action, callback: LoggedInCallback) {
