@@ -17,7 +17,7 @@ import * as _ from 'lodash';
 export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
   users: User[];
   displayedColumns = ['username', 'email', 'zipcode', 'carbon', 'totalpoints'];
-  dataSource = new MatTableDataSource(this.users);
+  dataSource;
   distinct = new Array<User>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -26,9 +26,7 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
 
   ngOnInit() {
     this.appComp.setAdmin();
-    this.dataSource.paginator = this.paginator;
-    this.lambdaService.listUsers(this);
-  }
+    this.lambdaService.listUsers(this);  }
 
   isLoggedIn(message: string, loggedIn: boolean): void {}
 
@@ -38,6 +36,8 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
       const response = JSON.parse(result);
       const unique = _.uniqBy(response.body, 'username');
       this.users = unique;
+      this.dataSource = new MatTableDataSource(this.users);
+      this.dataSource.paginator = this.paginator;
       console.log('this.users ' + JSON.stringify(this.users));
 
      } else {

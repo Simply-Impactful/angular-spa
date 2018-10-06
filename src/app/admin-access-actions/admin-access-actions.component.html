@@ -4,7 +4,7 @@
   <button mat-button color="primary" (click)="create()"> + Create New</button>
   <br>      
   <div class="actions-container mat-elevation-z8">
-    <mat-table #table [dataSource]="actions">
+    <mat-table #table [dataSource]="dataSource">
 
     <!-- Pencil Column -->
     <ng-container matColumnDef="edit">

@@ -21,7 +21,7 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
  action: Action;
  displayedColumns = ['edit', 'name', 'eligiblePoints',
  'maxFrequency', 'frequencyCadence', 'funFact', 'funFactImageUrl', 'tileIconUrl', 'delete'];
- datasource = new MatTableDataSource(this.actions);
+ dataSource;
  selection = new SelectionModel<Action>(true, []);
  dialogResult = '';
  selectedRow = [];
@@ -41,7 +41,6 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
 
   ngOnInit() {
     this.appComp.setAdmin();
-    this.datasource.paginator = this.paginator;
     this.lambdaService.listActions(this);
   }
 
@@ -110,6 +109,8 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
       console.log('result');
       const response = JSON.parse(result);
       this.actions = response.body;
+      this.dataSource = new MatTableDataSource(this.actions);
+      this.dataSource.paginator = this.paginator;
     } else {
       console.log('error ' + JSON.stringify(error));
     }

@@ -47,15 +47,16 @@ export class HomeComponent implements OnInit, LoggedInCallback {
   // Don't throw an error in that scenario
   callbackWithParams(error: AWSError, result: any) {
     if (result) {
-   //   console.log('result');
       const response = JSON.parse(result);
       const userActions = response.body;
       const userActionsLength = userActions.length;
+      console.log('userActions ' + JSON.stringify(userActions));
         for ( let i = 0; i < userActionsLength; i++ ) {
           if (userActions[i].totalPoints) {
             this.user.userPoints = userActions[i].totalPoints;
           }
       }
+      console.log('this.user.userPoints ' + this.user.userPoints);
     }
   }
 
