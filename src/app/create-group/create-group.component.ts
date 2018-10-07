@@ -36,37 +36,55 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
     this.createdGroup = new Group();
     const result = [
       {
+        createdDate: 1538510499536,
+        subType: [],
+        type: 'NoSubCategory',
+        updatedAt: 1538510499536
+      },
+      {
           createdDate: 1538510499536,
           subType: ['SubType1', 'Subtype2'],
           type: 'Non-Profit',
           updatedAt: 1538510499536
       },
       {
-          createdDate: 1538510499536,
-          subType: ['Entire Company'],
-          type: 'Profit',
-          updatedAt: 1538510499536
+        createdDate: 15385104996636,
+        subType: [],
+        type: 'Nonsub',
+        updatedAt: 1538510499536
+      },
+      {
+        createdDate: 1538510499536,
+        subType: ['Entire Company'],
+        type: 'Profit',
+        updatedAt: 1538510499536
       },
       {
         createdDate: 1538510499536,
         subType: [],
         type: 'Other',
         updatedAt: 1538510499536
+      },
+      {
+        createdDate: 1538510499536,
+        subType: ['Testing'],
+        type: 'Sub',
+        updatedAt: 1538510499536
       }];
       this.groupsData = result;
+      this.types = result;
+      console.log('this.groupsData.length ' + this.groupsData.length);
       for (let i = 0; i < this.groupsData.length; i++) {
-         console.log(JSON.stringify(this.groupsData[i].subType));
-         if (this.groupsData[i].subType.length === 0) {
-             this.noSubTypes.push(this.groupsData[i].type);
-             this.groupsData.splice(i);
-         }
+        if (this.groupsData[i].subType.length === 0) {
+          this.noSubTypes.push(this.groupsData[i].type);
+          this.types.splice(i, 1);
+        }
       }
+       this.groupsData = this.types;
   //  this.lambdaService.listGroupsMetaData(this);
   }
 
   toggleOption(type: string, subtype: string) {
-    console.log('type ' + type);
-    console.log('subType ' + subtype);
     this.createdGroup.type = type;
     if (this.createdGroup.type === 'Other') {
       this.isOther = true;
