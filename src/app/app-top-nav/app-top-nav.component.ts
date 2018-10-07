@@ -39,7 +39,7 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
     if (!this.user.picture) {
       this.user.picture = 'https://s3.amazonaws.com/simply-impactful-image-data/default-profile-pic.png';
     }
-    console.log('this.user ' + JSON.stringify(this.user));
+  //  console.log('this.user ' + JSON.stringify(this.user));
   }
     /** Interface needed for LoggedInCallback */
     isLoggedIn(message: string, isLoggedIn: boolean) {}

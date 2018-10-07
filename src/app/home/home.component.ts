@@ -65,7 +65,7 @@ export class HomeComponent implements OnInit, LoggedInCallback {
     const cognitoUser = this.cognitoUtil.getCurrentUser();
     const params = new Parameters();
     this.user = params.buildUser(result, cognitoUser);
-    console.log('this.user ' + JSON.stringify(this.user));
+ //   console.log('this.user ' + JSON.stringify(this.user));
     // get the user actions if they are authenticated
     this.lambdaService.getUserActions(this, this.user);
    }

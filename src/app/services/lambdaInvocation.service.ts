@@ -105,6 +105,49 @@ export class LambdaInvocationService implements OnInit {
     });
   }
 
+   // Records points when a user takes an action
+   performAction(callback: LoggedInCallback, user: User, action: Action) {
+    const cognitoUtil = new CognitoUtil;
+    const JSON_BODY = {
+      username: user.username,
+      actionTaken: action.name,
+      email: user.email,
+      pointsEarned: action.eligiblePoints,
+      recordedFrequency: 1,
+      zipcode: user.address
+    };
+    const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
+
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+    AWS.config.region = this.region;
+    const lambda = new AWS.Lambda({region: this.region, apiVersion: this.apiVersion});
+    const putParams = {
+      FunctionName: 'createUserActions',
+      InvocationType: 'RequestResponse',
+      LogType: 'None',
+      Payload: JSON.stringify({
+        httpMethod: 'POST',
+        path: '/userActions',
+        resource: '',
+        queryStringParameters: {
+        },
+        pathParameters: {
+        },
+        body: body
+      })
+    };
+
+    lambda.invoke(putParams, function(error, data) {
+      if (error) {
+        console.log(error);
+        callback.callbackWithParams(error, null);
+      } else {
+        console.log('perform action data ' + data);
+        callback.callbackWithParams(null, data.Payload);
+      }
+    });
+  }
+
   // Allow admins to delete an action - bulk or single
   adminDeleteAction(actionData: Action[], callback: LoggedInCallback) {
     const body = new Buffer(JSON.stringify(actionData)).toString('utf8');
@@ -177,46 +220,31 @@ export class LambdaInvocationService implements OnInit {
     });
   }
 
-  // Records points when a user takes an action
-  performAction(callback: LoggedInCallback, user: User, action: Action) {
-    const cognitoUtil = new CognitoUtil;
-    const JSON_BODY = {
-      username: user.username,
-      actionTaken: action.name,
-      email: user.email,
-      pointsEarned: action.eligiblePoints,
-      recordedFrequency: 1,
-      zipcode: user.address
-    };
-    const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
-
+   // Admin function - get all of the meta data for groups - categories and subcategories
+   listGroupsMetaData(callback: LoggedInCallback) {
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
-    AWS.config.region = this.region;
-    const lambda = new AWS.Lambda({region: this.region, apiVersion: this.apiVersion});
-    const putParams = {
-      FunctionName: 'createUserActions',
+    AWS.config.region = environment.region;
+    const lambda = new AWS.Lambda({region: AWS.config.region, apiVersion: '2015-03-31'});
+    const pullParams = {
+      FunctionName: 'listAdminData',
       InvocationType: 'RequestResponse',
       LogType: 'None',
-      Payload: JSON.stringify({
-        httpMethod: 'POST',
-        path: '/userActions',
-        resource: '',
-        queryStringParameters: {
-        },
-        pathParameters: {
-        },
-        body: body
+      Payload:  JSON.stringify({
+          httpMethod:  'GET',
+          path:  '/adminData',
+          resource:  '',
+          queryStringParameters:  {},
+            pathParameters:  {}
       })
     };
-
-    lambda.invoke(putParams, function(error, data) {
+   lambda.invoke(pullParams, function(error, data) {
       if (error) {
-        console.log(error);
         callback.callbackWithParams(error, null);
       } else {
-        console.log('perform action data ' + data);
+         console.log('groups metadata' + data.Payload);
         callback.callbackWithParams(null, data.Payload);
       }
     });
+
   }
 }

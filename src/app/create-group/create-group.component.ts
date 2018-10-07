@@ -6,60 +6,94 @@ import { Group } from '../model/Group';
 import * as AWS from 'aws-sdk/global';
 import { environment } from '../../environments/environment';
 import { AuthenticationDetails, CognitoUserAttribute, CognitoUser, CognitoUserPool } from 'amazon-cognito-identity-js';
-import { CognitoCallback, CognitoUtil } from '../services/cognito.service';
-
+import { CognitoCallback, LoggedInCallback } from '../services/cognito.service';
+import { LambdaInvocationService } from '../services/lambdaInvocation.service';
+import { AWSError } from 'aws-sdk/global';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-create-group',
   templateUrl: './create-group.component.html',
   styleUrls: ['./create-group.component.scss']
 })
-export class CreateGroupComponent implements OnInit {
+export class CreateGroupComponent implements OnInit, LoggedInCallback {
 
-  groupName: string = '';
-  groupType: string = '';
-  subcategory: string = '';
-  zipcode: string = '';
-  other: string = '';
-  groupLeader: string = '';
-  groupMember: string = '';
-  isOther: Boolean = false;
+ // groups = [];
+  types = [];
+  subTypes = [];
+  groupsData = new Array<Group>();
   createdGroup: Group;
-  isGroupCreated: boolean;
- // cognitoIdentityServiceProvider: CognitoIdentityServiceProvider;
+  i: number = 0;
+  isOther: boolean = false;
+  groupControl = new FormControl();
+  value: string = '';
+  name: string = '';
+  noSubTypes = [];
 
-
-  constructor(private createGroupService: CreateGroupService, public cognitoUtil: CognitoUtil) { }
+  constructor(private createGroupService: CreateGroupService, public lambdaService: LambdaInvocationService) { }
 
   ngOnInit() {
-//    AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
- //   AWS.config.region = environment.region;
-    //  const identityServiceProvider = new CognitoIdentityServiceProvider;
-  //  this.cognitoIdentityServiceProvider.listUsers();
-  //    AWS.identityServiceProvider.listUsers();
-    // const client =  new CognitoIdentityServiceProvider({ apiVersion: '2015-03-31, region: 'us-east-1' });
     this.createdGroup = new Group();
-
+    const result = [
+      {
+          createdDate: 1538510499536,
+          subType: ['SubType1', 'Subtype2'],
+          type: 'Non-Profit',
+          updatedAt: 1538510499536
+      },
+      {
+          createdDate: 1538510499536,
+          subType: ['Entire Company'],
+          type: 'Profit',
+          updatedAt: 1538510499536
+      },
+      {
+        createdDate: 1538510499536,
+        subType: [],
+        type: 'Other',
+        updatedAt: 1538510499536
+      }];
+      this.groupsData = result;
+      for (let i = 0; i < this.groupsData.length; i++) {
+         console.log(JSON.stringify(this.groupsData[i].subType));
+         if (this.groupsData[i].subType.length === 0) {
+             this.noSubTypes.push(this.groupsData[i].type);
+             this.groupsData.splice(i);
+         }
+      }
+  //  this.lambdaService.listGroupsMetaData(this);
   }
 
-  toggleOption() {
-    if (this.createdGroup.groupType === 'Other') {
+  toggleOption(type: string, subtype: string) {
+    console.log('type ' + type);
+    console.log('subType ' + subtype);
+    this.createdGroup.type = type;
+    if (this.createdGroup.type === 'Other') {
       this.isOther = true;
     } else {
       this.isOther = false;
     }
   }
 
-  addMember() {
-
-//  userPool.listUsers();
-
-    // x
-  }
+  addMember() {}
 
   creategroup() {
     // A service call will be made here to validate the credentials against what we have stored in the DB
     this.createGroupService.createGroup(this.createdGroup).subscribe();
   }
+
+  isLoggedIn(message: string, loggedIn: boolean): void {}
+
+  // result of lambda listActions and Delete Actions API
+  callbackWithParams(error: AWSError, result: any): void {
+    if (result) {
+   //   console.log('result');
+      const response = JSON.parse(result);
+      this.groupsData = result;
+    } else {
+      console.log('error ' + JSON.stringify(error));
+    }
+  }
+  callbackWithParam(result: any): void {}
 
 }
