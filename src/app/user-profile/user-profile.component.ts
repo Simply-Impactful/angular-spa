@@ -50,7 +50,7 @@ export class UserProfileComponent implements OnInit, LoggedInCallback {
 
       for ( let i = 0; i < userActionsLength; i++ ) {
         if (userActions[i].totalPoints) {
-          this.user.userPoints = userActions[i].totalPoints;
+          this.user.totalPoints = userActions[i].totalPoints;
         }
     }
   }

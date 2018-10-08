@@ -6,13 +6,13 @@
             <span class="spacer"></span>
             <span>Hi {{user.username}}, what actions have you taken today?</span>
             <span class="spacer"></span>
-            Your Score: {{user.userPoints}} <span class="score-flag"></span>
+            Your Score: {{user.totalPoints}} <span class="score-flag"></span>
           </mat-toolbar-row>
         </mat-toolbar>
       </div>
   <div *ngIf="isHomePage" class="backimage">
     <app-action></app-action> 
-    <button mat-raised-button color="primary" (click)="save()">View All</button>
+    <button mat-raised-button color="primary" (click)="navigate()">View All</button>
   </div>
   <div *ngIf="isHomePage" class="main-body">
     <div fxLayout="row">

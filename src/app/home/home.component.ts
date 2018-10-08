@@ -17,8 +17,6 @@ import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 })
 export class HomeComponent implements OnInit, LoggedInCallback {
   user: User;
-  groupSource = new BehaviorSubject(new Group());
-  group$ = this.groupSource.asObservable();
   group: Group;
   isViewAll: boolean = false;
   isHomePage: boolean = true;
@@ -53,10 +51,10 @@ export class HomeComponent implements OnInit, LoggedInCallback {
       console.log('userActions ' + JSON.stringify(userActions));
         for ( let i = 0; i < userActionsLength; i++ ) {
           if (userActions[i].totalPoints) {
-            this.user.userPoints = userActions[i].totalPoints;
+            this.user.totalPoints = userActions[i].totalPoints;
           }
       }
-      console.log('this.user.userPoints ' + this.user.userPoints);
+      console.log('this.user.totalPoints ' + this.user.totalPoints);
     }
   }
 
@@ -71,7 +69,7 @@ export class HomeComponent implements OnInit, LoggedInCallback {
    }
 
    // for switching back and forth between actions page
-   save() {
+   navigate() {
      this.isViewAll = true;
      this.isHomePage = false;
    }

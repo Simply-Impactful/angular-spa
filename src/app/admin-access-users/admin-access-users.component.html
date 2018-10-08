@@ -24,13 +24,13 @@
     		<!-- Action taken Column -->
 		<ng-container matColumnDef="carbon">
         	<mat-header-cell *matHeaderCellDef> CARBON REDUCTION </mat-header-cell>
-			<mat-cell *matCellDef="let users"> {{users.carbon}} </mat-cell>
+			<mat-cell *matCellDef="let users"> {{users.totalCarbonPoints}} lbs. </mat-cell>
 		</ng-container>
 
 		  <!-- Total Points Column -->
 		<ng-container matColumnDef="totalpoints">
 			<mat-header-cell *matHeaderCellDef> TOTAL POINTS </mat-header-cell>
-        	<mat-cell *matCellDef="let users"> {{users.totalpoints}} </mat-cell>
+        	<mat-cell *matCellDef="let users"> {{users.totalPoints}} </mat-cell>
 		</ng-container>
 
 		<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

@@ -36,6 +36,11 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
       const response = JSON.parse(result);
       const unique = _.uniqBy(response.body, 'username');
       this.users = unique;
+      for (let i = 0; i < this.users.length; i++) {
+        if (!this.users[i].totalCarbonPoints) {
+          this.users[i].totalCarbonPoints = 0;
+        }
+      }
       this.dataSource = new MatTableDataSource(this.users);
       this.dataSource.paginator = this.paginator;
       console.log('this.users ' + JSON.stringify(this.users));

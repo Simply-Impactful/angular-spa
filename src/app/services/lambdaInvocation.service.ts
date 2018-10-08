@@ -14,6 +14,7 @@ import { CognitoUserAttribute, ICognitoUserAttributeData } from 'amazon-cognito-
 import { AWSError } from 'aws-sdk';
 import { CreateGroupService } from '../services/creategroup.service';
 import { LogInService } from '../services/log-in.service';
+import { Group } from '../model/Group';
 
 
 @Injectable()
@@ -245,6 +246,61 @@ export class LambdaInvocationService implements OnInit {
         callback.callbackWithParams(null, data.Payload);
       }
     });
-
   }
+
+   // Get group data by group name
+   getGroupMembers(callback: LoggedInCallback, group: Group) {
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+    AWS.config.region = environment.region;
+    const lambda = new AWS.Lambda({region: AWS.config.region, apiVersion: '2015-03-31'});
+    const pullParams = {
+      FunctionName: 'getGroups',
+      InvocationType: 'RequestResponse',
+      LogType: 'None',
+      Payload:  JSON.stringify({
+          httpMethod:  'GET',
+          path:  '/groups',
+          resource:  '',
+          queryStringParameters:  {
+            name: group.groupName
+          },
+            pathParameters:  {}
+      })
+    };
+   lambda.invoke(pullParams, function(error, data) {
+      if (error) {
+        callback.callbackWithParams(error, null);
+      } else {
+         console.log('group data for specified group ' + group.groupName + '' + data.Payload);
+        callback.callbackWithParams(null, data.Payload);
+      }
+    });
+  }
+
+     // Get group data by group name
+     getAllGroups(callback: LoggedInCallback) {
+      AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+      AWS.config.region = environment.region;
+      const lambda = new AWS.Lambda({region: AWS.config.region, apiVersion: '2015-03-31'});
+      const pullParams = {
+        FunctionName: 'listGroups',
+        InvocationType: 'RequestResponse',
+        LogType: 'None',
+        Payload:  JSON.stringify({
+            httpMethod:  'GET',
+            path:  '/groups/list',
+            resource:  '',
+            queryStringParameters:  {},
+              pathParameters:  {}
+        })
+      };
+     lambda.invoke(pullParams, function(error, data) {
+        if (error) {
+          callback.callbackWithParams(error, null);
+        } else {
+           console.log('ALL groups' + data.Payload);
+          callback.callbackWithParams(null, data.Payload);
+        }
+      });
+    }
 }

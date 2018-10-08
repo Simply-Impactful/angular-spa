@@ -5,6 +5,8 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import { LoggedInCallback, CognitoUtil } from '../services/cognito.service';
 import { AWSError } from 'aws-sdk';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
+import { Group } from '../model/Group';
+import { stringType } from 'aws-sdk/clients/iam';
 
 /**
  * @title Table with expandable rows
@@ -26,24 +28,16 @@ export class GroupsComponent implements OnInit, LoggedInCallback {
     public lambdaService: LambdaInvocationService) { }
 
   dataSource;
-  columnsToDisplay = ['name', 'eligblePoints', 'funFact', 'maxFrequency'];
+  columnsToDisplay = ['name', 'description', 'points'];
   expandedElement;
 
-  username: string = '';
-  userscore;
-  unplugPoints;
-  faucetPoints;
-  lightsPoints;
-  dialogResult = '';
-  actionsLength: number;
-  groups: Action[];
-  eligiblePoints: number;
-  user: User;
- // @Input() user: User;
-
+  groups: Group[];
+  members: any [];
+  i: number = 0;
+  member;
 
   ngOnInit() {
-   this.lambdaService.listActions(this);
+     this.lambdaService.getAllGroups(this);
   }
   isLoggedIn(message: string, loggedIn: boolean): void {
   }
@@ -55,8 +49,6 @@ export class GroupsComponent implements OnInit, LoggedInCallback {
     this.dataSource = this.groups;
   }
   // response of isAuthenticated method in login service
-  callbackWithParam(result: any): void {
-
-  }
+  callbackWithParam(result: any): void {}
 
 }

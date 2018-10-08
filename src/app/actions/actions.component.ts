@@ -38,7 +38,7 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
   ngOnInit() {
    this.params.user$.subscribe(user => {
       this.user = user;
-      this.user.userPoints = user.userPoints;
+      this.user.totalPoints = user.totalPoints;
     });
 
    this.lambdaService.listActions(this);

@@ -34,7 +34,7 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
 
   ngOnInit() {
     this.createdGroup = new Group();
-    const result = [
+  /**  const result = [
       {
         createdDate: 1538510499536,
         subType: [],
@@ -80,8 +80,8 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
           this.types.splice(i, 1);
         }
       }
-       this.groupsData = this.types;
-  //  this.lambdaService.listGroupsMetaData(this);
+       this.groupsData = this.types;**/
+    this.lambdaService.listGroupsMetaData(this);
   }
 
   toggleOption(type: string, subtype: string) {

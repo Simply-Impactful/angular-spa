@@ -1,10 +1,7 @@
 <main>
     <div class="top-row">
       <mat-toolbar style="background-color: transparent">
-        <mat-toolbar-row>
-          <span class="spacer"></span>
-          <span class="spacer"></span>
-        </mat-toolbar-row>
+
       </mat-toolbar>
     </div>
     <form>
@@ -12,8 +9,8 @@
         <mat-card-header style="float:right;">
             <div mat-card-image class="score-flag">{{action.eligiblePoints}}</div>
         </mat-card-header>
-      <img mat-card-image style="max-width:80px; max-height:100px;" src={{action.tileIconUrl}}>
-      <mat-card-subtitle style="text-transform: uppercase;" >{{action.name}}</mat-card-subtitle>
+      <img mat-card-image style="max-width:80px; max-height:80px;" src={{action.tileIconUrl}}>
+      <mat-card-subtitle>{{action.name}}</mat-card-subtitle>
     </mat-card>
     </form>
 </main>
