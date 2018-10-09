@@ -1,5 +1,5 @@
 <div>
-  <h5 style="font-size:18px">{{displayText}} an action</h5>
+  <h5 style="font-size:18px; padding-top: 8px">{{displayText}} an action</h5>
     <mat-dialog-content style="padding-left:80px; padding-right: 80px; align-content: center">
       <mat-form-field class="edit-action-name" *ngIf="isCreating" appearance="outline">
         <input matInput [(ngModel)]="action.name" matInput placeholder="Action Name">
@@ -21,16 +21,18 @@
         </mat-grid-tile>
         <mat-grid-tile cols="1">
           <mat-form-field appearance="outline" style="margin-right:0px; width:110px">
-            <input matInput [(ngModel)]="action.carbonPoints" matInput placeholder="carbonPoints">
+            <input matInput [(ngModel)]="action.carbonPoints" matInput placeholder="carbon Points">
             <mat-hint>Required</mat-hint>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile cols="1">
           <mat-form-field appearance="outline" style="margin-right:2px; width:110px">
-          <mat-select placeholder="Frequency">
-              <mat-option *ngFor="let Frequency of frequencyCadence" [value]="Frequency.value">
-                {{Frequency.viewValue}}
-              </mat-option>
+            <mat-select placeholder="Frequency">
+              <mat-option value="option">Per day</mat-option>
+              <mat-option value="option">Per week</mat-option>
+              <mat-option value="option">Per month</mat-option>
+              <mat-option value="option">Per year</mat-option>
+              <mat-option value="option">Per lifetime</mat-option>
             </mat-select>
             <mat-hint>Required</mat-hint>
           </mat-form-field>
@@ -40,7 +42,7 @@
       <mat-grid-list cols="1" rowHeight="6em">
         <mat-grid-tile cols="1">
           <mat-form-field appearance="outline" style="width: 450px">
-            <input matInput [(ngModel)]="action.assigments" matInput placeholder="Assignments URL">
+            <input matInput [(ngModel)]="action.assigmentUrl" matInput placeholder="Assignments URL">
             <mat-hint>500 Characters limit</mat-hint>
           </mat-form-field>
         </mat-grid-tile>
@@ -79,11 +81,13 @@
     <div fxLayout="row">
       <div fxFlex="100">
         <div align ="left">
+          <br>
           <button mat-button color="primary" (click)="onCloseCancel()">CANCEL</button>
         </div>
       </div>
       <div fxFlex="100">
         <div align ="right">
+          <br>
           <button mat-button color="primary" (click)="onCloseConfirm()">CONFIRM</button>
         </div>
       </div>    
