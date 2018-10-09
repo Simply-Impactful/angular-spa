@@ -49,8 +49,8 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
 
   edit() {
     const dialogRef = this.dialog.open(AdminActionDialogComponent, {
-      width: '700px',
-      height: '600px',
+      width: '650px',
+      height: '675px',
       data: this.actions[this.index]
     });
 
@@ -76,8 +76,8 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
 
   create() {
     const dialogRef = this.dialog.open(AdminActionDialogComponent, {
-      width: '700px',
-      height: '600px',
+      width: '650px',
+      height: '675px',
     });
 
     dialogRef.afterClosed().subscribe(result => {

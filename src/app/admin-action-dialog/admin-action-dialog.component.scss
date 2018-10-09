@@ -5,22 +5,23 @@ img{
 }
 mat-dialog-content{
    display: inline-block;
-   padding-top: 30px;
+   padding-top: 10px;
    padding-left: 30px;
    padding-right: 30px;
+   max-height: 80vh;
 }
-button.mat-stroked-button {
-    margin-right: 10px;
-    width: 80px;
-    text-align: center;
-    padding: 0px
-}
-button.mat-raised-button {
-    margin-right: 15px;
-    width: 80px;
-    text-align: center;
-    padding: 0px;
-}
+// button.mat-stroked-button {
+//    margin-right: 10px;
+//    width: 80px;
+//    text-align: center;
+//    padding: 0px
+// }
+// button.mat-raised-button {
+//    margin-right: 15px;
+//    width: 80px;
+//    text-align: center;
+//    padding: 0px;
+// }
 .edit-action-name{
    width: 450px;
 }

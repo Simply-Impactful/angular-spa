@@ -1,32 +1,47 @@
 <div>
   <h5 style="font-size:18px">{{displayText}} an action</h5>
-    <mat-dialog-content style="padding-left:120px; padding-right: 120px; align-content: center">
+    <mat-dialog-content style="padding-left:80px; padding-right: 80px; align-content: center">
       <mat-form-field class="edit-action-name" *ngIf="isCreating" appearance="outline">
         <input matInput [(ngModel)]="action.name" matInput placeholder="Action Name">
       </mat-form-field>
       <h1 class="edit-action-name" style="text-align: left; font-size:15px; color:grey" *ngIf="isEditing"> Action Name: {{action.name}}  </h1>
     
-      <mat-grid-list cols="3" rowHeight="6em">
+      <mat-grid-list cols="4" rowHeight="6em">
         <mat-grid-tile cols="1">
-          <mat-form-field appearance="outline" style="margin-right:0px; width:140px">
+          <mat-form-field appearance="outline" style="margin-right:0px; width:110px">
             <input matInput [(ngModel)]="action.eligiblePoints" matInput placeholder="Points">
             <mat-hint>Required</mat-hint>
           </mat-form-field>
         </mat-grid-tile> 
         <mat-grid-tile cols="1">
-          <mat-form-field appearance="outline" style="margin-right:0px; width:140px">
+          <mat-form-field appearance="outline" style="margin-right:0px; width:110px">
             <input matInput [(ngModel)]="action.maxFrequency" matInput placeholder="Limit">
             <mat-hint>Required</mat-hint>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile cols="1">
-          <mat-form-field appearance="outline" style="margin-right:2px; width:140px">
+          <mat-form-field appearance="outline" style="margin-right:0px; width:110px">
+            <input matInput [(ngModel)]="action.carbonPoints" matInput placeholder="carbonPoints">
+            <mat-hint>Required</mat-hint>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile cols="1">
+          <mat-form-field appearance="outline" style="margin-right:2px; width:110px">
           <mat-select placeholder="Frequency">
               <mat-option *ngFor="let Frequency of frequencyCadence" [value]="Frequency.value">
                 {{Frequency.viewValue}}
               </mat-option>
             </mat-select>
             <mat-hint>Required</mat-hint>
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+      <mat-grid-list cols="1" rowHeight="6em">
+        <mat-grid-tile cols="1">
+          <mat-form-field appearance="outline" style="width: 450px">
+            <input matInput [(ngModel)]="action.assigments" matInput placeholder="Assignments URL">
+            <mat-hint>500 Characters limit</mat-hint>
           </mat-form-field>
         </mat-grid-tile>
       </mat-grid-list>
