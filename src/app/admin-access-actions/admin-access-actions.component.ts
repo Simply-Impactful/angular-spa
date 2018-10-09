@@ -77,7 +77,7 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
   create() {
     const dialogRef = this.dialog.open(AdminActionDialogComponent, {
       width: '650px',
-      height: '675px',
+      height: '700px',
     });
 
     dialogRef.afterClosed().subscribe(result => {

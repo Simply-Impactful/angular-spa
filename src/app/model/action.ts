@@ -8,4 +8,6 @@ export class Action {
     name?: string;
     frequencyCadence?: string;
     maxFrequency?: number;
+    carbonPoints?: number;
+    assigmentUrl?: string;
 }
