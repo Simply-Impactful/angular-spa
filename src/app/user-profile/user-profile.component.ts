@@ -36,7 +36,7 @@ export class UserProfileComponent implements OnInit, LoggedInCallback {
    }
 
   /** Interface needed for LoggedInCallback */
-  isLoggedIn(message: string, isLoggedIn: boolean) {
+isLoggedIn(message: string, isLoggedIn: boolean) {
   }
 
   // API Response for any lambda calls

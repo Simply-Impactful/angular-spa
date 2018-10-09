@@ -26,7 +26,7 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
 
   ngOnInit() {
     this.appComp.setAdmin();
-    this.lambdaService.listUsers(this);  }
+  this.lambdaService.listUsers(this);  }
 
   isLoggedIn(message: string, loggedIn: boolean): void {}
 

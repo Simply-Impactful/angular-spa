@@ -6,8 +6,7 @@ import { LoggedInCallback, CognitoUtil } from '../services/cognito.service';
 import { AWSError } from 'aws-sdk';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { Group } from '../model/Group';
-import { MatTableDataSource, MatSort } from '@angular/material';
-import { DoubleRowPaginatorComponent } from '../double-row-paginator/double-row-paginator.component';
+import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 
 /**
  * @title Table with expandable rows
@@ -25,24 +24,17 @@ import { DoubleRowPaginatorComponent } from '../double-row-paginator/double-row-
   ],
 })
 export class GroupsComponent implements OnInit, LoggedInCallback {
-  constructor(
-    public lambdaService: LambdaInvocationService) { }
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   dataSource;
   columnsToDisplay = ['name', 'leader', 'createdDate', 'totalPoints', 'zipCode', 'joinGroup'];
   groups: Group[];
   isExpanded: boolean = false;
   isCollapsed: boolean = true;
-  expandedElement: any;
-  tempElementData: any;
 
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(DoubleRowPaginatorComponent) customPaginator: DoubleRowPaginatorComponent;
-
-  isExpansionDetailRow = (i: number, row: Object) => {
-    // console.log(row);
-    return row.hasOwnProperty('detailRow');
-  }
+  constructor(
+    public lambdaService: LambdaInvocationService) { }
 
   ngOnInit() {
      this.lambdaService.getAllGroups(this);
@@ -69,13 +61,12 @@ export class GroupsComponent implements OnInit, LoggedInCallback {
     for (let i = 0; i < this.groups.length; i++) {
       this.groups[i].groupAvatar = 'https://s3.amazonaws.com/simply-impactful-image-data/StrawFactImage.jpg';
     }
-    this.dataSource = this.groups;
 
-  //  this.dataSource = new MatTableDataSource<any>();
+    this.dataSource = new MatTableDataSource(this.groups);
+ //   this.dataSource.data = this.groups;
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
 
-  //  this.dataSource.sort = this.sort;
-
- //   this.dataSource.paginator = this.customPaginator;
 /**    this.dataSource.sortingDataAccessor = (item, property) => {
 
       let newItem;
@@ -96,7 +87,7 @@ export class GroupsComponent implements OnInit, LoggedInCallback {
       return +index;
    }; **/
  }
+
   // response of isAuthenticated method in login service
   callbackWithParam(result: any): void {}
-
 }

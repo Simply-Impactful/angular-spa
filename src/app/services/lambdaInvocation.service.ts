@@ -114,6 +114,7 @@ export class LambdaInvocationService implements OnInit {
       actionTaken: action.name,
       email: user.email,
       pointsEarned: action.eligiblePoints,
+      carbonPoints: action.eligiblePoints,
       recordedFrequency: 1,
       zipcode: user.address
     };
