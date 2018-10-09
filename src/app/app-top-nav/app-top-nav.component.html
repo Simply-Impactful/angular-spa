@@ -14,10 +14,13 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      
+      <button class="white-text" style = "padding-top:25px; margin: 0px" mat-button routerLink="/contactus">Contact us</button>
+
       <div [hidden]="hideRightMenu" class="white-text">
         <span class="spacer"></span>
         <button *ngIf="!hideHome" mat-button routerLink="/home">Home</button>
-        <button mat-button routerLink="/contactus">Contact us</button>
+      <!--<button mat-button routerLink="/contactus">Contact us</button> -->
         <mat-card style="margin-right:10px"class="avatar-card">
             <mat-card-header>
               <img mat-card-avatar src="{{user.picture}}">
