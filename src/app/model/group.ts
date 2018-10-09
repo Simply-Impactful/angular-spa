@@ -2,12 +2,13 @@ export class Group {
     zipcode?: string;
     type?: string;
     subType?: string[];
-    shortdescription?: string;
+    description?: string;
     other?: string;
     isgroupCreated?: boolean;
     groupLeader?: string;
     member?: string;
-    members: string[];
-    groupName?: string;
-    groupImage?: string;
+    members?: string[];
+    name?: string;
+    groupAvatar?: string;
+    nameAndDescription?: string[];
 }

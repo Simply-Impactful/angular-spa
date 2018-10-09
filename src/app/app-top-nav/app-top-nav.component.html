@@ -1,3 +1,4 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <!--Top Navigation Content. Might need to be moved to its own component -->
 <nav id="app-navbar">
   <mat-toolbar color="primary">
@@ -15,17 +16,20 @@
       </mat-form-field>
       <div [hidden]="hideRightMenu" class="white-text">
         <span class="spacer"></span>
+        <button mat-button routerLink="/home">Home</button>
         <button mat-button routerLink="/contactus">Contact us</button>
-        <button mat-button [matMenuTriggerFor]="menu">Menu</button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item routerLink="/userprofile">My Profile</button>
-          <button mat-menu-item routerLink="/login">Logout</button>
-        </mat-menu>
-        <mat-card class="avatar-card">
+        <mat-card style="margin-right:10px"class="avatar-card">
             <mat-card-header>
               <img mat-card-avatar src="{{user.picture}}">
             </mat-card-header>
           </mat-card>
+            <button class="mat-button" style = "width:1px;" [matMenuTriggerFor]="menu">
+                <mat-icon>expand_more</mat-icon>
+              </button>
+            <mat-menu #menu="matMenu">
+          <button mat-menu-item routerLink="/userprofile">My Profile</button>
+          <button mat-menu-item routerLink="/login">Logout</button>
+        </mat-menu>
       </div>
     </mat-toolbar-row>
   </mat-toolbar>

@@ -1,19 +1,69 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<main>
 <table mat-table
        [dataSource]="dataSource" multiTemplateDataRows
        class="mat-elevation-z8">
-  <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
-    <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-    <td mat-cell *matCellDef="let groups"> {{groups[column]}} </td>
+
+ <!-- Name Column -->
+  <ng-container matColumnDef="name">
+      <th style="color:black" mat-header-cell *matHeaderCellDef><strong>GROUP</strong> </th>
+      <td mat-cell *matCellDef="let groups"> 
+              <img style="max-height:100px;max-width:100px;padding:5px" src={{groups.groupAvatar}}>
+              <strong style="font-size: 15px">{{groups.name}}</strong><p>{{groups.description}}</p>
+              <div style="color: grey"> View Members
+                <mat-icon *ngIf="isCollapsed" (click)="expandedElement=groups; expand()">expand_more</mat-icon>
+                <mat-icon *ngIf="isExpanded" (click)="expandedElement=!groups; collapse()">expand_less</mat-icon>
+              </div>
+        </td>
+    </ng-container>
+
+  <!-- Group Leader Column -->
+  <ng-container matColumnDef="leader">
+      <th style="color:black" mat-header-cell *matHeaderCellDef> <strong>CREATED BY</strong> </th>
+      <td mat-cell *matCellDef="let groups"> {{groups.leader}} </td>
+    </ng-container>
+
+  <!-- Created Date Column -->
+  <ng-container matColumnDef="createdDate">
+      <th style="color:black" mat-header-cell *matHeaderCellDef> <strong>DATE</strong> </th>
+      <td mat-cell *matCellDef="let groups"> {{groups.createdDate | date:'MM-dd-yy'}} </td>
+  </ng-container>
+
+  <!-- Total Points Column -->
+  <ng-container matColumnDef="totalPoints">
+      <th style="color:black" mat-header-cell *matHeaderCellDef> <strong>TOTAL POINTS</strong> </th>
+      <td mat-cell *matCellDef="let groups"> {{groups.totalPoints}} </td>
+    </ng-container>
+
+  <!-- Zipcode Column -->
+  <ng-container matColumnDef="zipCode">
+      <th  style="color:black;" mat-header-cell *matHeaderCellDef> <strong>ZIPCODE</strong></th>
+      <td mat-cell *matCellDef="let groups"> {{groups.zipCode}} 
+        
+      </td>
+  </ng-container>
+
+    <!-- Join Group -->
+    <ng-container matColumnDef="joinGroup">
+        <th  style="color:black;" mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let groups"> 
+            <a (click)="joinGroup()"> Join Group </a>
+        </td>
   </ng-container>
 
   <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
   <ng-container matColumnDef="expandedDetail">
-    <td mat-cell *matCellDef="let groups; let i = index" [attr.colspan]="columnsToDisplay.length">
+    <td mat-cell *matCellDef="let groups" [attr.colspan]="columnsToDisplay.length">
       <div class="example-element-detail"
            [@detailExpand]="groups == expandedElement ? 'expanded' : 'collapsed'">
-        <div>
-          <p *ngFor="let member of groups.members">
-          {{member.member | json}} </p>
+        <div style="margin: 50px;"*ngFor="let member of groups.members">
+          <mat-card class="avatar-card" style="color:black">
+              <mat-card-header>
+                <img mat-card-avatar src="https://s3.amazonaws.com/simply-impactful-image-data/default-profile-pic.png">
+              </mat-card-header>
+              <mat-card-subtitle>{{member.member}}</mat-card-subtitle>
+            <mat-card-subtitle><strong>25 points</strong></mat-card-subtitle>
+          </mat-card>
         </div>
       </div>
     </td>
@@ -21,13 +71,15 @@
 
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
   <tr mat-row *matRowDef="let groups; columns: columnsToDisplay;"
+
       class="example-element-row"
       [class.example-expanded-row]="expandedElement === groups"
-      (click)="expandedElement = groups">
+     >
   </tr>
-  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row">
+  </tr>
 </table>
-
+</main>
 
 <!-- Copyright 2018 Google Inc. All Rights Reserved.
     Use of this source code is governed by an MIT-style license that

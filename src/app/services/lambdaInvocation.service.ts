@@ -262,7 +262,7 @@ export class LambdaInvocationService implements OnInit {
           path:  '/groups',
           resource:  '',
           queryStringParameters:  {
-            name: group.groupName
+            name: group.name
           },
             pathParameters:  {}
       })
@@ -271,7 +271,7 @@ export class LambdaInvocationService implements OnInit {
       if (error) {
         callback.callbackWithParams(error, null);
       } else {
-         console.log('group data for specified group ' + group.groupName + '' + data.Payload);
+         console.log('group data for specified group ' + group.name + '' + data.Payload);
         callback.callbackWithParams(null, data.Payload);
       }
     });

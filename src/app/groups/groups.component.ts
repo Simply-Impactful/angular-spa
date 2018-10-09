@@ -28,24 +28,35 @@ export class GroupsComponent implements OnInit, LoggedInCallback {
     public lambdaService: LambdaInvocationService) { }
 
   dataSource;
-  columnsToDisplay = ['name', 'description', 'points'];
-  expandedElement;
-
+  columnsToDisplay = ['name', 'leader', 'createdDate', 'totalPoints', 'zipCode', 'joinGroup'];
   groups: Group[];
-  members: any [];
-  i: number = 0;
-  member;
+  isExpanded: boolean = false;
+  isCollapsed: boolean = true;
 
   ngOnInit() {
      this.lambdaService.getAllGroups(this);
   }
-  isLoggedIn(message: string, loggedIn: boolean): void {
+  isLoggedIn(message: string, loggedIn: boolean): void {}
+
+  joinGroup() {
+    console.log('join group');
+  }
+  expand() {
+    this.isExpanded = true;
+    this.isCollapsed = false;
+  }
+  collapse() {
+    this.isCollapsed = true;
+    this.isExpanded = false;
   }
 
   // response of lamdba list Actions API call
   callbackWithParams(error: AWSError, result: any): void {
     const response = JSON.parse(result);
     this.groups = response.body;
+    for (let i = 0; i < this.groups.length; i++) {
+      this.groups[i].groupAvatar = 'https://s3.amazonaws.com/simply-impactful-image-data/StrawFactImage.jpg';
+    }
     this.dataSource = this.groups;
   }
   // response of isAuthenticated method in login service
