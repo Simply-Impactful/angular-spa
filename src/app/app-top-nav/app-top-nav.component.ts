@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
 import { Parameters} from '../services/parameters';
 import { LogInService } from '../services/log-in.service';
 import { User } from '../model/User';
 import { AWSError } from 'aws-sdk';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-top-nav',
@@ -14,21 +15,32 @@ import { AWSError } from 'aws-sdk';
 export class AppTopNavComponent implements OnInit, LoggedInCallback {
   title: string = 'Change Is Simple';
   hideRightMenu: boolean = true;
-  canSearch: boolean = false;
- // userscore: number = 35;
+  hideHome: boolean = false;
   user: User;
-  // comes from an API
-//  searchGroups: string[] = ['Pink', 'Red', 'Purple'];
+  @Input() isViewAll: boolean;
 
   constructor(private params: Parameters, private loginService: LogInService,
-    private cognitoUtil: CognitoUtil) {}
+    private cognitoUtil: CognitoUtil, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.params.user$.subscribe(user => {
       this.user = user;
     });
 
-    this.hideRightMenu = false;
+    if (window.location.toString().includes('landing')) {
+      this.hideRightMenu = true;
+    } else {
+      this.hideRightMenu = false;
+    }
+    if (window.location.toString().includes('home')) {
+      this.hideHome = true;
+    } else {
+      this.hideHome = false;
+    }
+    if (this.isViewAll) {
+      this.hideHome = false;
+   }
+
     this.loginService.isAuthenticated(this, this.user);
   }
   // response of isAuthenticated method in login service

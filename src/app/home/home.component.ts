@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { Group } from '../model/Group';
 import { CreateGroupService } from '../services/creategroup.service';
 import { BehaviorSubject } from 'rxjs';
@@ -18,7 +18,7 @@ import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 export class HomeComponent implements OnInit, LoggedInCallback {
   user: User;
   group: Group;
-  isViewAll: boolean = false;
+  @Output() isViewAll: boolean = false;
   isHomePage: boolean = true;
 
   constructor(

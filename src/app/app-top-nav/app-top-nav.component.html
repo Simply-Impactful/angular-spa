@@ -16,7 +16,7 @@
       </mat-form-field>
       <div [hidden]="hideRightMenu" class="white-text">
         <span class="spacer"></span>
-        <button mat-button routerLink="/home">Home</button>
+        <button *ngIf="!hideHome" mat-button routerLink="/home">Home</button>
         <button mat-button routerLink="/contactus">Contact us</button>
         <mat-card style="margin-right:10px"class="avatar-card">
             <mat-card-header>

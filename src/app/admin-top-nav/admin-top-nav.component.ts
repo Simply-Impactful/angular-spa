@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -12,14 +13,16 @@ export class AdminTopNavComponent implements OnInit {
   hideRightMenu: boolean = true;
   canSearch: boolean = false;
   userscore: number = 35; // comes from an API
-  searchGroups: string[] = ['Pink', 'Red', 'Purple'];
-
+  activatedRoute: ActivatedRoute;
   constructor() {
   }
 
   ngOnInit() {
+    console.log(this.activatedRoute.url);
     this.hideRightMenu = false;
+
     // TODO: https://stackoverflow.com/questions/43118592/angular-2-how-to-hide-nav-bar-in-some-components
+
   }
 
 }

@@ -1,6 +1,4 @@
 import { Injectable, OnInit } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
 import { Action } from '../model/Action';
 import { User } from '../model/User';
 import { MatDialog } from '@angular/material';
@@ -16,12 +14,7 @@ export class ActionService implements OnInit {
 
   public apiEndpoint: string = '';
 
-  actionSource = new BehaviorSubject(new Action());
-  action$ = this.actionSource.asObservable();
-
   action = new Action;
-  userSource = new BehaviorSubject(new User());
-  user$ = this.userSource.asObservable();
 
   user = new User;
   dialogResult = '';

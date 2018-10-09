@@ -1,12 +1,13 @@
 import { User } from './../model/User';
 import { Action } from './../model/Action';
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { LoggedInCallback, CognitoUtil } from '../services/cognito.service';
 import { AWSError } from 'aws-sdk';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { Group } from '../model/Group';
-import { stringType } from 'aws-sdk/clients/iam';
+import { MatTableDataSource, MatSort } from '@angular/material';
+import { DoubleRowPaginatorComponent } from '../double-row-paginator/double-row-paginator.component';
 
 /**
  * @title Table with expandable rows
@@ -32,6 +33,16 @@ export class GroupsComponent implements OnInit, LoggedInCallback {
   groups: Group[];
   isExpanded: boolean = false;
   isCollapsed: boolean = true;
+  expandedElement: any;
+  tempElementData: any;
+
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(DoubleRowPaginatorComponent) customPaginator: DoubleRowPaginatorComponent;
+
+  isExpansionDetailRow = (i: number, row: Object) => {
+    // console.log(row);
+    return row.hasOwnProperty('detailRow');
+  }
 
   ngOnInit() {
      this.lambdaService.getAllGroups(this);
@@ -41,6 +52,7 @@ export class GroupsComponent implements OnInit, LoggedInCallback {
   joinGroup() {
     console.log('join group');
   }
+
   expand() {
     this.isExpanded = true;
     this.isCollapsed = false;
@@ -58,7 +70,32 @@ export class GroupsComponent implements OnInit, LoggedInCallback {
       this.groups[i].groupAvatar = 'https://s3.amazonaws.com/simply-impactful-image-data/StrawFactImage.jpg';
     }
     this.dataSource = this.groups;
-  }
+
+  //  this.dataSource = new MatTableDataSource<any>();
+
+  //  this.dataSource.sort = this.sort;
+
+ //   this.dataSource.paginator = this.customPaginator;
+/**    this.dataSource.sortingDataAccessor = (item, property) => {
+
+      let newItem;
+      if (item.element !== undefined) {
+        newItem = item.element;
+       } else {
+        newItem = item;
+       }
+      console.log(this.tempElementData);
+      let foundElement;
+      if (item.element !== undefined) {
+        foundElement = this.tempElementData.find(i => i.element !== undefined && item.element.name === i.element.name);
+       } else {
+        foundElement = this.tempElementData.find(i => item.name === i.name);
+      }
+      const index = this.tempElementData.indexOf(foundElement);
+      console.log('foundElement: ' + JSON.stringify(item) + ' '  + +index);
+      return +index;
+   }; **/
+ }
   // response of isAuthenticated method in login service
   callbackWithParam(result: any): void {}
 

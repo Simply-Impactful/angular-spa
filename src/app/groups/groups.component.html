@@ -1,9 +1,9 @@
+<app-top-nav></app-top-nav>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <main>
 <table mat-table
        [dataSource]="dataSource" multiTemplateDataRows
        class="mat-elevation-z8">
-
  <!-- Name Column -->
   <ng-container matColumnDef="name">
       <th style="color:black" mat-header-cell *matHeaderCellDef><strong>GROUP</strong> </th>
@@ -78,6 +78,7 @@
   </tr>
   <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row">
   </tr>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
 </table>
 </main>
 

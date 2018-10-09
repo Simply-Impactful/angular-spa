@@ -43,6 +43,7 @@ import { AdminAccessCurriculumComponent } from './admin-access-curriculum/admin-
 import { Parameters } from './services/parameters';
 import { LambdaInvocationService } from './services/lambdaInvocation.service';
 import { AdminActionDialogComponent } from './admin-action-dialog/admin-action-dialog.component';
+import { DoubleRowPaginatorComponent } from './double-row-paginator/double-row-paginator.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { AdminActionDialogComponent } from './admin-action-dialog/admin-action-d
     AdminAccessActionsComponent,
     AdminAccessUsersComponent,
     AdminAccessCurriculumComponent,
-    AdminActionDialogComponent
+    AdminActionDialogComponent,
+    DoubleRowPaginatorComponent
   ],
   imports: [
     [BrowserModule, FormsModule],
