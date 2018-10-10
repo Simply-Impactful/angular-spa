@@ -34,53 +34,6 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
 
   ngOnInit() {
     this.createdGroup = new Group();
-  /**  const result = [
-      {
-        createdDate: 1538510499536,
-        subType: [],
-        type: 'NoSubCategory',
-        updatedAt: 1538510499536
-      },
-      {
-          createdDate: 1538510499536,
-          subType: ['SubType1', 'Subtype2'],
-          type: 'Non-Profit',
-          updatedAt: 1538510499536
-      },
-      {
-        createdDate: 15385104996636,
-        subType: [],
-        type: 'Nonsub',
-        updatedAt: 1538510499536
-      },
-      {
-        createdDate: 1538510499536,
-        subType: ['Entire Company'],
-        type: 'Profit',
-        updatedAt: 1538510499536
-      },
-      {
-        createdDate: 1538510499536,
-        subType: [],
-        type: 'Other',
-        updatedAt: 1538510499536
-      },
-      {
-        createdDate: 1538510499536,
-        subType: ['Testing'],
-        type: 'Sub',
-        updatedAt: 1538510499536
-      }];
-      this.groupsData = result;
-      this.types = result;
-      console.log('this.groupsData.length ' + this.groupsData.length);
-      for (let i = 0; i < this.groupsData.length; i++) {
-        if (this.groupsData[i].subType.length === 0) {
-          this.noSubTypes.push(this.groupsData[i].type);
-          this.types.splice(i, 1);
-        }
-      }
-       this.groupsData = this.types;**/
     this.lambdaService.listGroupsMetaData(this);
   }
 
@@ -105,9 +58,23 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
   // result of lambda listActions and Delete Actions API
   callbackWithParams(error: AWSError, result: any): void {
     if (result) {
-   //   console.log('result');
       const response = JSON.parse(result);
-      this.groupsData = result;
+      this.groupsData = response.body;
+      this.types = this.groupsData;
+      // iterate between both arrays to pull out the subTypes which have 'N/A' specified
+      for (let i = 0; i < this.groupsData.length; i++) {
+        for (let j = 0; j < this.groupsData[i].subType.length; j++) {
+          if (this.groupsData[i].subType[j]['subType'] === 'N/A') {
+            // add this to the list of 'noSubTypes' so we can display them as top level clickable options in HTML
+            this.noSubTypes.push(this.groupsData[i].type);
+            // splice pulls the subType out of the array that we set back to this.groupsData
+            this.types.splice(i, 1);
+            console.log('this.groupsData[i].type ' + JSON.stringify(this.groupsData[i].type));
+          }
+        }
+      }
+      // the final array to display
+       this.groupsData = this.types;
     } else {
       console.log('error ' + JSON.stringify(error));
     }

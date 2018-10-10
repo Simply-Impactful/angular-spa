@@ -9,5 +9,5 @@ export class Action {
     frequencyCadence?: string;
     maxFrequency?: number;
     carbonPoints?: number;
-    assigmentUrl?: string;
+    assignmentUrl?: string;
 }

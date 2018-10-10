@@ -23,10 +23,9 @@
       <mat-form-field appearance="outline">
         <mat-select [formControl]="groupControl" placeholder="Group Type">
           <mat-optgroup *ngFor="let groupData of groupsData; let i = index" value="groupData.type" 
-              label="{{groupData.type}}">
-            <mat-option *ngFor="let subType of groupData.subType" value="subType"   
-                (click)="toggleOption(groupData.type, subType)">{{subType}}
-            </mat-option> 
+              label="{{groupData.type}}"> 
+                <mat-option *ngFor="let subType of groupData.subType" value="subType"
+                  (click)="toggleOption(groupData.type, subType.subType)">{{subType.subType}}</mat-option>
           </mat-optgroup>
           <mat-option *ngFor="let noSubType of noSubTypes" style="color: gray" value="noSubType" 
               (click)="toggleOption(noSubType, null)">{{noSubType}} </mat-option>
@@ -50,6 +49,7 @@
       <mat-form-field appearance="outline">
         <input [(ngModel)]="createdGroup.groupMembers" name="groupMembers" matInput placeholder="Group Members">
         <mat-hint>Type member usernames separated by commas to add them to group</mat-hint>
+        <br>
       </mat-form-field>
     </mat-grid-tile>
   </mat-grid-list>

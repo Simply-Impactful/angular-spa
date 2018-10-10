@@ -54,7 +54,6 @@ export class HomeComponent implements OnInit, LoggedInCallback {
             this.user.totalPoints = userActions[i].totalPoints;
           }
       }
-      console.log('this.user.totalPoints ' + this.user.totalPoints);
     }
   }
 
@@ -63,7 +62,6 @@ export class HomeComponent implements OnInit, LoggedInCallback {
     const cognitoUser = this.cognitoUtil.getCurrentUser();
     const params = new Parameters();
     this.user = params.buildUser(result, cognitoUser);
- //   console.log('this.user ' + JSON.stringify(this.user));
     // get the user actions if they are authenticated
     this.lambdaService.getUserActions(this, this.user);
    }
