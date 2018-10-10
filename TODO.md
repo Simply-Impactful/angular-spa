@@ -24,3 +24,10 @@ https://medium.com/@bevin.hernandez/angular-5-file-uploads-to-s3-with-relative-e
 }
 
 //d704df5911c8d3fffcb053b59e9ffe923d79cd7fd9f7743a68a09b953894e2af
+
+import { AppConf } from '../shared/conf/app.conf';
+private appConf = AppConf;
+
+this.appConf.default.userProfile
+
+const file = fileInput.target.files[0];

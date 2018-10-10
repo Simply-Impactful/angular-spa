@@ -21,7 +21,6 @@ import { ActionService } from './services/action.service';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppTopNavComponent } from './app-top-nav/app-top-nav.component';
-import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { AwsUtil } from './services/aws.service';
 import { CreateProfileService } from './services/create-profile.service';
 import { GroupsComponent } from './groups/groups.component';
@@ -35,7 +34,6 @@ import { LogInComponent } from './log-in/log-in.component';
 import { LandingComponent } from './landing/landing.component';
 import { MaterialModule } from './material.module';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-import { UploadComponent } from './upload/upload.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { AdminTopNavComponent } from './admin-top-nav/admin-top-nav.component';
 import { AdminAccessLandingComponent } from './admin-access-landing/admin-access-landing.component';
@@ -58,7 +56,6 @@ import { DoubleRowPaginatorComponent } from './double-row-paginator/double-row-p
     CreateProfileComponent,
     ResetPasswordComponent,
     AppTopNavComponent,
-    UploadComponent,
     ActionsComponent,
     ActionComponent,
     GroupsComponent,
@@ -84,7 +81,6 @@ import { DoubleRowPaginatorComponent } from './double-row-paginator/double-row-p
     MatSelectModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AngularFileUploaderModule,
     MatTableModule,
     MatPaginatorModule,
     MatIconModule
