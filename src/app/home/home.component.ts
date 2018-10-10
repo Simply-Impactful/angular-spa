@@ -1,4 +1,4 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Group } from '../model/Group';
 import { CreateGroupService } from '../services/creategroup.service';
 import { BehaviorSubject } from 'rxjs';
@@ -16,10 +16,10 @@ import { LambdaInvocationService } from '../services/lambdaInvocation.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, LoggedInCallback {
-  user: User;
   group: Group;
-  @Output() isViewAll: boolean = false;
+  isViewAll: boolean = false;
   isHomePage: boolean = true;
+  user: User;
 
   constructor(
     private createGroupService: CreateGroupService,
@@ -36,6 +36,9 @@ export class HomeComponent implements OnInit, LoggedInCallback {
       this.group = createdGroup;
     });
     this.loginService.isAuthenticated(this, this.user);
+
+    //  this.lambdaService.getAllGroups(this);
+
    }
 
   /** Interface needed for LoggedInCallback */

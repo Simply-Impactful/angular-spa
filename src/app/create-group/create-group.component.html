@@ -35,21 +35,23 @@
     </mat-grid-tile>
     <mat-grid-tile cols="1">
       <mat-form-field *ngIf = "isOther" appearance="outline">
-        <input [(ngModel)]="value" name="other" matInput placeholder="Please specify other group type">
+        <input [(ngModel)]="createdGroup.type" name="other" matInput placeholder="Please specify other group type">
         <mat-hint>Required</mat-hint>
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile cols="1">
       <mat-form-field appearance="outline">
-        <input [(ngModel)]="createdGroup.groupLeader" name="groupLeader" matInput placeholder="Group Leader">
+        <input [(ngModel)]="createdGroup.groupLeader" name="groupLeader" matInput placeholder="Group Leader Username">
         <mat-hint>Required</mat-hint>
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile cols="1">
-      <mat-form-field appearance="outline">
-        <input [(ngModel)]="createdGroup.groupMembers" name="groupMembers" matInput placeholder="Group Members">
+      <mat-form-field style="margin-bottom: 10px;" appearance="outline">
+        <input [(ngModel)]="createdGroup.groupMembers" name="groupMembers" matInput placeholder="Group Members' Usernames">
         <mat-hint>Type member usernames separated by commas to add them to group</mat-hint>
-        <br>
+        <mat-hint style="color:red; font-size: 85%">
+          {{membersError}}
+        </mat-hint>
       </mat-form-field>
     </mat-grid-tile>
   </mat-grid-list>
@@ -69,8 +71,8 @@
       <mat-grid-tile cols="1">
       </mat-grid-tile>
       <mat-grid-tile cols="1">
-        <button mat-stroked-button color="primary" (click)="creategroup()" routerLink="/home">CANCEL</button>
-        <button mat-raised-button color="primary" (click)="creategroup()" routerLink="/home">CREATE</button>
+        <button mat-stroked-button color="primary" routerLink="/home">CANCEL</button>
+        <button mat-raised-button color="primary" (click)="creategroup()">CREATE</button>
       </mat-grid-tile>
     </mat-grid-list>  
 </main>

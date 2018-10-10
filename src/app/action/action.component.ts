@@ -16,15 +16,10 @@ import { LogInService } from '../services/log-in.service';
 })
 export class ActionComponent implements OnInit, LoggedInCallback {
 
-  name: string = '';
   actions: Action[];
   actionsLength: number;
-  user: User;
-  @Input() totalPoints: number;
 
-  constructor(public actionService: ActionService,
-    public params: Parameters, public lambdaService: LambdaInvocationService,
-    public loginService: LogInService) { }
+  constructor(public actionService: ActionService, public lambdaService: LambdaInvocationService) { }
 
   ngOnInit() {
     this.lambdaService.listActions(this);

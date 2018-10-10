@@ -16,12 +16,6 @@ import { LogInService } from '../services/log-in.service';
   styleUrls: ['./actions.component.scss']
 })
 export class ActionsComponent implements OnInit, LoggedInCallback {
-  username: string = '';
-  userscore;
-  unplugPoints;
-  faucetPoints;
-  lightsPoints;
-  dialogResult = '';
   actionsLength: number;
   action: Action;
   eligiblePoints: number;

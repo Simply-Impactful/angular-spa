@@ -43,6 +43,7 @@ import { AdminAccessCurriculumComponent } from './admin-access-curriculum/admin-
 import { Parameters } from './services/parameters';
 import { LambdaInvocationService } from './services/lambdaInvocation.service';
 import { AdminActionDialogComponent } from './admin-action-dialog/admin-action-dialog.component';
+import { MyGroupsComponent } from './my-groups/my-groups.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { AdminActionDialogComponent } from './admin-action-dialog/admin-action-d
     AdminAccessActionsComponent,
     AdminAccessUsersComponent,
     AdminAccessCurriculumComponent,
-    AdminActionDialogComponent
+    AdminActionDialogComponent,
+    MyGroupsComponent
   ],
   imports: [
     [BrowserModule, FormsModule],

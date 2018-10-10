@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CreateGroupService } from '../services/creategroup.service';
 import { Group } from '../model/Group';
-// import { CognitoIdentityServiceProvider } from 'aws-sdk';
-// import { CognitoIdentityServiceProvider } from '../services/cognito.service';
 import * as AWS from 'aws-sdk/global';
 import { environment } from '../../environments/environment';
 import { AuthenticationDetails, CognitoUserAttribute, CognitoUser, CognitoUserPool } from 'amazon-cognito-identity-js';
@@ -18,7 +16,6 @@ import { FormControl } from '@angular/forms';
 })
 export class CreateGroupComponent implements OnInit, LoggedInCallback {
 
- // groups = [];
   types = [];
   subTypes = [];
   groupsData = new Array<Group>();
@@ -26,11 +23,10 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
   i: number = 0;
   isOther: boolean = false;
   groupControl = new FormControl();
-  value: string = '';
-  name: string = '';
   noSubTypes = [];
+  membersError: string = '';
 
-  constructor(private createGroupService: CreateGroupService, public lambdaService: LambdaInvocationService) { }
+  constructor(public lambdaService: LambdaInvocationService) { }
 
   ngOnInit() {
     this.createdGroup = new Group();
@@ -46,11 +42,14 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
     }
   }
 
-  addMember() {}
-
   creategroup() {
     // A service call will be made here to validate the credentials against what we have stored in the DB
-    this.createGroupService.createGroup(this.createdGroup).subscribe();
+    this.lambdaService.createGroup(this.createdGroup, this);
+    if (this.createdGroup.groupMembers != null) {
+      console.log('they entered group members, let them route home');
+    } else {
+      this.membersError = 'You must enter at least one group member. Consider adding yourself';
+    }
   }
 
   isLoggedIn(message: string, loggedIn: boolean): void {}
@@ -61,18 +60,19 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
       const response = JSON.parse(result);
       this.groupsData = response.body;
       this.types = this.groupsData;
+      console.log('groupsData ' + JSON.stringify(this.groupsData));
       // iterate between both arrays to pull out the subTypes which have 'N/A' specified
       for (let i = 0; i < this.groupsData.length; i++) {
         for (let j = 0; j < this.groupsData[i].subType.length; j++) {
           if (this.groupsData[i].subType[j]['subType'] === 'N/A') {
-            // add this to the list of 'noSubTypes' so we can display them as top level clickable options in HTML
+            // add a noSubTypes array so we can display them as top level options
             this.noSubTypes.push(this.groupsData[i].type);
             // splice pulls the subType out of the array that we set back to this.groupsData
             this.types.splice(i, 1);
-            console.log('this.groupsData[i].type ' + JSON.stringify(this.groupsData[i].type));
           }
         }
       }
+      this.noSubTypes.push('Other');
       // the final array to display
        this.groupsData = this.types;
     } else {

@@ -15,6 +15,7 @@ import { AWSError } from 'aws-sdk';
 import { CreateGroupService } from '../services/creategroup.service';
 import { LogInService } from '../services/log-in.service';
 import { Group } from '../model/Group';
+import { JSONP_ERR_WRONG_METHOD } from '@angular/common/http/src/jsonp';
 
 
 @Injectable()
@@ -108,7 +109,6 @@ export class LambdaInvocationService implements OnInit {
 
    // Records points when a user takes an action
    performAction(callback: LoggedInCallback, user: User, action: Action) {
-    const cognitoUtil = new CognitoUtil;
     const JSON_BODY = {
       username: user.username,
       actionTaken: action.name,
@@ -243,7 +243,6 @@ export class LambdaInvocationService implements OnInit {
       if (error) {
         callback.callbackWithParams(error, null);
       } else {
-         console.log('groups metadata' + data.Payload);
         callback.callbackWithParams(null, data.Payload);
       }
     });
@@ -278,7 +277,7 @@ export class LambdaInvocationService implements OnInit {
     });
   }
 
-     // Get group data by group name
+     // Get all group data
      getAllGroups(callback: LoggedInCallback) {
       AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
       AWS.config.region = environment.region;
@@ -299,9 +298,51 @@ export class LambdaInvocationService implements OnInit {
         if (error) {
           callback.callbackWithParams(error, null);
         } else {
-           console.log('ALL groups' + data.Payload);
+       //    console.log('ALL groups' + data.Payload);
           callback.callbackWithParams(null, data.Payload);
         }
       });
     }
+
+  // Allow Users to create a group
+  createGroup(groupData: Group, callback: LoggedInCallback) {
+    const JSON_BODY = {
+      name: groupData.name,
+      username: groupData.groupLeader,
+      zipCode: groupData.zipcode,
+      groupType: groupData.type,
+      groupSubType: groupData.subType,
+      description: groupData.description,
+      groupAvatar: groupData.groupAvatar,
+      members: groupData.groupMembers
+    };
+    const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
+
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+    AWS.config.region = this.region;
+    const lambda = new AWS.Lambda({region: this.region, apiVersion: this.apiVersion});
+    const putParams = {
+      FunctionName: 'createGroups',
+      InvocationType: 'RequestResponse',
+      LogType: 'None',
+      Payload: JSON.stringify({
+        httpMethod: 'POST',
+        path: '/groups',
+        resource: '',
+        queryStringParameters: {
+        },
+        pathParameters: {
+        },
+        body: body
+      })
+    };
+    lambda.invoke(putParams, function(error, data) {
+      if (error) {
+        console.log('ERROR ' + JSON.stringify(error));
+        callback.callbackWithParams(error, null);
+      } else {
+        callback.callbackWithParams(null, data.Payload);
+      }
+    });
+  }
 }
