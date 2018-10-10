@@ -24,7 +24,6 @@ import { AwsUtil } from './services/aws.service';
 import { CreateProfileService } from './services/create-profile.service';
 import {GroupsComponent } from './groups/groups.component';
 import { CreateGroupComponent } from './create-group/create-group.component';
-import { CreateGroupService } from './services/creategroup.service';
 import { CognitoUtil } from './services/cognito.service';
 import { CreateProfileComponent } from './create-profile/create-profile.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
@@ -92,7 +91,6 @@ import { MyGroupsComponent } from './my-groups/my-groups.component';
     AdminActionDialogComponent
   ],
   providers: [
-    CreateGroupService,
     CognitoUtil,
     AwsUtil,
     CreateProfileService,

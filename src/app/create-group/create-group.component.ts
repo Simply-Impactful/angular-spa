@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CreateGroupService } from '../services/creategroup.service';
 import { Group } from '../model/Group';
 import * as AWS from 'aws-sdk/global';
 import { environment } from '../../environments/environment';
@@ -8,6 +7,7 @@ import { CognitoCallback, LoggedInCallback } from '../services/cognito.service';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { AWSError } from 'aws-sdk/global';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-group',
@@ -26,7 +26,7 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
   noSubTypes = [];
   membersError: string = '';
 
-  constructor(public lambdaService: LambdaInvocationService) { }
+  constructor(public lambdaService: LambdaInvocationService, public router: Router) { }
 
   ngOnInit() {
     this.createdGroup = new Group();
@@ -43,10 +43,11 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
   }
 
   creategroup() {
-    // A service call will be made here to validate the credentials against what we have stored in the DB
-    this.lambdaService.createGroup(this.createdGroup, this);
     if (this.createdGroup.groupMembers != null) {
-      console.log('they entered group members, let them route home');
+      // trim any spaces in between
+      this.createdGroup.groupMembers = this.createdGroup.groupMembers.replace(/\s+/g, '');
+      this.lambdaService.createGroup(this.createdGroup, this);
+      this.router.navigate(['/home']);
     } else {
       this.membersError = 'You must enter at least one group member. Consider adding yourself';
     }

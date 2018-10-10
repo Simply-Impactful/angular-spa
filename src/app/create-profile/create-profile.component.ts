@@ -22,6 +22,7 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
   nullUsernameError: string = '';
   nullNameError: string = '';
   nullZipError: string = '';
+  isGenericMessage: boolean = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -103,6 +104,8 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
         this.emailError = message;
       } else {
         this.genericMessage = message;
+        console.log('generic message ' + this.genericMessage);
+        this.isGenericMessage = true;
       }
 
     } else { // success

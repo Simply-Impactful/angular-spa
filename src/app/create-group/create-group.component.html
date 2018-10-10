@@ -1,8 +1,5 @@
 <app-top-nav></app-top-nav>
 <body>
-<button mat-button color="primary" style="text-align:left; margin-left:10px; width:100px;"routerLink="/home">
-  Back Home
-</button>
 </body>
 <main>
   <h2>Create a New Group</h2>
@@ -35,7 +32,7 @@
     </mat-grid-tile>
     <mat-grid-tile cols="1">
       <mat-form-field *ngIf = "isOther" appearance="outline">
-        <input [(ngModel)]="createdGroup.type" name="other" matInput placeholder="Please specify other group type">
+        <input [(ngModel)]="createdGroup.type"  matInput placeholder="Please specify other group type">
         <mat-hint>Required</mat-hint>
       </mat-form-field>
     </mat-grid-tile>

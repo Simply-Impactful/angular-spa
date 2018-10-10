@@ -12,7 +12,6 @@ import { HomeComponent } from '../home/home.component';
 import { CreateProfileService } from '../services/create-profile.service';
 import { CognitoUserAttribute, ICognitoUserAttributeData } from 'amazon-cognito-identity-js';
 import { AWSError } from 'aws-sdk';
-import { CreateGroupService } from '../services/creategroup.service';
 import { LogInService } from '../services/log-in.service';
 import { Group } from '../model/Group';
 import { JSONP_ERR_WRONG_METHOD } from '@angular/common/http/src/jsonp';

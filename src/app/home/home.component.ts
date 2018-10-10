@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Group } from '../model/Group';
-import { CreateGroupService } from '../services/creategroup.service';
 import { BehaviorSubject } from 'rxjs';
 import { User } from '../model/User';
 import { LogInService } from '../services/log-in.service';
@@ -22,7 +21,6 @@ export class HomeComponent implements OnInit, LoggedInCallback {
   user: User;
 
   constructor(
-    private createGroupService: CreateGroupService,
     private loginService: LogInService,
     private cognitoUtil: CognitoUtil,
     private createProfileService: CreateProfileService,
@@ -32,13 +30,7 @@ export class HomeComponent implements OnInit, LoggedInCallback {
    this.params.user$.subscribe(user => {
       this.user = user;
     });
-    this.createGroupService.group$.subscribe(createdGroup => {
-      this.group = createdGroup;
-    });
     this.loginService.isAuthenticated(this, this.user);
-
-    //  this.lambdaService.getAllGroups(this);
-
    }
 
   /** Interface needed for LoggedInCallback */
