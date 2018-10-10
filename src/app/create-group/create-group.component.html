@@ -19,7 +19,7 @@
         <mat-hint>Required</mat-hint>
       </mat-form-field>
     </mat-grid-tile>
-    <mat-grid-tile cols="1">
+    <!-- <mat-grid-tile cols="1">
       <mat-form-field appearance="outline">
         <mat-select [formControl]="groupControl" placeholder="Group Type">
           <mat-optgroup *ngFor="let groupData of groupsData; let i = index" value="groupData.type" 
@@ -33,7 +33,7 @@
         </mat-select>
         <mat-hint>Required</mat-hint>
       </mat-form-field>
-    </mat-grid-tile>
+    </mat-grid-tile> -->
     <mat-grid-tile cols="1">
       <mat-form-field *ngIf = "isOther" appearance="outline">
         <input [(ngModel)]="value" name="other" matInput placeholder="Please specify other group type">
@@ -61,8 +61,8 @@
         <mat-hint>500 Characters limit</mat-hint>
       </mat-form-field>
     </mat-grid-tile>
-    <mat-grid-tile cols="1">
-      <app-upload></app-upload>
+    <mat-grid-tile cols="1" style= " background-color: rgb(247, 242, 242)">
+      <input class ="content-inside-tile" type="file" (change)="uploadFile($event.target.files)"/>
     </mat-grid-tile>
   </mat-grid-list>
   <mat-grid-list cols="2" rowHeight="12em">

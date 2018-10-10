@@ -6,11 +6,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule,
+import {
+  MatPaginatorModule,
   MatIconModule,
   MatInputModule,
   MatDialogRef,
-  MatSelectModule } from '@angular/material';
+  MatSelectModule
+} from '@angular/material';
 
 import { ActionsComponent } from './actions/actions.component';
 import { ActionComponent } from './action/action.component';
@@ -22,7 +24,7 @@ import { AppTopNavComponent } from './app-top-nav/app-top-nav.component';
 import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { AwsUtil } from './services/aws.service';
 import { CreateProfileService } from './services/create-profile.service';
-import {GroupsComponent } from './groups/groups.component';
+import { GroupsComponent } from './groups/groups.component';
 import { CreateGroupComponent } from './create-group/create-group.component';
 import { CreateGroupService } from './services/creategroup.service';
 import { CognitoUtil } from './services/cognito.service';
@@ -99,6 +101,6 @@ import { DoubleRowPaginatorComponent } from './double-row-paginator/double-row-p
     Parameters,
     LambdaInvocationService,
     ActionService],
-    bootstrap: [AppComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

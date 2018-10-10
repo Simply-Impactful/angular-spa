@@ -1,3 +1,6 @@
-<h4 align="left-center">
-  Upload your Picture</h4>
-<angular-file-uploader #afu [resetUpload]=resetUpload [config]="afuConfig"></angular-file-uploader>
+<!-- <angular-file-uploader #afu [resetUpload]=resetUpload [config]="afuConfig"></angular-file-uploader> -->
+<label for="imageUpload">Image Upload</label>
+<!-- <input type="file" (change)="uploadFile($event)" name="imageUpload" id="imageUpload"/> -->
+<mat-grid-tile cols="1" style= " background-color: rgb(247, 242, 242)">
+  <input class ="content-inside-tile" type="file" (change)="uploadFile($event.target.files)"/>
+</mat-grid-tile>

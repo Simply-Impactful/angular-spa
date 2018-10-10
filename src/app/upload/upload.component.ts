@@ -1,5 +1,6 @@
 import { AngularFileUploaderComponent } from 'angular-file-uploader';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { S3Service } from '../services/s3.service';
 
 @Component({
   selector: 'app-upload',
@@ -8,15 +9,15 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 })
 export class UploadComponent implements OnInit {
   resetUpload: boolean;
- // token: string = 'lkdjlfjld';
-  afuConfig = {
-    uploadAPI: {
-      url: 'https://slack.com/api/files.upload'
-    }
-  };
+  // // token: string = 'lkdjlfjld';
+  // afuConfig = {
+  //   uploadAPI: {
+  //     url: 'https://slack.com/api/files.upload'
+  //   }
+  // };
 
   @ViewChild('afu') private afuref1: AngularFileUploaderComponent;
-  constructor() { }
+  constructor(private s3: S3Service) { }
 
   ngOnInit() {
     /* Notification.requestPermission(function(params) {
@@ -33,6 +34,12 @@ export class UploadComponent implements OnInit {
 
   resetfu(id) {
     this[`afuref${id}`].resetFileUpload();
+  }
+
+  uploadFile(fileInput: any) {
+    console.dir(fileInput);
+    const file = fileInput.target.files[0];
+    this.s3.uploadFile(file);
   }
 
 }
