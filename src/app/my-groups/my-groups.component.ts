@@ -4,6 +4,7 @@ import { Group } from '../model/Group';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { CognitoUtil } from '../services/cognito.service';
 import { User } from '../model/User';
+import { JSONP_ERR_WRONG_METHOD } from '@angular/common/http/src/jsonp';
 
 @Component({
   selector: 'app-my-groups',
@@ -40,6 +41,10 @@ export class MyGroupsComponent implements OnInit {
         }
       }
     }
+    for (let i = this.myGroups.length - 1; i > 3; i--) {
+      this.myGroups[i]['members'].pop();
+    }
+    console.log('myGroups ' + JSON.stringify(this.myGroups));
   }
 
   // response of isAuthenticated method in login service

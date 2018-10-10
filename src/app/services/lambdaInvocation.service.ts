@@ -15,6 +15,7 @@ import { AWSError } from 'aws-sdk';
 import { LogInService } from '../services/log-in.service';
 import { Group } from '../model/Group';
 import { JSONP_ERR_WRONG_METHOD } from '@angular/common/http/src/jsonp';
+import { Router } from '@angular/router';
 
 
 @Injectable()
@@ -303,8 +304,8 @@ export class LambdaInvocationService implements OnInit {
       });
     }
 
-  // Allow Users to create a group
-  createGroup(groupData: Group, callback: LoggedInCallback) {
+  // Allow Users to create/update a group
+  createGroup(groupData: Group, callback: LoggedInCallback, callType: string) {
     const JSON_BODY = {
       name: groupData.name,
       username: groupData.groupLeader,
@@ -337,10 +338,11 @@ export class LambdaInvocationService implements OnInit {
     };
     lambda.invoke(putParams, function(error, data) {
       if (error) {
-        console.log('ERROR ' + JSON.stringify(error));
+    //    console.log('ERROR ' + JSON.stringify(error));
         callback.callbackWithParams(error, null);
       } else {
-        callback.callbackWithParams(null, data.Payload);
+       //   callback.callbackWithParams(null, data.Payload);
+        //  window.location.reload();
       }
     });
   }

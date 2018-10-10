@@ -50,7 +50,8 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback {
   callbackWithParams(error: AWSError, result: any): void {
      // if perform action is successful, reload the page so the numbers update
     if (result) {
-      window.location.reload();
+    //  window.location.reload();
+    // call get Groups, if they exist, then call create groups
     }
   }
 
