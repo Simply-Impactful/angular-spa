@@ -100,20 +100,18 @@ export class AdminActionDialogComponent implements OnInit, LoggedInCallback {
    */
   save(item) {
     console.log(JSON.stringify(item, null, 2));
+    // TODO: uploadFiles. Might need async series. This will not work.
     this.s3.uploadFile(this.imageFiles, this.conf.imgFolders.actions, (err, location) => {
       if (err) {
         return new Error('Was not able to create admin page: ' + err);
       }
       console.log('locations?', location);
-      // item.imageUrl = location;
-      // console.log('here we save the item:', item);
-      // lambda invoke with entire object
     });
   }
 
     // when we upload the image, this doesn't go out to s3 right way. Or does it?
     fileEvent(fileInput: any, imageName) {
-      // capture the file
+      // captures an image file and adds it to the object of images. Pass correct name from html
       this.imageFiles[imageName] = fileInput.target.files[0];
     }
 }

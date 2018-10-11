@@ -28,7 +28,7 @@ export class S3Service {
    */
   public uploadFile(file: File, folder: string, cb) {
     AWS.config.credentials =
-            new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId });
+      new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId });
 
     const s3 = new AWS.S3({
       region: environment.region,
@@ -58,6 +58,53 @@ export class S3Service {
       console.log('Successfully uploaded file.', data);
       const location = data.Location;
       cb(null, location);
+    });
+  }
+
+  /**
+   *
+   * @param { Files[]} files
+   * @param cb
+   */
+  uploadFiles(files, cb) {
+    // call this function to apply async series and return a clean list of urls.
+  }
+  /**
+   * Fetch content from S3. Folder do not exist in S3, so we have to be specific.
+   * This will read from public bucket only.
+   *
+   * @param { string } folder - nested folder off root
+   * @param { string } fileName - specific file
+   * @param { Functions } cb - Function that handles AWS results.
+   */
+  listObject(folder, fileName, cb) {
+    AWS.config.credentials =
+      new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId });
+
+    const s3 = new AWS.S3({
+      region: environment.region,
+      apiVersion: '2006-03-01',
+      params: { Bucket: this.bucketName }
+    });
+
+    if (!folder) {
+      cb(new Error('Please specify a folder'));
+    }
+
+    /* Test to ensure I can specify a resource with parameters. */
+
+    const params = {
+      Bucket: this.bucketName,
+      Delimiter: '/',
+      Prefix: `${folder}/${fileName}`
+    };
+
+    s3.listObjects(params, function (err, data) {
+      if (err) {
+        cb(err);
+      } else {
+        cb(null, data);
+      }
     });
   }
 }
