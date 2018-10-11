@@ -26,7 +26,8 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
 
   ngOnInit() {
     this.appComp.setAdmin();
-  this.lambdaService.listUsers(this);  }
+    this.lambdaService.listUsers(this);
+  }
 
   isLoggedIn(message: string, loggedIn: boolean): void {}
 
@@ -43,7 +44,7 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
       }
       this.dataSource = new MatTableDataSource(this.users);
       this.dataSource.paginator = this.paginator;
-      console.log('this.users ' + JSON.stringify(this.users));
+    //  console.log('this.users ' + JSON.stringify(this.users));
 
      } else {
       console.log('error pulling the Users data' + error);

@@ -49,6 +49,8 @@
       </div>
     </div>
     <div fxFlex="100" *ngIf = "isEditProfile">
+      <br>
+      <br>
       <div align="left" style = "padding-left: 1em; font-size: 12px">
         <mat-form-field appearance="outline">
           <input [(ngModel)]="updatedUser.name" matInput placeholder="{{user.name}}">

@@ -8,6 +8,7 @@ import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { AWSError } from 'aws-sdk';
 import { LogInService } from '../services/log-in.service';
 import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
+import { ActionComponent } from '../action/action.component';
 
 @Component({
   selector: 'app-action-dialog',
@@ -23,7 +24,8 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback {
     @Inject(MAT_DIALOG_DATA)public data: Action,
     public thisDialogRef: MatDialogRef<ActionDialogComponent>,
     private params: Parameters, private cognitoUtil: CognitoUtil,
-    private lambdaService: LambdaInvocationService, private loginService: LogInService) { }
+    private lambdaService: LambdaInvocationService,
+    private loginService: LogInService) { }
 
   ngOnInit() {
     this.action = this.data;
@@ -50,7 +52,7 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback {
   callbackWithParams(error: AWSError, result: any): void {
      // if perform action is successful, reload the page so the numbers update
     if (result) {
-    //  window.location.reload();
+      window.location.reload();
     // call get Groups, if they exist, then call create groups
     }
   }
