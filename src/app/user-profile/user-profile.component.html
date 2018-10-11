@@ -1,7 +1,5 @@
-<body style="background-color: rgb(240, 233, 233); height: 150px ; padding:0px; margin:0px">
-      <button mat-button style= "font-weight:bold; text-align:left; margin-left:10px; width:150px;" routerLink="/home">
-      < Back 
-    </button>
+<app-top-nav></app-top-nav>
+<body style="background-color: rgb(240, 233, 233); height: 150px; padding:0px; margin:-25px">
     <div style="text-align:center;color:red">{{errorMessage}}</div>
   </body>
 <main>
@@ -16,11 +14,11 @@
         <br>
         <h5> Total Points: {{user.totalPoints}} </h5>
         <br>
-        <h5> Status: Elephant </h5>
-        <br>
       </div>
     </div>
     <div fxFlex="100">
+      <br>
+      <br>
       <div align="center" style = "text-align: right">
         <br>
         <h5  style ="font-weight: bold"> FIRST NAME :</h5>
@@ -36,6 +34,8 @@
     </div>
     <div fxFlex="100" *ngIf = "isViewProfile">
       <div align="left" style = "padding-left: 1em">
+          <br>
+          <br>
         <br>
         <h5> {{user.name}} </h5>
         <br>
@@ -77,7 +77,7 @@
     <mat-grid-tile>
       <button mat-button color="primary" (click)="editProfile()" *ngIf = "isViewProfile">EDIT PROFILE</button>
       <button mat-raised-button color="primary" (click)="saveChanges()" *ngIf = "isEditProfile" >SAVE CHANGES</button>
-      <button mat-button style="font-size: 10px; widows: 150em" color="primary" *ngIf = "isEditProfile" routerLink="/resetpass" (click)="createAccount()">CHANGE PASSWORD</button>
+      <button mat-button style="font-size: 10px; widows: 150em" color="primary" *ngIf = "isEditProfile" routerLink="/resetpass">CHANGE PASSWORD</button>
     </mat-grid-tile>
   </mat-grid-list>
 </main>

@@ -1,6 +1,7 @@
 <app-top-nav></app-top-nav>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <main>
+	<mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
 <table mat-table
        [dataSource]="dataSource" multiTemplateDataRows
        class="mat-elevation-z8">
@@ -9,7 +10,7 @@
       <th style="color:black" mat-header-cell *matHeaderCellDef><strong>GROUP</strong> </th>
       <td mat-cell *matCellDef="let groups"> 
               <img style="max-height:100px;max-width:100px;padding:5px" src={{groups.groupAvatar}}>
-              <strong style="font-size: 15px">{{groups.name}}</strong><p>{{groups.description}}</p>
+              <strong style="font-size: 15px; padding-right:5px;">{{groups.name}}</strong>{{groups.description}}
               <div style="color: grey"> View Members
                 <mat-icon *ngIf="isCollapsed" (click)="expandedElement=groups; expand()">expand_more</mat-icon>
                 <mat-icon *ngIf="isExpanded" (click)="expandedElement=!groups; collapse()">expand_less</mat-icon>
@@ -56,7 +57,7 @@
     <td mat-cell *matCellDef="let groups" [attr.colspan]="columnsToDisplay.length">
       <div class="example-element-detail"
            [@detailExpand]="groups == expandedElement ? 'expanded' : 'collapsed'">
-        <div style="margin: 50px;"*ngFor="let member of groups.members">
+        <div style="margin: 15px;"*ngFor="let member of groups.members">
           <mat-card class="avatar-card" style="color:black">
               <mat-card-header>
                 <img mat-card-avatar src="{{defaultUserPicture}}">
@@ -78,7 +79,6 @@
   </tr>
   <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row">
   </tr>
-  <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
 </table>
 </main>
 

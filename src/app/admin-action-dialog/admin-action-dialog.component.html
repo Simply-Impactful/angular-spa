@@ -68,10 +68,10 @@
 
       <mat-grid-list cols="2" rowHeight="3em" >
         <mat-grid-tile cols="1" style= " background-color: rgb(247, 242, 242)">
-          <input class ="content-inside-tile" type="file" (change)="fileEvent($event.target.files, 'FunFactImage')"/>
+          <input class ="content-inside-tile" type="file" (change)="fileEvent($event, 'FunFactImage')"/>
         </mat-grid-tile>
         <mat-grid-tile cols="1" style= "background-color: rgb(247, 242, 242)">
-          <input class ="content-inside-tile" type="file" (change)="fileEvent($event.target.files, 'TileIcon')" />
+          <input class ="content-inside-tile" type="file" (change)="fileEvent($event, 'TileIcon')" />
         </mat-grid-tile>
       </mat-grid-list>
     </mat-dialog-content>

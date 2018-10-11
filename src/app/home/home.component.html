@@ -1,4 +1,4 @@
-<app-top-nav [isViewAll]="isViewAll"></app-top-nav>
+<app-top-nav></app-top-nav>
 <main>
     <div class="top-row">
         <mat-toolbar style="background-color: transparent">
@@ -28,64 +28,13 @@
         </div>
       </div>
     </div>
-    <mat-divider></mat-divider>
-    <mat-tab-group>
-      <mat-tab style="font-weight: bold" label="Group 1">
-        <p align="left" style="padding-left:10px;color:#4db6ac;size:50px">{{group.groupname}}</p>
-        <p align="left" style="padding-left:10px;color:#4db6ac;size:40px">{{group.grouptype}}</p>
-        <p align="left" style="padding-left:10px;color:#4db6ac;size:40px">{{group.subcategory}}</p>
-        <p align="left" style="padding-left:10px;color:#4db6ac;size:40px">{{group.shortdescription}}</p>
-        <p align="left" style="padding-left:10px;color:#4db6ac;size:40px">{{group.zipcode}}</p>
-        <form>
-          <img class = "img-in-tab" src= "/assets/images/CiS_bird_logo.png">
-          <h3 style="padding: 20px; color:rgb(140,142,144)" > This week top three leaders in Group 1</h3>
-        </form>
-        <div align = "left">
-          <mat-card class="top-performer-card">
-            <mat-card-header>
-              <div mat-card-avatar class="top-performer-image"></div>
-              <mat-card-title>Emily Hendricks</mat-card-title>
-              <mat-card-subtitle>100 points</mat-card-subtitle>
-            </mat-card-header>
-          </mat-card>
-          <mat-card class="top-performer-card">
-            <mat-card-header>
-              <div mat-card-avatar class="top-performer-image"></div>
-              <mat-card-title>Diana Patel</mat-card-title>
-              <mat-card-subtitle>100 points</mat-card-subtitle>
-            </mat-card-header>
-          </mat-card>
-          <mat-card class="top-performer-card">
-            <mat-card-header>
-              <div mat-card-avatar class="top-performer-image"></div>
-              <mat-card-title>Anna Bachvarova</mat-card-title>
-              <mat-card-subtitle>100 points</mat-card-subtitle>
-            </mat-card-header>
-          </mat-card>
-        </div>
-        <br>
-      </mat-tab>
-      <mat-tab label="Group 2">
-        <h1>This week top three leaders in Group 2</h1>
-        <p>...</p>
-      </mat-tab>
-      <mat-tab label="Group 3">
-        <h1>This week top three leaders in Group 3</h1>
-        <p>...</p>
-      </mat-tab>
-      <mat-tab label="Group 4">
-        <h1>This week top three leaders in Group 4</h1>
-        <p>...</p>
-      </mat-tab>
-    </mat-tab-group>
-    <div align ="left">
-      <a routerLink="/groups"> View all groups</a>
-    </div>
+    <!-- removed groups section-->
+    <app-my-groups></app-my-groups>
     <br>
     <div fxLayout="row">
       <div fxFlex="100">
         <div align="left">
-          <h5 class="mygroup" style="font-weight: bold"> A&nbsp;S&nbsp;S&nbsp;I&nbsp;G&nbsp;N&nbsp;M&nbsp;E&nbsp;N&nbsp;T </h5>
+          <h5 class="mygroup" style="font-weight: bold"> A&nbsp;S&nbsp;S&nbsp;I&nbsp;G&nbsp;N&nbsp;M&nbsp;E&nbsp;N&nbsp;T&nbsp;S</h5>
         </div>
       </div>
       <!--<div fxFlex="100">
@@ -100,6 +49,7 @@
       <!-- <button mat-button color="primary" (click)="save()" routerLink="/actions">Competitions History</button>-->
       <a routerLink="/actions" routerLinkActive="router-link-active">All Assignments</a>
       <br>
+      <mat-divider></mat-divider>
     </div>
   </div>
   <app-actions *ngIf="isViewAll"></app-actions>

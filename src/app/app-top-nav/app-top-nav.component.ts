@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
 import { Parameters} from '../services/parameters';
 import { LogInService } from '../services/log-in.service';
@@ -21,8 +21,6 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
   hideHome: boolean = false;
   user: User;
 
-  @Input() isViewAll: boolean;
-
 
   constructor(private params: Parameters, private loginService: LogInService,
     private cognitoUtil: CognitoUtil, private route: ActivatedRoute
@@ -33,7 +31,8 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
       this.user = user;
     });
 
-    if (window.location.toString().includes('landing')) {
+    if (window.location.toString().includes('landing')
+          || window.location.toString().includes('createuser')) {
       this.hideRightMenu = true;
     } else {
       this.hideRightMenu = false;
@@ -43,9 +42,6 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
     } else {
       this.hideHome = false;
     }
-    if (this.isViewAll) {
-      this.hideHome = false;
-   }
 
     this.loginService.isAuthenticated(this, this.user);
   }

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DoubleRowPaginatorComponent } from './double-row-paginator.component';
+import { MyGroupsComponent } from './my-groups.component';
 
-describe('DoubleRowPaginatorComponent', () => {
-  let component: DoubleRowPaginatorComponent;
-  let fixture: ComponentFixture<DoubleRowPaginatorComponent>;
+describe('MyGroupsComponent', () => {
+  let component: MyGroupsComponent;
+  let fixture: ComponentFixture<MyGroupsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DoubleRowPaginatorComponent ]
+      declarations: [ MyGroupsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DoubleRowPaginatorComponent);
+    fixture = TestBed.createComponent(MyGroupsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

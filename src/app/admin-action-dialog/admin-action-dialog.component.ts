@@ -28,7 +28,7 @@ export class AdminActionDialogComponent implements OnInit, LoggedInCallback {
   isEditing: boolean = false;
   displayText = 'Edit';
   funFactImageFile: File;
-  funFactImageFile: File;
+  // funFactImageFile: File;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Action,
     public thisDialogRef: MatDialogRef<AdminActionDialogComponent>,
@@ -49,10 +49,11 @@ export class AdminActionDialogComponent implements OnInit, LoggedInCallback {
     }
   }
 
-  fileEvent(file: File, imageName) {
-    console.log('file ' + JSON.stringify(file));
-    this.funFactImageFile = file;
-    this.s3.uploadFile(file);
+  // when we upload the image, this doesn't go out to s3 right way. Or does it?
+  fileEvent(fileInput: any, imageName) {
+    this.funFactImageFile = fileInput.target.files[0];
+    console.log('file ' + JSON.stringify(this.funFactImageFile));
+    // this.s3.uploadFile(this.funFactImageFile);
   }
 
   /**

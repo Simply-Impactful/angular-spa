@@ -1,6 +1,5 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Group } from '../model/Group';
-import { CreateGroupService } from '../services/creategroup.service';
 import { BehaviorSubject } from 'rxjs';
 import { User } from '../model/User';
 import { LogInService } from '../services/log-in.service';
@@ -16,13 +15,12 @@ import { LambdaInvocationService } from '../services/lambdaInvocation.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, LoggedInCallback {
-  user: User;
   group: Group;
-  @Output() isViewAll: boolean = false;
+  isViewAll: boolean = false;
   isHomePage: boolean = true;
+  user: User;
 
   constructor(
-    private createGroupService: CreateGroupService,
     private loginService: LogInService,
     private cognitoUtil: CognitoUtil,
     private createProfileService: CreateProfileService,
@@ -31,9 +29,6 @@ export class HomeComponent implements OnInit, LoggedInCallback {
   ngOnInit() {
    this.params.user$.subscribe(user => {
       this.user = user;
-    });
-    this.createGroupService.group$.subscribe(createdGroup => {
-      this.group = createdGroup;
     });
     this.loginService.isAuthenticated(this, this.user);
    }
@@ -48,13 +43,12 @@ export class HomeComponent implements OnInit, LoggedInCallback {
       const response = JSON.parse(result);
       const userActions = response.body;
       const userActionsLength = userActions.length;
-      console.log('userActions ' + JSON.stringify(userActions));
+     // console.log('userActions ' + JSON.stringify(userActions));
         for ( let i = 0; i < userActionsLength; i++ ) {
           if (userActions[i].totalPoints) {
             this.user.totalPoints = userActions[i].totalPoints;
           }
       }
-      console.log('this.user.totalPoints ' + this.user.totalPoints);
     }
   }
 
@@ -63,7 +57,6 @@ export class HomeComponent implements OnInit, LoggedInCallback {
     const cognitoUser = this.cognitoUtil.getCurrentUser();
     const params = new Parameters();
     this.user = params.buildUser(result, cognitoUser);
- //   console.log('this.user ' + JSON.stringify(this.user));
     // get the user actions if they are authenticated
     this.lambdaService.getUserActions(this, this.user);
    }

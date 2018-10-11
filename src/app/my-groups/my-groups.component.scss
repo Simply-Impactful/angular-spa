@@ -1,0 +1,96 @@
+.top-row {
+    margin-bottom: 0.25em;
+}
+
+.main-body{
+    padding-left: 10em;
+    padding-right: 10em;
+}
+
+img {
+    height: 20em;
+    width: 24em;
+    padding: 50px;
+    padding-top: 25px;
+    padding-bottom: 40px;
+    z-index: 1;
+    position: relative;
+    cursor: pointer;
+}
+
+.score-flag {
+    height: 1.77em;
+    width: 1.7em;
+    background: url('/assets/images/score-flag.png') center/1em no-repeat;
+    border: none;
+}
+
+button.cis-logo {
+    height: 12.5em;
+    width: 12.5em;
+    cursor: pointer;
+    background: url('/assets/images/CiS_logo_2@3x.png') left/4.25em no-repeat;
+    background-size: 80%;
+    border: none;
+}
+
+.backimage {
+    background: url('/assets/images/homepagepond.JPG');
+    background-size: 100%;
+    padding-bottom: 20px;
+    background-repeat: no-repeat;
+}
+
+form {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}
+
+button.mat-raised-button {
+    padding-left: 2em;
+    padding-right: 2em;
+    width: 200px;
+    font-size: 18 px;
+}
+
+button.mat-button {
+   // padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 0.5em;
+    width: 150px;
+    font-size: 14px;
+}
+.mygroup {
+    padding-top: 1em;
+    font-size: 14px;
+}
+mat-form-field {
+    width: 380px;
+}
+.img-in-tab {
+    height: 7%;
+    width:7%;
+    padding: 20px;
+}
+.card-container {
+    margin: 2px;
+    width: 200px;
+    display: inline-block;
+    height:15px;
+    background-color: #F1F1F3;
+  }
+
+  .top-performer-card {
+    width: 300px;
+    margin: 4px;
+    height: 75px;
+    display: inline-block;
+    background-color: azure;
+    text-align: left;
+  }
+  
+  .top-performer-image {
+    background-image: url('/assets/images/Congrats_icn.svg');
+    background-size: cover;
+  }

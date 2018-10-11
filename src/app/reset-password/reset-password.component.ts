@@ -29,8 +29,7 @@ export class ResetPasswordComponent implements OnInit {
     private loginService: LogInService,
     private params: Parameters) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
    // step 1 of forgotPassword flow.. getting a new verification code
    sendCode() {

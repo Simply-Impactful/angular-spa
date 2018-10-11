@@ -25,7 +25,6 @@ import { AwsUtil } from './services/aws.service';
 import { CreateProfileService } from './services/create-profile.service';
 import { GroupsComponent } from './groups/groups.component';
 import { CreateGroupComponent } from './create-group/create-group.component';
-import { CreateGroupService } from './services/creategroup.service';
 import { CognitoUtil } from './services/cognito.service';
 import { CreateProfileComponent } from './create-profile/create-profile.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
@@ -43,7 +42,7 @@ import { AdminAccessCurriculumComponent } from './admin-access-curriculum/admin-
 import { Parameters } from './services/parameters';
 import { LambdaInvocationService } from './services/lambdaInvocation.service';
 import { AdminActionDialogComponent } from './admin-action-dialog/admin-action-dialog.component';
-import { DoubleRowPaginatorComponent } from './double-row-paginator/double-row-paginator.component';
+import { MyGroupsComponent } from './my-groups/my-groups.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +66,7 @@ import { DoubleRowPaginatorComponent } from './double-row-paginator/double-row-p
     AdminAccessUsersComponent,
     AdminAccessCurriculumComponent,
     AdminActionDialogComponent,
-    DoubleRowPaginatorComponent
+    MyGroupsComponent
   ],
   imports: [
     [BrowserModule, FormsModule],
@@ -90,7 +89,6 @@ import { DoubleRowPaginatorComponent } from './double-row-paginator/double-row-p
     AdminActionDialogComponent
   ],
   providers: [
-    CreateGroupService,
     CognitoUtil,
     AwsUtil,
     CreateProfileService,
