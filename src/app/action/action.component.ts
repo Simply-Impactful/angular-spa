@@ -34,7 +34,7 @@ export class ActionComponent implements OnInit, LoggedInCallback {
   callbackWithParams(error: AWSError, result: any): void {
     // if list Actions fails (probably an auth error), reload the page
     if (result) {
-      console.log('result in action');
+     // console.log('result in action ' + result);
     } else {
     window.location.reload();
     }

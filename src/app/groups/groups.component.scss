@@ -17,6 +17,11 @@ tr.example-element-row:not(.example-expanded-row):active {
   background: #efefef;
 }
 
+a {
+  color: #71b8b4da;
+  cursor: pointer;
+}
+
 .example-element-row td {
   border-bottom-width: 0;
 }

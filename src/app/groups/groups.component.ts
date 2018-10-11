@@ -38,16 +38,29 @@ export class GroupsComponent implements OnInit, LoggedInCallback {
   defaultUserPicture = this.appConf.default.userProfile;
 
   constructor(
-    public lambdaService: LambdaInvocationService) { }
+    public lambdaService: LambdaInvocationService, public cognitoUtil: CognitoUtil) {}
 
   ngOnInit() {
      this.lambdaService.getAllGroups(this);
   }
-  isLoggedIn(message: string, loggedIn: boolean): void {}
 
-  joinGroup() {
-    console.log('join group');
+
+  joinGroup(group: Group) {
+    const updateList = [];
+    const username = this.cognitoUtil.getCurrentUser().getUsername();
+    const memberObj = {
+      member: username
+    };
+    group.members.push(memberObj);
+
+    for (let i = 0; i < group.members.length; i++) {
+      updateList.push(group.members[i]['member']);
+    }
+    group.groupMembers = updateList.toString();
+
+    this.lambdaService.createGroup(group, this, 'update');
   }
+
 
   expand() {
     this.isExpanded = true;
@@ -65,10 +78,10 @@ export class GroupsComponent implements OnInit, LoggedInCallback {
     for (let i = 0; i < this.groups.length; i++) {
       this.groups[i].groupAvatar = 'https://s3.amazonaws.com/simply-impactful-image-data/StrawFactImage.jpg';
     }
-
     this.dataSource = new MatTableDataSource(this.groups);
-    // this.dataSource.data = this.groups;
     this.dataSource.paginator = this.paginator;
+
+    // un-used as of now..
     this.dataSource.sort = this.sort;
 
     /**
@@ -95,4 +108,6 @@ export class GroupsComponent implements OnInit, LoggedInCallback {
 
   // response of isAuthenticated method in login service
   callbackWithParam(result: any): void {}
+
+  isLoggedIn(message: string, loggedIn: boolean): void {}
 }

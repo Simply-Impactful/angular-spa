@@ -47,8 +47,8 @@
     <!-- Join Group -->
     <ng-container matColumnDef="joinGroup">
         <th  style="color:black;" mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let groups"> 
-            <a (click)="joinGroup()"> Join Group </a>
+        <td mat-cell *matCellDef="let groups; let i = index"> 
+            <a (click)="joinGroup(groups)"> Join Group </a>
         </td>
   </ng-container>
 

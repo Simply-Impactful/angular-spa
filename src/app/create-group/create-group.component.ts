@@ -56,7 +56,8 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
     if (this.createdGroup.groupMembers != null) {
       // trim any spaces in between
       this.createdGroup.groupMembers = this.createdGroup.groupMembers.replace(/\s+/g, '');
-      this.lambdaService.createGroup(this.createdGroup, this);
+      this.lambdaService.createGroup(this.createdGroup, this, 'create');
+      window.location.reload();
       this.router.navigate(['/home']);
     } else {
       this.membersError = 'You must enter at least one group member. Consider adding yourself';
@@ -71,7 +72,7 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
       const response = JSON.parse(result);
       this.groupsData = response.body;
       this.types = this.groupsData;
-      console.log('groupsData ' + JSON.stringify(this.groupsData));
+ //     console.log('groupsData ' + JSON.stringify(this.groupsData));
       // iterate between both arrays to pull out the subTypes which have 'N/A' specified
       for (let i = 0; i < this.groupsData.length; i++) {
         for (let j = 0; j < this.groupsData[i].subType.length; j++) {
@@ -95,8 +96,8 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
   fileEvent(fileInput: any) {
     // save the image file which will be submitted later
     this.groupAvatarFile = fileInput.target.files[0];
-    this.s3.uploadFile(this.groupAvatarFile);
-    console.log(this.groupAvatarFile);
+    // this.s3.uploadFile(this.groupAvatarFile);
+    // console.log(this.groupAvatarFile);
   }
 
 }
