@@ -81,8 +81,6 @@ export class AdminActionDialogComponent implements OnInit, LoggedInCallback {
     if (!isError) {
       this.lambdaService.adminCreateAction(this.action, this);
       this.thisDialogRef.close('Confirm');
-    }
-    if (!isError && this.isCreating) {
       window.location.reload();
     }
   }

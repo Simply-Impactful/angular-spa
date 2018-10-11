@@ -30,11 +30,12 @@
     </div>
     <!-- removed groups section-->
     <app-my-groups></app-my-groups>
+    <mat-divider></mat-divider> 
     <br>
     <div fxLayout="row">
       <div fxFlex="100">
         <div align="left">
-          <h5 class="mygroup" style="font-weight: bold"> A&nbsp;S&nbsp;S&nbsp;I&nbsp;G&nbsp;N&nbsp;M&nbsp;E&nbsp;N&nbsp;T&nbsp;S</h5>
+          <h5 class="mygroup" style="font-weight: bold;"> A&nbsp;S&nbsp;S&nbsp;I&nbsp;G&nbsp;N&nbsp;M&nbsp;E&nbsp;N&nbsp;T&nbsp;S</h5>
         </div>
       </div>
       <!--<div fxFlex="100">
@@ -43,13 +44,13 @@
         </div>
       </div> -->
     </div>
-    <mat-divider></mat-divider> 
     <div align = "left">
       <!--- <h3 style="padding-top: 20px; color:rgb(140,142,144)" > You currently have no assignments available</h3> -->
       <!-- <button mat-button color="primary" (click)="save()" routerLink="/actions">Competitions History</button>-->
       <a routerLink="/actions" routerLinkActive="router-link-active">All Assignments</a>
       <br>
-      <mat-divider></mat-divider>
+      <br>
+      <br>
     </div>
   </div>
   <app-actions *ngIf="isViewAll"></app-actions>

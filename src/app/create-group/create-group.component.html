@@ -7,13 +7,19 @@
     <mat-grid-tile cols="1">
       <mat-form-field appearance="outline">
         <input [(ngModel)]="createdGroup.name" name="name" matInput placeholder="Group Name">
-        <mat-hint>Required</mat-hint>
+        <mat-hint>Required &nbsp;</mat-hint>
+        <mat-hint style="color:red; font-size: 85%">
+          {{namesError}}
+        </mat-hint>
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile cols="1">
       <mat-form-field appearance="outline">
         <input [(ngModel)]="createdGroup.zipcode" name="zipcode" matInput placeholder="Zip Code">
-        <mat-hint>Required</mat-hint>
+        <mat-hint>Required &nbsp;</mat-hint>
+        <mat-hint style="color:red; font-size: 85%">
+          {{zipcodeError}}
+        </mat-hint>
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile cols="1">
@@ -32,14 +38,20 @@
     </mat-grid-tile>
     <mat-grid-tile cols="1">
       <mat-form-field *ngIf = "isOther" appearance="outline">
-        <input [(ngModel)]="createdGroup.type"  matInput placeholder="Please specify other group type">
-        <mat-hint>Required</mat-hint>
+        <input [(ngModel)]="createdGroup.type" name="other" matInput placeholder="Please specify other group type">
+        <mat-hint>Required &nbsp;</mat-hint>
+        <mat-hint style="color:red; font-size: 85%">
+          {{groupTypeError}}
+        </mat-hint>
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile cols="1">
       <mat-form-field appearance="outline">
         <input [(ngModel)]="createdGroup.groupLeader" name="groupLeader" matInput placeholder="Group Leader Username">
-        <mat-hint>Required</mat-hint>
+        <mat-hint>Required &nbsp;</mat-hint>
+        <mat-hint style="color:red; font-size: 85%">
+          {{groupsLeaderError}}
+        </mat-hint>
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile cols="1">

@@ -27,13 +27,17 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
   groupControl = new FormControl();
   noSubTypes = [];
   membersError: string = '';
+  namesError: string = '';
+  zipcodeError: string = '';
+  groupsLeaderError: string = '';
+  groupTypeError: string = '';
   groupAvatarFile: any;
   groupAvatarUrl: string;
   conf = AppConf;
 
   constructor(public lambdaService: LambdaInvocationService,
-              public router: Router,
-              private s3: S3Service) { }
+    public router: Router,
+    private s3: S3Service) { }
 
   ngOnInit() {
     this.createdGroup = new Group();
@@ -52,9 +56,10 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
   creategroup() {
     this.createdGroup.groupAvatar = this.groupAvatarUrl;
 
+    if (this.checkInputs()) {
       this.s3.uploadFile(this.groupAvatarFile, this.conf.imgFolders.groups, (err, location) => {
         if (err) {
-          // we will allow for the creation of the item, we will just not have an image
+          // we will allow for the creation of the item, we have a default image
           console.log(err);
           this.createdGroup.groupAvatar = this.conf.default.groupAvatar;
         } else {
@@ -72,9 +77,27 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
           this.membersError = 'You must enter at least one group member. Consider adding yourself';
         }
       });
+    }
   }
 
-  isLoggedIn(message: string, loggedIn: boolean): void {}
+  checkInputs() {
+    if (!this.createdGroup.name) {
+      this.namesError = 'Group name is required';
+    }
+    if (!this.createdGroup.zipcode) {
+      this.zipcodeError = 'zipcode is required';
+    }
+    if (!this.createdGroup.type) {
+      this.groupTypeError = 'Group Type is required';
+    }
+    if (!this.createdGroup.groupLeader) {
+      this.groupsLeaderError = 'Group Leader username is required';
+    } else {
+      return true;
+    }
+  }
+
+  isLoggedIn(message: string, loggedIn: boolean): void { }
 
   // result of lambda listActions and Delete Actions API
   callbackWithParams(error: AWSError, result: any): void {
@@ -96,13 +119,13 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
       }
       this.noSubTypes.push('Other');
       // the final array to display
-       this.groupsData = this.types;
+      this.groupsData = this.types;
     } else {
       console.log('error ' + JSON.stringify(error));
     }
   }
 
-  callbackWithParam(result: any): void {}
+  callbackWithParam(result: any): void { }
 
   fileEvent(fileInput: any) {
     // save the image file which will be submitted later
