@@ -32,7 +32,6 @@
     "@angular/platform-browser-dynamic": "^6.0.3",
     "@angular/router": "^6.0.3",
     "amazon-cognito-identity-js": "^2.0.23",
-    "angular-file-uploader": "^4.1.2",
     "aws-sdk": "^2.302.0",
     "cognito-user-pool": "^0.2.4",
     "core-js": "^2.5.4",

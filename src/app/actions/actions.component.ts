@@ -1,6 +1,6 @@
 import { ActionDialogComponent } from './../action-dialog/action-dialog.component';
-import { Component, OnInit, Input } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { MatDialog, MatPaginator, MatTableDataSource } from '@angular/material';
 import { Action } from '../model/Action';
 import { ActionService } from '../services/action.service';
 import { LoggedInCallback, CognitoUtil } from '../services/cognito.service';
@@ -9,6 +9,7 @@ import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { Parameters } from '../services/parameters';
 import { User } from '../model/User';
 import { LogInService } from '../services/log-in.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-actions',
@@ -20,9 +21,12 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
   action: Action;
   eligiblePoints: number;
   user: User;
- // @Input() user: User;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  observableData: Observable<any>;
 
   actions: Action[];
+  dataSource;
 
   constructor(
     public dialog: MatDialog, public actionService: ActionService,
@@ -41,27 +45,21 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
    this.loginService.isAuthenticated(this, this.user);
   }
 
-  add(action) { }
-  // lists all actions in the DB - 3 details
-  // for View All actions page
-  // user standpoint. different table from getActionsData
-  getPerformedActionsData() {
-    // pass username and action name to determine the history/frequency
-  }
-
   openDialog(name: string, action: Action) {
    // required for page render
     this.actionService.openDialog(name, action);
    // this.action = this.getActionsData(name);
   }
 
-  isLoggedIn(message: string, loggedIn: boolean): void {
-  }
+  isLoggedIn(message: string, loggedIn: boolean): void {}
 
   // response of lamdba list Actions API call
   callbackWithParams(error: AWSError, result: any): void {
     const response = JSON.parse(result);
     this.actions = response.body;
+    this.dataSource = new MatTableDataSource(this.actions);
+    this.dataSource.paginator = this.paginator;
+    this.observableData = this.dataSource.connect();
   }
   // response of isAuthenticated method in login service
   callbackWithParam(result: any): void {

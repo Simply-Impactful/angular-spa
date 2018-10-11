@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GroupsComponent } from './groups.component';
+import { S3Service } from '../services/s3.service';
 
 describe('GroupsComponent', () => {
   let component: GroupsComponent;
@@ -8,7 +9,8 @@ describe('GroupsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GroupsComponent ]
+      declarations: [ GroupsComponent ],
+      providers: [ S3Service ]
     })
     .compileComponents();
   }));

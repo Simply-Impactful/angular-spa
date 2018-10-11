@@ -1,10 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
 import { Parameters} from '../services/parameters';
 import { LogInService } from '../services/log-in.service';
 import { User } from '../model/User';
 import { AWSError } from 'aws-sdk';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AppConf } from '../shared/conf/app.conf';
 
 @Component({
   selector: 'app-top-nav',
@@ -13,21 +14,25 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 
 export class AppTopNavComponent implements OnInit, LoggedInCallback {
-  title: string = 'Change Is Simple';
+  private appConf = AppConf;
+
+  title: string = this.appConf.appTitle;
   hideRightMenu: boolean = true;
   hideHome: boolean = false;
   user: User;
-  @Input() isViewAll: boolean;
+
 
   constructor(private params: Parameters, private loginService: LogInService,
-    private cognitoUtil: CognitoUtil, private route: ActivatedRoute) {}
+    private cognitoUtil: CognitoUtil, private route: ActivatedRoute
+    ) {}
 
   ngOnInit() {
     this.params.user$.subscribe(user => {
       this.user = user;
     });
 
-    if (window.location.toString().includes('landing')) {
+    if (window.location.toString().includes('landing')
+          || window.location.toString().includes('createuser')) {
       this.hideRightMenu = true;
     } else {
       this.hideRightMenu = false;
@@ -37,9 +42,6 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
     } else {
       this.hideHome = false;
     }
-    if (this.isViewAll) {
-      this.hideHome = false;
-   }
 
     this.loginService.isAuthenticated(this, this.user);
   }
@@ -49,7 +51,7 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
     const params = new Parameters();
     this.user = params.buildUser(result, cognitoUser);
     if (!this.user.picture) {
-      this.user.picture = 'https://s3.amazonaws.com/simply-impactful-image-data/default-profile-pic.png';
+      this.user.picture = this.appConf.default.userProfile;
     }
   }
     /** Interface needed for LoggedInCallback */

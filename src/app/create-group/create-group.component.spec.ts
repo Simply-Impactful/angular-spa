@@ -1,17 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { CreateGroupService } from '../services/creategroup.service';
 import { CreateGroupComponent } from './create-group.component';
-import { UploadComponent } from '../upload/upload.component';
 
 import { MaterialModule } from '../material.module';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { FormsModule } from '@angular/forms';
+import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 
 describe('CreateGroupComponent', () => {
   let component: CreateGroupComponent;
@@ -21,10 +19,8 @@ describe('CreateGroupComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         CreateGroupComponent,
-        UploadComponent
       ],
       imports: [
-        AngularFileUploaderModule,
         BrowserAnimationsModule,
         MaterialModule,
         FormsModule,
@@ -33,7 +29,7 @@ describe('CreateGroupComponent', () => {
         HttpClientTestingModule
       ],
       providers: [
-        CreateGroupService
+        LambdaInvocationService
       ]
     })
       .compileComponents();

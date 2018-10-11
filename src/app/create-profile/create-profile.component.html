@@ -3,7 +3,8 @@
   <main>
     <form>
       <img src="italladdsup/images/Avatar.png" class="bg" alt="">
-      <h2 style="padding-top: 50px;"> Create an account by completing the simple steps below:</h2>
+      <h2 style="padding-top: 50px; padding-bottom: 50px;"> Create an account by completing the simple steps below:</h2>
+
     </form>
     <div fxLayout="row">
       <div fxFlex="100">
@@ -28,7 +29,8 @@
           <mat-form-field appearance="outline">
             <mat-label>Password</mat-label>
             <input [(ngModel)]="newUser.password" type="password" matInput placeholder="Password">
-            <mat-hint>Minimum 8 characters, must contain number and special character </mat-hint>
+            <mat-hint *ngIf="!isGenericMessage">Minimum 8 characters, must contain number and special character</mat-hint>
+            <mat-hint *ngIf="isGenericMessage" style="color:red">Minimum 8 characters, must contain number and special character</mat-hint>
             <mat-hint style="color:red; margin-top:20px; margin-left:-310px; margin-bottom:20px; font-size: 85%">
                 {{passwordError}}
               </mat-hint>
@@ -68,10 +70,10 @@
 </div>
 <mat-grid-list cols="2" rowHeight="15em">
   <mat-grid-tile>
-    <app-upload></app-upload>
+    <input class ="content-inside-tile" type="file" (change)="fileEvent($event, 'environmentFact')"/>
   </mat-grid-tile>
   <mat-grid-tile>
       <button mat-raised-button color="primary" (click)="createAccount()">Create</button>
   </mat-grid-tile>
 </mat-grid-list>
-<mat-hint style="color: red; font-size: 75%">{{genericMessage}}</mat-hint>
+<!-- somewhat redundant and not user friendly <mat-hint style="color: red; font-size: 75%">{{genericMessage}}</mat-hint> -->

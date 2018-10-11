@@ -45,7 +45,7 @@ export class CreateProfileService {
             Name: 'custom:organization',
             Value: user.organization
         };
-        // TODO
+        // TODO: should this call S3Service.upload or read? or does this come with the response?
         const dataPicture = {
             Name: 'picture',
             Value: 'https://s3.amazonaws.com/simply-impactful-image-data/default-profile-pic.png'

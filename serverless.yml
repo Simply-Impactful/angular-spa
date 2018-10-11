@@ -54,6 +54,7 @@ package:
 
 resources:
   Resources:
+    # create bucket here for images
     StaticSiteSubdomain:
       Type: AWS::S3::Bucket
       Properties:

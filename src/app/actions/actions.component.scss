@@ -22,6 +22,7 @@ form {
     padding-left: 25px;
     padding-right: 25px;
     cursor: hand;
+    height: 100%;
 }img {
     margin-top:20px;
     height: 80%;
@@ -31,7 +32,12 @@ form {
 .score-box1 {
     height: 50px;
 }
-
+mat-card {
+ //   text-align: left;
+  //  align-items: left;
+  //  align-self: left;
+    align-content: left;
+}
 .card-container {
     margin: 50px;
     width: 200px;

@@ -13,7 +13,7 @@
     </mat-grid-list>
     <mat-grid-list cols="2" rowHeight="12em">
       <mat-grid-tile cols="1">
-        <app-upload></app-upload>
+        <input class ="content-inside-tile" type="file" (change)="fileEvent($event, 'environmentFact')"/>
       </mat-grid-tile>
       <mat-grid-tile cols="1">
         <div class ="text-inside-grid">

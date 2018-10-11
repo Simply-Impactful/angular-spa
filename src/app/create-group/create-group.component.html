@@ -1,8 +1,5 @@
 <app-top-nav></app-top-nav>
 <body>
-<button mat-button color="primary" style="text-align:left; margin-left:10px; width:100px;"routerLink="/home">
-  Back Home
-</button>
 </body>
 <main>
   <h2>Create a New Group</h2>
@@ -75,8 +72,8 @@
         <mat-hint>500 Characters limit</mat-hint>
       </mat-form-field>
     </mat-grid-tile>
-    <mat-grid-tile cols="1">
-      <app-upload></app-upload>
+    <mat-grid-tile cols="1" style= " background-color: rgb(247, 242, 242)">
+      <input class ="content-inside-tile" type="file" (change)="fileEvent($event, 'groupAvatar')"/>
     </mat-grid-tile>
   </mat-grid-list>
   <mat-grid-list cols="2" rowHeight="12em">
