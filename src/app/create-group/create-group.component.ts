@@ -46,6 +46,7 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
 
   toggleOption(type: string, subtype: string) {
     this.createdGroup.type = type;
+    this.createdGroup.groupSubType = subtype;
     if (type === 'Other') {
       this.isOther = true;
       this.createdGroup.type = null;
@@ -56,7 +57,8 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
 
   creategroup() {
     this.createdGroup.groupAvatar = this.groupAvatarUrl;
-
+    // trim any spaces in between
+    this.createdGroup.groupMembers = this.createdGroup.groupMembers.replace(/\s+/g, '');
     if (this.checkInputs()) {
       this.s3.uploadFile(this.groupAvatarFile, this.conf.imgFolders.groups, (err, location) => {
         if (err) {
@@ -65,11 +67,9 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
           this.createdGroup.groupAvatar = this.conf.default.groupAvatar;
         } else {
           this.createdGroup.groupAvatar = location;
-           // trim any spaces in between
-           this.createdGroup.groupMembers = this.createdGroup.groupMembers.replace(/\s+/g, '');
            this.lambdaService.createGroup(this.createdGroup, this, 'create');
            // TODO: can we do this without a window reload?
-           window.location.reload();
+         //  window.location.reload();
            this.router.navigate(['/home']);
         }
       });
@@ -79,7 +79,7 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
   checkInputs() {
     console.log('this.createdGroup.type ' + this.createdGroup.type);
     console.log('this.createdGroup.zip ' + this.createdGroup.zipcode);
-    if (!this.createdGroup.members) {
+    if (!this.createdGroup.groupMembers) {
       this.membersError = 'You must enter at least one group member. Consider adding yourself';
     } else {
       this.membersError = '';

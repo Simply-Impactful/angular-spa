@@ -6,7 +6,7 @@
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th style="color:black" mat-header-cell *matHeaderCellDef>
-        <h4>GROUP</h4>
+        <h4>GROUP NAME AND DESCRIPTION</h4>
       </th>
       <td mat-cell *matCellDef="let groups">
         <section class="container">
@@ -28,7 +28,7 @@
     <!-- Group Leader Column -->
     <ng-container matColumnDef="leader">
       <th style="color:black" mat-header-cell *matHeaderCellDef>
-        <h4>CREATED BY</h4>
+        <h4>GROUP LEADER</h4>
       </th>
       <td mat-cell *matCellDef="let groups"> {{groups.leader}} </td>
     </ng-container>

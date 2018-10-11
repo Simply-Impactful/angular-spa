@@ -313,7 +313,7 @@ export class LambdaInvocationService implements OnInit {
       username: groupData.groupLeader,
       zipCode: groupData.zipcode,
       groupType: groupData.type,
-      groupSubType: groupData.subType,
+      groupSubType: groupData.groupSubType, // different than the array for metaData
       description: groupData.description,
       groupAvatar: groupData.groupAvatar,
       members: groupData.groupMembers
