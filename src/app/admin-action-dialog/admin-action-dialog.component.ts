@@ -28,8 +28,8 @@ export class AdminActionDialogComponent implements OnInit, LoggedInCallback {
   isCreating: boolean = false;
   isEditing: boolean = false;
   displayText = 'Edit';
-  funFactImageFile: File;
-  // funFactImageFile: File;
+  imageFiles: any = {};
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Action,
     public thisDialogRef: MatDialogRef<AdminActionDialogComponent>,
@@ -48,15 +48,6 @@ export class AdminActionDialogComponent implements OnInit, LoggedInCallback {
     } else {
       this.isEditing = true;
     }
-  }
-
-  // when we upload the image, this doesn't go out to s3 right way. Or does it?
-  fileEvent(fileInput: any, imageName) {
-    this.funFactImageFile = fileInput.target.files[0];
-    console.log('file ' + JSON.stringify(this.funFactImageFile));
-    // this.s3.uploadFile(this.funFactImageFile);
-    // uploadTileIcon
-
   }
 
   // adminCreateAction is used for both 'create' and 'edit' calls
@@ -109,13 +100,20 @@ export class AdminActionDialogComponent implements OnInit, LoggedInCallback {
    */
   save(item) {
     console.log(JSON.stringify(item, null, 2));
-    this.s3.uploadFile(this.funFactImageFile, this.conf.imgFolders.actions, (err, location) => {
+    this.s3.uploadFile(this.imageFiles, this.conf.imgFolders.actions, (err, location) => {
       if (err) {
         return new Error('Was not able to create admin page: ' + err);
       }
-      item.imageUrl = location;
-      console.log('here we save the item:', item);
+      console.log('locations?', location);
+      // item.imageUrl = location;
+      // console.log('here we save the item:', item);
       // lambda invoke with entire object
     });
   }
+
+    // when we upload the image, this doesn't go out to s3 right way. Or does it?
+    fileEvent(fileInput: any, imageName) {
+      // capture the file
+      this.imageFiles[imageName] = fileInput.target.files[0];
+    }
 }
