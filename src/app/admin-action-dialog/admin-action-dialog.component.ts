@@ -11,6 +11,7 @@ import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
 import { HttpClient } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
 import { S3Service } from '../services/s3.service';
+import { AppConf } from '../shared/conf/app.conf';
 
 
 @Component({
@@ -19,7 +20,7 @@ import { S3Service } from '../services/s3.service';
   styleUrls: ['./admin-action-dialog.component.scss']
 })
 export class AdminActionDialogComponent implements OnInit, LoggedInCallback {
-
+  conf = AppConf;
   action: Action;
   http: HttpClient;
   existingActions: Action[];
@@ -54,19 +55,9 @@ export class AdminActionDialogComponent implements OnInit, LoggedInCallback {
     this.funFactImageFile = fileInput.target.files[0];
     console.log('file ' + JSON.stringify(this.funFactImageFile));
     // this.s3.uploadFile(this.funFactImageFile);
+    // uploadTileIcon
+
   }
-
-  /**
-   *
-   * @param file -
-   * @param name
-   */
-  uploadTileIcon(file: File, name) {
-    this.action[name] = file;
-
-    // this.s3.uploadFile(file);
-  }
-
 
   // adminCreateAction is used for both 'create' and 'edit' calls
   // NEED TO confirm if they are trying to create a name that already exists
@@ -112,4 +103,21 @@ export class AdminActionDialogComponent implements OnInit, LoggedInCallback {
   // response of is auth
   callbackWithParam(result: any): void { }
 
+  /**
+   * TODO: Which lambda is this invoking?
+   *
+   * @param item
+   * @returns void
+   */
+  save(item) {
+    console.log(JSON.stringify(item, null, 2));
+    this.s3.uploadFile(this.funFactImageFile, this.conf.imgFolders.actions, (err, location) => {
+      if (err) {
+        return new Error('Was not able to create admin page: ' + err);
+      }
+      item.imageUrl = location;
+      console.log('here we save the item:', item);
+      // lambda invoke with entire object
+    });
+  }
 }

@@ -9,6 +9,7 @@ import { AWSError } from 'aws-sdk/global';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { S3Service } from '../services/s3.service';
+import { AppConf } from '../shared/conf/app.conf';
 
 @Component({
   selector: 'app-create-group',
@@ -28,6 +29,7 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
   membersError: string = '';
   groupAvatarFile: any;
   groupAvatarUrl: string;
+  conf = AppConf;
 
   constructor(public lambdaService: LambdaInvocationService,
               public router: Router,
@@ -49,19 +51,27 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
 
   creategroup() {
     this.createdGroup.groupAvatar = this.groupAvatarUrl;
-    // if (this.groupAvatarFile) {
-      // this.s3.uploadFile(this.groupAvatarFile);
-      // return the location, like: Location:"https://simply-impactful-image-data.s3.amazonaws.com/images/curazao-1.jpg"
-    // }
-    if (this.createdGroup.groupMembers != null) {
-      // trim any spaces in between
-      this.createdGroup.groupMembers = this.createdGroup.groupMembers.replace(/\s+/g, '');
-      this.lambdaService.createGroup(this.createdGroup, this, 'create');
-      window.location.reload();
-      this.router.navigate(['/home']);
-    } else {
-      this.membersError = 'You must enter at least one group member. Consider adding yourself';
-    }
+
+      this.s3.uploadFile(this.groupAvatarFile, this.conf.imgFolders.groups, (err, location) => {
+        if (err) {
+          // we will allow for the creation of the item, we will just not have an image
+          console.log(err);
+          this.createdGroup.groupAvatar = null;
+        } else {
+          this.createdGroup.groupAvatar = location;
+        }
+
+        if (this.createdGroup.groupMembers != null) {
+          // trim any spaces in between
+          this.createdGroup.groupMembers = this.createdGroup.groupMembers.replace(/\s+/g, '');
+          this.lambdaService.createGroup(this.createdGroup, this, 'create');
+          // TODO: can we do this without a window reload?
+          window.location.reload();
+          this.router.navigate(['/home']);
+        } else {
+          this.membersError = 'You must enter at least one group member. Consider adding yourself';
+        }
+      });
   }
 
   isLoggedIn(message: string, loggedIn: boolean): void {}
@@ -72,7 +82,7 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
       const response = JSON.parse(result);
       this.groupsData = response.body;
       this.types = this.groupsData;
- //     console.log('groupsData ' + JSON.stringify(this.groupsData));
+      // console.log('groupsData ' + JSON.stringify(this.groupsData));
       // iterate between both arrays to pull out the subTypes which have 'N/A' specified
       for (let i = 0; i < this.groupsData.length; i++) {
         for (let j = 0; j < this.groupsData[i].subType.length; j++) {
@@ -91,13 +101,12 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
       console.log('error ' + JSON.stringify(error));
     }
   }
+
   callbackWithParam(result: any): void {}
 
   fileEvent(fileInput: any) {
     // save the image file which will be submitted later
     this.groupAvatarFile = fileInput.target.files[0];
-    // this.s3.uploadFile(this.groupAvatarFile);
-    // console.log(this.groupAvatarFile);
   }
 
 }

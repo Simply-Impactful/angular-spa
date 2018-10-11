@@ -28,14 +28,14 @@ import { AppConf } from '../shared/conf/app.conf';
 export class GroupsComponent implements OnInit, LoggedInCallback {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  private appConf = AppConf;
+  private conf = AppConf;
 
   dataSource;
   columnsToDisplay = ['name', 'leader', 'createdDate', 'totalPoints', 'zipCode', 'joinGroup'];
   groups: Group[];
   isExpanded: boolean = false;
   isCollapsed: boolean = true;
-  defaultUserPicture = this.appConf.default.userProfile;
+  defaultUserPicture = this.conf.default.userProfile;
 
   constructor(
     public lambdaService: LambdaInvocationService, public cognitoUtil: CognitoUtil) {}

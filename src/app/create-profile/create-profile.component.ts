@@ -53,21 +53,15 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
   createAccount() {
     if (this.checkInputs()) {
     // if (this.picture) {
-    //   const uploadFile = this.s3.uploadFile(this.picture, 'user');
-    //   if (uploadFile) {
-    //     uploadFile.subscribe(
-    //         (data: any) => {
-    //           this.newUser.picture = data.;
-    //           this.createProfileService.register(this.newUser, this);
-    //         },
-    //         (error: any) => {
-    //           console.log(error);
+    //   const uploadFile = this.s3.uploadFile(this.picture, this.conf.imgFolder.userProfile, (err, location) {
+      //           console.log(error);
     //           this.newUser.picture = null;
     //           this.createProfileService.register(this.newUser, this);
-    //         }
-    //     );
-    //   }
-    // }
+    //
+    //           this.newUser.picture = data.;
+    //           this.createProfileService.register(this.newUser, this);
+    // });
+
     this.createProfileService.register(this.newUser, this);
   }
 }

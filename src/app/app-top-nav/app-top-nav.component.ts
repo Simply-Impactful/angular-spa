@@ -14,13 +14,12 @@ import { AppConf } from '../shared/conf/app.conf';
 })
 
 export class AppTopNavComponent implements OnInit, LoggedInCallback {
-  private appConf = AppConf;
+  private conf = AppConf;
 
-  title: string = this.appConf.appTitle;
+  title: string = this.conf.appTitle;
   hideRightMenu: boolean = true;
   hideHome: boolean = false;
   user: User;
-
 
   constructor(private params: Parameters, private loginService: LogInService,
     private cognitoUtil: CognitoUtil, private route: ActivatedRoute
@@ -51,7 +50,7 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
     const params = new Parameters();
     this.user = params.buildUser(result, cognitoUser);
     if (!this.user.picture) {
-      this.user.picture = this.appConf.default.userProfile;
+      this.user.picture = this.conf.default.userProfile;
     }
   }
     /** Interface needed for LoggedInCallback */

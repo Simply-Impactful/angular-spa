@@ -6,5 +6,11 @@ export const AppConf: any = {
     aws: {
         lambdaVersion: '',
         s3Version: '2006-03-01'
+    },
+    imgFolders: {
+        adminLanding: 'admin',
+        groups: 'groups',
+        actions: 'actions',
+        assignments: 'assignments'
     }
 };

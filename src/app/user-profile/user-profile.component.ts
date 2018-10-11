@@ -16,7 +16,7 @@ import { AppConf } from '../shared/conf/app.conf';
   styleUrls: ['./user-profile.component.scss']
 })
 export class UserProfileComponent implements OnInit, LoggedInCallback {
-  private appConf = AppConf;
+  private conf = AppConf;
   user: User;
   isEditProfile: Boolean = false;
   isViewProfile: Boolean = true;
@@ -63,7 +63,7 @@ isLoggedIn(message: string, isLoggedIn: boolean) {
     const params = new Parameters();
     this.user = params.buildUser(result, cognitoUser);
     if (!this.user.picture) {
-      this.user.picture =  this.appConf.default.userProfile;
+      this.user.picture =  this.conf.default.userProfile;
     }
     this.lambdaService.getUserActions(this, this.user);
    }
