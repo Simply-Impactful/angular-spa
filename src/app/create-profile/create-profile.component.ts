@@ -55,6 +55,7 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
 
   createAccount() {
     if (this.checkInputs()) {
+      // TODO: should we collect the pic else where?
       // this.s3.uploadFile(this.picture, this.conf.imgFolder.userProfile, (err, location) => {
       //   if (err) {
       //     // we will allow for the creation of the item, we will just not have an image

@@ -19,7 +19,9 @@ export class AppComponent implements OnInit, LoggedInCallback {
   constructor(public loginService: LogInService) { }
 
   ngOnInit() {
-   // this.loginService.isAuthenticated(this, this.user);
+    if (this.loginService) {
+    this.loginService.isAuthenticated(this, this.user);
+    }
   }
 
   isLoggedIn(message: string, isLoggedIn: boolean) {
@@ -30,7 +32,7 @@ export class AppComponent implements OnInit, LoggedInCallback {
       },
       callbackWithParam(token: any) {
         // Include the passed-in callback here as well so that it's executed downstream
-         awsUtil.initAwsService(null, isLoggedIn, token);
+        awsUtil.initAwsService(null, isLoggedIn, token);
       }
     });
   }
@@ -40,11 +42,10 @@ export class AppComponent implements OnInit, LoggedInCallback {
 
   setAdmin() {
     this.isAdmin = true;
-    console.log('isAdmin');
   }
   callbackWithParam(result: any): void {
     // throw new Error('Method not implemented.');
-   }
+  }
 }
 
 

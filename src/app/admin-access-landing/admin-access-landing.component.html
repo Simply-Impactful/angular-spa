@@ -1,26 +1,33 @@
 <main>
-  <body class = "admin-background">
+
+  <body class="admin-background">
     <br><br>
     <mat-grid-list cols="2" rowHeight="6em">
       <mat-grid-tile cols="1">
-        <h3 align = "left" style = "padding-top:50px;font-weight: bold">Change background image or environmental fact here</h3>
+        <h3>Change background image or environmental fact here</h3>
       </mat-grid-tile>
       <mat-grid-tile cols="1">
-        <div class ="text-inside-grid">
-          <h3 style = "padding-top:50px; color: rgb(144,142,142)">Enter environmental fact</h3> 
-        </div>             
+        <div class="text-inside-grid">
+          <h3 class="right-title">Enter environmental fact</h3>
+        </div>
       </mat-grid-tile>
     </mat-grid-list>
     <mat-grid-list cols="2" rowHeight="12em">
-      <mat-grid-tile cols="1">
-        <input class ="content-inside-tile" type="file" (change)="fileEvent($event, 'environmentFact')"/>
+      <mat-grid-tile class="upload-box" cols="1">
+        <!-- <div class="upload-btn-wrapper">
+          <button class="uploadFile">Choose File</button> -->
+          <input type="file" style="padding: 15px; color: grey;" (change)="fileEvent($event)" />
+        <!-- </div> -->
       </mat-grid-tile>
       <mat-grid-tile cols="1">
-        <div class ="text-inside-grid">
+        <div class="text-inside-grid">
           <mat-form-field appearance="outline" style="width:500px; font-weight:bold">
-            <textarea [(ngModel)]="description" name="shortdescription" style ="color:black" 
-              matInput placeholder="Americans use about 500 million plastic straws each day" maxlength="500" rows="6"></textarea>
-            <mat-hint>500 Characters limit</mat-hint> 
+            <textarea [(ngModel)]="description" 
+              name="shortdescription" 
+              style="color:black" 
+              matInput placeholder="Americans use about 500 million plastic straws each day"
+              maxlength="500" rows="6"></textarea>
+            <mat-hint>500 Characters limit</mat-hint>
           </mat-form-field>
         </div>
       </mat-grid-tile>

@@ -1,4 +1,5 @@
 <app-top-nav></app-top-nav>
+
 <body>
 </body>
 <main>
@@ -25,19 +26,17 @@
     <mat-grid-tile cols="1">
       <mat-form-field appearance="outline">
         <mat-select [formControl]="groupControl" placeholder="Group Type">
-          <mat-optgroup *ngFor="let groupData of groupsData; let i = index" value="groupData.type" 
-              label="{{groupData.type}}"> 
-                <mat-option *ngFor="let subType of groupData.subType" value="subType"
-                  (click)="toggleOption(groupData.type, subType.subType)">{{subType.subType}}</mat-option>
+          <mat-optgroup *ngFor="let groupData of groupsData; let i = index" value="groupData.type" label="{{groupData.type}}">
+            <mat-option *ngFor="let subType of groupData.subType" value="subType" (click)="toggleOption(groupData.type, subType.subType)">{{subType.subType}}</mat-option>
           </mat-optgroup>
-          <mat-option *ngFor="let noSubType of noSubTypes" style="color: gray" value="noSubType" 
-              (click)="toggleOption(noSubType, null)">{{noSubType}} </mat-option>
+          <mat-option *ngFor="let noSubType of noSubTypes" style="color: gray" value="noSubType" (click)="toggleOption(noSubType, null)">{{noSubType}}
+          </mat-option>
         </mat-select>
         <mat-hint>Required</mat-hint>
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile cols="1">
-      <mat-form-field *ngIf = "isOther" appearance="outline">
+      <mat-form-field *ngIf="isOther" appearance="outline">
         <input [(ngModel)]="createdGroup.type" name="other" matInput placeholder="Please specify other group type">
         <mat-hint>Required &nbsp;</mat-hint>
         <mat-hint style="color:red; font-size: 85%">
@@ -60,30 +59,31 @@
         <mat-hint>Type member usernames separated by commas to add them to group
           <span *ngIf="membersError" style="color:red; font-size: 85%">{{membersError}}</span>
         </mat-hint>
-        
+
       </mat-form-field>
     </mat-grid-tile>
   </mat-grid-list>
   <mat-grid-list cols="2" rowHeight="20em">
     <mat-grid-tile cols="1">
       <mat-form-field appearance="outline">
-        <textarea [(ngModel)]="createdGroup.description" name="description" matInput placeholder="Short Description" maxlength="500"
-          rows="12"></textarea>
+        <textarea [(ngModel)]="createdGroup.description" name="description" matInput placeholder="Short Description"
+          maxlength="500" rows="12"></textarea>
         <mat-hint>500 Characters limit</mat-hint>
       </mat-form-field>
     </mat-grid-tile>
-    <mat-grid-tile cols="1" >
-      <label for="input-file-id" class="md-button md-raised md-primary">Choose Files</label>
-      <input class="ng-hide" class ="content-inside-tile" multiple type="file" (change)="fileEvent($event)"/>
-      <!-- <input class="ng-hide" id="input-file-id" multiple type="file" /> -->
+    <mat-grid-tile cols="1">
+      <div class="upload-btn-wrapper">
+        <button class="uploadFile">Choose File</button>
+        <input type="file" (change)="fileEvent($event)" />
+      </div>
     </mat-grid-tile>
   </mat-grid-list>
   <mat-grid-list cols="2" rowHeight="12em">
-      <mat-grid-tile cols="1">
-      </mat-grid-tile>
-      <mat-grid-tile cols="1">
-        <button mat-stroked-button color="primary" routerLink="/home">CANCEL</button>
-        <button mat-raised-button color="primary" (click)="creategroup()">CREATE</button>
-      </mat-grid-tile>
-    </mat-grid-list>  
+    <mat-grid-tile cols="1">
+    </mat-grid-tile>
+    <mat-grid-tile cols="1">
+      <button mat-stroked-button color="primary" routerLink="/home">CANCEL</button>
+      <button mat-raised-button color="primary" (click)="creategroup()">CREATE</button>
+    </mat-grid-tile>
+  </mat-grid-list>
 </main>

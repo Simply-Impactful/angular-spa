@@ -16,25 +16,29 @@ export class AdminAccessLandingComponent implements OnInit {
   description: string = '';
   imageFile: any;
   conf = AppConf;
-  item: any;
+  item: any = {};
 
   constructor(public appComp: AppComponent, private s3: S3Service) { }
 
   ngOnInit() {
+    // TODO: this is not the right place to set this. Admin is set on congito profile response
     this.appComp.setAdmin();
   }
 
   save() {
     // update stored value in database when the user clicks save
-    this.dynamicText = this.inputText;
-    this.item.dynamicText = this.inputText;
-    console.log(this.dynamicText);
+    console.log(this.description);
+    this.item.description = this.description;
+    console.log(this.description);
 
-    this.s3.uploadFile(this.imageFile, this.conf.images.adminFolderName, (err, data) => {
+    this.s3.uploadFile(this.imageFile, this.conf.imgFolders.facts, (err, location) => {
       if (err) {
-        return new Error('Was not able to create admin page: ' + err);
+        // we will allow for the creation of the item, we have a default image
+        console.log(err);
+        this.item.factUrl = this.conf.default.facts;
+      } else {
+        this.item.factUrl = location;
       }
-      this.item.imageUrl = location;
       console.log('here we save the item:', this.item);
       // lambda invoke with entire object
     });

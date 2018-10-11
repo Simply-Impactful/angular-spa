@@ -2,7 +2,8 @@ export const AppConf: any = {
     appTitle: 'It All Adds Up',
     default: {
         userProfile: 'https://s3.amazonaws.com/simply-impactful-image-data/defaults/default-profile-pic.png',
-        groupAvatar: 'https://s3.amazonaws.com/simply-impactful-image-data/defaults/groupAvatar.png'
+        groupAvatar: 'https://s3.amazonaws.com/simply-impactful-image-data/defaults/groupAvatar.png',
+        facts: 'https://s3.amazonaws.com/simply-impactful-image-data/defaults/groupAvatar.png'// TODO: replace
     },
     aws: {
         lambdaVersion: '',
@@ -12,6 +13,7 @@ export const AppConf: any = {
         adminLanding: 'admin',
         groups: 'groups',
         actions: 'actions',
-        assignments: 'assignments'
+        assignments: 'assignments',
+        facts: 'facts'
     }
 };

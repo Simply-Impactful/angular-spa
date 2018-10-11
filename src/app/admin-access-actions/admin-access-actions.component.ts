@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AppComponent } from '../app.component';
 import { Route, Router } from '@angular/router';
-import { MatTableDataSource, MatPaginator, MatButton, MatCheckbox, MatDialog} from '@angular/material';
-import { SelectionModel} from '@angular/cdk/collections';
+import { MatTableDataSource, MatPaginator, MatButton, MatCheckbox, MatDialog } from '@angular/material';
+import { SelectionModel } from '@angular/cdk/collections';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { LoggedInCallback } from '../services/cognito.service';
 import { AWSError } from 'aws-sdk';
@@ -16,28 +16,28 @@ import { AdminActionDialogComponent } from './../admin-action-dialog/admin-actio
 })
 
 export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
- actions: Action[];
- deleteActions = new Array<Action>();
- action: Action;
- displayedColumns = ['edit', 'name', 'eligiblePoints',
- 'maxFrequency', 'frequencyCadence', 'funFact', 'funFactImageUrl', 'tileIconUrl', 'carbonPoints', 'assignmentUrl', 'delete'];
- dataSource;
- selection = new SelectionModel<Action>(true, []);
- dialogResult = '';
- selectedRow = [];
- index = '';
- isDeleted: boolean = false;
+  actions: Action[];
+  deleteActions = new Array<Action>();
+  action: Action;
+  displayedColumns = ['edit', 'name', 'eligiblePoints',
+    'maxFrequency', 'frequencyCadence', 'funFact', 'funFactImageUrl', 'tileIconUrl', 'carbonPoints', 'assignmentUrl', 'delete'];
+  dataSource;
+  selection = new SelectionModel<Action>(true, []);
+  dialogResult = '';
+  selectedRow = [];
+  index = '';
+  isDeleted: boolean = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(public appComp: AppComponent, public lambdaService: LambdaInvocationService,
     public dialog: MatDialog) {
-      this.setClickedRow = function(index) {
-        this.index = index;
-        this.selectedRow.push(index);
-        console.log('this.selectedRow ' + JSON.stringify(this.selectedRow));
-      };
-    }
+    this.setClickedRow = function (index) {
+      this.index = index;
+      this.selectedRow.push(index);
+      console.log('this.selectedRow ' + JSON.stringify(this.selectedRow));
+    };
+  }
 
   ngOnInit() {
     this.appComp.setAdmin();
@@ -45,7 +45,7 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
   }
 
   // needed for the constructor method to determine which row we are displaying current action data for
-  setClickedRow(i: any) {}
+  setClickedRow(i: any) { }
 
   edit() {
     const dialogRef = this.dialog.open(AdminActionDialogComponent, {
@@ -70,8 +70,8 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     this.isAllSelected() ?
-        this.selection.clear() :
-        this.actions.forEach(row => this.selection.select(row));
+      this.selection.clear() :
+      this.actions.forEach(row => this.selection.select(row));
   }
 
   create() {
@@ -101,7 +101,7 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
     this.selectedRow = null;
   }
 
-  isLoggedIn(message: string, loggedIn: boolean): void {}
+  isLoggedIn(message: string, loggedIn: boolean): void { }
 
   // result of lambda listActions and Delete Actions API
   callbackWithParams(error: AWSError, result: any): void {
@@ -115,10 +115,10 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
       console.log('error ' + JSON.stringify(error));
     }
     if (this.isDeleted) {
-        window.location.reload();
-     }
+      window.location.reload();
+    }
   }
-  callbackWithParam(result: any): void {}
+  callbackWithParam(result: any): void { }
 }
 
 
