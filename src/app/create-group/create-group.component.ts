@@ -25,6 +25,10 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
   groupControl = new FormControl();
   noSubTypes = [];
   membersError: string = '';
+  namesError: string = '';
+  zipcodeError: string = '';
+  groupsLeaderError: string = '';
+  groupTypeError: string = '';
 
   constructor(public lambdaService: LambdaInvocationService) { }
 
@@ -50,6 +54,27 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
     } else {
       this.membersError = 'You must enter at least one group member. Consider adding yourself';
     }
+    if (this.createdGroup.name != null) {
+      console.log('group name', this.createdGroup.name);
+    } else {
+      this.namesError = 'Group name is required';
+    }
+    if (this.createdGroup.zipcode != null) {
+      console.log('they entered zipcode, let them route home');
+    } else {
+      this.zipcodeError = 'zipcode is required';
+    }
+    if (this.createdGroup.type != null) {
+      console.log('they entered group type, let them route home');
+    } else {
+      this.groupTypeError = 'Group Type is required';
+    }
+    if (this.createdGroup.groupLeader != null) {
+      console.log('they entered group Leader, let them route home');
+    } else {
+      this.groupsLeaderError = 'Group Leader username is required';
+    }
+
   }
 
   isLoggedIn(message: string, loggedIn: boolean): void {}

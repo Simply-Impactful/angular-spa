@@ -59,7 +59,7 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
       this.emailError = '';
     }
     if (!this.newUser.password) {
-      this.passwordError = 'Password must not be empty';
+      this.passwordError = 'Minimum 8 characters, must contain number and special character';
     } else {
       this.passwordError = '';
     }
