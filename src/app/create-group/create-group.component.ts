@@ -58,35 +58,33 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
       // return the location, like: Location:"https://simply-impactful-image-data.s3.amazonaws.com/images/curazao-1.jpg"
     // }
     if (this.createdGroup.groupMembers != null) {
-      // trim any spaces in between
-      this.createdGroup.groupMembers = this.createdGroup.groupMembers.replace(/\s+/g, '');
-      this.lambdaService.createGroup(this.createdGroup, this, 'create');
-      window.location.reload();
-      this.router.navigate(['/home']);
+      if (this.checkInputs()) {
+          // trim any spaces in between
+          this.createdGroup.groupMembers = this.createdGroup.groupMembers.replace(/\s+/g, '');
+          this.lambdaService.createGroup(this.createdGroup, this, 'create');
+          window.location.reload();
+          this.router.navigate(['/home']);
+      }
     } else {
       this.membersError = 'You must enter at least one group member. Consider adding yourself';
     }
-    if (this.createdGroup.name != null) {
-      console.log('group name', this.createdGroup.name);
-    } else {
+  }
+
+  checkInputs() {
+    if (!this.createdGroup.name) {
       this.namesError = 'Group name is required';
     }
-    if (this.createdGroup.zipcode != null) {
-      console.log('they entered zipcode, let them route home');
-    } else {
+    if (!this.createdGroup.zipcode) {
       this.zipcodeError = 'zipcode is required';
     }
-    if (this.createdGroup.type != null) {
-      console.log('they entered group type, let them route home');
-    } else {
+    if (!this.createdGroup.type) {
       this.groupTypeError = 'Group Type is required';
     }
-    if (this.createdGroup.groupLeader != null) {
-      console.log('they entered group Leader, let them route home');
-    } else {
+    if (!this.createdGroup.groupLeader) {
       this.groupsLeaderError = 'Group Leader username is required';
+    } else {
+      return true;
     }
-
   }
 
   isLoggedIn(message: string, loggedIn: boolean): void {}
