@@ -2,6 +2,11 @@ table {
   width: 100%;
   text-align: left;
 }
+
+th, td {
+  padding-top: 1em !important;
+  padding-bottom: 1em;
+}
 mat-icon{
   cursor: pointer;
 }
@@ -25,7 +30,6 @@ a {
 .example-element-row td {
   border-bottom-width: 0;
 }
-
 .example-element-detail {
   overflow: hidden;
   display: flex;
@@ -40,16 +44,31 @@ a {
   height: 104px;
 }
 
-.example-element-symbol {
-  font-weight: bold;
-  font-size: 40px;
-  line-height: normal;
+.headTitles {
+  font-size: 15px; 
+  padding-right:5px;
 }
 
-.example-element-description {
-  padding: 16px;
+.avatarPhoto {
+  max-height:100px;
+  max-width:100px;
+  padding-right:27px
+}
+.container {
+  display: flex;
+  width: inherit;
 }
 
-.example-element-description-attribution {
-  opacity: 0.5;
+.left {
+  float: left;
+  width: 127px;
+  position: relative;
+}
+.right {
+  float: right;
+  position: relative;
+  text-align: left;
+}
+.membersRight {
+  margin-left: 140px;
 }

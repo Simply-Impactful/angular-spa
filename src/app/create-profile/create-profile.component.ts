@@ -4,6 +4,7 @@ import { CognitoUtil, Callback, CognitoCallback } from '../services/cognito.serv
 import { CreateProfileService } from '../services/create-profile.service';
 import { User } from '../model/User';
 import { S3Service } from '../services/s3.service';
+import { AppConf } from '../shared/conf/app.conf';
 
 @Component({
   selector: 'app-create-profile',
@@ -12,6 +13,7 @@ import { S3Service } from '../services/s3.service';
 })
 export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestroy {
   newUser = new User();
+  conf = AppConf;
   errorMessage: string;
   private sub: any;
   callback: Callback;
@@ -25,6 +27,7 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
   nullZipError: string = '';
   isGenericMessage: boolean = null;
   picture: any;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -40,31 +43,32 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
       this.newUser.userType = params['userType']; // (+) converts string 'id' to a number
     });
     const currentPage = this.route.component.valueOf();
-  //  console.log(currentPage );
+    //  console.log(currentPage );
 
   }
 
   ngOnDestroy() {
     if (this.sub) {
-    this.sub.unsubscribe();
+      this.sub.unsubscribe();
     }
   }
 
   createAccount() {
     if (this.checkInputs()) {
-    // if (this.picture) {
-    //   const uploadFile = this.s3.uploadFile(this.picture, this.conf.imgFolder.userProfile, (err, location) {
-      //           console.log(error);
-    //           this.newUser.picture = null;
-    //           this.createProfileService.register(this.newUser, this);
-    //
-    //           this.newUser.picture = data.;
-    //           this.createProfileService.register(this.newUser, this);
-    // });
+      // this.s3.uploadFile(this.picture, this.conf.imgFolder.userProfile, (err, location) => {
+      //   if (err) {
+      //     // we will allow for the creation of the item, we will just not have an image
+      //     console.log(err);
+      //     this.newUser.picture = this.conf.default.userProfile;
+      //   } else {
+      //     this.newUser.picture = location;
+      //     this.createProfileService.register(this.newUser, this);
+      //   }
+      // });
 
-    this.createProfileService.register(this.newUser, this);
+      this.createProfileService.register(this.newUser, this);
+    }
   }
-}
 
   checkInputs() {
     if (!this.newUser.email) {
@@ -127,11 +131,11 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
       }
 
     } else { // success
-        // move to the next page if the user is authenticated
-        if (result.idToken.jwtToken) {
-          this.router.navigate(['/home']);
-        }
+      // move to the next page if the user is authenticated
+      if (result.idToken.jwtToken) {
+        this.router.navigate(['/home']);
       }
+    }
   }
 
   fileEvent(fileInput: any, imageName) {

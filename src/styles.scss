@@ -1,6 +1,7 @@
 
 /* You can add global styles to this file, and also import other style files */
 
+$grey-color: gray;
 @import '~@angular/material/theming';
 // Plus imports for other components in your app.
 // Include the common styles for Angular Material. We include this here so that you only
@@ -56,4 +57,10 @@ button.mat-primary.mat-raised-button {
 
 .spacer {
     flex: 1 1 auto;
+}
+.grayBg {
+    background-color: $grey-color
+}
+.grayText {
+    color: $grey-color
 }

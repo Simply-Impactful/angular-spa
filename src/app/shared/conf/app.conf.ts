@@ -1,7 +1,8 @@
 export const AppConf: any = {
     appTitle: 'It All Adds Up',
     default: {
-        userProfile: 'https://s3.amazonaws.com/simply-impactful-image-data/default-profile-pic.png'
+        userProfile: 'https://s3.amazonaws.com/simply-impactful-image-data/defaults/default-profile-pic.png',
+        groupAvatar: 'https://s3.amazonaws.com/simply-impactful-image-data/defaults/groupAvatar.png'
     },
     aws: {
         lambdaVersion: '',

@@ -75,9 +75,6 @@ export class GroupsComponent implements OnInit, LoggedInCallback {
   callbackWithParams(error: AWSError, result: any): void {
     const response = JSON.parse(result);
     this.groups = response.body;
-    for (let i = 0; i < this.groups.length; i++) {
-      this.groups[i].groupAvatar = 'https://s3.amazonaws.com/simply-impactful-image-data/StrawFactImage.jpg';
-    }
     this.dataSource = new MatTableDataSource(this.groups);
     this.dataSource.paginator = this.paginator;
 

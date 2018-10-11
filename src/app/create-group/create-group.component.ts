@@ -56,7 +56,7 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
         if (err) {
           // we will allow for the creation of the item, we will just not have an image
           console.log(err);
-          this.createdGroup.groupAvatar = null;
+          this.createdGroup.groupAvatar = this.conf.default.groupAvatar;
         } else {
           this.createdGroup.groupAvatar = location;
         }
