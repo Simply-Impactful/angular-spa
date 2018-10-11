@@ -20,7 +20,7 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
  deleteActions = new Array<Action>();
  action: Action;
  displayedColumns = ['edit', 'name', 'eligiblePoints',
- 'maxFrequency', 'frequencyCadence', 'funFact', 'funFactImageUrl', 'tileIconUrl', 'delete'];
+ 'maxFrequency', 'frequencyCadence', 'funFact', 'funFactImageUrl', 'tileIconUrl', 'carbonPoints', 'assignmentUrl', 'delete'];
  dataSource;
  selection = new SelectionModel<Action>(true, []);
  dialogResult = '';

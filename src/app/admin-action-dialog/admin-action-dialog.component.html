@@ -27,12 +27,12 @@
         </mat-grid-tile>
         <mat-grid-tile cols="1">
           <mat-form-field appearance="outline" style="margin-right:2px; width:110px">
-            <mat-select placeholder="Frequency">
-              <mat-option value="option">Per day</mat-option>
-              <mat-option value="option">Per week</mat-option>
-              <mat-option value="option">Per month</mat-option>
-              <mat-option value="option">Per year</mat-option>
-              <mat-option value="option">Per lifetime</mat-option>
+            <mat-select  [(ngModel)]="action.frequencyCadence" placeholder="Frequency">
+              <mat-option value="perDay">Per day</mat-option>
+              <mat-option value="perWeek">Per week</mat-option>
+              <mat-option value="perMonth">Per month</mat-option>
+              <mat-option value="perYear">Per year</mat-option>
+              <mat-option value="perLifetime">Per lifetime</mat-option>
             </mat-select>
             <mat-hint>Required</mat-hint>
           </mat-form-field>
@@ -42,7 +42,7 @@
       <mat-grid-list cols="1" rowHeight="6em">
         <mat-grid-tile cols="1">
           <mat-form-field appearance="outline" style="width: 450px">
-            <input matInput [(ngModel)]="action.assigmentUrl" matInput placeholder="Assignments URL">
+            <input matInput [(ngModel)]="action.assignmentUrl" matInput placeholder="Assignments URL">
             <mat-hint>500 Characters limit</mat-hint>
           </mat-form-field>
         </mat-grid-tile>

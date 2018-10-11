@@ -6,14 +6,7 @@
     <mat-toolbar-row>
       <button class="nav-logo" title="Navigate to Landing page" routerLink="/landing"></button>
       <span class="spacer"></span>
-      <!-- and a serach component -->
-      <mat-form-field *ngIf="canSearch">
-        <mat-select placeholder="Search for Groups">
-          <mat-option *ngFor="let group of searchGroups" [value]="group">
-            {{group}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+
       <button class="white-text" style = "margin-top:52.5px;" mat-button routerLink="/contactus">Contact us</button>
       <div [hidden]="hideRightMenu" class="white-text">
         <span class="spacer"></span>

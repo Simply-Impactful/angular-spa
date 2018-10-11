@@ -186,11 +186,13 @@ export class LambdaInvocationService implements OnInit {
     const JSON_BODY = {
       name: actionData.name,
       eligiblePoints: actionData.eligiblePoints,
-      funFactImageUrl: actionData.funFactImageUrl,
+      funFactImageUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/images/FossilFuelsFactsImage.jpg',
       funFact: actionData.funFact,
       maxFrequency: actionData.maxFrequency,
-      tileIconUrl: actionData.tileIconUrl,
-      frequencyCadence: actionData.frequencyCadence
+      tileIconUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Tile+icons/carpool.svg',
+      frequencyCadence: actionData.frequencyCadence // ,
+      // TODO: assignmentUrl: actionData.assignmentUrl,
+      // carbonPoints: actionData.carbonPoints
     };
 
     const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');

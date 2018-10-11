@@ -60,6 +60,21 @@
           </mat-cell>
       </ng-container>
 
+      <!-- Carbon Points column -->
+      <ng-container matColumnDef="carbonPoints">
+          <mat-header-cell *matHeaderCellDef> CARBON POINTS </mat-header-cell>
+          <mat-cell *matCellDef="let actions"> {{actions.carbonPoints}}
+            </mat-cell>
+        </ng-container>
+
+        
+      <!-- Assigments URL column -->
+      <ng-container matColumnDef="assignmentUrl">
+          <mat-header-cell *matHeaderCellDef> ASSIGNMENT URL </mat-header-cell>
+          <mat-cell *matCellDef="let actions"> {{actions.assignmentUrl}}
+            </mat-cell>
+        </ng-container>
+
       <!-- checkbox Column -->
       <ng-container matColumnDef="delete">
         <mat-header-cell *matHeaderCellDef>DELETE</mat-header-cell>
