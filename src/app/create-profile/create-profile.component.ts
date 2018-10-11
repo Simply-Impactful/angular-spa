@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CognitoUtil, Callback, CognitoCallback } from '../services/cognito.service';
 import { CreateProfileService } from '../services/create-profile.service';
 import { User } from '../model/User';
+import { S3Service } from '../services/s3.service';
 
 @Component({
   selector: 'app-create-profile',
@@ -23,12 +24,14 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
   nullNameError: string = '';
   nullZipError: string = '';
   isGenericMessage: boolean = null;
+  picture: any;
 
   constructor(
     private route: ActivatedRoute,
     public router: Router,
     public cognitoUtil: CognitoUtil,
-    public createProfileService: CreateProfileService) {
+    public createProfileService: CreateProfileService,
+    private s3: S3Service) {
     const errorMessage = this.errorMessage;
   }
 
@@ -49,9 +52,25 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
 
   createAccount() {
     if (this.checkInputs()) {
-      this.createProfileService.register(this.newUser, this);
-    }
+    // if (this.picture) {
+    //   const uploadFile = this.s3.uploadFile(this.picture, 'user');
+    //   if (uploadFile) {
+    //     uploadFile.subscribe(
+    //         (data: any) => {
+    //           this.newUser.picture = data.;
+    //           this.createProfileService.register(this.newUser, this);
+    //         },
+    //         (error: any) => {
+    //           console.log(error);
+    //           this.newUser.picture = null;
+    //           this.createProfileService.register(this.newUser, this);
+    //         }
+    //     );
+    //   }
+    // }
+    this.createProfileService.register(this.newUser, this);
   }
+}
 
   checkInputs() {
     if (!this.newUser.email) {
@@ -60,7 +79,7 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
       this.emailError = '';
     }
     if (!this.newUser.password) {
-      this.passwordError = 'Password must not be empty';
+      this.passwordError = 'Minimum 8 characters, must contain number and special character';
     } else {
       this.passwordError = '';
     }
@@ -79,6 +98,11 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
     } else {
       this.nullZipError = '';
     }
+    // when the user indicates to create account, we need to call s3 and upload the image.
+    // then save this imageUrl on this field and pass to cognito.
+    // if (this.picture) {
+    //   this.newUser.picture = this.picture;
+    // }
     if (!this.isPasswordValid()) {
       console.log('pass doesnt match');
       this.confirmPassError = 'Passwords do not match';
@@ -114,5 +138,10 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
           this.router.navigate(['/home']);
         }
       }
+  }
+
+  fileEvent(fileInput: any, imageName) {
+    // save the image file which will be submitted later
+    this.picture = fileInput.target.files[0];
   }
 }

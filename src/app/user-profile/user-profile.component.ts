@@ -7,6 +7,7 @@ import { CreateProfileService } from '../services/create-profile.service';
 import { AWSError } from 'aws-sdk';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { Router } from '@angular/router';
+import { AppConf } from '../shared/conf/app.conf';
 
 
 @Component({
@@ -15,6 +16,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./user-profile.component.scss']
 })
 export class UserProfileComponent implements OnInit, LoggedInCallback {
+  private appConf = AppConf;
   user: User;
   isEditProfile: Boolean = false;
   isViewProfile: Boolean = true;
@@ -61,7 +63,7 @@ isLoggedIn(message: string, isLoggedIn: boolean) {
     const params = new Parameters();
     this.user = params.buildUser(result, cognitoUser);
     if (!this.user.picture) {
-      this.user.picture = 'https://s3.amazonaws.com/simply-impactful-image-data/default-profile-pic.png';
+      this.user.picture =  this.appConf.default.userProfile;
     }
     this.lambdaService.getUserActions(this, this.user);
    }
@@ -78,8 +80,7 @@ isLoggedIn(message: string, isLoggedIn: boolean) {
         this.cognitoUtil.updateUserAttribute(this, key, this.updatedUser[key]);
       }
     }
-    // sets booleans back to defaults
-    // refreshes component for changes to be visible
+    // TODO: can this be done more seemlessly?
     window.location.reload();
   }
 }

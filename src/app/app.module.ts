@@ -6,11 +6,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule,
+import {
+  MatPaginatorModule,
   MatIconModule,
   MatInputModule,
   MatDialogRef,
-  MatSelectModule } from '@angular/material';
+  MatSelectModule
+} from '@angular/material';
 
 import { ActionsComponent } from './actions/actions.component';
 import { ActionComponent } from './action/action.component';
@@ -19,10 +21,9 @@ import { ActionService } from './services/action.service';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppTopNavComponent } from './app-top-nav/app-top-nav.component';
-import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { AwsUtil } from './services/aws.service';
 import { CreateProfileService } from './services/create-profile.service';
-import {GroupsComponent } from './groups/groups.component';
+import { GroupsComponent } from './groups/groups.component';
 import { CreateGroupComponent } from './create-group/create-group.component';
 import { CognitoUtil } from './services/cognito.service';
 import { CreateProfileComponent } from './create-profile/create-profile.component';
@@ -32,7 +33,6 @@ import { LogInComponent } from './log-in/log-in.component';
 import { LandingComponent } from './landing/landing.component';
 import { MaterialModule } from './material.module';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-import { UploadComponent } from './upload/upload.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { AdminTopNavComponent } from './admin-top-nav/admin-top-nav.component';
 import { AdminAccessLandingComponent } from './admin-access-landing/admin-access-landing.component';
@@ -55,7 +55,6 @@ import { MyGroupsComponent } from './my-groups/my-groups.component';
     CreateProfileComponent,
     ResetPasswordComponent,
     AppTopNavComponent,
-    UploadComponent,
     ActionsComponent,
     ActionComponent,
     GroupsComponent,
@@ -81,7 +80,6 @@ import { MyGroupsComponent } from './my-groups/my-groups.component';
     MatSelectModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AngularFileUploaderModule,
     MatTableModule,
     MatPaginatorModule,
     MatIconModule
@@ -97,6 +95,6 @@ import { MyGroupsComponent } from './my-groups/my-groups.component';
     Parameters,
     LambdaInvocationService,
     ActionService],
-    bootstrap: [AppComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

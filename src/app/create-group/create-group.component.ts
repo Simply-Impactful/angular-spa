@@ -8,6 +8,7 @@ import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { AWSError } from 'aws-sdk/global';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { S3Service } from '../services/s3.service';
 
 @Component({
   selector: 'app-create-group',
@@ -25,8 +26,16 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
   groupControl = new FormControl();
   noSubTypes = [];
   membersError: string = '';
+  namesError: string = '';
+  zipcodeError: string = '';
+  groupsLeaderError: string = '';
+  groupTypeError: string = '';
+  groupAvatarFile: any;
+  groupAvatarUrl: string;
 
-  constructor(public lambdaService: LambdaInvocationService, public router: Router) { }
+  constructor(public lambdaService: LambdaInvocationService,
+              public router: Router,
+              private s3: S3Service) { }
 
   ngOnInit() {
     this.createdGroup = new Group();
@@ -43,6 +52,11 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
   }
 
   creategroup() {
+    this.createdGroup.groupAvatar = this.groupAvatarUrl;
+    // if (this.groupAvatarFile) {
+      // this.s3.uploadFile(this.groupAvatarFile);
+      // return the location, like: Location:"https://simply-impactful-image-data.s3.amazonaws.com/images/curazao-1.jpg"
+    // }
     if (this.createdGroup.groupMembers != null) {
       // trim any spaces in between
       this.createdGroup.groupMembers = this.createdGroup.groupMembers.replace(/\s+/g, '');
@@ -52,6 +66,27 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
     } else {
       this.membersError = 'You must enter at least one group member. Consider adding yourself';
     }
+    if (this.createdGroup.name != null) {
+      console.log('group name', this.createdGroup.name);
+    } else {
+      this.namesError = 'Group name is required';
+    }
+    if (this.createdGroup.zipcode != null) {
+      console.log('they entered zipcode, let them route home');
+    } else {
+      this.zipcodeError = 'zipcode is required';
+    }
+    if (this.createdGroup.type != null) {
+      console.log('they entered group type, let them route home');
+    } else {
+      this.groupTypeError = 'Group Type is required';
+    }
+    if (this.createdGroup.groupLeader != null) {
+      console.log('they entered group Leader, let them route home');
+    } else {
+      this.groupsLeaderError = 'Group Leader username is required';
+    }
+
   }
 
   isLoggedIn(message: string, loggedIn: boolean): void {}
@@ -82,5 +117,12 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
     }
   }
   callbackWithParam(result: any): void {}
+
+  fileEvent(fileInput: any) {
+    // save the image file which will be submitted later
+    this.groupAvatarFile = fileInput.target.files[0];
+    // this.s3.uploadFile(this.groupAvatarFile);
+    // console.log(this.groupAvatarFile);
+  }
 
 }

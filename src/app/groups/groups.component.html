@@ -60,7 +60,7 @@
         <div style="margin: 15px;"*ngFor="let member of groups.members">
           <mat-card class="avatar-card" style="color:black">
               <mat-card-header>
-                <img mat-card-avatar src="https://s3.amazonaws.com/simply-impactful-image-data/default-profile-pic.png">
+                <img mat-card-avatar src="{{defaultUserPicture}}">
               </mat-card-header>
               <mat-card-subtitle>{{member.member}}</mat-card-subtitle>
             <mat-card-subtitle><strong>25 points</strong></mat-card-subtitle>

@@ -70,7 +70,7 @@
 </div>
 <mat-grid-list cols="2" rowHeight="15em">
   <mat-grid-tile>
-    <app-upload></app-upload>
+    <input class ="content-inside-tile" type="file" (change)="fileEvent($event, 'environmentFact')"/>
   </mat-grid-tile>
   <mat-grid-tile>
       <button mat-raised-button color="primary" (click)="createAccount()">Create</button>

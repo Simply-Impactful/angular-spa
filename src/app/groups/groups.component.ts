@@ -1,5 +1,5 @@
 import { User } from './../model/User';
-import { Action } from './../model/Action';
+import { Action } from '../model/Action';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { LoggedInCallback, CognitoUtil } from '../services/cognito.service';
@@ -7,6 +7,8 @@ import { AWSError } from 'aws-sdk';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { Group } from '../model/Group';
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { S3Service } from '../services/s3.service';
+import { AppConf } from '../shared/conf/app.conf';
 
 /**
  * @title Table with expandable rows
@@ -26,12 +28,14 @@ import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 export class GroupsComponent implements OnInit, LoggedInCallback {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  private appConf = AppConf;
 
   dataSource;
   columnsToDisplay = ['name', 'leader', 'createdDate', 'totalPoints', 'zipCode', 'joinGroup'];
   groups: Group[];
   isExpanded: boolean = false;
   isCollapsed: boolean = true;
+  defaultUserPicture = this.appConf.default.userProfile;
 
   constructor(
     public lambdaService: LambdaInvocationService, public cognitoUtil: CognitoUtil) {}
@@ -75,13 +79,13 @@ export class GroupsComponent implements OnInit, LoggedInCallback {
       this.groups[i].groupAvatar = 'https://s3.amazonaws.com/simply-impactful-image-data/StrawFactImage.jpg';
     }
     this.dataSource = new MatTableDataSource(this.groups);
-
     this.dataSource.paginator = this.paginator;
 
     // un-used as of now..
     this.dataSource.sort = this.sort;
 
-/**    this.dataSource.sortingDataAccessor = (item, property) => {
+    /**
+     * this.dataSource.sortingDataAccessor = (item, property) => {
 
       let newItem;
       if (item.element !== undefined) {
