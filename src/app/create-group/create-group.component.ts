@@ -46,8 +46,9 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
 
   toggleOption(type: string, subtype: string) {
     this.createdGroup.type = type;
-    if (this.createdGroup.type === 'Other') {
+    if (type === 'Other') {
       this.isOther = true;
+      this.createdGroup.type = null;
     } else {
       this.isOther = false;
     }
@@ -64,35 +65,44 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
           this.createdGroup.groupAvatar = this.conf.default.groupAvatar;
         } else {
           this.createdGroup.groupAvatar = location;
-        }
-
-        if (this.createdGroup.groupMembers != null) {
-          // trim any spaces in between
-          this.createdGroup.groupMembers = this.createdGroup.groupMembers.replace(/\s+/g, '');
-          this.lambdaService.createGroup(this.createdGroup, this, 'create');
-          // TODO: can we do this without a window reload?
-          window.location.reload();
-          this.router.navigate(['/home']);
-        } else {
-          this.membersError = 'You must enter at least one group member. Consider adding yourself';
+           // trim any spaces in between
+           this.createdGroup.groupMembers = this.createdGroup.groupMembers.replace(/\s+/g, '');
+           this.lambdaService.createGroup(this.createdGroup, this, 'create');
+           // TODO: can we do this without a window reload?
+           window.location.reload();
+           this.router.navigate(['/home']);
         }
       });
     }
   }
 
   checkInputs() {
+    console.log('this.createdGroup.type ' + this.createdGroup.type);
+    console.log('this.createdGroup.zip ' + this.createdGroup.zipcode);
+    if (!this.createdGroup.members) {
+      this.membersError = 'You must enter at least one group member. Consider adding yourself';
+    } else {
+      this.membersError = '';
+    }
     if (!this.createdGroup.name) {
       this.namesError = 'Group name is required';
+    } else {
+      this.namesError = '';
     }
     if (!this.createdGroup.zipcode) {
-      this.zipcodeError = 'zipcode is required';
+      this.zipcodeError = 'Zipcode is required';
+    } else {
+      this.zipcodeError = '';
     }
     if (!this.createdGroup.type) {
       this.groupTypeError = 'Group Type is required';
+    } else {
+      this.groupTypeError = '';
     }
     if (!this.createdGroup.groupLeader) {
       this.groupsLeaderError = 'Group Leader username is required';
     } else {
+      this.groupsLeaderError = '';
       return true;
     }
   }

@@ -74,18 +74,28 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
   checkInputs() {
     if (!this.newUser.email) {
       this.emailError = 'Email must not be empty';
+    } else {
+      this.emailError = '';
     }
     if (!this.newUser.password) {
       this.passwordError = 'Password must not be empty';
+    } else {
+      this.passwordError = '';
     }
     if (!this.newUser.username) {
       this.nullUsernameError = 'Username must not be empty';
+    } else {
+      this.nullUsernameError = '';
     }
     if (!this.newUser.name) {
       this.nullNameError = 'First Name must not be empty';
+    } else {
+      this.nullNameError = '';
     }
     if (!this.newUser.address) {
       this.nullZipError = 'Zip Code must not be empty';
+    } else {
+      this.nullZipError = '';
     }
     // when the user indicates to create account, we need to call s3 and upload the image.
     // then save this imageUrl on this field and pass to cognito.
@@ -96,6 +106,7 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
       console.log('pass doesnt match');
       this.confirmPassError = 'Passwords do not match';
     } else {
+      this.confirmPassError = '';
       return true;
     }
   }
