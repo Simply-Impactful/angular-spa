@@ -44,7 +44,7 @@ export class AdminAccessLandingComponent implements OnInit {
     });
   }
 
-  fileEvent(fileInput: any, imageName) {
+  fileEvent(fileInput: any) {
     // save the image file which will be submitted later
     this.imageFile = fileInput.target.files[0];
   }
