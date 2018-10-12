@@ -30,10 +30,11 @@
             <mat-label>Password</mat-label>
             <input [(ngModel)]="newUser.password" type="password" matInput placeholder="Password">
             <mat-hint *ngIf="!isGenericMessage">Minimum 8 characters, must contain number and special character</mat-hint>
-           <mat-hint *ngIf="isGenericMessage" style="color:red">Minimum 8 characters, must contain number and special character</mat-hint>
+            <mat-hint *ngIf="isGenericMessage" style="color:red">Minimum 8 characters, must contain number and special
+              character</mat-hint>
             <mat-hint style="color:red; margin-top:20px; margin-left:-310px; margin-bottom:20px; font-size: 85%">
-                {{passwordError}}
-              </mat-hint>
+              {{passwordError}}
+            </mat-hint>
           </mat-form-field>
         </div>
       </div>
@@ -70,10 +71,12 @@
 </div>
 <mat-grid-list cols="2" rowHeight="15em">
   <mat-grid-tile>
-    <input class ="content-inside-tile" type="file" (change)="fileEvent($event, 'environmentFact')"/>
+    <button class="upload-file">Choose File</button>
+    <input type="file" (change)="fileEvent($event)" />
+    <label class="upload-file-name" *ngIf="profilePicture">{{profilePicture.name}}</label>
   </mat-grid-tile>
   <mat-grid-tile>
-      <button mat-raised-button color="primary" (click)="createAccount()">Create</button>
+    <button mat-raised-button color="primary" (click)="createAccount()">Create</button>
   </mat-grid-tile>
 </mat-grid-list>
 <!-- somewhat redundant and not user friendly <mat-hint style="color: red; font-size: 75%">{{genericMessage}}</mat-hint> -->

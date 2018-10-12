@@ -70,7 +70,7 @@ button.mat-primary.mat-raised-button {
     display: inline-block;
 }
 
-.uploadFile {
+.upload-file {
     border: 1px solid rgba(128, 128, 128, 0.788);
     color: rgba(0, 0, 0, 0.616);
     background-color: rgba(128, 128, 128, 0.24);
@@ -79,6 +79,10 @@ button.mat-primary.mat-raised-button {
     font-size: 12px;
 }
 
+.upload-file-name {
+    display: block;
+    padding: .7em 0;
+}
 .upload-btn-wrapper input[type=file] {
     font-size: 100px;
     position: absolute;

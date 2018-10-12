@@ -13,6 +13,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { S3Service } from '../services/s3.service';
 import { AppConf } from '../shared/conf/app.conf';
 
+// export interface ImageFiles {
+
+// }
 
 @Component({
   selector: 'app-admin-action-dialog',
@@ -28,7 +31,7 @@ export class AdminActionDialogComponent implements OnInit, LoggedInCallback {
   isCreating: boolean = false;
   isEditing: boolean = false;
   displayText = 'Edit';
-  imageFiles: any = {};
+  imageFiles: any = {}; // funFactImage
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Action,
@@ -98,14 +101,16 @@ export class AdminActionDialogComponent implements OnInit, LoggedInCallback {
    * @param item
    * @returns void
    */
-  save(item) {
-    console.log(JSON.stringify(item, null, 2));
+  save(action) {
+    console.log(JSON.stringify(action, null, 2));
     // TODO: uploadFiles. Might need async series. This will not work.
-    this.s3.uploadFile(this.imageFiles, this.conf.imgFolders.actions, (err, location) => {
+    this.s3.uploadFiles(this.imageFiles, this.conf.default.action, this.conf.imgFolders.actions, (err, locations) => {
       if (err) {
         return new Error('Was not able to create admin page: ' + err);
       }
+
       console.log('locations?', location);
+      // lambda invoke save actions
     });
   }
 

@@ -37,7 +37,8 @@ export class S3Service {
     });
 
     if (!file) {
-      cb(new Error('Please specify a file name'));
+      // use default image in consuming function
+      return cb('No file specified. Skip.');
     }
 
     const _folder = folder || this.rootFolder;
@@ -51,8 +52,8 @@ export class S3Service {
 
     s3.upload(params, function (err, data) {
       if (err) {
-        console.log('There was an error uploading your file: ', err);
-        cb(new Error('There was an error uploading your file.'));
+        console.error(err);
+        return  cb(new Error('There was an error uploading your file.'));
       }
 
       const location = data.Location;
@@ -63,10 +64,24 @@ export class S3Service {
   /**
    *
    * @param { Files[]} files
-   * @param cb
+   * @param  {Function } cb - callback for hanlding
+   * @returns  { Error, Object } error from lambda or fileLocations as a {: val1, key2: val} pair.
    */
-  uploadFiles(files, cb) {
+  // this.imageFiles, this.conf.imgFolders.actions
+  uploadFiles(files, defaultImg, path, cb) {
+    const fileLocations = {};
+
     // call this function to apply async series and return a clean list of urls.
+    Object.keys(files).forEach(key => {
+      this.uploadFile(files[key], path, (err, location) => {
+        if (err) {
+          return fileLocations[key] = defaultImg;
+        }
+        fileLocations[key] = location;
+      });
+    });
+    console.log(fileLocations);
+    return fileLocations;
   }
   /**
    * Fetch content from S3. Folder do not exist in S3, so we have to be specific.

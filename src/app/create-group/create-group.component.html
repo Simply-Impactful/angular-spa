@@ -77,8 +77,9 @@
     </mat-grid-tile>
     <mat-grid-tile cols="1">
       <div class="upload-btn-wrapper">
-        <button class="uploadFile">Choose File</button>
+        <button class="upload-file">Choose File</button>
         <input type="file" (change)="fileEvent($event)" />
+        <label class="upload-file-name" *ngIf="groupAvatarFile">{{groupAvatarFile.name}}</label>
       </div>
     </mat-grid-tile>
   </mat-grid-list>

@@ -26,7 +26,7 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
   nullNameError: string = '';
   nullZipError: string = '';
   isGenericMessage: boolean = null;
-  picture: any;
+  profilePicture: any;
 
 
   constructor(
@@ -140,8 +140,8 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
     }
   }
 
-  fileEvent(fileInput: any, imageName) {
+  fileEvent(fileInput: any) {
     // save the image file which will be submitted later
-    this.picture = fileInput.target.files[0];
+    this.profilePicture = fileInput.target.files[0];
   }
 }
