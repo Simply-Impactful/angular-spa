@@ -55,7 +55,6 @@ export class S3Service {
         cb(new Error('There was an error uploading your file.'));
       }
 
-      console.log('Successfully uploaded file.', data);
       const location = data.Location;
       cb(null, location);
     });

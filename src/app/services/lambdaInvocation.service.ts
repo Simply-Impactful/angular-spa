@@ -308,7 +308,8 @@ export class LambdaInvocationService implements OnInit {
 
   // Allow Users to create/update a group
   createGroup(groupData: Group, callback: LoggedInCallback, callType: string) {
-    const JSON_BODY = {
+    // making an array now, but this needs to be updated from consuming function
+    const JSON_BODY = [{
       name: groupData.name,
       username: groupData.groupLeader,
       zipCode: groupData.zipcode,
@@ -317,7 +318,8 @@ export class LambdaInvocationService implements OnInit {
       description: groupData.description,
       groupAvatar: groupData.groupAvatar,
       members: groupData.groupMembers
-    };
+    }];
+
     const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
 
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});

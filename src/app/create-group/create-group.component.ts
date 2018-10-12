@@ -31,7 +31,7 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
   zipcodeError: string = '';
   groupsLeaderError: string = '';
   groupTypeError: string = '';
-  groupAvatarFile: any;
+  groupAvatarFile: any = {};
   groupAvatarUrl: string;
   conf = AppConf;
 
@@ -67,10 +67,10 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
           this.createdGroup.groupAvatar = this.conf.default.groupAvatar;
         } else {
           this.createdGroup.groupAvatar = location;
-           this.lambdaService.createGroup(this.createdGroup, this, 'create');
-           // TODO: can we do this without a window reload?
-         //  window.location.reload();
-           this.router.navigate(['/home']);
+          this.lambdaService.createGroup(this.createdGroup, this, 'create');
+          // TODO: can we do this without a window reload?
+          //  window.location.reload();
+          this.router.navigate(['/home']);
         }
       });
     }
