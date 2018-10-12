@@ -58,8 +58,8 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
   creategroup() {
     this.createdGroup.groupAvatar = this.groupAvatarUrl;
     // trim any spaces in between
-    this.createdGroup.groupMembers = this.createdGroup.groupMembers.replace(/\s+/g, '');
     if (this.checkInputs()) {
+      this.createdGroup.groupMembers = this.createdGroup.groupMembers.replace(/\s+/g, '');
       this.s3.uploadFile(this.groupAvatarFile, this.conf.imgFolders.groups, (err, location) => {
         if (err) {
           // we will allow for the creation of the item, we have a default image
