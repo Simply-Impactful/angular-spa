@@ -27,8 +27,6 @@ export class S3Service {
    * @returns { string } location - s3 public location of image.
    */
   public uploadFile(file: File, folder: string, cb) {
-    AWS.config.credentials =
-      new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId });
 
     const s3 = new AWS.S3({
       region: environment.region,
