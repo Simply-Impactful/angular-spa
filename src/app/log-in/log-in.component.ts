@@ -43,7 +43,7 @@ export class LogInComponent implements LoggedInCallback, OnInit {
   isLoggedIn(message: string, isLoggedIn: boolean): void {
     if (isLoggedIn) {
       // will route to home page when authenticated is true
-      // this.router.navigate(['/home']);
+       this.router.navigate(['/home']);
     } else {
        this.router.navigate(['/login']);
     }

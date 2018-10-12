@@ -7,6 +7,16 @@ th, td {
   padding-top: 1em !important;
   padding-bottom: 1em;
 }
+
+.top-performer-card{
+  width: 300px;
+  margin: 4px;
+  height: 75px;
+  display: inline-block;
+  background-color: azure;
+  text-align: left;
+}
+
 mat-icon{
   cursor: pointer;
 }

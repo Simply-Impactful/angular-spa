@@ -1,7 +1,7 @@
 export class Group {
     zipcode?: string;
     type?: string;
-    subType?: string[]; // for admin metaData
+    subType?: string[]; // for admin metaData.. change to comma separated string
     groupSubType: string; // for users to create a group, they only need 1
     description?: string;
     other?: string;

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, Input } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { Group } from '../model/Group';
 import { BehaviorSubject } from 'rxjs';
 import { User } from '../model/User';

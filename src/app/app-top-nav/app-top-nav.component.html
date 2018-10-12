@@ -4,13 +4,13 @@
   <mat-toolbar color="primary">
     <!-- top navigation with menu-->
     <mat-toolbar-row>
-      <button class="nav-logo" title="Navigate to Landing page" routerLink="/landing"></button>
+      <button class="nav-logo" title="Navigate to Home Page" routerLink="/home" (click)="toggle()"></button>
       <span class="spacer"></span>
 
       <button class="white-text" style = "margin-top:52.5px;" mat-button routerLink="/contactus">Contact us</button>
       <div [hidden]="hideRightMenu" class="white-text">
         <span class="spacer"></span>
-        <button *ngIf="!hideHome" mat-button routerLink="/home">Home</button>
+   <!--     <button *ngIf="!hideHome" mat-button routerLink="/home">Home</button> -->
       <!--<button mat-button routerLink="/contactus">Contact us</button> -->
         <mat-card style="margin-right:10px"class="avatar-card">
             <mat-card-header>
@@ -22,7 +22,7 @@
               </button>
             <mat-menu #menu="matMenu">
           <button mat-menu-item routerLink="/userprofile">My Profile</button>
-          <button mat-menu-item routerLink="/login">Logout</button>
+          <button mat-menu-item routerLink="/landing" (click)="logout()">Logout</button>
         </mat-menu>
       </div>
     </mat-toolbar-row>

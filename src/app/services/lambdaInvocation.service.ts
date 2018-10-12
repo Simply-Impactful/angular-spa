@@ -4,7 +4,7 @@ import { User } from '../model/User';
 import { MatDialog } from '@angular/material';
 import { ActionDialogComponent } from './../action-dialog/action-dialog.component';
 import * as AWS from 'aws-sdk';
-import { CognitoUtil, LoggedInCallback, Callback } from './cognito.service';
+import { CognitoUtil, Callback, LoggedInCallback } from './cognito.service';
 import { environment } from '../../environments/environment';
 import { ActionService } from './action.service';
 import { Buffer } from 'buffer';
@@ -14,9 +14,8 @@ import { CognitoUserAttribute, ICognitoUserAttributeData } from 'amazon-cognito-
 import { AWSError } from 'aws-sdk';
 import { LogInService } from '../services/log-in.service';
 import { Group } from '../model/Group';
-import { JSONP_ERR_WRONG_METHOD } from '@angular/common/http/src/jsonp';
 import { Router } from '@angular/router';
-
+import { AppConf } from '../shared/conf/app.conf';
 
 @Injectable()
 export class LambdaInvocationService implements OnInit {
@@ -26,6 +25,11 @@ export class LambdaInvocationService implements OnInit {
   apiVersion = '2015-03-31';
 
   public cognitoUtil: CognitoUtil;
+  groupsResult: any;
+  myGroups = [];
+  private conf = AppConf;
+  pointsEarned;
+  group: Group;
 
   constructor() {  }
 
@@ -109,14 +113,16 @@ export class LambdaInvocationService implements OnInit {
 
    // Records points when a user takes an action
    performAction(callback: LoggedInCallback, user: User, action: Action) {
+     // needed for create group method (to udpate group points per user)
+    this.pointsEarned = action.eligiblePoints;
     const JSON_BODY = {
-      username: user.username,
+      username: 'eahendricks6',
       actionTaken: action.name,
-      email: user.email,
-      pointsEarned: action.eligiblePoints,
-      carbonPoints: action.eligiblePoints,
+      email: 'eahendricks6@my.uri.edu',
+      pointsEarned: this.pointsEarned,
+      carbonPoints: action.carbonPoints,
       recordedFrequency: 1,
-      zipcode: user.address
+      zipcode: '02114'
     };
     const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
 
@@ -145,7 +151,9 @@ export class LambdaInvocationService implements OnInit {
         callback.callbackWithParams(error, null);
       } else {
         console.log('perform action data ' + data);
-        callback.callbackWithParams(null, data.Payload);
+   //     this.getAllGroups(this);
+         callback.callbackWithParams(null, data.Payload);
+
       }
     });
   }
@@ -280,7 +288,7 @@ export class LambdaInvocationService implements OnInit {
   }
 
      // Get all group data
-     getAllGroups(callback: LoggedInCallback) {
+     getAllGroups(callback: Callback) {
       AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
       AWS.config.region = environment.region;
       const lambda = new AWS.Lambda({region: AWS.config.region, apiVersion: '2015-03-31'});
@@ -298,17 +306,17 @@ export class LambdaInvocationService implements OnInit {
       };
      lambda.invoke(pullParams, function(error, data) {
         if (error) {
-          callback.callbackWithParams(error, null);
+          callback.cognitoCallbackWithParam(error);
         } else {
        //    console.log('ALL groups' + data.Payload);
-          callback.callbackWithParams(null, data.Payload);
+          callback.cognitoCallbackWithParam(data.Payload); // at the bottom of this class
         }
       });
     }
 
   // Allow Users to create/update a group
-  createGroup(groupData: Group, callback: LoggedInCallback, callType: string) {
-    const JSON_BODY = {
+  createGroup(groupData: any, callback: Callback) {
+    const JSON_BODY = [{
       name: groupData.name,
       username: groupData.groupLeader,
       zipCode: groupData.zipcode,
@@ -316,8 +324,25 @@ export class LambdaInvocationService implements OnInit {
       groupSubType: groupData.groupSubType, // different than the array for metaData
       description: groupData.description,
       groupAvatar: groupData.groupAvatar,
-      members: groupData.groupMembers
-    };
+      members: groupData.groupMembers,
+      pointsEarned: groupData.pointsEarned
+    }];
+    // need to do a summation of points earned with the group total points
+ /**   const JSON_BODY = [];
+    for (let i = 0; i < groupData.length; i++) {
+      JSON_BODY.push({
+        name: groupData[i].name,
+        username: groupData[i].groupLeader,
+        zipCode: groupData[i].zipcode,
+        groupType: groupData[i].type,
+        groupSubType: groupData[i].groupSubType, // different than the array for metaData
+        description: groupData[i].description,
+        groupAvatar: groupData[i].groupAvatar,
+        members: groupData[i].groupMembers,
+        pointsEarned: groupData[i].pointsEarned
+      });
+    } **/
+
     const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
 
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
@@ -341,11 +366,12 @@ export class LambdaInvocationService implements OnInit {
     lambda.invoke(putParams, function(error, data) {
       if (error) {
     //    console.log('ERROR ' + JSON.stringify(error));
-        callback.callbackWithParams(error, null);
+        callback.callbackWithParameters(error, null);
       } else {
-       //   callback.callbackWithParams(null, data.Payload);
+          callback.callbackWithParameters(null, data.Payload);
         //  window.location.reload();
       }
     });
   }
+
 }

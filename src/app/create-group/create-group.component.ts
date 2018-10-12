@@ -3,7 +3,7 @@ import { Group } from '../model/Group';
 import * as AWS from 'aws-sdk/global';
 import { environment } from '../../environments/environment';
 import { AuthenticationDetails, CognitoUserAttribute, CognitoUser, CognitoUserPool } from 'amazon-cognito-identity-js';
-import { CognitoCallback, LoggedInCallback } from '../services/cognito.service';
+import { CognitoCallback, LoggedInCallback, Callback } from '../services/cognito.service';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { AWSError } from 'aws-sdk/global';
 import { FormControl } from '@angular/forms';
@@ -16,7 +16,7 @@ import { AppConf } from '../shared/conf/app.conf';
   templateUrl: './create-group.component.html',
   styleUrls: ['./create-group.component.scss']
 })
-export class CreateGroupComponent implements OnInit, LoggedInCallback {
+export class CreateGroupComponent implements OnInit, LoggedInCallback, Callback {
 
   types = [];
   subTypes = [];
@@ -58,7 +58,8 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
   creategroup() {
     this.createdGroup.groupAvatar = this.groupAvatarUrl;
     // trim any spaces in between
-    this.createdGroup.groupMembers = this.createdGroup.groupMembers.replace(/\s+/g, '');
+ // not needed anymore divya will handle in backend
+  //  this.createdGroup.groupMembers = this.createdGroup.groupMembers.replace(/\s+/g, '');
     if (this.checkInputs()) {
       this.s3.uploadFile(this.groupAvatarFile, this.conf.imgFolders.groups, (err, location) => {
         if (err) {
@@ -67,18 +68,13 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
           this.createdGroup.groupAvatar = this.conf.default.groupAvatar;
         } else {
           this.createdGroup.groupAvatar = location;
-           this.lambdaService.createGroup(this.createdGroup, this, 'create');
-           // TODO: can we do this without a window reload?
-         //  window.location.reload();
-           this.router.navigate(['/home']);
+           this.lambdaService.createGroup(this.createdGroup, this);
         }
       });
     }
   }
 
   checkInputs() {
-    console.log('this.createdGroup.type ' + this.createdGroup.type);
-    console.log('this.createdGroup.zip ' + this.createdGroup.zipcode);
     if (!this.createdGroup.groupMembers) {
       this.membersError = 'You must enter at least one group member. Consider adding yourself';
     } else {
@@ -107,9 +103,14 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
     }
   }
 
+  fileEvent(fileInput: any) {
+    // save the image file which will be submitted later
+    this.groupAvatarFile = fileInput.target.files[0];
+  }
+
   isLoggedIn(message: string, loggedIn: boolean): void { }
 
-  // result of lambda listActions and Delete Actions API
+  // result of listGroupsMetaData - loggedInCallback interface
   callbackWithParams(error: AWSError, result: any): void {
     if (result) {
       const response = JSON.parse(result);
@@ -135,11 +136,22 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
     }
   }
 
-  callbackWithParam(result: any): void { }
+  // Response of createGroup API - Callback interface
+  cognitoCallbackWithParam(result: any) {
 
-  fileEvent(fileInput: any) {
-    // save the image file which will be submitted later
-    this.groupAvatarFile = fileInput.target.files[0];
   }
+
+  callback() {}
+
+  // response of create group API
+  callbackWithParameters(error: AWSError, result: any) {
+    // TODO: implement..
+    if (result) {
+      // TODO: can we do this without a window reload?
+      //  window.location.reload();
+      this.router.navigate(['/home']);
+  }
+  }
+  callbackWithParam(result: any): void { }
 
 }

@@ -10,19 +10,19 @@
         <mat-grid-tile cols="1">
           <mat-form-field appearance="outline" style="margin-right:0px; width:110px">
             <input matInput [(ngModel)]="action.eligiblePoints" matInput placeholder="Points">
-            <mat-hint>Required</mat-hint>
+            <mat-hint>Eligible Points*</mat-hint>
           </mat-form-field>
         </mat-grid-tile> 
         <mat-grid-tile cols="1">
           <mat-form-field appearance="outline" style="margin-right:0px; width:110px">
             <input matInput [(ngModel)]="action.maxFrequency" matInput placeholder="Limit">
-            <mat-hint>Required</mat-hint>
+            <mat-hint>Max Frequency*</mat-hint>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile cols="1">
           <mat-form-field appearance="outline" style="margin-right:0px; width:110px">
             <input matInput [(ngModel)]="action.carbonPoints" matInput placeholder="carbon Points">
-            <mat-hint>Required</mat-hint>
+            <mat-hint>Carbon Points</mat-hint>
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile cols="1">
@@ -34,7 +34,7 @@
               <mat-option value="perYear">Per year</mat-option>
               <mat-option value="perLifetime">Per lifetime</mat-option>
             </mat-select>
-            <mat-hint>Required</mat-hint>
+            <mat-hint>Cadence*</mat-hint>
           </mat-form-field>
         </mat-grid-tile>
       </mat-grid-list>
@@ -42,7 +42,8 @@
       <mat-grid-list cols="1" rowHeight="6em">
         <mat-grid-tile cols="1">
           <mat-form-field appearance="outline" style="width: 450px">
-            <input matInput [(ngModel)]="action.assignmentUrl" matInput placeholder="Assignments URL">
+            <input matInput [(ngModel)]="action.assignmentUrl" matInput placeholder="Assignment URL">
+            <mat-hint>Assignment URL</mat-hint>
             <mat-hint>500 Characters limit</mat-hint>
           </mat-form-field>
         </mat-grid-tile>
@@ -53,6 +54,7 @@
           <mat-form-field appearance="outline" style="width: 450px">
             <textarea [(ngModel)]="action.funFact" matInput placeholder="Fact" maxlength="500"
               rows="5"></textarea>
+            <mat-hint>Action Fact</mat-hint>
             <mat-hint>500 Characters limit</mat-hint>
           </mat-form-field>
         </mat-grid-tile>

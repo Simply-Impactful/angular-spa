@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AWSError } from 'aws-sdk';
 import { Group } from '../model/Group';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
-import { CognitoUtil } from '../services/cognito.service';
+import { CognitoUtil, Callback } from '../services/cognito.service';
 import { User } from '../model/User';
 import { AppConf } from '../shared/conf/app.conf';
 
@@ -11,7 +11,7 @@ import { AppConf } from '../shared/conf/app.conf';
   templateUrl: './my-groups.component.html',
   styleUrls: ['./my-groups.component.scss']
 })
-export class MyGroupsComponent implements OnInit {
+export class MyGroupsComponent implements OnInit, Callback {
 
   private conf = AppConf;
   groups = new Array<Group>();
@@ -25,10 +25,8 @@ export class MyGroupsComponent implements OnInit {
    this.lambdaService.getAllGroups(this);
   }
 
-  isLoggedIn(message: string, loggedIn: boolean): void {}
-
-  // response of lamdba list Actions API call
-  callbackWithParams(error: AWSError, result: any): void {
+  // response of getAllGroups - Callback interface
+  cognitoCallbackWithParam(result: any) {
     const filteredGroups = [];
     const response = JSON.parse(result);
     this.groups = response.body;
@@ -47,7 +45,7 @@ export class MyGroupsComponent implements OnInit {
       }
     }
   }
-
-  // response of isAuthenticated method in login service
-  callbackWithParam(result: any): void {}
+  callback() {}
+  callbackWithParam(result: any) {}
+  callbackWithParameters(error: AWSError, result: any) {}
 }

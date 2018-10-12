@@ -27,9 +27,10 @@ export class AppComponent implements OnInit, LoggedInCallback {
   isLoggedIn(message: string, isLoggedIn: boolean) {
     const cognito = new CognitoUtil();
     const awsUtil = new AwsUtil(cognito);
-    cognito.getIdToken({
-      callback() {
-      },
+   cognito.getIdToken({
+      callback() {},
+      callbackWithParameters(error: AWSError, result: any) {},
+      cognitoCallbackWithParam(result: any) {},
       callbackWithParam(token: any) {
         // Include the passed-in callback here as well so that it's executed downstream
         awsUtil.initAwsService(null, isLoggedIn, token);

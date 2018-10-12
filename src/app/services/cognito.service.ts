@@ -30,7 +30,8 @@ export interface ChallengeParameters {
 export interface Callback {
     callback(): void;
     callbackWithParam(result: any): void;
-    // callbackWithParams(error: AWSError, result: any);
+    callbackWithParameters(error: AWSError, result: any);
+    cognitoCallbackWithParam(result: any): void;
 }
 
 @Injectable()
