@@ -27,7 +27,7 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
   nullZipError: string = '';
   isGenericMessage: boolean = null;
   profilePicture: any;
-
+  focused: boolean = false;
 
   constructor(
     private route: ActivatedRoute,

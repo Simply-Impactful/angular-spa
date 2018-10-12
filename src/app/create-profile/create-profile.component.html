@@ -11,8 +11,9 @@
         <div align="center">
           <mat-form-field appearance="outline">
             <mat-label>First Name</mat-label>
-            <input [(ngModel)]="newUser.name" matInput placeholder="First Name">
-            <mat-hint style="color: red; font-size: 85%">{{nullNameError}}</mat-hint>
+            <input (focus)="focused=true" (focusout)="focused=false"
+            [(ngModel)]="newUser.name" matInput placeholder="First Name">
+            <mat-hint style="color: red; font-size: 85%" *ngIf = "!newUser.name && !focused">{{nullNameError}}</mat-hint>
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline">
@@ -22,18 +23,20 @@
           <br>
           <mat-form-field appearance="outline">
             <mat-label>Username</mat-label>
-            <input [(ngModel)]="newUser.username" matInput placeholder="Username">
-            <mat-hint style="color: red; font-size: 85%">{{nullUsernameError}}</mat-hint>
+            <input (focus)="focused=true" (focusout)="focused=false"
+            [(ngModel)]="newUser.username" matInput placeholder="Username">
+            <mat-hint style="color: red; font-size: 85%" *ngIf = "!newUser.username && !focused">{{nullUsernameError}}</mat-hint>
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline">
             <mat-label>Password</mat-label>
-            <input [(ngModel)]="newUser.password" type="password" matInput placeholder="Password">
+            <input (focus)="focused=true" (focusout)="focused=false"
+            [(ngModel)]="newUser.password" type="password" matInput placeholder="Password">
             <mat-hint *ngIf="!isGenericMessage">Minimum 8 characters, must contain number and special character</mat-hint>
             <mat-hint *ngIf="isGenericMessage" style="color:red">Minimum 8 characters, must contain number and special
-              character</mat-hint>
-            <mat-hint style="color:red; margin-top:20px; margin-left:-310px; margin-bottom:20px; font-size: 85%">
-              {{passwordError}}
+              character
+            <span style="color:red; font-size: 85%" *ngIf = "!newUser.password && !focused">
+              {{passwordError}} </span>
             </mat-hint>
           </mat-form-field>
         </div>
@@ -43,25 +46,29 @@
         <div align="center">
           <mat-form-field appearance="outline">
             <mat-label>Confirm Password</mat-label>
-            <input [(ngModel)]="confirmPassword" type="password" matInput placeholder="Confirm Password">
-            <mat-hint style="color: red; font-size: 85%">{{confirmPassError}}</mat-hint>
+            <input (focus)="focused=true" (focusout)="focused=false"
+            [(ngModel)]="confirmPassword" type="password" matInput placeholder="Confirm Password">
+            <mat-hint style="color: red; font-size: 85%"*ngIf = "confirmPassword && !focused">{{confirmPassError}}</mat-hint>
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline">
             <mat-label>Email</mat-label>
-            <input [(ngModel)]="newUser.email" matInput placeholder="Email">
-            <mat-hint style="color: red; font-size: 85%">{{emailError}}</mat-hint>
+            <input (focus)="focused=true" (focusout)="focused=false"
+            [(ngModel)]="newUser.email" matInput placeholder="Email">
+            <mat-hint style="color: red; font-size: 85%" *ngIf = "!newUser.email && !focused">{{emailError}}</mat-hint>
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline">
             <mat-label>Zip Code</mat-label>
-            <input [(ngModel)]="newUser.address" matInput placeholder="Zip Code">
-            <mat-hint style="color: red; font-size: 85%">{{nullZipError}}</mat-hint>
+            <input (focus)="focused=true" (focusout)="focused=false"
+            [(ngModel)]="newUser.address" matInput placeholder="Zip Code">
+            <mat-hint style="color: red; font-size: 85%" *ngIf = "!newUser.address && !focused">{{nullZipError}}</mat-hint>
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline">
             <mat-label>School/Company</mat-label>
-            <input [(ngModel)]="newUser.organization" matInput placeholder="School/Company">
+            <input (focus)="focused=true" (focusout)="focused=false"
+            [(ngModel)]="newUser.organization" matInput placeholder="School/Company">
             <mat-hint>Optional</mat-hint>
           </mat-form-field>
         </div>
@@ -71,7 +78,7 @@
 </div>
 <mat-grid-list cols="2" rowHeight="15em">
   <mat-grid-tile>
-    <button class="upload-file">Choose File</button>
+   <!-- <button class="upload-file">Choose File</button> -->
     <input type="file" (change)="fileEvent($event)" />
     <label class="upload-file-name" *ngIf="profilePicture">{{profilePicture.name}}</label>
   </mat-grid-tile>

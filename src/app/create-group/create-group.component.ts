@@ -34,6 +34,7 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
   groupAvatarFile: any;
   groupAvatarUrl: string;
   conf = AppConf;
+  focused: boolean = false;
 
   constructor(public lambdaService: LambdaInvocationService,
     public router: Router,
