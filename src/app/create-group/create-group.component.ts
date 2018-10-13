@@ -1,9 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Group } from '../model/Group';
-import * as AWS from 'aws-sdk/global';
-import { environment } from '../../environments/environment';
-import { AuthenticationDetails, CognitoUserAttribute, CognitoUser, CognitoUserPool } from 'amazon-cognito-identity-js';
-import { CognitoCallback, LoggedInCallback } from '../services/cognito.service';
+import { LoggedInCallback } from '../services/cognito.service';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { AWSError } from 'aws-sdk/global';
 import { FormControl } from '@angular/forms';
