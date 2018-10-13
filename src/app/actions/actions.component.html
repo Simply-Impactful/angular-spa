@@ -1,5 +1,5 @@
 <main>
-  	<mat-paginator [pageSizeOptions]="[20, 25, 30]"></mat-paginator>
+  	<mat-paginator [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
   <form>
     <mat-card *ngFor="let action of observableData | async" class="card-container" style="margin-top:20px"(click)="openDialog(action.name, action)">
       <mat-card-header style="float:right;">

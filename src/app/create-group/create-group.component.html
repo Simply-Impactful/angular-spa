@@ -8,61 +8,68 @@
   <mat-grid-list cols="2" rowHeight="6em">
     <mat-grid-tile cols="1">
       <mat-form-field appearance="outline">
-        <input [(ngModel)]="createdGroup.name" name="name" matInput placeholder="Group Name">
-        <mat-hint>Required &nbsp;</mat-hint>
-        <mat-hint style="color:red; font-size: 85%">
-          {{namesError}}
+        <input (focus)="focused=true" (focusout)="focused=false"
+        [(ngModel)]="createdGroup.name" name="name" matInput placeholder="Group Name">
+        <mat-hint>Required &nbsp;
+        <span style="color:red; font-size: 85%" *ngIf=" !createdGroup.name && !focused">
+          {{namesError}} </span>
         </mat-hint>
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile cols="1">
       <mat-form-field appearance="outline">
-        <input [(ngModel)]="createdGroup.zipcode" name="zipcode" matInput placeholder="Zip Code">
-        <mat-hint>Required &nbsp;</mat-hint>
-        <mat-hint style="color:red; font-size: 85%">
-          {{zipcodeError}}
+        <input (focus)="focused=true" (focusout)="focused=false"
+        [(ngModel)]="createdGroup.zipcode" name="zipcode" matInput placeholder="Zip Code">
+        <mat-hint>Required &nbsp;
+        <span style="color:red; font-size: 85%" *ngIf=" !createdGroup.zipcode && !focused">
+          {{zipcodeError}} </span>
         </mat-hint>
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile cols="1">
       <mat-form-field appearance="outline">
-        <mat-select [formControl]="groupControl" placeholder="Group Type">
+        <mat-select [formControl]="groupControl" placeholder="Group Type"
+        (focus)="focused=true" (focusout)="focused=false">
           <mat-optgroup *ngFor="let groupData of groupsData; let i = index" value="groupData.type" label="{{groupData.type}}">
             <mat-option *ngFor="let subType of groupData.subType" value="subType" (click)="toggleOption(groupData.type, subType.subType)">{{subType.subType}}</mat-option>
           </mat-optgroup>
           <mat-option *ngFor="let noSubType of noSubTypes" style="color: gray" value="noSubType" (click)="toggleOption(noSubType, null)">{{noSubType}}
           </mat-option>
         </mat-select>
-        <mat-hint>Required &nbsp;</mat-hint>
-        <mat-hint style="color:red; font-size: 85%">
-          {{groupTypeError}}
-        </mat-hint>
+        <mat-hint>Required &nbsp;
+        <span style="color:red; font-size: 85%">
+            {{groupTypeError}} </span>
+          </mat-hint>
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile cols="1">
       <mat-form-field *ngIf="isOther" appearance="outline">
-        <input [(ngModel)]="createdGroup.type" name="other" matInput placeholder="Please specify other group type">
-        <mat-hint>Required &nbsp;</mat-hint>
-        <mat-hint style="color:red; font-size: 85%">
-          {{groupTypeError}}
-        </mat-hint>
+        <input (focus)="focused=true" (focusout)="focused=false"
+        [(ngModel)]="createdGroup.type" name="other" matInput placeholder="Please specify other group type">
+        <mat-hint>Required &nbsp;
+        <span style="color:red; font-size: 85%" *ngIf=" !createdGroup.type && !focused">
+            {{groupTypeError}} </span>
+          </mat-hint>
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile cols="1">
       <mat-form-field appearance="outline">
-        <input [(ngModel)]="createdGroup.groupLeader" name="groupLeader" matInput placeholder="Group Leader Username">
-        <mat-hint>Required &nbsp;</mat-hint>
-        <mat-hint style="color:red; font-size: 85%">
-          {{groupsLeaderError}}
+        <input (focus)="focused=true" (focusout)="focused=false"
+        [(ngModel)]="createdGroup.groupLeader" name="groupLeader" matInput placeholder="Group Leader Username">
+        <mat-hint>Required &nbsp;
+        <span style="color:red; font-size: 85%" *ngIf=" !createdGroup.groupLeader && !focused">
+          {{groupsLeaderError}} </span>
         </mat-hint>
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile cols="2">
       <mat-form-field style="margin-bottom: 10px;" appearance="outline">
-        <input [(ngModel)]="createdGroup.groupMembers" name="groupMembers"
-          matInput placeholder="Group Members' Usernames" disabled="{{isGroupMembersDisable}}">
-        <mat-hint>Type member usernames separated by commas to add them to group
-          <span *ngIf="membersError" style="color:red; font-size: 85%">
+        <input (focus)="focused=true" (focusout)="focused=false"
+          [(ngModel)]="createdGroup.groupMembers" name="groupMembers" 
+          matInput placeholder="Group Members' Usernames"
+          disabled="{{isGroupMembersDisable}}">
+          <mat-hint>Type member usernames separated by commas to add them to group
+          <span *ngIf="!createdGroup.groupMembers && !focused " style="color:red; font-size: 85%">
             <br> {{membersError}}</span>
         </mat-hint>
       </mat-form-field>

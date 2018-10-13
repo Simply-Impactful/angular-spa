@@ -40,9 +40,10 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
   groupTypeError: string = '';
   groupAvatarFile: File;
   membersFile: File;
-  // members: string;
   isFileReader: boolean;
   isGroupMembersDisable: boolean = false;
+  groupAvatarUrl: string;
+  focused: boolean = false;
 
   constructor(public lambdaService: LambdaInvocationService,
     public router: Router,
