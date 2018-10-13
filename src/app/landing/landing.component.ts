@@ -23,12 +23,12 @@ export class LandingComponent implements OnInit {
   getFactOfDay(): Observable<any> {
     return this.http.get<any>(this.factOfTheDayUri, { responseType: 'json' }).pipe(
       map(res => {
-        this.factOfTheDayText = res.factOfTheDayText;
+        this.factOfTheDayText = (res) ? res.factOfTheDayText : this.factOfTheDayText;
       }),
       catchError(err => {
         const errMsg = (err || err.message) ? err.message : (err || {}).toString();
         return throwError(errMsg);
-    })
+      })
     );
   }
 }
