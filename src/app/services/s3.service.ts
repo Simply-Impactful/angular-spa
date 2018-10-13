@@ -107,7 +107,7 @@ export class S3Service {
     });
 
     if (!folder) {
-      cb(new Error('Please specify a folder'));
+      return cb(new Error('Please specify a folder'));
     }
 
     /* Test to ensure I can specify a resource with parameters. */
@@ -119,11 +119,13 @@ export class S3Service {
     };
 
     s3.listObjects(params, function (err, data) {
+
       if (err) {
-        cb(err);
-      } else {
-        cb(null, data);
+        return cb(err);
       }
+
+      return cb(null, data);
+
     });
   }
 }
