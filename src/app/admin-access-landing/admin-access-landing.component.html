@@ -23,18 +23,19 @@
       <mat-grid-tile cols="1">
         <div class="text-inside-grid">
           <mat-form-field appearance="outline" style="width:500px; font-weight:bold">
-            <textarea [(ngModel)]="description" 
-              name="shortdescription" 
+            <textarea [(ngModel)]="factOfTheDayText" 
+              name="factOfTheDayText" 
               style="color:black" 
-              matInput placeholder="Americans use about 500 million plastic straws each day"
-              maxlength="500" rows="6"></textarea>
-            <mat-hint>500 Characters limit</mat-hint>
+              matInput placeholder="Americans use about 120 million plastic straws each day"
+              maxlength="120" rows=""></textarea>
+            <mat-hint>120 Characters limit</mat-hint>
           </mat-form-field>
         </div>
       </mat-grid-tile>
     </mat-grid-list>
-    <mat-grid-list cols="2" rowHeight="45em">
+    <mat-grid-list cols="2" rowHeight="20em">
       <mat-grid-tile cols="1">
+        <h2 align="left" *ngIf="successMessage" style="color:red">{{successMessage}}</h2>
       </mat-grid-tile>
       <mat-grid-tile cols="1">
         <button mat-raised-button color="primary" (click)="save()">Save Changes</button>

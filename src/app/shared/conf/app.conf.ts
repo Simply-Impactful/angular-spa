@@ -4,10 +4,10 @@ export const AppConf: any = {
     appTitle: 'It All Adds Up',
     imagesBucketName: 'simply-impactful-image-data',
     default: {
-
         userProfile: 'https://s3.amazonaws.com/simply-impactful-image-data/defaults/default-profile-pic.png',
         groupAvatar: 'https://s3.amazonaws.com/simply-impactful-image-data/defaults/groupAvatar.png',
-        facts: 'https://s3.amazonaws.com/simply-impactful-image-data/defaults/groupAvatar.png'// TODO: replace
+        facts: 'https://s3.amazonaws.com/simply-impactful-image-data/defaults/groupAvatar.png', // TODO: replace
+        factOfTheDayKey: 'factOfTheDay.json'
     },
     aws: {
         region: environment.region,

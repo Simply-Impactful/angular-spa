@@ -13,34 +13,42 @@ export class AdminAccessLandingComponent implements OnInit {
   inputText: string = '';
   // grab stored value from DB
   dynamicText: string = 'Americans user 500 million plastic straws each day.';
-  description: string = '';
+  factOfTheDayText: string = '';
   imageFile: any;
   conf = AppConf;
-  item: any = {};
-
+  fact: any = {};
+  successMessage: string;
   constructor(public appComp: AppComponent, private s3: S3Service) { }
 
   ngOnInit() {
+
     // TODO: this is not the right place to set this. Admin is set on congito profile response
     this.appComp.setAdmin();
   }
 
   save() {
     // update stored value in database when the user clicks save
-    console.log(this.description);
-    this.item.description = this.description;
-    console.log(this.description);
+    this.fact.factOfTheDayText = this.factOfTheDayText.substring(0, 120);
+    this.fact.name = this.conf.default.factOfTheDayKey;
+    this.fact.type = 'application/json';
 
     this.s3.uploadFile(this.imageFile, this.conf.imgFolders.facts, (err, location) => {
       if (err) {
         // we will allow for the creation of the item, we have a default image
-        console.log(err);
-        this.item.factUrl = this.conf.default.facts;
+        console.error(err);
+        this.fact.factUrl = this.conf.default.facts;
       } else {
-        this.item.factUrl = location;
+        this.fact.factUrl = location;
       }
-      console.log('here we save the item:', this.item);
-      // lambda invoke with entire object
+      const file = JSON.stringify(this.fact);
+
+      this.s3.uploadFile(this.fact, this.conf.imgFolders.facts, (_err, _location) => {
+        if (_err) {
+          console.error(err);
+          return;
+        }
+        this.successMessage = 'Fact has been updated!';
+      });
     });
   }
 

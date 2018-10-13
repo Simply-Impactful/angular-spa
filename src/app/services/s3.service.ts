@@ -35,11 +35,12 @@ export class S3Service {
     }
 
     const _folder = folder || this.conf.imgFolders.default;
+    const body =  (file.type.match('json')) ? JSON.stringify(file) : file;
 
     const params = {
       Bucket: this.bucketName,
       Key: `${_folder}/${file.name}`,
-      Body: file,
+      Body: body,
       ACL: 'public-read'
     };
 
@@ -94,37 +95,33 @@ export class S3Service {
    * Fetch content from S3. Folder do not exist in S3, so we have to be specific.
    * This will read from public bucket only.
    *
-   * @param { string } folder - nested folder off root
+   * @param { string } key - nested folder off root
    * @param { string } fileName - specific file
    * @param { Functions } cb - Function that handles AWS results.
    */
-  listObject(folder, fileName, cb) {
-
+  listObject(key, folder, cb) {
     const s3 = new AWS.S3({
       region: this.conf.aws.region,
       apiVersion: this.conf.aws.s3Version,
       params: { Bucket: this.bucketName }
     });
 
-    if (!folder) {
-      return cb(new Error('Please specify a folder'));
+    if (!key) {
+      return cb(new Error('No key was specified'));
     }
-
-    /* Test to ensure I can specify a resource with parameters. */
 
     const params = {
       Bucket: this.bucketName,
-      Delimiter: '/',
-      Prefix: `${folder}/${fileName}`
+      Key: `${folder}/${key}`
     };
 
-    s3.listObjects(params, function (err, data) {
+    s3.getObject(params, function (err, data) {
 
       if (err) {
         return cb(err);
       }
-
-      return cb(null, data);
+      const fileData = (data.Body) ? JSON.parse(data.Body.toString()) : {};
+      return cb(null, fileData);
 
     });
   }
