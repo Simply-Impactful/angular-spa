@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Group } from '../model/Group';
 import * as AWS from 'aws-sdk/global';
 import { environment } from '../../environments/environment';
@@ -10,6 +10,10 @@ import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { S3Service } from '../services/s3.service';
 import { AppConf } from '../shared/conf/app.conf';
+import { WindowWrapper } from './../shared/window.mock';
+
+// i don't understand why this has to be outside the class.
+let members;
 
 @Component({
   selector: 'app-create-group',
@@ -17,31 +21,46 @@ import { AppConf } from '../shared/conf/app.conf';
   styleUrls: ['./create-group.component.scss']
 })
 export class CreateGroupComponent implements OnInit, LoggedInCallback {
+  FILES = {
+    membersFile: 'membersFile',
+    groupAvatarFile: 'groupAvatarFile'
+  };
+
+  groupsData = new Array<Group>();
+  groupControl = new FormControl();
+  conf = AppConf;
 
   types = [];
   subTypes = [];
-  groupsData = new Array<Group>();
   createdGroup: Group;
   i: number = 0;
   isOther: boolean = false;
-  groupControl = new FormControl();
   noSubTypes = [];
   membersError: string = '';
   namesError: string = '';
   zipcodeError: string = '';
   groupsLeaderError: string = '';
   groupTypeError: string = '';
-  groupAvatarFile: any;
-  groupAvatarUrl: string;
-  conf = AppConf;
+  groupAvatarFile: File;
+  membersFile: File;
+  // members: string;
+  isFileReader: boolean;
+  isGroupMembersDisable: boolean = false;
 
   constructor(public lambdaService: LambdaInvocationService,
     public router: Router,
-    private s3: S3Service) { }
+    private s3: S3Service,
+    @Inject(WindowWrapper) private _window: WindowWrapper) { }
 
   ngOnInit() {
     this.createdGroup = new Group();
     this.lambdaService.listGroupsMetaData(this);
+
+    if ((<any>this._window).FileReader) {
+      this.isFileReader = true;
+    } else {
+      this.isFileReader = false;
+    }
   }
 
   toggleOption(type: string, subtype: string) {
@@ -56,30 +75,29 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
   }
 
   creategroup() {
-    this.createdGroup.groupAvatar = this.groupAvatarUrl;
     // trim any spaces in between
     if (this.checkInputs()) {
       // TODO: wouldn't this cause an issue if they input 2 names?
-      this.createdGroup.groupMembers = this.createdGroup.groupMembers.replace(/\s+/g, '');
+      this.createdGroup.groupMembers = this.extractMembers(this.createdGroup.groupMembers);
       this.s3.uploadFile(this.groupAvatarFile, this.conf.imgFolders.groups, (err, location) => {
         if (err) {
           // we will allow for the creation of the item, we have a default image
           console.log(err);
           this.createdGroup.groupAvatar = this.conf.default.groupAvatar;
-        } else {
-          this.createdGroup.groupAvatar = location;
-          // EXPECTS an array
-          this.lambdaService.createGroup(this.createdGroup, this, 'create');
-          // TODO: can we do this without a window reload?
-          //  window.location.reload();
-          this.router.navigate(['/home']);
         }
+        this.createdGroup.groupAvatar = location;
+
+        // EXPECTS an array
+        this.lambdaService.createGroup(this.createdGroup, this, 'create');
+        // TODO: can we do this without a window reload?
+        //  window.location.reload();
+        this.router.navigate(['/home']);
       });
     }
   }
 
   checkInputs() {
-    if (!this.createdGroup.groupMembers) {
+    if (!this.createdGroup.groupMembers && !members) {
       this.membersError = 'You must enter at least one group member. Consider adding yourself';
     } else {
       this.membersError = '';
@@ -137,11 +155,43 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback {
 
   callbackWithParam(result: any): void { }
 
-  fileEvent(fileInput: any) {
-    console.log(fileInput);
+  fileEvent(fileInput: any, fileName: string) {
+    this[fileName] = fileInput.target.files[0];
+    if (this[fileName] && fileName === this.FILES.membersFile) {
+      this.getAsText(fileInput.target.files[0]);
+      this.isGroupMembersDisable = true;
+    } else if (!this[fileName] && this.isGroupMembersDisable) {
+      this.isGroupMembersDisable = false;
+    }
+  }
 
-    // save the image file which will be submitted later
-    this.groupAvatarFile = fileInput.target.files[0];
+  getAsText(file: any) {
+    const reader = new FileReader();
+    // Read file into memory as UTF-8
+    reader.readAsText(file);
+    // Handle errors load
+    reader.onload = this.loadHandler;
+    reader.onerror = this.errorHandler;
+  }
+
+  loadHandler(event) {
+    members = event.target.result;
+  }
+
+  errorHandler(evt) {
+    if (evt.target.error.name === 'NotReadableError') {
+      alert('Cannot read file !');
+    }
+  }
+
+  extractMembers(input) {
+    if (members) {
+      return members;
+    } else {
+      // replace mutiple spaces, then mutiple add commas, then remove duplicate commas
+      return (input) ? input.replace(/\s+/g, ' ').replace(/\s/g, ',').replace(/\,+/g, ',') : '';
+    }
   }
 
 }
+

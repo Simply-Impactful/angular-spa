@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { WindowWrapper, GetWindow } from './shared/window.mock';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -89,6 +90,7 @@ import { MyGroupsComponent } from './my-groups/my-groups.component';
     AdminActionDialogComponent
   ],
   providers: [
+    { provide: WindowWrapper, useFactory: GetWindow},
     CognitoUtil,
     AwsUtil,
     CreateProfileService,

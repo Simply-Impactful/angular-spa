@@ -71,9 +71,11 @@
 </div>
 <mat-grid-list cols="2" rowHeight="15em">
   <mat-grid-tile>
-    <button class="upload-file">Choose File</button>
-    <input type="file" (change)="fileEvent($event)" />
-    <label class="upload-file-name" *ngIf="profilePicture">{{profilePicture.name}}</label>
+    <div class="upload-btn-wrapper">
+      <button class="upload-file">Choose Profile Photo/Avatar</button>
+      <input type="file" accept="image/*" (change)="fileEvent($event)" />
+      <label class="upload-file-name" *ngIf="profilePicture">{{profilePicture.name}}</label>
+    </div>
   </mat-grid-tile>
   <mat-grid-tile>
     <button mat-raised-button color="primary" (click)="createAccount()">Create</button>

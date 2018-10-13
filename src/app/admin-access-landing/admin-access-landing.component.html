@@ -15,8 +15,8 @@
     <mat-grid-list cols="2" rowHeight="12em">
       <mat-grid-tile class="upload-box" cols="1">
         <div class="upload-btn-wrapper">
-          <button class="upload-file">Choose File</button>
-          <input type="file" (change)="fileEvent($event)" />
+          <button class="upload-file">Choose Fact Image</button>
+          <input type="file" accept="image/*" (change)="fileEvent($event)" />
           <label class="upload-file-name" *ngIf="imageFile">{{imageFile.name}}</label>
         </div>
       </mat-grid-tile>
