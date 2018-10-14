@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { FormsModule } from '@angular/forms';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
+import { WindowWrapper } from './../shared/window.mock';
 
 describe('CreateGroupComponent', () => {
   let component: CreateGroupComponent;
@@ -29,7 +30,8 @@ describe('CreateGroupComponent', () => {
         HttpClientTestingModule
       ],
       providers: [
-        LambdaInvocationService
+        LambdaInvocationService,
+        WindowWrapper
       ]
     })
       .compileComponents();

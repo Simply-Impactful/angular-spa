@@ -11,12 +11,20 @@ import { Router } from '@angular/router';
 import { S3Service } from '../services/s3.service';
 import { AppConf } from '../shared/conf/app.conf';
 
+let members;
+
 @Component({
   selector: 'app-create-group',
   templateUrl: './create-group.component.html',
   styleUrls: ['./create-group.component.scss']
 })
 export class CreateGroupComponent implements OnInit, LoggedInCallback, Callback {
+
+  FILES = {
+    membersFile: 'membersFile',
+    groupAvatarFile: 'groupAvatarFile'
+  };
+
 
   types = [];
   subTypes = [];
@@ -35,6 +43,9 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback, Callback 
   groupAvatarUrl: string;
   conf = AppConf;
   focused: boolean = false;
+  membersFile: File;
+  isFileReader: boolean;
+  isGroupMembersDisable: boolean = false;
 
   constructor(public lambdaService: LambdaInvocationService,
     public router: Router,
@@ -71,7 +82,9 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback, Callback 
           this.createdGroup.groupAvatar = this.conf.default.groupAvatar;
         } else {
           this.createdGroup.groupAvatar = location;
-          this.lambdaService.createGroup(this.createdGroup, this);
+           this.lambdaService.createGroup(this.createdGroup, this);
+          // EXPECTS an array
+          // TODO: can we do this without a window reload?
           //  window.location.reload();
           this.router.navigate(['/home']);
         }
@@ -108,11 +121,6 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback, Callback 
     }
   }
 
-  fileEvent(fileInput: any) {
-    // save the image file which will be submitted later
-    this.groupAvatarFile = fileInput.target.files[0];
-  }
-
   isLoggedIn(message: string, loggedIn: boolean): void { }
 
   // result of listGroupsMetaData - loggedInCallback interface
@@ -143,6 +151,44 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback, Callback 
 
   // Response of createGroup API - Callback interface
   cognitoCallbackWithParam(result: any) {}
+
+  fileEvent(fileInput: any, fileName: string) {
+    this[fileName] = fileInput.target.files[0];
+    if (this[fileName] && fileName === this.FILES.membersFile) {
+      this.getAsText(fileInput.target.files[0]);
+      this.isGroupMembersDisable = true;
+    } else if (!this[fileName] && this.isGroupMembersDisable) {
+      this.isGroupMembersDisable = false;
+    }
+  }
+
+  getAsText(file: any) {
+    const reader = new FileReader();
+    // Read file into memory as UTF-8
+    reader.readAsText(file);
+    // Handle errors load
+    reader.onload = this.loadHandler;
+    reader.onerror = this.errorHandler;
+  }
+
+  loadHandler(event) {
+    members = event.target.result;
+  }
+
+  errorHandler(evt) {
+    if (evt.target.error.name === 'NotReadableError') {
+      alert('Cannot read file !');
+    }
+  }
+
+  extractMembers(input) {
+    if (members) {
+      return members;
+    } else {
+      // replace mutiple spaces, then mutiple add commas, then remove duplicate commas
+      return (input) ? input.replace(/\s+/g, ' ').replace(/\s/g, ',').replace(/\,+/g, ',') : '';
+    }
+  }
 
   callback() {}
 

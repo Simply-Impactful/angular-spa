@@ -116,13 +116,13 @@ export class LambdaInvocationService implements OnInit {
      // needed for create group method (to udpate group points per user)
     this.pointsEarned = action.eligiblePoints;
     const JSON_BODY = {
-      username: 'eahendricks6',
+      username: user.username,
       actionTaken: action.name,
-      email: 'eahendricks6@my.uri.edu',
+      email: user.email,
       pointsEarned: this.pointsEarned,
       carbonPoints: action.carbonPoints,
       recordedFrequency: 1,
-      zipcode: '02114'
+      zipcode: user.address
     };
     const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
 
@@ -151,7 +151,6 @@ export class LambdaInvocationService implements OnInit {
         callback.callbackWithParams(error, null);
       } else {
         console.log('perform action data ' + data);
-   //     this.getAllGroups(this);
          callback.callbackWithParams(null, data.Payload);
 
       }

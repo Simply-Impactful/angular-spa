@@ -58,9 +58,9 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
   // response from Perform Action API
   callbackWithParams(error: AWSError, result: any): void {
     if (result) {
-     // window.reload();
+      window.location.reload();
      // response goes to cognitoCallbackWithParam below - line 74
-     this.lambdaService.getAllGroups(this);
+   // TODO: Implemente  this.lambdaService.getAllGroups(this);
    }
   }
 
@@ -76,8 +76,6 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
     const response = JSON.parse(result);
     this.groupsResult = response.body;
     const username = this.cognitoUtil.getCurrentUser().getUsername();
-    console.log('username ' + username);
- //   const username = 'eahendricks6';
     const params = [];
     // display only groups the logged in user is a member of
     for (let i = 0; i < this.groupsResult.length; i++) {
@@ -108,7 +106,7 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
     console.log('params ' + JSON.stringify(params));
     if (params.length > 0) {
       console.log('calling create gorup');
-     // this.lambdaService.createGroup(params, this);
+     // TODO: implement this.lambdaService.createGroup(params, this);
     }
    }
 

@@ -4,6 +4,7 @@
 </body>
 <main >
   <h2>Create a New Group</h2>
+
   <mat-grid-list cols="2" rowHeight="6em">
     <mat-grid-tile cols="1">
       <mat-form-field appearance="outline">
@@ -61,16 +62,28 @@
         </mat-hint>
       </mat-form-field>
     </mat-grid-tile>
-    <mat-grid-tile cols="1">
+    <mat-grid-tile cols="2">
       <mat-form-field style="margin-bottom: 10px;" appearance="outline">
         <input (focus)="focused=true" (focusout)="focused=false"
-        [(ngModel)]="createdGroup.groupMembers" name="groupMembers" matInput placeholder="Group Members' Usernames">
-        <mat-hint>Type member usernames separated by commas to add them to group
+          [(ngModel)]="createdGroup.groupMembers" name="groupMembers" 
+          matInput placeholder="Group Members' Usernames"
+          disabled="{{isGroupMembersDisable}}">
+          <mat-hint>Type member usernames separated by commas to add them to group
           <span *ngIf="!createdGroup.groupMembers && !focused " style="color:red; font-size: 85%">
             <br> {{membersError}}</span>
         </mat-hint>
-
       </mat-form-field>
+    </mat-grid-tile>
+  </mat-grid-list>
+  <mat-grid-list cols="2" rowHeight="3em">
+    <mat-grid-tile cols="1">
+    </mat-grid-tile>
+    <mat-grid-tile cols="1">
+      <div *ngIf="isFileReader" class="upload-btn-wrapper">
+        <button class="upload-file">Choose CSV File</button>
+        <input type="file" accept=".csv,.txt" (change)="fileEvent($event, FILES.membersFile)" />
+        <label class="upload-file-name" *ngIf="membersFile">{{membersFile.name}}</label>
+      </div>
     </mat-grid-tile>
   </mat-grid-list>
   <mat-grid-list cols="2" rowHeight="20em">
@@ -83,8 +96,8 @@
     </mat-grid-tile>
     <mat-grid-tile cols="1">
       <div class="upload-btn-wrapper">
-        <button class="upload-file">Choose File</button>
-        <input type="file" (change)="fileEvent($event)" />
+        <button class="upload-file">Choose Group Avatar</button>
+        <input type="file" accept="image/*" (change)="fileEvent($event, FILES.groupAvatarFile)" />
         <label class="upload-file-name" *ngIf="groupAvatarFile">{{groupAvatarFile.name}}</label>
       </div>
     </mat-grid-tile>

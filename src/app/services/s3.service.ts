@@ -1,21 +1,17 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
-import { CognitoUtil } from './cognito.service';
+import { AppConf } from '../shared/conf/app.conf';
 import * as AWS from 'aws-sdk';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class S3Service {
-  // TODO: put these in a single
-  rootFolder = 'images';
-  region = environment.region;
-  apiVersion = '2006-03-01';
+  conf = AppConf;
   bucketName: string;
 
-  public cognitoUtil: CognitoUtil;
   constructor() {
-    this.bucketName = 'simply-impactful-image-data';
+    this.bucketName = this.conf.imagesBucketName;
   }
 
   /**
@@ -27,10 +23,9 @@ export class S3Service {
    * @returns { string } location - s3 public location of image.
    */
   public uploadFile(file: File, folder: string, cb) {
-
     const s3 = new AWS.S3({
-      region: environment.region,
-      apiVersion: '2006-03-01',
+      region: this.conf.aws.region,
+      apiVersion: this.conf.aws.s3Version,
       params: { Bucket: this.bucketName }
     });
 
@@ -39,23 +34,25 @@ export class S3Service {
       return cb('No file specified. Skip.');
     }
 
-    const _folder = folder || this.rootFolder;
+    const _folder = folder || this.conf.imgFolders.default;
+    const body =  (file.type.match('json')) ? JSON.stringify(file) : file;
 
     const params = {
       Bucket: this.bucketName,
       Key: `${_folder}/${file.name}`,
-      Body: file,
+      Body: body,
       ACL: 'public-read'
     };
 
     s3.upload(params, function (err, data) {
       if (err) {
         console.error(err);
-        return  cb(new Error('There was an error uploading your file.'));
+        return cb(new Error('There was an error uploading your file.'));
       }
 
       const location = data.Location;
-      cb(null, location);
+
+      return cb(null, location);
     });
   }
 
@@ -67,56 +64,65 @@ export class S3Service {
    */
   // this.imageFiles, this.conf.imgFolders.actions
   uploadFiles(files, defaultImg, path, cb) {
+
+    if (!files) {
+      // use default image in consuming function
+      return cb('No files specified. Skip.');
+    }
+
     const fileLocations = {};
+    const length = Object.keys(files).length;
 
     // call this function to apply async series and return a clean list of urls.
-    Object.keys(files).forEach(key => {
+    Object.keys(files).forEach((key, index, array) => {
       this.uploadFile(files[key], path, (err, location) => {
+
         if (err) {
           return fileLocations[key] = defaultImg;
         }
+
         fileLocations[key] = location;
+
+        // watch out for infinite loops
+        if (length === array.length ) {
+          return fileLocations;
+        }
       });
     });
-    console.log(fileLocations);
-    return fileLocations;
+
   }
   /**
    * Fetch content from S3. Folder do not exist in S3, so we have to be specific.
    * This will read from public bucket only.
    *
-   * @param { string } folder - nested folder off root
+   * @param { string } key - nested folder off root
    * @param { string } fileName - specific file
    * @param { Functions } cb - Function that handles AWS results.
    */
-  listObject(folder, fileName, cb) {
-    AWS.config.credentials =
-      new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId });
-
+  listObject(key, folder, cb) {
     const s3 = new AWS.S3({
-      region: environment.region,
-      apiVersion: '2006-03-01',
+      region: this.conf.aws.region,
+      apiVersion: this.conf.aws.s3Version,
       params: { Bucket: this.bucketName }
     });
 
-    if (!folder) {
-      cb(new Error('Please specify a folder'));
+    if (!key) {
+      return cb(new Error('No key was specified'));
     }
-
-    /* Test to ensure I can specify a resource with parameters. */
 
     const params = {
       Bucket: this.bucketName,
-      Delimiter: '/',
-      Prefix: `${folder}/${fileName}`
+      Key: `${folder}/${key}`
     };
 
-    s3.listObjects(params, function (err, data) {
+    s3.getObject(params, function (err, data) {
+
       if (err) {
-        cb(err);
-      } else {
-        cb(null, data);
+        return cb(err);
       }
+      const fileData = (data.Body) ? JSON.parse(data.Body.toString()) : {};
+      return cb(null, fileData);
+
     });
   }
 }

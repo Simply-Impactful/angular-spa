@@ -78,11 +78,11 @@ button.mat-primary.mat-raised-button {
     border-radius: 6px;
     font-size: 12px;
 }
-
 .upload-file-name {
-    display: block;
-    padding: .7em 0;
+    //display: block;
+    padding: 0 .7em;
 }
+
 .upload-btn-wrapper input[type=file] {
     font-size: 100px;
     position: absolute;

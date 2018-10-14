@@ -69,15 +69,17 @@
     <mat-grid-list cols="2" rowHeight="3em">
       <mat-grid-tile cols="1" style=" background-color: rgb(247, 242, 242)">
         <div class="upload-btn-wrapper">
-          <button class="upload-file">Choose File</button>
-          <input class="content-inside-tile" type="file" (change)="fileEvent($event, 'funFactImage')" />
-          <label class="upload-file-name" *ngIf="imageFiles.funFactImage">{{imageFiles.funFactImage.name}}</label>
-        </div>
+            <button class="upload-file">Choose funFactImage</button>
+            <input class="content-inside-tile" accept="image/*" type="file" (change)="fileEvent($event, 'funFactImage')" />
+            <label class="upload-file-name" *ngIf="imageFiles.funFactImage">{{imageFiles.funFactImage.name}}</label>
+          </div>
       </mat-grid-tile>
       <mat-grid-tile cols="1" style="background-color: rgb(247, 242, 242)">
-        <button class="upload-file">Choose File</button>
-        <input class="content-inside-tile" type="file" (change)="fileEvent($event, 'tileIcon')" />
-        <label class="upload-file-name" *ngIf="imageFiles.tileIcon">{{imageFiles.tileIcon.name}}</label>
+        <div class="upload-btn-wrapper">
+          <button class="upload-file">Choose File</button>
+          <input class="content-inside-tile" accept="image/*" type="file" (change)="fileEvent($event, 'tileIcon')" />
+          <label class="upload-file-name" *ngIf="imageFiles.tileIcon">{{imageFiles.tileIcon.name}}</label>
+        </div>
       </mat-grid-tile>
     </mat-grid-list>
   </mat-dialog-content>

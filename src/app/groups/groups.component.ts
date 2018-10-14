@@ -31,7 +31,7 @@ export class GroupsComponent implements OnInit, LoggedInCallback, Callback {
   private conf = AppConf;
 
   dataSource;
-  columnsToDisplay = ['name', 'leader', 'createdDate', 'totalPoints', 'zipCode', 'joinGroup', 'deleteGroup'];
+  columnsToDisplay = ['name', 'leader', 'createdDate', 'totalPoints', 'zipCode', 'joinGroup'];
   groups: Group[];
   isExpanded: boolean = false;
   isCollapsed: boolean = true;
