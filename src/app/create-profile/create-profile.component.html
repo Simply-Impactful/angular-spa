@@ -1,15 +1,19 @@
+<app-top-nav></app-top-nav>
 <div class="create-profile-container">
   <main>
     <form>
       <img src="italladdsup/images/Avatar.png" class="bg" alt="">
-      <h2 style="padding-top: 50px;"> Create an account by completing the simple steps below:</h2>
+      <h2 style="padding-top: 50px; padding-bottom: 50px;"> Create an account by completing the simple steps below:</h2>
+
     </form>
     <div fxLayout="row">
       <div fxFlex="100">
         <div align="center">
           <mat-form-field appearance="outline">
             <mat-label>First Name</mat-label>
-            <input [(ngModel)]="newUser.name" matInput placeholder="First Name">
+            <input (focus)="focused=true" (focusout)="focused=false"
+            [(ngModel)]="newUser.name" matInput placeholder="First Name">
+            <mat-hint style="color: red; font-size: 85%" *ngIf = "!newUser.name && !focused">{{nullNameError}}</mat-hint>
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline">
@@ -19,13 +23,21 @@
           <br>
           <mat-form-field appearance="outline">
             <mat-label>Username</mat-label>
-            <input [(ngModel)]="newUser.username" matInput placeholder="Username">
+            <input (focus)="focused=true" (focusout)="focused=false"
+            [(ngModel)]="newUser.username" matInput placeholder="Username">
+            <mat-hint style="color: red; font-size: 85%" *ngIf = "!newUser.username && !focused">{{nullUsernameError}}</mat-hint>
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline">
             <mat-label>Password</mat-label>
-            <input [(ngModel)]="newUser.password" type="password" matInput placeholder="Password">
-            <mat-hint>Minimum 8 characters, must contain number and special character </mat-hint>
+            <input (focus)="focused=true" (focusout)="focused=false"
+            [(ngModel)]="newUser.password" type="password" matInput placeholder="Password">
+            <mat-hint *ngIf="!isGenericMessage">Minimum 8 characters, must contain number and special character</mat-hint>
+            <mat-hint *ngIf="isGenericMessage" style="color:red">Minimum 8 characters, must contain number and special
+              character
+            <span style="color:red; font-size: 85%" *ngIf = "!newUser.password && !focused">
+              {{passwordError}} </span>
+            </mat-hint>
           </mat-form-field>
         </div>
       </div>
@@ -34,70 +46,30 @@
         <div align="center">
           <mat-form-field appearance="outline">
             <mat-label>Confirm Password</mat-label>
-            <input [(ngModel)]="confirmPassword" type="password" matInput placeholder="Confirm Password">
-            <mat-hint style="color: red; font-size: 85%">{{errorMessage}}</mat-hint>
+            <input (focus)="focused=true" (focusout)="focused=false"
+            [(ngModel)]="confirmPassword" type="password" matInput placeholder="Confirm Password">
+            <mat-hint style="color: red; font-size: 85%"*ngIf = "confirmPassword && !focused">{{confirmPassError}}</mat-hint>
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline">
             <mat-label>Email</mat-label>
-            <input [(ngModel)]="newUser.email" matInput placeholder="Email">
+            <input (focus)="focused=true" (focusout)="focused=false"
+            [(ngModel)]="newUser.email" matInput placeholder="Email">
+            <mat-hint style="color: red; font-size: 85%" *ngIf = "!newUser.email && !focused">{{emailError}}</mat-hint>
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline">
             <mat-label>Zip Code</mat-label>
-            <input [(ngModel)]="newUser.address" matInput placeholder="Zip Code">
+            <input (focus)="focused=true" (focusout)="focused=false"
+            [(ngModel)]="newUser.address" matInput placeholder="Zip Code">
+            <mat-hint style="color: red; font-size: 85%" *ngIf = "!newUser.address && !focused">{{nullZipError}}</mat-hint>
           </mat-form-field>
           <br>
           <mat-form-field appearance="outline">
             <mat-label>School/Company</mat-label>
-            <input [(ngModel)]="newUser.organization" matInput placeholder="School/Company">
+            <input (focus)="focused=true" (focusout)="focused=false"
+            [(ngModel)]="newUser.organization" matInput placeholder="School/Company">
             <mat-hint>Optional</mat-hint>
-          </mat-form-field>
-        </div>
-      </div>
-    </div>
-    <h3 style="color:#4db6ac; padding-bottom:25px; margin-top:20px;">Security Questions</h3>
-    <div fxLayout="row">
-      <div fxFlex="100">
-        <div align="center">
-          <mat-form-field appearance="outline">
-            <mat-select [(ngModel)]="newUser.securityQuestion1" placeholder="Security Question 1">
-              <mat-option value="What is your favorite color?">What is your favorite color?</mat-option>
-              <mat-option value="Name of your best friend?">Name of your best friend?</mat-option>
-              <mat-option value="Favorite Disney character?">Favorite Disney character?</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <br>
-          <mat-form-field appearance="outline">
-            <mat-select [(ngModel)]="newUser.securityQuestion2" placeholder="Security Question 2">
-              <mat-option value="What is your favorite movie?">What is your favorite movie?</mat-option>
-              <mat-option value="What is your favorite meal?">What is your favorite meal?</mat-option>
-              <mat-option value="What is your favorite sport?">What is your favorite sport?</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <br>
-          <mat-form-field appearance="outline">
-            <mat-select [(ngModel)]="newUser.securityQuestion3" placeholder="Security Question 3">
-              <mat-option value="Who is your favorite Superhero?">Who is your favorite Superhero?</mat-option>
-              <mat-option value="What is your favorite Color?">What is your favorite Color?</mat-option>
-              <mat-option value="What city were you born in?">What city were you born in?</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
-      <div style="height:200px; width:1px; border-left:1px#bbb solid"></div>
-      <div fxFlex="100">
-        <div align="center">
-          <mat-form-field appearance="outline">
-            <input [(ngModel)]="newUser.securityAnswer1" matInput placeholder="Answer...">
-          </mat-form-field>
-          <br>
-          <mat-form-field appearance="outline">
-            <input [(ngModel)]="newUser.securityAnswer2" matInput placeholder="Answer...">
-          </mat-form-field>
-          <br>
-          <mat-form-field appearance="outline">
-            <input [(ngModel)]="newUser.securityAnswer3" matInput placeholder="Answer...">
           </mat-form-field>
         </div>
       </div>
@@ -106,10 +78,14 @@
 </div>
 <mat-grid-list cols="2" rowHeight="15em">
   <mat-grid-tile>
-    <app-upload></app-upload>
+    <div class="upload-btn-wrapper">
+      <button class="upload-file">Choose Profile Photo/Avatar</button>
+      <input type="file" accept="image/*" (change)="fileEvent($event)" />
+      <label class="upload-file-name" *ngIf="profilePicture">{{profilePicture.name}}</label>
+    </div>
   </mat-grid-tile>
   <mat-grid-tile>
     <button mat-raised-button color="primary" (click)="createAccount()">Create</button>
-    <mat-hint style="color: red; font-size: 85%">{{genericMessage}}</mat-hint>
   </mat-grid-tile>
 </mat-grid-list>
+<!-- somewhat redundant and not user friendly <mat-hint style="color: red; font-size: 75%">{{genericMessage}}</mat-hint> -->

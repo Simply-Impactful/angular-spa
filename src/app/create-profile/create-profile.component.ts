@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CognitoUtil, Callback, CognitoCallback } from '../services/cognito.service';
 import { CreateProfileService } from '../services/create-profile.service';
-import { _ } from 'lodash';
 import { User } from '../model/User';
-
+import { S3Service } from '../services/s3.service';
+import { AppConf } from '../shared/conf/app.conf';
 
 @Component({
   selector: 'app-create-profile',
@@ -12,19 +12,29 @@ import { User } from '../model/User';
   styleUrls: ['./create-profile.component.scss']
 })
 export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestroy {
- // newUser: User;
   newUser = new User();
+  conf = AppConf;
   errorMessage: string;
   private sub: any;
   callback: Callback;
   confirmPassword: string;
   genericMessage: string;
+  confirmPassError: string = '';
+  passwordError: string = '';
+  emailError: string = '';
+  nullUsernameError: string = '';
+  nullNameError: string = '';
+  nullZipError: string = '';
+  isGenericMessage: boolean = null;
+  profilePicture: any;
+  focused: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     public router: Router,
     public cognitoUtil: CognitoUtil,
-    public createProfileService: CreateProfileService) {
+    public createProfileService: CreateProfileService,
+    private s3: S3Service) {
     const errorMessage = this.errorMessage;
   }
 
@@ -32,46 +42,107 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
     this.sub = this.route.params.subscribe(params => {
       this.newUser.userType = params['userType']; // (+) converts string 'id' to a number
     });
+    const currentPage = this.route.component.valueOf();
+    //  console.log(currentPage );
+
+  }
+
+  ngOnDestroy() {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+  }
+
+  createAccount() {
+    if (this.checkInputs()) {
+      // TODO: should we collect the pic else where?
+      console.log(this.conf.imgFolders.userProfile);
+      this.s3.uploadFile(this.profilePicture, this.conf.imgFolders.userProfile, (err, location) => {
+        if (err) {
+          // we will allow for the creation of the item, we will just not have an image
+          console.log(err);
+          this.newUser.picture = this.conf.default.userProfile;
+        } else {
+          this.newUser.picture = location;
+          this.createProfileService.register(this.newUser, this);
+        }
+      });
+
+      // this.createProfileService.register(this.newUser, this);
+    }
+  }
+
+  checkInputs() {
+    if (!this.newUser.email) {
+      this.emailError = 'Email must not be empty';
+    } else {
+      this.emailError = '';
+    }
+    if (!this.newUser.password) {
+      this.passwordError = 'Password must not be empty';
+    } else {
+      this.passwordError = '';
+    }
+    if (!this.newUser.username) {
+      this.nullUsernameError = 'Username must not be empty';
+    } else {
+      this.nullUsernameError = '';
+    }
+    if (!this.newUser.name) {
+      this.nullNameError = 'First Name must not be empty';
+    } else {
+      this.nullNameError = '';
+    }
+    if (!this.newUser.address) {
+      this.nullZipError = 'Zip Code must not be empty';
+    } else {
+      this.nullZipError = '';
+    }
+    // when the user indicates to create account, we need to call s3 and upload the image.
+    // then save this imageUrl on this field and pass to cognito.
+    // if (this.picture) {
+    //   this.newUser.picture = this.picture;
+    // }
+    if (!this.isPasswordValid()) {
+      console.log('pass doesnt match');
+      this.confirmPassError = 'Passwords do not match';
+    } else {
+      this.confirmPassError = '';
+      return true;
+    }
   }
 
   isPasswordValid(): boolean {
     const password = this.newUser.password;
     // Confirm they match
     if (password !== this.confirmPassword) {
-      this.errorMessage = 'Passwords do not match';
       return false;
     } else {
+      this.confirmPassError = '';
       return true;
-    }
-  }
-
-  ngOnDestroy() {
-    if (this.sub) {
-    this.sub.unsubscribe();
-    }
-  }
-
-  createAccount() {
-    if (this.newUser.password !== null && this.isPasswordValid()) {
-      this.createProfileService.register(this.newUser, this);
-    } else {
-      this.errorMessage = 'Password must not be empty';
     }
   }
 
   cognitoCallback(message: string, result: any) {
     if (message !== null) { // AWS threw an error
-      this.errorMessage = message;
-      if (message.endsWith('questions')) {
-        this.errorMessage = '';
+      if (message.includes('email')) {
+        this.emailError = message;
+      } else {
         this.genericMessage = message;
-        console.log(this.genericMessage);
+        console.log('generic message ' + this.genericMessage);
+        this.isGenericMessage = true;
       }
+
     } else { // success
-        // move to the next page if the user is authenticated
-        if (result.idToken.jwtToken) {
-          this.router.navigate(['/home']);
-        }
+      // move to the next page if the user is authenticated
+      if (result.idToken.jwtToken) {
+        this.router.navigate(['/home']);
       }
+    }
+  }
+
+  fileEvent(fileInput: any) {
+    // save the image file which will be submitted later
+    this.profilePicture = fileInput.target.files[0];
   }
 }

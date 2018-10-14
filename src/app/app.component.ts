@@ -3,6 +3,8 @@ import { AwsUtil } from './services/aws.service';
 import { LogInService } from './services/log-in.service';
 import { CognitoUtil, LoggedInCallback } from './services/cognito.service';
 import { User } from './model/User';
+import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
+import { AWSError } from 'aws-sdk';
 
 @Component({
   selector: 'app-root',
@@ -14,30 +16,35 @@ export class AppComponent implements OnInit, LoggedInCallback {
 
   isAdmin: boolean = false;
   user: User;
-  constructor(
-    public cognito: CognitoUtil,
-    public awsUtil: AwsUtil,
-    public loginService: LogInService) { }
+  constructor(public loginService: LogInService) { }
 
   ngOnInit() {
+    if (this.loginService) {
     this.loginService.isAuthenticated(this, this.user);
+    }
   }
 
   isLoggedIn(message: string, isLoggedIn: boolean) {
-    this.cognito.getIdToken({
+    const cognito = new CognitoUtil();
+    const awsUtil = new AwsUtil(cognito);
+    cognito.getIdToken({
       callback() {
       },
       callbackWithParam(token: any) {
-        console.log(this.awsUtil);
         // Include the passed-in callback here as well so that it's executed downstream
-        // this.awsUtil.initAwsService(null, isLoggedIn, token);
+        awsUtil.initAwsService(null, isLoggedIn, token);
       }
     });
+  }
+  callbackWithParams(error: AWSError, result: CognitoUserAttribute[]) {
+    console.log('result ' + result);
   }
 
   setAdmin() {
     this.isAdmin = true;
-    console.log('isAdmin');
+  }
+  callbackWithParam(result: any): void {
+    // throw new Error('Method not implemented.');
   }
 }
 

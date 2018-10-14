@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { CognitoUserPool } from 'amazon-cognito-identity-js';
-import * as AWS from 'aws-sdk/global';
+import { CognitoUserPool, CognitoUserAttribute } from 'amazon-cognito-identity-js';
+import * as AWS from 'aws-sdk';
 import * as awsservice from 'aws-sdk/lib/service';
 import * as CognitoIdentity from 'aws-sdk/clients/cognitoidentity';
+import { AWSError } from 'aws-sdk/global';
+import { User } from '../model/User';
 
 /**
  * Created by Vladimir Budilov
@@ -15,7 +17,9 @@ export interface CognitoCallback {
 }
 
 export interface LoggedInCallback {
+    callbackWithParams(error: AWSError, result: any): void;
     isLoggedIn(message: string, loggedIn: boolean): void;
+    callbackWithParam(result: any): void;
 }
 
 export interface ChallengeParameters {
@@ -26,6 +30,7 @@ export interface ChallengeParameters {
 export interface Callback {
     callback(): void;
     callbackWithParam(result: any): void;
+    // callbackWithParams(error: AWSError, result: any);
 }
 
 @Injectable()
@@ -122,6 +127,41 @@ export class CognitoUtil {
         } else {
             callback.callbackWithParam(null);
         }
+    }
+
+    updateUserAttribute(callback: LoggedInCallback, key: string, value: string) {
+        if (key.includes('organization' || 'lastName' || 'picture')) {
+            key = 'custom:' + key;
+        }
+        const cognitoUser = this.getCurrentUser();
+        if (cognitoUser !== null) {
+            cognitoUser.getSession(function (err, session) {
+                if (err) {
+                    callback.isLoggedIn(err, false);
+                } else {
+                    callback.isLoggedIn(err, session.isValid());
+                }
+            });
+        } else {
+            callback.isLoggedIn('Can\'t retrieve the CurrentUser', false);
+        }
+        const attributeList = [];
+        const attribute = {
+              Name : key,
+              Value : value
+       };
+        const attribute1 = new CognitoUserAttribute(attribute);
+        attributeList.push(attribute1);
+
+        cognitoUser.updateAttributes(attributeList, function(error, result1) {
+            if (error) {
+                console.log('error ' + error);
+             // not working because of type. Add an error callback?
+             // callback.callbackWithParams(error, null);
+                return;
+            }
+            console.log('Update call result: ' + result1);
+        });
     }
 
     getIdToken(callback: Callback): void {

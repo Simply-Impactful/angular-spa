@@ -3,16 +3,16 @@
   <h2 mat-dialog-title>Way to go!</h2>
   <hr>
   <mat-dialog-content>
-    You've just added {{action.points}} points to your score.  Keep up the good work
-    <p>Your current status is: </p><strong>{{action.status}}</strong>
+    You're about to add {{action.eligiblePoints}} points to your score.  Keep up the good work!
     <br>
     <br>
-    <i style="color:gray">{{action.fact}}</i>
+    <i style="color:gray">{{action.funFact}}</i>
     <br>
-    <img src={{action.imageUrl}}>
+    <img src={{action.funFactImageUrl}}>
+    <br> <br> Here is an <a href = '{{action.assignmentUrl}}' target="_blank">assignment </a> you can take as part of this action. 
   </mat-dialog-content>
   <hr>
-  <div align ="right">
+  <div align="right">
     <button mat-stroked-button color="primary" (click)="onCloseConfirm()">UNDO</button> 
     <button mat-raised-button color="primary" (click)="onCloseConfirm()">CONFIRM</button>
   </div>      

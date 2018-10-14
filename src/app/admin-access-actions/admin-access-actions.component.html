@@ -1,68 +1,99 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <main>
   <h3 align = "left" style="padding-top:50px; font-weight: bold">Add new, remove or edit existing actions</h3>
-  <button mat-button color="primary" (click)="save()"> + Create New</button>
-  <br>
-  <div class="actiondata-container mat-elevation-z8">
-    <mat-table #table [dataSource]="datasource">
+  <button mat-button color="primary" (click)="create()"> + Create New</button>
+  <br>      
+  <div class="actions-container mat-elevation-z8">
+    <mat-table #table [dataSource]="dataSource">
+
+    <!-- Pencil Column -->
+    <ng-container matColumnDef="edit">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell style="width:10px" *matCellDef="let row; let i = index">
+        <mat-icon (click)="setClickedRow(i); edit()">edit</mat-icon>
+      </mat-cell>
+    </ng-container>
 
       <!-- Name Column -->
-      <ng-container matColumnDef="action">
-        <mat-header-cell *matHeaderCellDef> ACTION </mat-header-cell>
-        <mat-cell *matCellDef="let actiondata"> {{actiondata.action}}</mat-cell>
-      </ng-container>
-      
-      <!-- Username Column -->
-      <ng-container matColumnDef="points">
-        <mat-header-cell *matHeaderCellDef> POINTS </mat-header-cell>
-        <mat-cell *matCellDef="let actiondata"> {{actiondata.points}} </mat-cell>
-      </ng-container>
-      
-      <!-- Email Column -->
-      <ng-container matColumnDef="limit">
-        <mat-header-cell *matHeaderCellDef> LIMIT </mat-header-cell>
-        <mat-cell *matCellDef="let userdata"> {{userdata.limit}}</mat-cell>
-      </ng-container>
-      
-      <!-- ZipCode Column -->
-      <ng-container matColumnDef="frequency">
-        <mat-header-cell *matHeaderCellDef> FREQUENCY </mat-header-cell>
-        <mat-cell *matCellDef="let actiondata">{{actiondata.frequency}} </mat-cell>
-      </ng-container>
-          
-      <!-- Action taken Column -->
-      <ng-container matColumnDef="fact">
-        <mat-header-cell *matHeaderCellDef> FACT </mat-header-cell>
-        <mat-cell *matCellDef="let actiondata"> {{actiondata.fact}} </mat-cell>
-      </ng-container>
-      
-      <!-- Total Points Column -->
-      <ng-container matColumnDef="image">
-        <mat-header-cell *matHeaderCellDef> IMAGE </mat-header-cell>
-        <mat-cell *matCellDef="let actiondata"> {{actiondata.image}} </mat-cell>
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> NAME </mat-header-cell>
+        <mat-cell *matCellDef="let actions"> {{actions.name}}</mat-cell>
       </ng-container>
 
-      <!-- Total Points Column -->
-      <ng-container matColumnDef="icon">
-        <mat-header-cell *matHeaderCellDef> ICON </mat-header-cell>
-        <mat-cell *matCellDef="let actiondata"> {{actiondata.icon}} </mat-cell>
+       <!-- Max frequency Column -->
+      <ng-container matColumnDef="maxFrequency">
+          <mat-header-cell *matHeaderCellDef> MAX FREQUENCY </mat-header-cell>
+          <mat-cell *matCellDef="let actions"> {{actions.maxFrequency}}</mat-cell>
+        </ng-container>
+      
+      <!-- Frequency cadence Column -->
+      <ng-container matColumnDef="frequencyCadence">
+          <mat-header-cell *matHeaderCellDef> FREQUENCY CADENCE</mat-header-cell>
+          <mat-cell *matCellDef="let actions">{{actions.frequencyCadence}} </mat-cell>
+        </ng-container>
+
+      <!-- Eligible Points Column -->
+      <ng-container matColumnDef="eligiblePoints">
+        <mat-header-cell *matHeaderCellDef> POINTS </mat-header-cell>
+        <mat-cell *matCellDef="let actions"> {{actions.eligiblePoints}} </mat-cell>
       </ng-container>
+
+      <!-- Fact taken Column -->
+      <ng-container matColumnDef="funFact">
+        <mat-header-cell *matHeaderCellDef> FACT </mat-header-cell>
+        <mat-cell *matCellDef="let actions"> {{actions.funFact}} </mat-cell>
+      </ng-container>
+      
+      <!-- Fact Image Column -->
+      <ng-container matColumnDef="funFactImageUrl">
+        <mat-header-cell *matHeaderCellDef> FACT IMAGE </mat-header-cell>
+        <mat-cell *matCellDef="let actions">
+            <img src={{actions.funFactImageUrl}} style="width:100px; height:75px">
+          </mat-cell>
+      </ng-container>
+
+      <!-- Tile Icon Column -->
+      <ng-container matColumnDef="tileIconUrl">
+        <mat-header-cell *matHeaderCellDef> ICON </mat-header-cell>
+        <mat-cell *matCellDef="let actions"> 
+            <img src="{{actions.tileIconUrl}}" style="max-width:75px; max-height:75px">
+          </mat-cell>
+      </ng-container>
+
+      <!-- Carbon Points column -->
+      <ng-container matColumnDef="carbonPoints">
+          <mat-header-cell *matHeaderCellDef> CARBON POINTS </mat-header-cell>
+          <mat-cell *matCellDef="let actions"> {{actions.carbonPoints}}
+            </mat-cell>
+        </ng-container>
+
+        
+      <!-- Assigments URL column -->
+      <ng-container matColumnDef="assignmentUrl">
+          <mat-header-cell *matHeaderCellDef> ASSIGNMENT URL </mat-header-cell>
+          <mat-cell *matCellDef="let actions"> {{actions.assignmentUrl}}
+            </mat-cell>
+        </ng-container>
 
       <!-- checkbox Column -->
       <ng-container matColumnDef="delete">
         <mat-header-cell *matHeaderCellDef>DELETE</mat-header-cell>
-        <mat-cell *matCellDef="let row">
-          <mat-checkbox (click)="$event.stopPropagation()"
+        <mat-cell *matCellDef="let row; let i = index">
+           <!-- $event.stopPropagation()" -->
+          <mat-checkbox (click)="setClickedRow(i);"
                         (change)="$event ? selection.toggle(row) : null"
                         [checked]="selection.isSelected(row)">
           </mat-checkbox>
         </mat-cell>
       </ng-container>
 
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      <mat-header-row *matHeaderRowDef="displayedColumns">
+      </mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;">
+      </mat-row>
     </mat-table>
     <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
   </div>
   <br>
-  <button mat-raised-button color="primary" (click)="save()">Save changes</button>
+  <button mat-raised-button color="primary" (click)="saveDelete()">Save changes</button>
 </main>

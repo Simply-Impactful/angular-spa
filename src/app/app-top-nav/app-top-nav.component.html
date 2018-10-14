@@ -1,3 +1,4 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <!--Top Navigation Content. Might need to be moved to its own component -->
 <nav id="app-navbar">
   <mat-toolbar color="primary">
@@ -5,19 +6,21 @@
     <mat-toolbar-row>
       <button class="nav-logo" title="Navigate to Landing page" routerLink="/landing"></button>
       <span class="spacer"></span>
-      <!-- and a serach component -->
-      <mat-form-field *ngIf="canSearch">
-        <mat-select placeholder="Search for Groups">
-          <mat-option *ngFor="let group of searchGroups" [value]="group">
-            {{group}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+
+      <button class="white-text" style = "margin-top:52.5px;" mat-button routerLink="/contactus">Contact us</button>
       <div [hidden]="hideRightMenu" class="white-text">
         <span class="spacer"></span>
-        <button mat-button routerLink="/contactus">Contact us</button>
-        <button mat-button [matMenuTriggerFor]="menu">Menu</button>
-        <mat-menu #menu="matMenu">
+        <button *ngIf="!hideHome" mat-button routerLink="/home">Home</button>
+      <!--<button mat-button routerLink="/contactus">Contact us</button> -->
+        <mat-card style="margin-right:10px"class="avatar-card">
+            <mat-card-header>
+              <img mat-card-avatar src="{{user.picture}}">
+            </mat-card-header>
+          </mat-card>
+            <button class="mat-button" style = "width:1px;" [matMenuTriggerFor]="menu">
+                <mat-icon>expand_more</mat-icon>
+              </button>
+            <mat-menu #menu="matMenu">
           <button mat-menu-item routerLink="/userprofile">My Profile</button>
           <button mat-menu-item routerLink="/login">Logout</button>
         </mat-menu>

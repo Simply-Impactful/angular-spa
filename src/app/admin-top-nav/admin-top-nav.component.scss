@@ -15,12 +15,13 @@
 }
 
 .nav-logo {
-    height: 4.5em;
-    width: 4.5em;
+    height: 3.5em;
+    width: 3.5em;
     cursor: pointer;
     background: transparent url('/assets/images/CiS_bird_logo.png') left/4.25em no-repeat;
     background-size: 70%;
     border: none;
+    background-color: none;
 }
 
 .mat-elevation-z6 {
@@ -30,3 +31,31 @@
 .white-text {
     color: white;
 }
+.mat-button{
+    width:3px;
+  //  margin-bottom: 15px;
+}
+
+.mat-card:not([class*=mat-elevation-z]) {
+    box-shadow: none;
+}
+
+.mat-card {
+    display: inline-block;
+}
+
+.mat-card-avatar{
+    height: 52px;
+    width: 52px;
+}
+
+.avatar-card {
+    background: none;
+    max-width: 20px;
+    margin-right: 4px;
+  }
+  
+  .avatar-header-image {
+    background: transparent url('/assets/images/CiS_bird_logo.png');
+    background-size: cover;
+  }

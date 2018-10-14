@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { User } from '../model/User';
 import { LoggedInCallback, CognitoCallback, CognitoUtil } from './cognito.service';
-import { AuthenticationDetails, CognitoUser, CognitoUserSession, CognitoUserAttribute } from 'amazon-cognito-identity-js';
+import { AuthenticationDetails, CognitoUser, CognitoUserSession } from 'amazon-cognito-identity-js';
 import { environment } from '../../environments/environment';
 import { Parameters } from './parameters';
 import * as AWS from 'aws-sdk/global';
 import * as STS from 'aws-sdk/clients/sts';
+import { AWSError } from 'aws-sdk';
 
 // let's use a global object to inject the window object
 if (global === undefined) {
@@ -16,9 +17,9 @@ if (global === undefined) {
     providedIn: 'root'
 })
 export class LogInService {
+    public accessToken = null;
     constructor(
-        public cognitoUtil: CognitoUtil,
-        private params: Parameters) { }
+        public cognitoUtil: CognitoUtil) { }
 
     authenticate(username: string, password: string, callback: CognitoCallback) {
         const authenticationData = {
@@ -44,6 +45,7 @@ export class LogInService {
     }
 
     private onLoginSuccess = (callback: CognitoCallback, session: CognitoUserSession) => {
+        this.accessToken = session.getAccessToken();
         AWS.config.credentials = this.cognitoUtil.buildCognitoCreds(session.getIdToken().getJwtToken());
 
         // So, when CognitoIdentity authenticates a user, it doesn't actually hand us the IdentityID,
@@ -71,12 +73,10 @@ export class LogInService {
     }
 
     isAuthenticated(callback: LoggedInCallback, user: User) {
-
         if (callback === null) {
             throw new Error('LogInService: Callback in isAuthenticated() cannot be null');
         }
         const cognitoUser = this.cognitoUtil.getCurrentUser();
-
         if (cognitoUser !== null) {
             cognitoUser.getSession(function (err, session) {
                 if (err) {
@@ -84,16 +84,16 @@ export class LogInService {
                     callback.isLoggedIn(err, false);
                 } else {
                     callback.isLoggedIn(err, session.isValid());
-                    cognitoUser.getUserAttributes(function (error, result) {
-                        if (err) {
-                            console.log('LogInService: in getUserAttributes: ' + error);
-                        } else {
-                            if (result) {
-                                //  callback.callbackWithParam(result);
-                                user = this.params.buildUser(result, cognitoUser, user);
+                        cognitoUser.getUserAttributes(function (error, result) {
+                            if (err) {
+                                console.log('LogInService ERROR: in getUserAttributes: ' + error.message);
+                                callback.callbackWithParam(err);
+                            } else {
+                                if (result) {
+                                    callback.callbackWithParam(result);
+                                }
                             }
-                        }
-                    });
+                        });
                 }
             });
         } else {
@@ -111,9 +111,7 @@ export class LogInService {
         const cognitoUser = new CognitoUser(userData);
 
         cognitoUser.forgotPassword({
-            onSuccess: function () {
-
-            },
+            onSuccess: function () {},
             onFailure: function (err) {
                 callback.cognitoCallback(err.message, null);
             },
@@ -123,9 +121,9 @@ export class LogInService {
         });
     }
 
-    confirmNewPassword(email: string, verificationCode: string, password: string, callback: CognitoCallback) {
+    confirmNewPassword(username: string, verificationCode: string, password: string, callback: CognitoCallback) {
         const userData = {
-            Username: email,
+            Username: username,
             Pool: this.cognitoUtil.getUserPool()
         };
 

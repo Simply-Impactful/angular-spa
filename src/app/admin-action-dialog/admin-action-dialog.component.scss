@@ -1,0 +1,42 @@
+
+img{
+    max-width: 300px;
+    max-height: 300px;
+}
+mat-dialog-content{
+   display: inline-block;
+   padding-top: 15px;
+   padding-left: 30px;
+   padding-right: 30px;
+   max-height: 100vh;
+}
+// button.mat-stroked-button {
+//    margin-right: 10px;
+//    width: 80px;
+//    text-align: center;
+//    padding: 0px
+// }
+// button.mat-raised-button {
+//    margin-right: 15px;
+//    width: 80px;
+//    text-align: center;
+//    padding: 0px;
+// }
+.edit-action-name{
+   width: 450px;
+}
+
+.fun-fact{
+    width: 450px;
+    height: 200px;
+}
+
+.textarea{
+    box-sizing : 750px;
+}
+
+.content-inside-tile{
+justify-content: flex-start !important;
+height: 15px;
+width: 200px;
+}

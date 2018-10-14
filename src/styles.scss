@@ -1,12 +1,11 @@
-
 /* You can add global styles to this file, and also import other style files */
 
+$grey-color: gray;
 @import '~@angular/material/theming';
 // Plus imports for other components in your app.
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-
 $custom-typography: mat-typography-config( $font-family: 'Quicksand, monospace', $headline: mat-typography-level(32px, 48px, 700), $body-1: mat-typography-level(16px, 24px, 500));
 // Override typography CSS classes (e.g., mat-h1, mat-display-1, mat-typography, etc.).
 @include mat-base-typography($custom-typography);
@@ -30,13 +29,12 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-
 @include angular-material-theme($candy-app-theme);
 // Define an alternate blue theme.
 $blue-primary: mat-palette($mat-blue, 700, 700, 900);
-$blue-accent : mat-palette($mat-light-blue, 200, 200, A400);
-$blue-warn : mat-palette($mat-deep-orange);
-$blue-theme : mat-dark-theme($blue-primary, $blue-accent, $blue-warn);
+$blue-accent: mat-palette($mat-light-blue, 200, 200, A400);
+$blue-warn: mat-palette($mat-deep-orange);
+$blue-theme: mat-dark-theme($blue-primary, $blue-accent, $blue-warn);
 // Include the alternative theme styles inside of a block with a CSS class. You can make this
 // CSS class whatever you want. In this example, any component inside of an element with
 // `.blue-theme` will be affected by this alternate dark theme instead of the default theme.
@@ -56,4 +54,39 @@ button.mat-primary.mat-raised-button {
 
 .spacer {
     flex: 1 1 auto;
+}
+
+.grayBg {
+    background-color: $grey-color
+}
+
+.grayText {
+    color: $grey-color
+}
+
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.upload-file {
+    border: 1px solid rgba(128, 128, 128, 0.788);
+    color: rgba(0, 0, 0, 0.616);
+    background-color: rgba(128, 128, 128, 0.24);
+    padding: 7px 15px;
+    border-radius: 6px;
+    font-size: 12px;
+}
+.upload-file-name {
+    //display: block;
+    padding: 0 .7em;
+}
+
+.upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
 }

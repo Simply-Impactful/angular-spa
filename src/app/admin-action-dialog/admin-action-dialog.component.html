@@ -1,0 +1,103 @@
+<div>
+  <h5 style="font-size:18px; padding-top: 8px">{{displayText}} an action</h5>
+  <mat-dialog-content style="padding-left:80px; padding-right: 80px; align-content: center">
+    <mat-form-field class="edit-action-name" *ngIf="isCreating" appearance="outline">
+      <input matInput [(ngModel)]="action.name" matInput placeholder="Action Name">
+    </mat-form-field>
+    <h1 class="edit-action-name" style="text-align: left; font-size:15px; color:grey" *ngIf="isEditing"> Action Name:
+      {{action.name}} </h1>
+
+    <mat-grid-list cols="4" rowHeight="6em">
+      <mat-grid-tile cols="1">
+        <mat-form-field appearance="outline" style="margin-right:0px; width:110px">
+          <input matInput [(ngModel)]="action.eligiblePoints" matInput placeholder="Points">
+          <mat-hint>Required</mat-hint>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile cols="1">
+        <mat-form-field appearance="outline" style="margin-right:0px; width:110px">
+          <input matInput [(ngModel)]="action.maxFrequency" matInput placeholder="Limit">
+          <mat-hint>Required</mat-hint>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile cols="1">
+        <mat-form-field appearance="outline" style="margin-right:0px; width:110px">
+          <input matInput [(ngModel)]="action.carbonPoints" matInput placeholder="carbon Points">
+          <mat-hint>Required</mat-hint>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile cols="1">
+        <mat-form-field appearance="outline" style="margin-right:2px; width:110px">
+          <mat-select [(ngModel)]="action.frequencyCadence" placeholder="Frequency">
+            <mat-option value="perDay">Per day</mat-option>
+            <mat-option value="perWeek">Per week</mat-option>
+            <mat-option value="perMonth">Per month</mat-option>
+            <mat-option value="perYear">Per year</mat-option>
+            <mat-option value="perLifetime">Per lifetime</mat-option>
+          </mat-select>
+          <mat-hint>Required</mat-hint>
+        </mat-form-field>
+      </mat-grid-tile>
+    </mat-grid-list>
+
+    <mat-grid-list cols="1" rowHeight="6em">
+      <mat-grid-tile cols="1">
+        <mat-form-field appearance="outline" style="width: 450px">
+          <input matInput [(ngModel)]="action.assignmentUrl" matInput placeholder="Assignments URL">
+          <mat-hint>500 Characters limit</mat-hint>
+        </mat-form-field>
+      </mat-grid-tile>
+    </mat-grid-list>
+
+    <mat-grid-list cols="1" rowHeight="12em">
+      <mat-grid-tile cols="1">
+        <mat-form-field appearance="outline" style="width: 450px">
+          <textarea [(ngModel)]="action.funFact" matInput placeholder="Fact" maxlength="500" rows="5"></textarea>
+          <mat-hint>500 Characters limit</mat-hint>
+        </mat-form-field>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="2" rowHeight="5em">
+      <mat-grid-tile cols="1" style=" background-color: rgb(247, 242, 242)">
+        <label for="mat-grid-tile"> Upload Image</label>
+      </mat-grid-tile>
+      <mat-grid-tile cols="1" style=" background-color: rgb(247, 242, 242)">
+        <label for="mat-grid-tile"> Upload Icon</label>
+      </mat-grid-tile>
+    </mat-grid-list>
+
+    <mat-grid-list cols="2" rowHeight="3em">
+      <mat-grid-tile cols="1" style=" background-color: rgb(247, 242, 242)">
+        <div class="upload-btn-wrapper">
+            <button class="upload-file">Choose funFactImage</button>
+            <input class="content-inside-tile" accept="image/*" type="file" (change)="fileEvent($event, 'funFactImage')" />
+            <label class="upload-file-name" *ngIf="imageFiles.funFactImage">{{imageFiles.funFactImage.name}}</label>
+          </div>
+      </mat-grid-tile>
+      <mat-grid-tile cols="1" style="background-color: rgb(247, 242, 242)">
+        <div class="upload-btn-wrapper">
+          <button class="upload-file">Choose File</button>
+          <input class="content-inside-tile" accept="image/*" type="file" (change)="fileEvent($event, 'tileIcon')" />
+          <label class="upload-file-name" *ngIf="imageFiles.tileIcon">{{imageFiles.tileIcon.name}}</label>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-dialog-content>
+  <div style="color:red; font-size: 85%">
+    {{errorMessage}}
+  </div>
+  <div fxLayout="row">
+    <div fxFlex="100">
+      <div align="left">
+        <br>
+        <button mat-button color="primary" (click)="onCloseCancel()">CANCEL</button>
+      </div>
+    </div>
+    <div fxFlex="100">
+      <div align="right">
+        <br>
+        <button mat-button color="primary" (click)="onCloseConfirm()">CONFIRM</button>
+      </div>
+    </div>
+  </div>
+</div>

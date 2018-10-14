@@ -1,40 +1,39 @@
 import { Injectable, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
 import { Action } from '../model/Action';
 import { User } from '../model/User';
 import { MatDialog } from '@angular/material';
 import { ActionDialogComponent } from './../action-dialog/action-dialog.component';
+import * as AWS from 'aws-sdk';
+import { CognitoUtil, LoggedInCallback } from './cognito.service';
+import { environment } from '../../environments/environment';
+import { LambdaInvocationService } from './lambdaInvocation.service';
+import { AWSError } from 'aws-sdk';
 
 @Injectable()
 export class ActionService implements OnInit {
-  public apiEndpoint: string;
 
-  actionSource = new BehaviorSubject(new Action());
-  action$ = this.actionSource.asObservable();
+  public apiEndpoint: string = '';
+
   action = new Action;
 
-  userSource = new BehaviorSubject(new User());
-  user$ = this.userSource.asObservable();
-  // is this the best way to do this?
   user = new User;
-
   dialogResult = '';
+  length: number;
+  errorMessage: string = '';
 
-  constructor(private http: HttpClient, private dialog: MatDialog) {
-    this.apiEndpoint = '';
+  public cognitoUtil: CognitoUtil;
+
+  constructor(private dialog: MatDialog) {
   }
 
   ngOnInit() {
   }
 
-  openDialog(name: string) {
-    this.action = this.getData(name);
+  openDialog(name: string, action: Action) {
     const dialogRef = this.dialog.open(ActionDialogComponent, {
       width: '600px',
-      //  data: {action:this.action}
+        data: action
     });
-    this.actionSource.next(this.action);
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog closed: ${result}`);
@@ -42,54 +41,14 @@ export class ActionService implements OnInit {
     });
   }
 
-  getData(name: string) {
-    // Need to input this data into the DB from what the Admins upload
-    // send GET request to DB to collect data for given action
-    // placeholders...
-    if (name === 'unplug') {
-      this.action.name = 'unplug';
-      this.action.points = 8;
-      this.action.fact = 'Did you know? Americans use about 18 millions barrels of oil everyday';
-      this.action.status = 'Elephant';
-      this.action.imageUrl = '/assets/images/FossilFuelsFacts.jpg';
-    }
-    if (name === 'faucet') {
-      this.action.name = 'faucet';
-      this.action.points = 5;
-      this.action.fact = 'You saved 10 liters of water today';
-      this.action.status = 'Giraffe';
-      this.action.imageUrl = '';
-    }
-    if (name === 'light') {
-      this.action.name = 'light';
-      this.action.points = 7;
-      this.action.fact = 'You saved 10 watts today';
-      this.action.status = 'Giraffe';
-      this.action.imageUrl = '';
-    }
-    // mock response
-    return this.action;
-  }
+  // Skeletal methods we need to put here in order to use the lambdaService
+  isLoggedIn(message: string, loggedIn: boolean): void {
+    // throw new Error('Method not implemented.');
+   }
 
-  takeAction(action: Action): Observable<Action> {
-    console.log('action in take action ' + JSON.stringify(action));
-    this.actionSource.next(action);
-    // log points
-    const points = action.points;
-    this.user.userPoints = this.user.userPoints + points;
-    console.log('user points ======>' + this.user.userPoints);
-
-    this.userSource.next(this.user); // user$ object
-    return this.action$;
-  }
-
-  // this doesn't exist yet, but the controller will route to the node.js login API call to validate credentials
-  /**    return this.http.post<action[]>(this.apiEndpoint + 'action',requestBody)
-      .pipe(
-        map(action => {
-            this.actionSource.next(action);
-            console.log("action " + action);
-            return action;
-        })
-      ) **/
+   callbackWithParams(error: AWSError, result: any): void {
+   }
+   callbackWithParam(result: any): void {
+    // throw new Error('Method not implemented.');
+   }
 }

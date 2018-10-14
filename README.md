@@ -35,9 +35,6 @@ We are using the `serverless` framework configured with AWS as a provider. The c
 - `build:prod`
 - `sls:deploy:prod`
 
-For convenience, `deploy:prod` calls them in order so you can execute the following when you are ready to sync your changes to the S3 bucket:
-
-`npm run deploy:prod`
 
 ## Code scaffolding
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
+import { CognitoUtil } from '../services/cognito.service';
 import { LogInService } from '../services/log-in.service';
 import { Parameters} from '../services/parameters';
 import { User } from '../model/User';
@@ -11,22 +11,17 @@ import { User } from '../model/User';
   styleUrls: ['./reset-password.component.scss']
 })
 
-export class ResetPasswordComponent implements OnInit, LoggedInCallback {
+export class ResetPasswordComponent implements OnInit {
   password: string = '';
   confirmPassword: string = '';
   errorMessage: string = '';
   email: string = '';
+  username: string = '';
   verificationCode: string = '';
-  resent: boolean = false;
+  unsent: boolean = true;
+  sent: boolean = false;
   onConfirm: boolean = false;
   user: User;
-  valid: any;
-  securityQuestion1: string = '';
-  securityQuestion2: string = '';
-  securityQuestion3: string = '';
-  securityAnswer1: string = '';
-  securityAnswer2: string = '';
-  securityAnswer3: string = '';
 
   constructor(
     private router: Router,
@@ -34,15 +29,11 @@ export class ResetPasswordComponent implements OnInit, LoggedInCallback {
     private loginService: LogInService,
     private params: Parameters) { }
 
-  ngOnInit() {
-  }
-  isLoggedIn(message: string, loggedIn: boolean): void {
- //   throw new Error("Method not implemented.");
-  }
+  ngOnInit() {}
 
    // step 1 of forgotPassword flow.. getting a new verification code
-  validateAnswers() {
-    this.loginService.forgotPassword(this.email, this);
+   sendCode() {
+    this.loginService.forgotPassword(this.username, this);
   }
 
   // step 2 is resetting the password
@@ -51,7 +42,7 @@ export class ResetPasswordComponent implements OnInit, LoggedInCallback {
       this.errorMessage = 'The inputted passwords do not match.';
     } else {
       this.onConfirm = true;
-      this.loginService.confirmNewPassword(this.email, this.verificationCode, this.password, this);
+      this.loginService.confirmNewPassword(this.username, this.verificationCode, this.password, this);
     }
   }
 
@@ -60,7 +51,8 @@ export class ResetPasswordComponent implements OnInit, LoggedInCallback {
       this.errorMessage = message;
       console.log('message: ' + this.errorMessage);
     } else {
-      this.resent = true;
+      this.unsent = false;
+      this.sent = true;
       // Doing this because call back is being used for both calls,
       // but only want to route on the second call
       if (this.onConfirm) {

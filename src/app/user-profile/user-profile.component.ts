@@ -1,27 +1,86 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { User } from '../model/User';
+import { LogInService } from '../services/log-in.service';
+import { Parameters} from '../services/parameters';
+import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
+import { CreateProfileService } from '../services/create-profile.service';
+import { AWSError } from 'aws-sdk';
+import { LambdaInvocationService } from '../services/lambdaInvocation.service';
+import { Router } from '@angular/router';
+import { AppConf } from '../shared/conf/app.conf';
 
-export interface Tile {
-  color: string;
-  cols: number;
-  rows: number;
-  text: string;
-}
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss']
 })
+export class UserProfileComponent implements OnInit, LoggedInCallback {
+  private conf = AppConf;
+  user: User;
+  isEditProfile: Boolean = false;
+  isViewProfile: Boolean = true;
+  updatedUser = new User();
+  errorMessage: string = '';
 
-export class UserProfileComponent {
+  constructor(
+    private loginService: LogInService,
+    private cognitoUtil: CognitoUtil,
+    private params: Parameters, private lambdaService: LambdaInvocationService,
+    public router: Router) { }
 
-  constructor() { }
+  ngOnInit() {
+   this.params.user$.subscribe(user => {
+      this.user = user;
+    });
 
-  // tiles: Tile[] = [
-  //   { text: 'One', cols: 3, rows: 1, color: 'lightblue' },
-  //   { text: 'Two', cols: 1, rows: 2, color: 'lightgreen' },
-  //   { text: 'Three', cols: 1, rows: 1, color: 'lightpink' },
-  //   { text: 'Four', cols: 2, rows: 1, color: '#DDBDF1' },
-  // ];
+    this.loginService.isAuthenticated(this, this.user);
+   }
 
+  /** Interface needed for LoggedInCallback */
+isLoggedIn(message: string, isLoggedIn: boolean) {
+  }
+
+  // API Response for any lambda calls
+  callbackWithParams(error: AWSError, result: any) {
+    if (error) {
+      this.errorMessage = error.message;
+    }
+    const response = JSON.parse(result);
+    const userActions = response.body;
+    const userActionsLength = userActions.length;
+
+      for ( let i = 0; i < userActionsLength; i++ ) {
+        if (userActions[i].totalPoints) {
+          this.user.totalPoints = userActions[i].totalPoints;
+        }
+    }
+  }
+
+  // response of isAuthenticated method in login service
+  callbackWithParam(result: any): void {
+    const cognitoUser = this.cognitoUtil.getCurrentUser();
+    const params = new Parameters();
+    this.user = params.buildUser(result, cognitoUser);
+    if (!this.user.picture) {
+      this.user.picture =  this.conf.default.userProfile;
+    }
+    this.lambdaService.getUserActions(this, this.user);
+   }
+
+   // for switching back and forth between edit and read mode
+   editProfile() {
+    this.isViewProfile = false;
+    this.isEditProfile = true;
+  }
+  // save and switch mode back to view
+  saveChanges() {
+    for (const key of Object.keys(this.updatedUser)) {
+      if (this.updatedUser[key]) {
+        this.cognitoUtil.updateUserAttribute(this, key, this.updatedUser[key]);
+      }
+    }
+    // TODO: can this be done more seemlessly?
+    window.location.reload();
+  }
 }

@@ -1,44 +1,43 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Action } from '../model/Action';
 import { ActionService } from '../services/action.service';
 import { User } from '../model/User';
+import { Parameters } from '../services/parameters';
+import { LambdaInvocationService } from '../services/lambdaInvocation.service';
+import { AWSError } from 'aws-sdk';
+import { LogInService } from '../services/log-in.service';
+import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
+import { ActionComponent } from '../action/action.component';
 
 @Component({
   selector: 'app-action-dialog',
   templateUrl: './action-dialog.component.html',
   styleUrls: ['./action-dialog.component.scss']
 })
-export class ActionDialogComponent implements OnInit {
+export class ActionDialogComponent implements OnInit, LoggedInCallback {
 
   action: Action;
   user: User;
+
   constructor(
+    @Inject(MAT_DIALOG_DATA)public data: Action,
     public thisDialogRef: MatDialogRef<ActionDialogComponent>,
-    public actionService: ActionService) { }
-  // ,@Inject(MAT_DIALOG_DATA)public data: action) { }
+    private params: Parameters, private cognitoUtil: CognitoUtil,
+    private lambdaService: LambdaInvocationService,
+    private loginService: LogInService) { }
 
   ngOnInit() {
-    this.actionService.action$.subscribe(data => {
-      this.action = data;
+    this.action = this.data;
+    this.params.user$.subscribe(user => {
+      this.user = user;
     });
+    // get the user attributes that are set in the login service
+    this.loginService.isAuthenticated(this, this.user);
   }
 
   onCloseConfirm() {
-    // sends points to DB for action taken
-    // parameters: username, name, count --> how do we persist count?
-    // createAction(){}
-    /* TODO: addPoints() -- need to add this function, and we will need to pull in the user's
-     * points from the User Object.
-     * this.user.points = this.user.points + this.action.points;
-     * the home page will have to subscribe to the User object in order to retrieve the points
-     * just as we do above **/
-    this.actionService.takeAction(this.action).subscribe(response => {
-      this.action = response;
-    });
-
-    //  console.log("user data in dialog close " + JSON.stringify(this.user));
-    console.log('action data in dialog close ' + JSON.stringify(this.action));
+    this.lambdaService.performAction(this, this.user, this.action);
     this.thisDialogRef.close('Confirm');
   }
 
@@ -46,4 +45,21 @@ export class ActionDialogComponent implements OnInit {
     this.thisDialogRef.close('Cancel');
   }
 
+  // Skeletal methods we need to put here in order to use the lambdaService
+  isLoggedIn(message: string, loggedIn: boolean): void {}
+
+  // response from perform action API
+  callbackWithParams(error: AWSError, result: any): void {
+     // if perform action is successful, reload the page so the numbers update
+    if (result) {
+      window.location.reload();
+    // call get Groups, if they exist, then call create groups
+    }
+  }
+
+  callbackWithParam(result: any): void {
+    const cognitoUser = this.cognitoUtil.getCurrentUser();
+    const params = new Parameters();
+    this.user = params.buildUser(result, cognitoUser);
+   }
 }

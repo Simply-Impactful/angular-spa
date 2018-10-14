@@ -1,4 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
+import { Parameters} from '../services/parameters';
+import { LogInService } from '../services/log-in.service';
+import { User } from '../model/User';
+import { AWSError } from 'aws-sdk';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AppConf } from '../shared/conf/app.conf';
 
 @Component({
   selector: 'app-top-nav',
@@ -6,19 +13,49 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app-top-nav.component.scss']
 })
 
-export class AppTopNavComponent implements OnInit {
-  title: string = 'Change Is Simple';
-  hideRightMenu: boolean = true;
-  canSearch: boolean = false;
-  userscore: number = 35; // comes from an API
-  searchGroups: string[] = ['Pink', 'Red', 'Purple'];
+export class AppTopNavComponent implements OnInit, LoggedInCallback {
+  private conf = AppConf;
 
-  constructor() {
-  }
+  title: string = this.conf.appTitle;
+  hideRightMenu: boolean = true;
+  hideHome: boolean = false;
+  user: User;
+
+  constructor(private params: Parameters, private loginService: LogInService,
+    private cognitoUtil: CognitoUtil, private route: ActivatedRoute
+    ) {}
 
   ngOnInit() {
-    this.hideRightMenu = false;
-    // TODO: https://stackoverflow.com/questions/43118592/angular-2-how-to-hide-nav-bar-in-some-components
+    this.params.user$.subscribe(user => {
+      this.user = user;
+    });
+
+    if (window.location.toString().includes('landing')
+          || window.location.toString().includes('createuser')) {
+      this.hideRightMenu = true;
+    } else {
+      this.hideRightMenu = false;
+    }
+    if (window.location.toString().includes('home')) {
+      this.hideHome = true;
+    } else {
+      this.hideHome = false;
+    }
+
+    this.loginService.isAuthenticated(this, this.user);
   }
+  // response of isAuthenticated method in login service
+  callbackWithParam(result: any): void {
+    const cognitoUser = this.cognitoUtil.getCurrentUser();
+    const params = new Parameters();
+    this.user = params.buildUser(result, cognitoUser);
+    if (!this.user.picture) {
+      this.user.picture = this.conf.default.userProfile;
+    }
+  }
+    /** Interface needed for LoggedInCallback */
+    isLoggedIn(message: string, isLoggedIn: boolean) {}
+    // API Response
+    callbackWithParams(error: AWSError, result: any) {}
 
 }
