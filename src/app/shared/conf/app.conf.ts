@@ -11,6 +11,7 @@ export const AppConf: any = {
     },
     imgFolders: {
         adminLanding: 'admin',
+        userProfile: 'userProfile',
         groups: 'groups',
         actions: 'actions',
         assignments: 'assignments',

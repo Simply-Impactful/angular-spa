@@ -11,14 +11,14 @@
         </mat-toolbar>
       </div>
   <div *ngIf="isHomePage" class="backimage">
-    <app-action></app-action> 
+    <app-action></app-action>
     <button mat-raised-button color="primary" (click)="navigate()">View All</button>
   </div>
   <div *ngIf="isHomePage" class="main-body">
     <div fxLayout="row">
       <div fxFlex="100">
         <div align="left">
-          <h5 class="mygroup" style="font-weight: bold"> M&nbsp;Y&nbsp;&nbsp;G&nbsp;R&nbsp;O&nbsp;U&nbsp;P&nbsp;S</h5>
+          <h5 class="mygroup">My Groups</h5>
         </div>
       </div>
       <div fxFlex="100">
@@ -29,28 +29,30 @@
     </div>
     <!-- removed groups section-->
     <app-my-groups></app-my-groups>
-    <mat-divider></mat-divider> 
+    <mat-divider></mat-divider>
     <br>
-    <div fxLayout="row">
-      <div fxFlex="100">
-        <div align="left">
-          <h5 class="mygroup" style="font-weight: bold;"> A&nbsp;S&nbsp;S&nbsp;I&nbsp;G&nbsp;N&nbsp;M&nbsp;E&nbsp;N&nbsp;T&nbsp;S</h5>
-        </div>
-      </div>
-      <!--<div fxFlex="100">
+    <!--<div fxFlex="100">
         <div align="right">
           <button mat-button color="primary" style="font-weight: bold" routerLink="/creategroup">+ Create New</button>
         </div>
       </div> -->
-    </div>
-    <div align = "left">
-      <!--- <h3 style="padding-top: 20px; color:rgb(140,142,144)" > You currently have no assignments available</h3> -->
-      <!-- <button mat-button color="primary" (click)="save()" routerLink="/actions">Competitions History</button>-->
-      <a routerLink="/actions" routerLinkActive="router-link-active">All Assignments</a>
-      <br>
-      <br>
-      <br>
+    <div>
+      <div>
+        <div fxLayout="row">
+          <div fxFlex="100">
+            <h5>Assignments</h5>
+          </div>
+        </div>
+        <div *ngIf="assignments" align="left">
+          <a outerLink="/actions" routerLinkActive="router-link-active">All Assignments</a>
+        </div>
+      </div>
+      <div *ngIf="!assignments">
+        <h3 style="padding-top: 20px; color:rgb(140,142,144)">You currently have no assignments available</h3>
+        <!-- <button mat-button color="primary" (click)="save()" routerLink="/actions">Competitions History</button>-->
+      </div>
     </div>
   </div>
+
   <app-actions *ngIf="isViewAll"></app-actions>
 </main>

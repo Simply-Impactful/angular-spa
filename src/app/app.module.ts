@@ -94,7 +94,8 @@ import { MyGroupsComponent } from './my-groups/my-groups.component';
     CreateProfileService,
     Parameters,
     LambdaInvocationService,
-    ActionService],
+    ActionService,
+    HomeComponent ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

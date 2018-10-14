@@ -34,6 +34,7 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback, Callback 
   groupAvatarFile: any;
   groupAvatarUrl: string;
   conf = AppConf;
+  focused: boolean = false;
 
   constructor(public lambdaService: LambdaInvocationService,
     public router: Router,
@@ -61,6 +62,8 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback, Callback 
  // not needed anymore divya will handle in backend
   //  this.createdGroup.groupMembers = this.createdGroup.groupMembers.replace(/\s+/g, '');
     if (this.checkInputs()) {
+      // TODO: wouldn't this cause an issue if they input 2 names?
+      this.createdGroup.groupMembers = this.createdGroup.groupMembers.replace(/\s+/g, '');
       this.s3.uploadFile(this.groupAvatarFile, this.conf.imgFolders.groups, (err, location) => {
         if (err) {
           // we will allow for the creation of the item, we have a default image
@@ -68,7 +71,9 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback, Callback 
           this.createdGroup.groupAvatar = this.conf.default.groupAvatar;
         } else {
           this.createdGroup.groupAvatar = location;
-           this.lambdaService.createGroup(this.createdGroup, this);
+          this.lambdaService.createGroup(this.createdGroup, this);
+          //  window.location.reload();
+          this.router.navigate(['/home']);
         }
       });
     }
@@ -137,9 +142,7 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback, Callback 
   }
 
   // Response of createGroup API - Callback interface
-  cognitoCallbackWithParam(result: any) {
-
-  }
+  cognitoCallbackWithParam(result: any) {}
 
   callback() {}
 

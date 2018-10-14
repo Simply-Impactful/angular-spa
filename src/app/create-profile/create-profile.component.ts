@@ -26,8 +26,8 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
   nullNameError: string = '';
   nullZipError: string = '';
   isGenericMessage: boolean = null;
-  picture: any;
-
+  profilePicture: any;
+  focused: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -56,18 +56,19 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
   createAccount() {
     if (this.checkInputs()) {
       // TODO: should we collect the pic else where?
-      // this.s3.uploadFile(this.picture, this.conf.imgFolder.userProfile, (err, location) => {
-      //   if (err) {
-      //     // we will allow for the creation of the item, we will just not have an image
-      //     console.log(err);
-      //     this.newUser.picture = this.conf.default.userProfile;
-      //   } else {
-      //     this.newUser.picture = location;
-      //     this.createProfileService.register(this.newUser, this);
-      //   }
-      // });
+      console.log(this.conf.imgFolders.userProfile);
+      this.s3.uploadFile(this.profilePicture, this.conf.imgFolders.userProfile, (err, location) => {
+        if (err) {
+          // we will allow for the creation of the item, we will just not have an image
+          console.log(err);
+          this.newUser.picture = this.conf.default.userProfile;
+        } else {
+          this.newUser.picture = location;
+          this.createProfileService.register(this.newUser, this);
+        }
+      });
 
-      this.createProfileService.register(this.newUser, this);
+      // this.createProfileService.register(this.newUser, this);
     }
   }
 
@@ -140,8 +141,8 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
     }
   }
 
-  fileEvent(fileInput: any, imageName) {
+  fileEvent(fileInput: any) {
     // save the image file which will be submitted later
-    this.picture = fileInput.target.files[0];
+    this.profilePicture = fileInput.target.files[0];
   }
 }

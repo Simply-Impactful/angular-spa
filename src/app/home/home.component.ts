@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit, LoggedInCallback {
     private cognitoUtil: CognitoUtil,
     private createProfileService: CreateProfileService,
     private params: Parameters, private lambdaService: LambdaInvocationService) { }
+    private assignments:  any;
 
   ngOnInit() {
    this.params.user$.subscribe(user => {

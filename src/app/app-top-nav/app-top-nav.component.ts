@@ -20,10 +20,11 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
   title: string = this.conf.appTitle;
   hideRightMenu: boolean = true;
   user: User;
-//  @Input() isViewAll: boolean;
+  isViewAll: boolean;
 
   constructor(private params: Parameters, private loginService: LogInService,
-    private cognitoUtil: CognitoUtil, private route: ActivatedRoute) {}
+    private cognitoUtil: CognitoUtil, private route: ActivatedRoute,
+    private homeComp: HomeComponent) {}
 
   ngOnInit() {
     this.params.user$.subscribe(user => {
@@ -41,6 +42,10 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
     this.loginService.isAuthenticated(this, this.user);
   }
 
+  toggle() {
+    this.homeComp.isHomePage = true;
+    this.homeComp.isViewAll = false;
+  }
   logout() {
     this.cognitoUtil.getCurrentUser().signOut();
   }
