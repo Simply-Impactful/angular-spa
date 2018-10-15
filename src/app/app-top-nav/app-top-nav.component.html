@@ -4,13 +4,13 @@
   <mat-toolbar color="primary">
     <!-- top navigation with menu-->
     <mat-toolbar-row>
-      <button class="nav-logo" title="Navigate to Home Page" routerLink="/home" (click)="toggle()"></button>
+      <button class="nav-logo" title="{{title}}" routerLink="{{routerLink}}" (click)="toggle()"></button>
       <span class="spacer"></span>
 
       <a href = 'http://www.changeissimple.org/' class="white-text">About </a>
       <a href = 'http://www.italladdsup.world/contactus'  class="white-text">Contact </a>
-      <a href = 'http://www.changeissimple.org/joinus/'  class="white-text">Level </a>
       <a href = 'http://www.changeissimple.org/joinus/' class="white-text" target="_blank">FAQ </a>
+      <a *ngIf="!hideRightMenu" href = 'http://www.changeissimple.org/joinus/'  class="white-text">Level </a>
 
     <!--  <button class="white-text" style = "margin-top:52.5px;" mat-button routerLink="/contactus">Contact us</button> -->
       <div [hidden]="hideRightMenu" class="white-text">

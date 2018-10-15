@@ -60,9 +60,6 @@ export class LogInComponent implements LoggedInCallback, OnInit {
       // use a local variable as opposed to an instance var.
       this.errorMessage = message;
       console.error('result: ' + this.errorMessage);
-       if (this.errorMessage === 'User needs to set password.') {
-        console.log('redirecting to set new password');
-      }
     } else { // success
       const currentUser = this.cognitoUtil.getCurrentUser();
       const username = currentUser.getUsername();

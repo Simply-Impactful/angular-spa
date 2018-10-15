@@ -5,6 +5,7 @@ import { CognitoUtil, LoggedInCallback } from './services/cognito.service';
 import { User } from './model/User';
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import { AWSError } from 'aws-sdk';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,7 @@ export class AppComponent implements OnInit, LoggedInCallback {
 
   isAdmin: boolean = false;
   user: User;
-  constructor(public loginService: LogInService) { }
+  constructor(public loginService: LogInService, public router: Router) { }
 
   ngOnInit() {
     if (this.loginService) {
@@ -36,6 +37,9 @@ export class AppComponent implements OnInit, LoggedInCallback {
         awsUtil.initAwsService(null, isLoggedIn, token);
       }
     });
+    if (!isLoggedIn && !window.location.toString().includes('/landing')) {
+      this.router.navigate(['/login']);
+    }
   }
   callbackWithParams(error: AWSError, result: CognitoUserAttribute[]) {
     console.log('result ' + result);

@@ -131,7 +131,7 @@ export class CognitoUtil {
     }
 
     updateUserAttribute(callback: LoggedInCallback, key: string, value: string) {
-        if (key.includes('organization' || 'lastName' || 'picture')) {
+        if (key.includes('organization' || 'lastName')) {
             key = 'custom:' + key;
         }
         const cognitoUser = this.getCurrentUser();
@@ -158,8 +158,10 @@ export class CognitoUtil {
             if (error) {
                 console.log('error ' + error);
              // not working because of type. Add an error callback?
-             // callback.callbackWithParams(error, null);
+                callback.callbackWithParam(error);
                 return;
+            } else {
+                callback.callbackWithParam(result1);
             }
             console.log('Update call result: ' + result1);
         });
