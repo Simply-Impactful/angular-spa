@@ -8,6 +8,7 @@ import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
 import { CreateProfileService } from '../services/create-profile.service';
 import { AWSError } from 'aws-sdk';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -34,8 +35,8 @@ export class HomeComponent implements OnInit, LoggedInCallback {
     this.loginService.isAuthenticated(this, this.user);
    }
 
-  /** Interface needed for LoggedInCallback */
-  isLoggedIn(message: string, isLoggedIn: boolean) {}
+   // LoggedInCallback interface
+   isLoggedIn(message: string, isLoggedIn: boolean) {}
 
   // API Response for getUserActions - body null on first time user
   // Don't throw an error in that scenario

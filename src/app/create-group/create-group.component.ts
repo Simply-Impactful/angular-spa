@@ -82,11 +82,11 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback, Callback 
           this.createdGroup.groupAvatar = this.conf.default.groupAvatar;
         } else {
           this.createdGroup.groupAvatar = location;
-           this.lambdaService.createGroup(this.createdGroup, this);
           // EXPECTS an array
+          this.lambdaService.createGroup(this.createdGroup, this);
           // TODO: can we do this without a window reload?
-          //  window.location.reload();
           this.router.navigate(['/home']);
+          window.location.reload();
         }
       });
     }

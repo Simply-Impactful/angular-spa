@@ -21,6 +21,7 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
   hideRightMenu: boolean = true;
   user: User;
   isViewAll: boolean;
+  routerLink: string;
 
   constructor(private params: Parameters, private loginService: LogInService,
     private cognitoUtil: CognitoUtil, private route: ActivatedRoute,
@@ -31,14 +32,15 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
       this.user = user;
     });
 
-    // TODO: inclue logic for this on reset password?
+ /**   // TODO: inclue logic for this on reset password?
     if (window.location.toString().includes('landing')
           || window.location.toString().includes('createuser')) {
       this.hideRightMenu = true;
     } else {
       this.hideRightMenu = false;
     }
-
+    this.routerLink = '/home';
+ **/
     this.loginService.isAuthenticated(this, this.user);
   }
 
@@ -59,7 +61,19 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
     }
   }
   /** Interface needed for LoggedInCallback */
-  isLoggedIn(message: string, isLoggedIn: boolean) {}
+  isLoggedIn(message: string, isLoggedIn: boolean) {
+    // only expose the right menu if the user is logged in
+    // only let the user route to the home page when clicking the nav icon if they're logged in
+    if (!isLoggedIn) {
+      this.hideRightMenu = true;
+      this.routerLink = '/login';
+      this.title = 'Navigate to Login Page';
+    } else {
+      this.hideRightMenu = false;
+      this.routerLink = '/home';
+      this.title = 'Navigate to Home Page';
+    }
+  }
   // API Response
   callbackWithParams(error: AWSError, result: any) {}
 
