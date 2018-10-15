@@ -82,3 +82,20 @@ a {
 .membersRight {
   margin-left: 140px;
 }
+.top-performer-card {
+  width: fit-content;
+  margin: 0.5px;
+  height: 75px;
+  display: inline-block;
+  background-color: azure;
+  text-align: left;
+}
+
+.top-performer-image {
+//  background-image: url('/assets/images/Congrats_icn.svg');
+  background-size: cover;
+}
+
+mat-card-subtitle{
+ margin: 0px;
+}

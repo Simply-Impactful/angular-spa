@@ -1,11 +1,11 @@
 <main>
-  <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Metadata table</h3>
+  <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Group Info table</h3>
   <button type="button" style = "margin:25px; width:150px; align-self: center" (click)="add()">Add new Type</button>
   <table class="table table-bordered table-responsive-md table-striped text-center">
     <tr>
-      <th class="text-center">TYPE</th>
-      <th class="text-center">SUBTYPE</th>
-      <th class="text-center">Remove</th>
+      <th class="text-center">GROUP TYPE</th>
+      <th class="text-center">GROUP SUBTYPE</th>
+      <th class="text-center">ACTION</th>
     </tr>
     <tr *ngFor="let groupType of typeList; let id = index">
       <td contenteditable="true" (keyup)="changeValue(id, 'type', $event)" (blur)="updateList(id, 'type', $event)">{{groupType.type}}</td>

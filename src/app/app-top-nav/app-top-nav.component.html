@@ -7,11 +7,14 @@
       <button class="nav-logo" title="Navigate to Home Page" routerLink="/home" (click)="toggle()"></button>
       <span class="spacer"></span>
 
-      <button class="white-text" style = "margin-top:52.5px;" mat-button routerLink="/contactus">Contact us</button>
+      <a href = 'http://www.changeissimple.org/' class="white-text">About </a>
+      <a href = 'http://www.italladdsup.world/contactus'  class="white-text">Contact </a>
+      <a href = 'http://www.changeissimple.org/joinus/'  class="white-text">Level </a>
+      <a href = 'http://www.changeissimple.org/joinus/' class="white-text" target="_blank">FAQ </a>
+
+    <!--  <button class="white-text" style = "margin-top:52.5px;" mat-button routerLink="/contactus">Contact us</button> -->
       <div [hidden]="hideRightMenu" class="white-text">
         <span class="spacer"></span>
-   <!--     <button *ngIf="!hideHome" mat-button routerLink="/home">Home</button> -->
-      <!--<button mat-button routerLink="/contactus">Contact us</button> -->
         <mat-card style="margin-right:10px"class="avatar-card">
             <mat-card-header>
               <img mat-card-avatar src="{{user.picture}}">
