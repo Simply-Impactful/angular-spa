@@ -1,16 +1,16 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <main>
   <h3 align = "left" style="padding-top:50px; font-weight: bold">Add new, remove or edit existing actions</h3>
-  <button mat-button color="primary" (click)="create()"> + Create New</button>
-  <br>      
+  <button mat-button color="primary" (click)="create()"> + Create New</button>   
   <div class="actions-container mat-elevation-z8">
+      <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
     <mat-table #table [dataSource]="dataSource">
 
     <!-- Pencil Column -->
     <ng-container matColumnDef="edit">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell style="width:10px" *matCellDef="let row; let i = index">
-        <mat-icon (click)="setClickedRow(i); edit()">edit</mat-icon>
+        <mat-icon (click)="edit(i)">edit</mat-icon>
       </mat-cell>
     </ng-container>
 
@@ -75,12 +75,16 @@
             </mat-cell>
         </ng-container>
 
-      <!-- checkbox Column -->
-      <ng-container matColumnDef="delete">
-        <mat-header-cell *matHeaderCellDef>DELETE</mat-header-cell>
-        <mat-cell *matCellDef="let row; let i = index">
-           <!-- $event.stopPropagation()" -->
-          <mat-checkbox (click)="setClickedRow(i);"
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="delete">
+        <mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()">
+          </mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()"
                         (change)="$event ? selection.toggle(row) : null"
                         [checked]="selection.isSelected(row)">
           </mat-checkbox>
@@ -92,7 +96,6 @@
       <mat-row *matRowDef="let row; columns: displayedColumns;">
       </mat-row>
     </mat-table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
   </div>
   <br>
   <button mat-raised-button color="primary" (click)="saveDelete()">Save changes</button>
