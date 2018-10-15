@@ -11,3 +11,10 @@ main {
         font-weight: 700;
         text-transform: uppercase;
     }
+    table {
+        table-layout:fixed;
+    }
+    table td {
+        word-wrap:break-word;
+    }
+        
