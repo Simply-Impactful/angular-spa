@@ -13,9 +13,7 @@ export class AdminAccessLevelComponent implements OnInit {
     { id: 1, points: 1000,  levelInfo: 'Elephant', image: 'Elephant' },
   ];
 
-  awaitingLevelList: Array<any> = [
-    { id: 2, points: '', levelInfo: '', image: '' },
-  ];
+  awaitingLevelList: Array<any> = [];
 
   constructor() { }
 

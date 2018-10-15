@@ -14,9 +14,7 @@ export class AdminAccessCurriculumComponent implements OnInit {
     { id: 1, type: 'School',  subType: 'Club' },
   ];
 
-  awaitingTypeList: Array<any> = [
-    { id: 2, type: '', subType: '' },
-  ];
+  awaitingTypeList: Array<any> = [];
 
   constructor(public appComp: AppComponent) { }
 
