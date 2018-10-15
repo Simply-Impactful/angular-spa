@@ -17,11 +17,16 @@ export class AppComponent implements OnInit, LoggedInCallback {
 
   isAdmin: boolean = false;
   user: User;
-  constructor(public loginService: LogInService, public router: Router) { }
+  currentUser;
+  constructor(public loginService: LogInService, public router: Router, public cognitoUtil: CognitoUtil) { }
 
   ngOnInit() {
     if (this.loginService) {
     this.loginService.isAuthenticated(this, this.user);
+    }
+    this.currentUser = this.cognitoUtil.getCurrentUser().getUsername();
+    if (window.location.toString().includes('/admin') && this.currentUser !== 'superUser') {
+      this.router.navigate(['/login']);
     }
   }
 
