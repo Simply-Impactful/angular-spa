@@ -41,8 +41,9 @@ a {
   border-bottom-width: 0;
 }
 .example-element-detail {
-  overflow: hidden;
+  overflow: auto;
   display: flex;
+  max-width: 1200px;
 }
 
 .example-element-diagram {
