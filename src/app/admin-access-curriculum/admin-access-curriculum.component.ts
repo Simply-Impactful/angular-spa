@@ -12,14 +12,10 @@ export class AdminAccessCurriculumComponent implements OnInit {
   editField: string;
   typeList: Array<any> = [
     { id: 1, type: 'School',  subType: 'Club' },
-  //  { id: 2, type: 'Company',  subType: 'Department' },
-  //  { id: 3, type: 'Organization',  subType: 'Religious' },
-  //  { id: 4, type: 'Sports',  subType: '' },
-  //  { id: 5, type: 'Other',  subType: ''},
   ];
 
   awaitingTypeList: Array<any> = [
-    { id: 6, type: '', subType: '' },
+    { id: 2, type: '', subType: '' },
   ];
 
   constructor(public appComp: AppComponent) { }
