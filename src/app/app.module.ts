@@ -44,6 +44,7 @@ import { Parameters } from './services/parameters';
 import { LambdaInvocationService } from './services/lambdaInvocation.service';
 import { AdminActionDialogComponent } from './admin-action-dialog/admin-action-dialog.component';
 import { MyGroupsComponent } from './my-groups/my-groups.component';
+import { AdminAccessLevelComponent } from './admin-access-level/admin-access-level.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { MyGroupsComponent } from './my-groups/my-groups.component';
     AdminAccessUsersComponent,
     AdminAccessCurriculumComponent,
     AdminActionDialogComponent,
-    MyGroupsComponent
+    MyGroupsComponent,
+    AdminAccessLevelComponent
   ],
   imports: [
     [BrowserModule, FormsModule],

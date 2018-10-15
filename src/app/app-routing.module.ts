@@ -15,6 +15,8 @@ import { AdminAccessLandingComponent } from './admin-access-landing/admin-access
 import { AdminAccessActionsComponent } from './admin-access-actions/admin-access-actions.component';
 import { AdminAccessUsersComponent } from './admin-access-users/admin-access-users.component';
 import { AdminAccessCurriculumComponent } from './admin-access-curriculum/admin-access-curriculum.component';
+import { AdminAccessLevelComponent } from './admin-access-level/admin-access-level.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -30,7 +32,9 @@ const routes: Routes = [
   { path: 'adminaccesslanding', component: AdminAccessLandingComponent },
   { path: 'adminaccessusers', component: AdminAccessUsersComponent },
   { path: 'adminaccessactions', component: AdminAccessActionsComponent },
-  { path: 'adminaccesscurriculum', component: AdminAccessCurriculumComponent }
+  { path: 'adminaccesscurriculum', component: AdminAccessCurriculumComponent },
+  { path: 'adminaccesslevel', component: AdminAccessLevelComponent }
+
 ];
 
 @NgModule({
