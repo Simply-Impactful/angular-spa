@@ -100,9 +100,6 @@ export class AdminActionDialogComponent implements OnInit, LoggedInCallback, Cal
     this.thisDialogRef.close('Cancel');
   }
 
-  // Skeletal methods we need to put here in order to use the lambdaService
-  isLoggedIn(message: string, loggedIn: boolean): void { }
-
   // API response of list Actions
   callbackWithParams(error: AWSError, result: any): void {
     if (result) {
@@ -110,8 +107,6 @@ export class AdminActionDialogComponent implements OnInit, LoggedInCallback, Cal
       this.existingActions = response.body;
     }
   }
-  // response of is authenticated - LoggedInCallback interface
-  callbackWithParam(result: any): void {}
 
   // API response of Create Actions
   callbackWithParameters(error: AWSError, result: any) {
@@ -121,9 +116,12 @@ export class AdminActionDialogComponent implements OnInit, LoggedInCallback, Cal
     } else {
       console.log('ERROR ' + error);
     }
-
   }
 
+  // storing as single variables instead of an array for now...
+  fileEvent(fileInput: any, imageName: string) {
+    this[imageName] = fileInput.target.files[0];
+  }
 
   /**
    * TODO: Which lambda is this invoking?
@@ -145,19 +143,16 @@ export class AdminActionDialogComponent implements OnInit, LoggedInCallback, Cal
       // lambda invoke save actions
     });
   }
-
-    // Calling this twice for now..
-    fileEvent(fileInput: any, imageName: string) {
-      this[imageName] = fileInput.target.files[0];
-    }
-
     /**
      // when we upload the image, this doesn't go out to s3 right way. Or does it?
     fileEvent(fileInput: any, imageName) {
       // captures an image file and adds it to the object of images. Pass correct name from html
       this.imageFiles[imageName] = fileInput.target.files[0];
-    }
-     */
+    } */
+
+    // LoggedInCallback interface
+    isLoggedIn(message: string, loggedIn: boolean): void { }
+    callbackWithParam(result: any): void {}
 
      // Callback Interface
     callback() {}
