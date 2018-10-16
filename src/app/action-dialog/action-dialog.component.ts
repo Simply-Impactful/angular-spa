@@ -114,6 +114,10 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
         for (let j = 0; j < this.groupsResult[i].members.length; j++) {
 
           if (this.groupsResult[i].members[j]['member'] === username) {
+            // need to define this for first time users in a group
+            if (!this.groupsResult[i].members[j].pointsEarned) {
+              this.groupsResult[i].members[j].pointsEarned = 0;
+            }
             const myObj =    {
               name: this.groupsResult[i].name,
               username: this.groupsResult[i].leader,

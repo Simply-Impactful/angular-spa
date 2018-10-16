@@ -355,34 +355,23 @@ export class LambdaInvocationService implements OnInit {
 
   // Allow Users to create/update a group
   createGroup(groupData: any, callback: CognitoCallback) {
- /**   const JSON_BODY = [{
-      name: groupData.name,
-      username: groupData.groupLeader,
-      zipCode: groupData.zipcode,
-      groupType: groupData.type,CognitoCallback
-      groupSubType: groupData.groupSubType, // different than the array for metaData
-      description: groupData.description,
-      groupAvatar: groupData.groupAvatar,
-      members: groupData.groupMembers,
-      pointsEarned: groupData.pointsEarned
-    }]; **/
+
     // need to do a summation of points earned with the group total points
-   const JSON_BODY = [];
-   console.log('groupData.length ' + groupData.length);
+  const JSON_BODY = [];
+   console.log('groupData.length ' + JSON.stringify(groupData));
     for (let i = 0; i < groupData.length; i++) {
       JSON_BODY.push({
         name: groupData[i].name,
-        username: groupData[i].groupLeader,
-        zipCode: groupData[i].zipcode,
-        groupType: groupData[i].type,
-        groupSubType: groupData[i].groupSubType, // different than the array for metaData
+        username: groupData[i].username,
         description: groupData[i].description,
+        zipCode: groupData[i].zipCode,
         groupAvatar: groupData[i].groupAvatar,
+        groupType: groupData[i].groupType,
+        groupSubType: groupData[i].groupSubType, // different than the array for metaData
         members: groupData[i].members,
         pointsEarned: groupData[i].pointsEarned
       });
     }
-
     console.log('json body ' + JSON.stringify(JSON_BODY));
 
     const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');

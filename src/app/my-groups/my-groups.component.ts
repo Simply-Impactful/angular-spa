@@ -44,7 +44,7 @@ export class MyGroupsComponent implements OnInit, Callback {
         }
       }
     }
-    console.log('my groups ' + JSON.stringify(this.myGroups));
+
   }
   callback() {}
   callbackWithParam(result: any) {}

@@ -24,12 +24,11 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
     membersFile: 'membersFile',
     groupAvatarFile: 'groupAvatarFile'
   };
-
-
+  groupArray = [];
   types = [];
   subTypes = [];
   groupsData = new Array<Group>();
-  createdGroup: Group;
+  createdGroup;
   i: number = 0;
   isOther: boolean = false;
   groupControl = new FormControl();
@@ -52,7 +51,7 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
     private s3: S3Service) { }
 
   ngOnInit() {
-    this.createdGroup = new Group();
+    this.createdGroup = new Array<Group>();
     this.lambdaService.listGroupsMetaData(this);
   }
 
@@ -69,12 +68,9 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
 
   creategroup() {
     this.createdGroup.groupAvatar = this.groupAvatarUrl;
-    // trim any spaces in between
- // not needed anymore divya will handle in backend
-  //  this.createdGroup.groupMembers = this.createdGroup.groupMembers.replace(/\s+/g, '');
     if (this.checkInputs()) {
       // TODO: wouldn't this cause an issue if they input 2 names?
-      this.createdGroup.groupMembers = this.createdGroup.groupMembers.replace(/\s+/g, '');
+   //   this.createdGroup.groupMembers = this.createdGroup.groupMembers.replace(/\s+/g, '');
       this.s3.uploadFile(this.groupAvatarFile, this.conf.imgFolders.groups, (err, location) => {
         if (err) {
           // we will allow for the creation of the item, we have a default image
@@ -83,11 +79,11 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
         } else {
           this.createdGroup.groupAvatar = location;
           // EXPECTS an array
-       //   this.createdGroup
-          this.lambdaService.createGroup(this.createdGroup, this);
+          this.groupArray.push(this.createdGroup);
+          this.lambdaService.createGroup(this.groupArray, this);
           // TODO: can we do this without a window reload?
           this.router.navigate(['/home']);
-          window.location.reload();
+        //  window.location.reload();
         }
       });
     }
