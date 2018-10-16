@@ -16,6 +16,8 @@ import { AdminAccessActionsComponent } from './admin-access-actions/admin-access
 import { AdminAccessUsersComponent } from './admin-access-users/admin-access-users.component';
 import { AdminAccessCurriculumComponent } from './admin-access-curriculum/admin-access-curriculum.component';
 import { AdminAccessLevelComponent } from './admin-access-level/admin-access-level.component';
+import { LevelComponent } from './level/level.component';
+
 
 
 const routes: Routes = [
@@ -29,6 +31,7 @@ const routes: Routes = [
   { path: 'resetpass', component: ResetPasswordComponent },
   { path: 'groups', component: GroupsComponent },
   { path: 'creategroup', component: CreateGroupComponent },
+  { path: 'level', component: LevelComponent },
   { path: 'adminaccesslanding', component: AdminAccessLandingComponent },
   { path: 'adminaccessusers', component: AdminAccessUsersComponent },
   { path: 'adminaccessactions', component: AdminAccessActionsComponent },

@@ -1,0 +1,31 @@
+<app-top-nav></app-top-nav>
+<main>
+  <h3 align = "center" style = "padding-top:50px;font-weight: bold"> LEVEL INFO </h3>
+  <div class="userdata-container mat-elevation-z8">
+	  <mat-table #table [dataSource]="dataSource">
+
+		  <!-- Points Column -->
+		<ng-container matColumnDef="username">
+			<mat-header-cell *matHeaderCellDef> POINTS </mat-header-cell>
+			<mat-cell *matCellDef="let users"> {{users.username}} </mat-cell>
+		</ng-container>
+
+		  <!-- Level Column -->
+		<ng-container matColumnDef="email">
+			<mat-header-cell *matHeaderCellDef> LEVEL </mat-header-cell>
+			<mat-cell *matCellDef="let users"> {{users.email}}</mat-cell>
+		</ng-container>
+
+		  <!-- Icon Column -->
+		<ng-container matColumnDef="zipcode">
+			<mat-header-cell *matHeaderCellDef> ICON </mat-header-cell>
+			<mat-cell *matCellDef="let users">{{users.zipcode}} </mat-cell>
+        </ng-container>
+    
+
+		<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+		<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+	</mat-table>
+  </div>
+</main>
+
