@@ -4,7 +4,7 @@ import { User } from '../model/User';
 import { MatDialog } from '@angular/material';
 import { ActionDialogComponent } from './../action-dialog/action-dialog.component';
 import * as AWS from 'aws-sdk';
-import { CognitoUtil, Callback, LoggedInCallback } from './cognito.service';
+import { CognitoUtil, Callback, LoggedInCallback, CognitoCallback } from './cognito.service';
 import { environment } from '../../environments/environment';
 import { ActionService } from './action.service';
 import { Buffer } from 'buffer';
@@ -112,7 +112,7 @@ export class LambdaInvocationService implements OnInit {
   }
 
    // Records points when a user takes an action
-   performAction(callback: LoggedInCallback, user: User, action: Action) {
+   performAction(callback: Callback, user: User, action: Action) {
      // needed for create group method (to udpate group points per user)
     this.pointsEarned = action.eligiblePoints;
     const JSON_BODY = {
@@ -148,11 +148,10 @@ export class LambdaInvocationService implements OnInit {
     lambda.invoke(putParams, function(error, data) {
       if (error) {
         console.log(error);
-        callback.callbackWithParams(error, null);
+        callback.callbackWithParameters(error, data);
       } else {
         console.log('perform action data ' + data);
-         callback.callbackWithParams(null, data.Payload);
-
+         callback.callbackWithParameters(null, data.Payload);
       }
     });
   }
@@ -355,20 +354,21 @@ export class LambdaInvocationService implements OnInit {
     }
 
   // Allow Users to create/update a group
-  createGroup(groupData: any, callback: Callback) {
-    const JSON_BODY = [{
+  createGroup(groupData: any, callback: CognitoCallback) {
+ /**   const JSON_BODY = [{
       name: groupData.name,
       username: groupData.groupLeader,
       zipCode: groupData.zipcode,
-      groupType: groupData.type,
+      groupType: groupData.type,CognitoCallback
       groupSubType: groupData.groupSubType, // different than the array for metaData
       description: groupData.description,
       groupAvatar: groupData.groupAvatar,
       members: groupData.groupMembers,
       pointsEarned: groupData.pointsEarned
-    }];
+    }]; **/
     // need to do a summation of points earned with the group total points
- /**   const JSON_BODY = [];
+   const JSON_BODY = [];
+   console.log('groupData.length ' + groupData.length);
     for (let i = 0; i < groupData.length; i++) {
       JSON_BODY.push({
         name: groupData[i].name,
@@ -378,10 +378,12 @@ export class LambdaInvocationService implements OnInit {
         groupSubType: groupData[i].groupSubType, // different than the array for metaData
         description: groupData[i].description,
         groupAvatar: groupData[i].groupAvatar,
-        members: groupData[i].groupMembers,
+        members: groupData[i].members,
         pointsEarned: groupData[i].pointsEarned
       });
-    } **/
+    }
+
+    console.log('json body ' + JSON.stringify(JSON_BODY));
 
     const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
 
@@ -405,10 +407,10 @@ export class LambdaInvocationService implements OnInit {
     };
     lambda.invoke(putParams, function(error, data) {
       if (error) {
-    //    console.log('ERROR ' + JSON.stringify(error));
-        callback.callbackWithParameters(error, null);
+        console.log('ERROR ' + JSON.stringify(error));
+        callback.cognitoCallback(error.toString(), null);
       } else {
-          callback.callbackWithParameters(null, data.Payload);
+          callback.cognitoCallback(null, data.Payload);
         //  window.location.reload();
       }
     });

@@ -93,12 +93,12 @@ import { AdminAccessLevelComponent } from './admin-access-level/admin-access-lev
   ],
   providers: [
     { provide: WindowWrapper, useFactory: GetWindow},
+    ActionService,
     CognitoUtil,
     AwsUtil,
     CreateProfileService,
     Parameters,
     LambdaInvocationService,
-    ActionService,
     HomeComponent ],
   bootstrap: [AppComponent]
 })

@@ -18,7 +18,6 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
   users: User[];
   displayedColumns = ['username', 'email', 'zipcode', 'carbon', 'totalpoints'];
   dataSource;
-  distinct = new Array<User>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -31,7 +30,7 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
 
   isLoggedIn(message: string, loggedIn: boolean): void {}
 
-  // result of lambda listActions and Delete Actions API
+  // result of lambda listUsers and Delete Actions API
   callbackWithParams(error: AWSError, result: any): void {
     if (result) {
       const response = JSON.parse(result);

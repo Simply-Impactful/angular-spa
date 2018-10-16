@@ -3,7 +3,7 @@ import { Group } from '../model/Group';
 import * as AWS from 'aws-sdk/global';
 import { environment } from '../../environments/environment';
 import { AuthenticationDetails, CognitoUserAttribute, CognitoUser, CognitoUserPool } from 'amazon-cognito-identity-js';
-import { CognitoCallback, LoggedInCallback, Callback } from '../services/cognito.service';
+import { CognitoCallback, LoggedInCallback, Callback, ChallengeParameters } from '../services/cognito.service';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { AWSError } from 'aws-sdk/global';
 import { FormControl } from '@angular/forms';
@@ -18,7 +18,7 @@ let members;
   templateUrl: './create-group.component.html',
   styleUrls: ['./create-group.component.scss']
 })
-export class CreateGroupComponent implements OnInit, LoggedInCallback, Callback {
+export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCallback, Callback {
 
   FILES = {
     membersFile: 'membersFile',
@@ -83,6 +83,7 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback, Callback 
         } else {
           this.createdGroup.groupAvatar = location;
           // EXPECTS an array
+       //   this.createdGroup
           this.lambdaService.createGroup(this.createdGroup, this);
           // TODO: can we do this without a window reload?
           this.router.navigate(['/home']);
@@ -190,17 +191,20 @@ export class CreateGroupComponent implements OnInit, LoggedInCallback, Callback 
     }
   }
 
+  // Response of Create Groups API - CognitoCallback Interface
+  cognitoCallback(message: string, result: any) {
+      // TODO: implement..
+      if (result) {
+        // TODO: can we do this without a window reload?
+        //  window.location.reload();
+        this.router.navigate(['/home']);
+      }
+  }
+  handleMFAStep?(challengeName: string, challengeParameters: ChallengeParameters, callback: (confirmationCode: string) => any): void;
+
   callback() {}
 
-  // response of create group API
-  callbackWithParameters(error: AWSError, result: any) {
-    // TODO: implement..
-    if (result) {
-      // TODO: can we do this without a window reload?
-      //  window.location.reload();
-      this.router.navigate(['/home']);
-  }
-  }
+  callbackWithParameters(error: AWSError, result: any) {}
   callbackWithParam(result: any): void { }
 
 }

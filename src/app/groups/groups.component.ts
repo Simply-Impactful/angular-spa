@@ -2,7 +2,7 @@ import { User } from './../model/User';
 import { Action } from '../model/Action';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import { LoggedInCallback, CognitoUtil, Callback } from '../services/cognito.service';
+import { LoggedInCallback, CognitoUtil, Callback, CognitoCallback, ChallengeParameters } from '../services/cognito.service';
 import { AWSError } from 'aws-sdk';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { Group } from '../model/Group';
@@ -25,7 +25,7 @@ import { AppConf } from '../shared/conf/app.conf';
     ]),
   ],
 })
-export class GroupsComponent implements OnInit, LoggedInCallback, Callback {
+export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallback, Callback {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   private conf = AppConf;
@@ -119,9 +119,16 @@ export class GroupsComponent implements OnInit, LoggedInCallback, Callback {
   }
 
    // Logged In Callback interface
-   callbackWithParameters(error: AWSError, result: any) {
-    // TODO: implement..
+   callbackWithParameters(error: AWSError, result: any) {}
+
+  // CognitoCallback Interface - response of create group API - join group
+  cognitoCallback(message: string, result: any) {
+    if (result) {
+      console.log('user successfully added');
+    }
   }
+
+  handleMFAStep?(challengeName: string, challengeParameters: ChallengeParameters, callback: (confirmationCode: string) => any): void;
 
   // response of isAuthenticated method in login service
   callbackWithParam(result: any): void {}

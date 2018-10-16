@@ -20,6 +20,9 @@ export class ActionService implements OnInit {
   dialogResult = '';
   length: number;
   errorMessage: string = '';
+  actionRules: Action;
+  maxFrequency: number;
+  frequencyCadence: string;
 
   public cognitoUtil: CognitoUtil;
 
@@ -27,6 +30,14 @@ export class ActionService implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  checkCadences (action: Action) {
+    console.log('actoin rules ' + JSON.stringify(action));
+    this.maxFrequency = action.maxFrequency;
+    this.frequencyCadence = action.frequencyCadence;
+    console.log('this.actionRUles ' + this.maxFrequency + ' and ' + this.frequencyCadence);
+
   }
 
   openDialog(name: string, action: Action) {
