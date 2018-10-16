@@ -63,17 +63,19 @@
     <ng-container matColumnDef="joinGroup">
       <th style="color:black;" mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let groups; let i = index">
-        <a (click)="joinGroup(groups)"> Join Group </a>
+        <a (click)="joinGroup(groups)" title="Click to become a member"> Join Group </a>
       </td>
     </ng-container>
 
-    <!-- TODO: Delete Group - only a feature for leaders 
+    <!-- TODO: Delete Group - only a feature for leaders -->
     <ng-container matColumnDef="deleteGroup">
-        <th style="color:black;" mat-header-cell *matHeaderCellDef></th>
+        <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let groups; let i = index">
-          <a *ngIf="groups.leader === username" (click)="deleteGroup(groups)"> Delete Group </a>
+          <a *ngIf="groups.leader === username"> 
+            <mat-icon title="Delete Group" style="color:rgba(105, 105, 105, 0.568)" (click)="deleteGroup(groups)">
+              delete_outline</mat-icon></a>
         </td>
-      </ng-container> -->
+      </ng-container>
 
     <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
 

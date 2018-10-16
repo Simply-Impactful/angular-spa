@@ -31,7 +31,7 @@ export class GroupsComponent implements OnInit, LoggedInCallback, Callback {
   private conf = AppConf;
 
   dataSource;
-  columnsToDisplay = ['name', 'leader', 'createdDate', 'totalPoints', 'zipCode', 'joinGroup'];
+  columnsToDisplay = ['name', 'leader', 'createdDate', 'totalPoints', 'zipCode', 'joinGroup', 'deleteGroup'];
   groups: Group[];
   isExpanded: boolean = false;
   isCollapsed: boolean = true;
@@ -43,10 +43,15 @@ export class GroupsComponent implements OnInit, LoggedInCallback, Callback {
 
   ngOnInit() {
     this.username = this.cognitoUtil.getCurrentUser().getUsername();
-  // TODO: comment back in  this.lambdaService.getAllGroups(this);
+    this.lambdaService.getAllGroups(this);
   }
 
+  // only for group leaders
+  deleteGroup(group: Group) {
+    this.lambdaService.deleteGroup(this, group);
+  }
 
+  // only for non-group members
   joinGroup(group: Group) {
     const updateList = [];
     const memberObj = {
@@ -69,6 +74,15 @@ export class GroupsComponent implements OnInit, LoggedInCallback, Callback {
   collapse() {
     this.isCollapsed = true;
     this.isExpanded = false;
+  }
+
+  // handles the response of Delete Group
+  callbackWithParams(error: AWSError, result: any) {
+    if (result ) {
+      console.log('result of delete ' + result);
+    } else {
+      console.log('error deleting group ' + error);
+    }
   }
 
   // Response of get All Groups - Callback interface
@@ -108,8 +122,6 @@ export class GroupsComponent implements OnInit, LoggedInCallback, Callback {
    callbackWithParameters(error: AWSError, result: any) {
     // TODO: implement..
   }
-
-  callbackWithParams(error: AWSError, result: any): void {}
 
   // response of isAuthenticated method in login service
   callbackWithParam(result: any): void {}
