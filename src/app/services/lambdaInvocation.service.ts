@@ -189,7 +189,7 @@ export class LambdaInvocationService implements OnInit {
   }
 
   // Allow admins to add more actions for users to take
-  adminCreateAction(actionData: Action, callback: LoggedInCallback) {
+  adminCreateAction(actionData: Action, callback: Callback) {
     console.log('action Data ' + JSON.stringify(actionData));
     const JSON_BODY = {
       name: actionData.name,
@@ -225,9 +225,9 @@ export class LambdaInvocationService implements OnInit {
     };
     lambda.invoke(putParams, function(error, data) {
       if (error) {
-        callback.callbackWithParams(error, null);
+        callback.callbackWithParameters(error, null);
       } else {
-        callback.callbackWithParams(null, data.Payload);
+        callback.callbackWithParameters(null, data.Payload);
       }
     });
   }

@@ -43,7 +43,7 @@ export class GroupsComponent implements OnInit, LoggedInCallback, Callback {
 
   ngOnInit() {
     this.username = this.cognitoUtil.getCurrentUser().getUsername();
-    this.lambdaService.getAllGroups(this);
+  // TODO: comment back in  this.lambdaService.getAllGroups(this);
   }
 
 
