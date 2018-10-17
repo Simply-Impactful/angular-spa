@@ -57,14 +57,24 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
     const memberObj = {
       member: this.username
     };
+    // adding the new member to the array
     group.members.push(memberObj);
 
+    // pushing each individual name to an array which will be converted into
+    // a list, then strip the commas
     for (let i = 0; i < group.members.length; i++) {
       updateList.push(group.members[i]['member']);
     }
-    group.groupMembers = updateList.toString();
+    group.membersString = updateList.toString();
 
-    this.lambdaService.createGroup(group, this);
+    // strip the commas, separate by space
+    group.membersString = group.membersString.replace(/\,+/g, ' ');
+
+    group.pointsEarned = group.totalPoints;
+    group.username = group.leader;
+    const groupArray = [];
+    groupArray.push(group);
+    this.lambdaService.createGroup(groupArray, this);
   }
 
   expand() {
@@ -91,7 +101,6 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
     this.groups = response.body;
     this.dataSource = new MatTableDataSource(this.groups);
     this.dataSource.paginator = this.paginator;
-
     // un-used as of now..
     this.dataSource.sort = this.sort;
 

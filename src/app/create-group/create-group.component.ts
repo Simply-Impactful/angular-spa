@@ -56,21 +56,24 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
   }
 
   toggleOption(type: string, subtype: string) {
-    this.createdGroup.type = type;
+    this.createdGroup.groupType = type;
+    // inputted string list
     this.createdGroup.groupSubType = subtype;
     if (type === 'Other') {
       this.isOther = true;
-      this.createdGroup.type = null;
+      this.createdGroup.groupType = null;
     } else {
       this.isOther = false;
     }
   }
 
   creategroup() {
+    // fresh new group needs points set to 0
+    this.createdGroup.pointsEarned = 0;
     this.createdGroup.groupAvatar = this.groupAvatarUrl;
     if (this.checkInputs()) {
       // TODO: wouldn't this cause an issue if they input 2 names?
-   //   this.createdGroup.groupMembers = this.createdGroup.groupMembers.replace(/\s+/g, '');
+      this.createdGroup.membersString = this.createdGroup.membersString.replace(/\,+/g, ' ');
       this.s3.uploadFile(this.groupAvatarFile, this.conf.imgFolders.groups, (err, location) => {
         if (err) {
           // we will allow for the creation of the item, we have a default image
@@ -83,14 +86,14 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
           this.lambdaService.createGroup(this.groupArray, this);
           // TODO: can we do this without a window reload?
           this.router.navigate(['/home']);
-        //  window.location.reload();
+          window.location.reload();
         }
       });
     }
   }
 
   checkInputs() {
-    if (!this.createdGroup.groupMembers) {
+    if (!this.createdGroup.membersString) {
       this.membersError = 'You must enter at least one group member. Consider adding yourself';
     } else {
       this.membersError = '';
@@ -100,17 +103,17 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
     } else {
       this.namesError = '';
     }
-    if (!this.createdGroup.zipcode) {
+    if (!this.createdGroup.zipCode) {
       this.zipcodeError = 'Zipcode is required';
     } else {
       this.zipcodeError = '';
     }
-    if (!this.createdGroup.type) {
+    if (!this.createdGroup.groupType) {
       this.groupTypeError = 'Group Type is required';
     } else {
       this.groupTypeError = '';
     }
-    if (!this.createdGroup.groupLeader) {
+    if (!this.createdGroup.username) {
       this.groupsLeaderError = 'Group Leader username is required';
     } else {
       this.groupsLeaderError = '';
@@ -130,9 +133,10 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
       // iterate between both arrays to pull out the subTypes which have 'N/A' specified
       for (let i = 0; i < this.groupsData.length; i++) {
         for (let j = 0; j < this.groupsData[i].subType.length; j++) {
+          // subType is used as an array in the response
           if (this.groupsData[i].subType[j]['subType'] === 'N/A') {
             // add a noSubTypes array so we can display them as top level options
-            this.noSubTypes.push(this.groupsData[i].type);
+            this.noSubTypes.push(this.groupsData[i].groupType);
             // splice pulls the subType out of the array that we set back to this.groupsData
             this.types.splice(i, 1);
           }

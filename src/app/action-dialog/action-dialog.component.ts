@@ -127,20 +127,16 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
               groupType: this.groupsResult[i].groupType,
               groupSubType: this.groupsResult[i].groupSubType,
               pointsEarned: this.pointsEarned + this.groupsResult[i].members[j].pointsEarned,
-              members: username
+              membersString: username
             };
-            console.log('myObj ' + JSON.stringify(myObj));
             params.push(myObj);
             break;
-          //   this.myGroups.push(this.groupsResult[i]);
           }
         }
       }
     }
-    console.log('params ' + JSON.stringify(params));
     if (params.length > 0) {
-      console.log('calling create gorup');
-      // update points
+      // last step: update points - response of create group goes to callbackWithParameters line 145
       this.lambdaService.createGroup(params, this);
     }
    }
@@ -148,8 +144,7 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
    // Perform Action API response - callback interface
    callbackWithParameters(error: AWSError, result: any) {
     if (result) {
-   //   window.location.reload();
-     // response goes to cognitoCallbackWithParam below - line 74
+     // response goes to cognitoCallbackWithParam above, line 105
         this.lambdaService.getAllGroups(this);
     }
    }
@@ -157,7 +152,7 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
     // response for create group API - CognitoCallback interface
     cognitoCallback(message: string, result: any) {
       if (result) {
-        console.log('result of create group ' + result);
+        window.location.reload();
       }
     }
 
