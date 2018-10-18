@@ -11,9 +11,9 @@ export class AdminAccessLevelComponent implements OnInit {
   inputText;
   editField: string;
   levelList: Array<any> = [
-    { id: 1, pointsRange: '0 - 100',  status: 'Elephant',
+    { id: 1, pointsRange: '0 - 1000',  status: 'Elephant',
     statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/elephant2.svg' },
-    { id: 2, pointsRange: '100 - 200',  status: 'Lemur',
+    { id: 2, pointsRange: '1001 - 2000',  status: 'Lemur',
     statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/lemur.svg' },
   ];
 

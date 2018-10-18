@@ -95,7 +95,7 @@ export class AdminActionDialogComponent implements OnInit, LoggedInCallback, Cal
             this.action.tileIconUrl = location;
             // shouldn't have to do this.. workaround for image not loading on the page because of URL coming back as:
             // https://simply-impactful-image-data.s3.amazonaws.com/actions/reusable_bottle.svg
-            this.action.tileIconUrl = 'https://s3.amazonaws.com/simply-impactful-image-data/Tile+icons/' + this.tileIcon.name;
+       //     this.action.tileIconUrl = 'https://s3.amazonaws.com/simply-impactful-image-data/Tile+icons/' + this.tileIcon.name;
             this.lambdaService.adminCreateAction(this.action, this);
         }
       });
