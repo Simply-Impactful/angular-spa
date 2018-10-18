@@ -52,6 +52,7 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
     private s3: S3Service) { }
 
   ngOnInit() {
+    this.isFileReader = true;
     this.createdGroup = new Array<Group>();
     this.lambdaService.listGroupsMetaData(this);
   }

@@ -37,7 +37,6 @@ const routes: Routes = [
   { path: 'adminaccessactions', component: AdminAccessActionsComponent },
   { path: 'adminaccessgroups', component: AdminAccessCurriculumComponent },
   { path: 'adminaccesslevel', component: AdminAccessLevelComponent }
-
 ];
 
 @NgModule({

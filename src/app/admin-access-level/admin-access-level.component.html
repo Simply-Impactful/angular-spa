@@ -3,15 +3,16 @@
   <button type="button" style = "margin:25px; width:150px; align-self: center" (click)="add()">Add new Level</button>
   <table class="table table-bordered table-responsive-md table-striped text-center">
     <tr>
-      <th class="text-center">POINTS EARNED</th>
+      <th class="text-center">POINTS RANGE</th>
       <th class="text-center">LEVEL INFO</th>
-      <th class="text-center">IMAGE</th>
+      <th class="text-center">ICON</th>
       <th class="text-center">ACTION</th>
     </tr>
     <tr *ngFor="let level of levelList; let id = index">
       <td contenteditable="true" (keyup)="changeValue(id, 'points', $event)" (blur)="updateList(id, 'points', $event)">{{level.points}}</td>
       <td contenteditable="true" (keyup)="changeValue(id, 'levelInfo', $event)" (blur)="updateList(id, 'levelInfo', $event)">{{level.levelInfo}}</td>
-      <td contenteditable="true" (keyup)="changeValue(id, 'image', $event)" (blur)="updateList(id, 'image', $event)">{{level.image}}</td>
+      <td contenteditable="true" (keyup)="changeValue(id, 'image', $event)" (blur)="updateList(id, 'image', $event)">
+          <img src="{{level.image}}" style="max-width:35px; max-height:35px"></td>
       <td>
       <span>
         <button type="button" size="sm" (click)="remove(id)">Remove</button>
