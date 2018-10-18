@@ -20,7 +20,7 @@ export class AdminAccessLevelComponent implements OnInit {
   ngOnInit() {
   }
 
-  save() {}
+  saveNew() {}
 
   updateList(id: number, property: string, event: any) {
     const editField = event.target.textContent;

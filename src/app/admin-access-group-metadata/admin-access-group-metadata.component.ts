@@ -22,7 +22,7 @@ export class AdminAccessGroupMetadataComponent implements OnInit {
     this.appComp.setAdmin();
   }
 
-  save() {}
+  saveNew() {}
 
     updateList(id: number, property: string, event: any) {
       const editField = event.target.textContent;
