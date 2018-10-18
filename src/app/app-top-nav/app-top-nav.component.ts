@@ -41,7 +41,7 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
     }
     this.routerLink = '/home';
  **/
-    this.loginService.isAuthenticated(this, this.user);
+    this.loginService.isAuthenticated(this);
   }
 
   toggle() {
@@ -56,6 +56,7 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
     const cognitoUser = this.cognitoUtil.getCurrentUser();
     const params = new Parameters();
     this.user = params.buildUser(result, cognitoUser);
+    console.log('this.user ' + JSON.stringify(this.user));
     if (!this.user.picture) {
       this.user.picture = this.conf.default.userProfile;
     }

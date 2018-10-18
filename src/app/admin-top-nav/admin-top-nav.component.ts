@@ -30,7 +30,7 @@ export class AdminTopNavComponent implements OnInit, LoggedInCallback {
     this.params.user$.subscribe(user => {
       this.user = user;
     });
-    this.loginService.isAuthenticated(this, this.user);
+    this.loginService.isAuthenticated(this);
 
     // TODO: https://stackoverflow.com/questions/43118592/angular-2-how-to-hide-nav-bar-in-some-components
   }

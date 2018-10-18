@@ -38,6 +38,7 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
   zipcodeError: string = '';
   groupsLeaderError: string = '';
   groupTypeError: string = '';
+  avatarError: string = '';
   groupAvatarFile: any;
   groupAvatarUrl: string;
   conf = AppConf;
@@ -51,6 +52,7 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
     private s3: S3Service) { }
 
   ngOnInit() {
+    this.isFileReader = true;
     this.createdGroup = new Array<Group>();
     this.lambdaService.listGroupsMetaData(this);
   }
@@ -59,6 +61,9 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
     this.createdGroup.groupType = type;
     // inputted string list
     this.createdGroup.groupSubType = subtype;
+    if (!subtype) {
+      this.createdGroup.groupSubType = 'N/A';
+    }
     if (type === 'Other') {
       this.isOther = true;
       this.createdGroup.groupType = null;
@@ -81,13 +86,13 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
           this.createdGroup.groupAvatar = this.conf.default.groupAvatar;
         } else {
           this.createdGroup.groupAvatar = location;
-          // EXPECTS an array
-          this.groupArray.push(this.createdGroup);
-          this.lambdaService.createGroup(this.groupArray, this);
-          // TODO: can we do this without a window reload?
-          this.router.navigate(['/home']);
-          window.location.reload();
         }
+         // EXPECTS an array
+         this.groupArray.push(this.createdGroup);
+         this.lambdaService.createGroup(this.groupArray, this);
+         // TODO: can we do this without a window reload?
+         this.router.navigate(['/home']);
+         window.location.reload();
       });
     }
   }
@@ -129,6 +134,7 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
       const response = JSON.parse(result);
       this.groupsData = response.body;
       this.types = this.groupsData;
+      console.log('this.groupsData ' + JSON.stringify(this.groupsData));
       // console.log('groupsData ' + JSON.stringify(this.groupsData));
       // iterate between both arrays to pull out the subTypes which have 'N/A' specified
       for (let i = 0; i < this.groupsData.length; i++) {
@@ -136,7 +142,7 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
           // subType is used as an array in the response
           if (this.groupsData[i].subType[j]['subType'] === 'N/A') {
             // add a noSubTypes array so we can display them as top level options
-            this.noSubTypes.push(this.groupsData[i].groupType);
+            this.noSubTypes.push(this.groupsData[i].type);
             // splice pulls the subType out of the array that we set back to this.groupsData
             this.types.splice(i, 1);
           }

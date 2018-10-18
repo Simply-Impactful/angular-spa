@@ -30,7 +30,7 @@ export class LogInComponent implements LoggedInCallback, OnInit {
   ngOnInit() {
     this.errorMessage = null;
     console.log('Checking if the user is already authenticated. If so, then redirect to the home page');
-    this.logInService.isAuthenticated(this, this.user);
+    this.logInService.isAuthenticated(this);
 
   }
 

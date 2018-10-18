@@ -229,17 +229,18 @@ export class LambdaInvocationService implements OnInit {
 
   // Allow admins to add more actions for users to take
   adminCreateAction(actionData: Action, callback: Callback) {
-    console.log('action Data ' + JSON.stringify(actionData));
+ //   console.log('action Data ' + JSON.stringify(actionData));
     const JSON_BODY = {
       name: actionData.name,
       eligiblePoints: actionData.eligiblePoints,
       funFactImageUrl: actionData.funFactImageUrl,
       funFact: actionData.funFact,
       maxFrequency: actionData.maxFrequency,
+  //   tileIconUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Tile+icons/reusable_bottle.svg',
       tileIconUrl: actionData.tileIconUrl,
-      frequencyCadence: actionData.frequencyCadence // ,
-      // TODO: assignmentUrl: actionData.assignmentUrl,
-      // carbonPoints: actionData.carbonPoints
+      frequencyCadence: actionData.frequencyCadence,
+      assignmentUrl: actionData.assignmentUrl,
+      carbonPoints: actionData.carbonPoints
     };
 
     const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');

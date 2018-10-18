@@ -22,7 +22,7 @@ export class AppComponent implements OnInit, LoggedInCallback {
 
   ngOnInit() {
     if (this.loginService) {
-    this.loginService.isAuthenticated(this, this.user);
+    this.loginService.isAuthenticated(this);
     }
     this.currentUser = this.cognitoUtil.getCurrentUser().getUsername();
     if (window.location.toString().includes('/admin') && this.currentUser !== 'superUser') {

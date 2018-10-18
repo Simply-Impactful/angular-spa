@@ -11,7 +11,9 @@
     <tr *ngFor="let level of levelList; let id = index">
       <td contenteditable="true" (keyup)="changeValue(id, 'pointsRange', $event)" (blur)="updateList(id, 'pointsRange', $event)">{{level.pointsRange}}</td>
       <td contenteditable="true" (keyup)="changeValue(id, 'status', $event)" (blur)="updateList(id, 'status', $event)">{{level.status}}</td>
-      <td contenteditable="true" (keyup)="changeValue(id, 'statusGraphicUrl', $event)" (blur)="updateList(id, 'statusGraphicUrl', $event)">{{level.statusGraphicUrl}}</td>
+      <td contenteditable="true" (keyup)="changeValue(id, 'statusGraphicUrl', $event)" (blur)="updateList(id, 'statusGraphicUrl', $event)">
+            <img src="{{level.statusGraphicUrl}}" style="max-width:35px; max-height:35px">
+      </td>
       <td>
       <span>
         <button type="button" size="sm" (click)="remove(id)">Remove</button>
