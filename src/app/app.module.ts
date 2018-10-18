@@ -39,7 +39,7 @@ import { AdminTopNavComponent } from './admin-top-nav/admin-top-nav.component';
 import { AdminAccessLandingComponent } from './admin-access-landing/admin-access-landing.component';
 import { AdminAccessActionsComponent } from './admin-access-actions/admin-access-actions.component';
 import { AdminAccessUsersComponent } from './admin-access-users/admin-access-users.component';
-import { AdminAccessCurriculumComponent } from './admin-access-curriculum/admin-access-curriculum.component';
+import { AdminAccessGroupMetadataComponent } from './admin-access-group-metadata/admin-access-group-metadata.component';
 import { Parameters } from './services/parameters';
 import { LambdaInvocationService } from './services/lambdaInvocation.service';
 import { AdminActionDialogComponent } from './admin-action-dialog/admin-action-dialog.component';
@@ -67,7 +67,7 @@ import { LevelComponent } from './level/level.component';
     AdminAccessLandingComponent,
     AdminAccessActionsComponent,
     AdminAccessUsersComponent,
-    AdminAccessCurriculumComponent,
+    AdminAccessGroupMetadataComponent,
     AdminActionDialogComponent,
     MyGroupsComponent,
     AdminAccessLevelComponent,
