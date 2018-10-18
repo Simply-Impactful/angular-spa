@@ -229,17 +229,18 @@ export class LambdaInvocationService implements OnInit {
 
   // Allow admins to add more actions for users to take
   adminCreateAction(actionData: Action, callback: Callback) {
-    console.log('action Data ' + JSON.stringify(actionData));
+ //   console.log('action Data ' + JSON.stringify(actionData));
     const JSON_BODY = {
       name: actionData.name,
       eligiblePoints: actionData.eligiblePoints,
       funFactImageUrl: actionData.funFactImageUrl,
       funFact: actionData.funFact,
       maxFrequency: actionData.maxFrequency,
+  //   tileIconUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Tile+icons/reusable_bottle.svg',
       tileIconUrl: actionData.tileIconUrl,
-      frequencyCadence: actionData.frequencyCadence // ,
-      // TODO: assignmentUrl: actionData.assignmentUrl,
-      // carbonPoints: actionData.carbonPoints
+      frequencyCadence: actionData.frequencyCadence,
+      assignmentUrl: actionData.assignmentUrl,
+      carbonPoints: actionData.carbonPoints
     };
 
     const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
@@ -402,5 +403,32 @@ export class LambdaInvocationService implements OnInit {
       }
     });
   }
+
+    // get all of the levels data
+    listLevelData(callback: LoggedInCallback) {
+      AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+      AWS.config.region = environment.region;
+      const lambda = new AWS.Lambda({region: AWS.config.region, apiVersion: '2015-03-31'});
+      const pullParams = {
+        FunctionName: 'listLevelData',
+        InvocationType: 'RequestResponse',
+        LogType: 'None',
+        Payload:  JSON.stringify({
+            httpMethod:  'GET',
+            path:  '/actions',
+            resource:  '',
+            queryStringParameters:  {},
+              pathParameters:  {}
+        })
+      };
+      lambda.invoke(pullParams, function(error, data) {
+        if (error) {
+          callback.callbackWithParams(error, null);
+        } else {
+       //   console.log('user action' + data.Payload);
+          callback.callbackWithParams(null, data.Payload);
+        }
+      });
+    }
 
 }

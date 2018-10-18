@@ -3,15 +3,18 @@ import { AppComponent } from '../app.component';
 import { Route, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-admin-access-curriculum',
-  templateUrl: './admin-access-curriculum.component.html',
-  styleUrls: ['./admin-access-curriculum.component.scss']
+  selector: 'app-admin-access-group-metadata',
+  templateUrl: './admin-access-group-metadata.component.html',
+  styleUrls: ['./admin-access-group-metadata.component.scss']
 })
-export class AdminAccessCurriculumComponent implements OnInit {
+export class AdminAccessGroupMetadataComponent implements OnInit {
   inputText;
   editField: string;
   typeList: Array<any> = [
-    { id: 1, type: 'School',  subType: 'Club' },
+    { id: 1, type: 'Non-Profit',  subType: 'Department, Entire Company' },
+    { id: 2, type: 'For-Profit',  subType: 'Department, Entire Company' },
+    { id: 3, type: 'School',  subType: '' },
+    { id: 4, type: 'Other',  subType: '' },
   ];
 
   awaitingTypeList: Array<any> = [];
@@ -22,7 +25,7 @@ export class AdminAccessCurriculumComponent implements OnInit {
     this.appComp.setAdmin();
   }
 
-  save() {}
+  saveNew() {}
 
     updateList(id: number, property: string, event: any) {
       const editField = event.target.textContent;

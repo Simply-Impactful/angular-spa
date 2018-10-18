@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit, LoggedInCallback {
    this.params.user$.subscribe(user => {
       this.user = user;
     });
-    this.loginService.isAuthenticated(this, this.user);
+    this.loginService.isAuthenticated(this);
    }
 
    // LoggedInCallback interface

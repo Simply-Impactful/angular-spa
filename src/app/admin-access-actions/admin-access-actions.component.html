@@ -71,7 +71,7 @@
       <!-- Assigments URL column -->
       <ng-container matColumnDef="assignmentUrl">
           <mat-header-cell *matHeaderCellDef> ASSIGNMENT URL </mat-header-cell>
-          <mat-cell *matCellDef="let actions"> {{actions.assignmentUrl}}
+          <mat-cell *matCellDef="let actions"> <a *ngIf="actions.assignmentUrl" href="{{actions.assignmentUrl}}" target="_blank">Assignment </a>
             </mat-cell>
         </ng-container>
 

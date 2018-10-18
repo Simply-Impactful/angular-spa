@@ -4,23 +4,23 @@
     <mat-toolbar color="primary">
       <!-- top navigation with menu-->
       <mat-toolbar-row class="white-text">
-        <button style = "margin-top:25px;" class="nav-logo" title="{{title}}" routerLink="{{routerLink}}"></button>
-        <button style = "margin-top:25px;" mat-button routerLink="/adminaccesslanding">Landing</button>
-        <button style = "margin-top:25px;" mat-button routerLink="/adminaccessactions">Actions</button>
-        <button style = "margin-top:25px;" mat-button routerLink="/adminaccessusers">Users</button>
-        <button style = "margin-top:25px;" mat-button routerLink="/adminaccesscurriculum">Group Info</button>
-        <button style = "margin-top:25px;" mat-button routerLink="/adminaccesslevel">Level Info</button>
+        <button class="nav-logo" title="{{title}}" routerLink="{{routerLink}}"></button>
+        <button mat-button routerLink="/adminaccesslanding">Landing</button>
+        <button mat-button routerLink="/adminaccessactions">Actions</button>
+        <button mat-button routerLink="/adminaccessusers">Users</button>
+        <button mat-button routerLink="/adminaccessgroupinfo">Group Info</button>
+        <button mat-button routerLink="/adminaccesslevel">Level Info</button>
 
         <span class="spacer"></span>
         <div [hidden]="hideRightMenu" class="white-text">
             <span class="spacer"></span>
-            <mat-card style="margin-right:10px"class="avatar-card">
+            <mat-card style="margin-right:10px; vertical-align:center"class="avatar-card">
                 <mat-card-header>
                   <img mat-card-avatar src="{{user.picture}}">
                 </mat-card-header>
               </mat-card>
                 <button class="mat-button" style = "width:1px;" [matMenuTriggerFor]="menu">
-                    <mat-icon>expand_more</mat-icon>
+                    <mat-icon style="vertical-align:center">expand_more</mat-icon>
                   </button>
                 <mat-menu #menu="matMenu">
        <!--       <button mat-menu-item routerLink="/userprofile">My Profile</button> -->

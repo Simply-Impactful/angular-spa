@@ -30,7 +30,7 @@
       <th style="color:black" mat-header-cell *matHeaderCellDef>
         <h4>GROUP LEADER</h4>
       </th>
-      <td mat-cell *matCellDef="let groups"> {{groups.username}} </td>
+      <td mat-cell *matCellDef="let groups"> {{groups.leader}} </td>
     </ng-container>
 
     <!-- Created Date Column -->
@@ -46,7 +46,7 @@
       <th style="color:black" mat-header-cell *matHeaderCellDef>
         <h4>TOTAL POINTS</h4>
       </th>
-      <td mat-cell *matCellDef="let groups"> {{groups.totalPoints}} </td>
+      <td mat-cell style="text-align:center" *matCellDef="let groups"> {{groups.totalPoints}} </td>
     </ng-container>
 
     <!-- Zipcode Column -->
@@ -63,7 +63,9 @@
     <ng-container matColumnDef="joinGroup">
       <th style="color:black;" mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let groups; let i = index">
+          <div style="margin: 15px;">
         <a (click)="joinGroup(groups)" title="Click to become a member"> Join Group </a>
+      </div>
       </td>
     </ng-container>
 
@@ -89,7 +91,7 @@
                 <!-- TODO: should this be pulling the member info from an object? -->
                 <img mat-card-avatar class = "top-performer-image" src="{{defaultUserPicture}}">         
               <mat-card-title>{{member.member}}</mat-card-title>
-              <mat-card-subtitle><strong>25 points</strong></mat-card-subtitle>
+              <mat-card-subtitle><strong>{{member.pointsEarned}}</strong></mat-card-subtitle>
             </mat-card-header>
             </mat-card>
           </div>

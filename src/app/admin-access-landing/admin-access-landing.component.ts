@@ -11,8 +11,6 @@ import { AppConf } from '../shared/conf/app.conf';
 })
 export class AdminAccessLandingComponent implements OnInit {
   inputText: string = '';
-  // grab stored value from DB
-  dynamicText: string = 'Americans user 500 million plastic straws each day.';
   factOfTheDayText: string = '';
   imageFile: any;
   conf = AppConf;

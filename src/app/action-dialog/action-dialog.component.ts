@@ -30,6 +30,7 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
   dialog: MatDialog;
   private actionService = new ActionService(this.dialog);
   userActions = [];
+  uniqueEntriesByUser = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA)public data: Action,
@@ -39,20 +40,24 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
     private loginService: LogInService) { }
 
   ngOnInit() {
+    // required to get the userActions table - for cadences and frequences
+    // response goes to callbackWithParams
     this.lambdaService.listUsers(this);
 
+    // passed into the constructor of the dialog window from action(s).component.ts
     this.action = this.data;
     this.params.user$.subscribe(user => {
       this.user = user;
     });
     // get the user attributes that are set in the login service
-    this.loginService.isAuthenticated(this, this.user);
+    this.loginService.isAuthenticated(this);
   }
 
   onCloseConfirm() {
     this.lambdaService.performAction(this, this.user, this.action);
     this.thisDialogRef.close('Confirm');
-  /**  if (this.actionService.checkCadences(this.action)) {
+
+ /**   if (this.actionService.checkCadences(this.uniqueEntriesByUser, this.action)) {
       this.lambdaService.performAction(this, this.user, this.action);
       this.thisDialogRef.close('Confirm');
     } else {
@@ -68,27 +73,21 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
   isLoggedIn(message: string, loggedIn: boolean): void {}
 
   // response of List users - LoggedInCallback interface
+  // capture the frequencie cadence for my actions taken
   callbackWithParams(error: AWSError, result: any): void {
-    const uniqueEntriesByUser = [];
     if (result) {
       const response = JSON.parse(result);
       this.userActions = response.body;
-      console.log('this.userActions.length ' + this.userActions.length);
       for (let i = 0; i < this.userActions.length; i++) {
         if (this.userActions[i]['username'] === this.user.username) {
 
           for (let index = 0; index < this.userActions[i].actionsTaken.length; index++ ) {
-            console.log('userAction action taken name ' + JSON.stringify(this.userActions[i].actionsTaken[index].actionTaken));
             if (this.userActions[i].actionsTaken[index].actionTaken === this.action.name) {
-              console.log('if.. PUSH');
-              uniqueEntriesByUser.push(this.userActions[i].actionsTaken[index]);
-         } else {
-            // console.log('error pulling the Users data' + error);
-          }
+              this.uniqueEntriesByUser.push(this.userActions[i].actionsTaken[index]);
+         }
       }
     }
   }
-  console.log('this.userActions... actionTaken' + JSON.stringify(uniqueEntriesByUser));
  }
 }
 

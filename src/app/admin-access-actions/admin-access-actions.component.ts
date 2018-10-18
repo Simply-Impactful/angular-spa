@@ -42,9 +42,9 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
       this.user = user;
     });
     this.appComp.setAdmin();
-    this.lambdaService.listActions(this);
 
-    this.loginService.isAuthenticated(this, this.user);
+    this.loginService.isAuthenticated(this);
+    this.lambdaService.listActions(this);
   }
 
   edit(i: string) {
@@ -104,6 +104,7 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
       this.dataSource.paginator = this.paginator;
     } else {
       console.log('error ' + JSON.stringify(error));
+      window.location.reload();
     }
     if (this.isDeleted) {
       window.location.reload();
