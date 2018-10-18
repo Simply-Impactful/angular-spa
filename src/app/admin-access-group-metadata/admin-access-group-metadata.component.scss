@@ -17,4 +17,9 @@ main {
     table td {
         word-wrap:break-word;
     }
+    button.mat-raised-button {
+        margin-right: 15px;
+        width: 150px;
+        align-self: flex-end;
+    }
         
