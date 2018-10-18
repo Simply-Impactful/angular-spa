@@ -405,4 +405,31 @@ export class LambdaInvocationService implements OnInit {
     });
   }
 
+    // get all of the levels data
+    listLevelData(callback: LoggedInCallback) {
+      AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+      AWS.config.region = environment.region;
+      const lambda = new AWS.Lambda({region: AWS.config.region, apiVersion: '2015-03-31'});
+      const pullParams = {
+        FunctionName: 'listLevelData',
+        InvocationType: 'RequestResponse',
+        LogType: 'None',
+        Payload:  JSON.stringify({
+            httpMethod:  'GET',
+            path:  '/actions',
+            resource:  '',
+            queryStringParameters:  {},
+              pathParameters:  {}
+        })
+      };
+      lambda.invoke(pullParams, function(error, data) {
+        if (error) {
+          callback.callbackWithParams(error, null);
+        } else {
+       //   console.log('user action' + data.Payload);
+          callback.callbackWithParams(null, data.Payload);
+        }
+      });
+    }
+
 }
