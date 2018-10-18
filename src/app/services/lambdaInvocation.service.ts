@@ -358,21 +358,20 @@ export class LambdaInvocationService implements OnInit {
 
     // need to do a summation of points earned with the group total points
   const JSON_BODY = [];
-   console.log('groupData.length ' + JSON.stringify(groupData));
     for (let i = 0; i < groupData.length; i++) {
       JSON_BODY.push({
         name: groupData[i].name,
-        username: groupData[i].username,
+        username: groupData[i].username, // leader
         description: groupData[i].description,
         zipCode: groupData[i].zipCode,
         groupAvatar: groupData[i].groupAvatar,
         groupType: groupData[i].groupType,
         groupSubType: groupData[i].groupSubType, // different than the array for metaData
-        members: groupData[i].members,
+        members: groupData[i].membersString,
         pointsEarned: groupData[i].pointsEarned
       });
     }
-    console.log('json body ' + JSON.stringify(JSON_BODY));
+  //  console.log('json body ' + JSON.stringify(JSON_BODY));
 
     const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
 
@@ -400,7 +399,6 @@ export class LambdaInvocationService implements OnInit {
         callback.cognitoCallback(error.toString(), null);
       } else {
           callback.cognitoCallback(null, data.Payload);
-        //  window.location.reload();
       }
     });
   }
