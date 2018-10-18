@@ -9,6 +9,8 @@ import { Group } from '../model/Group';
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { S3Service } from '../services/s3.service';
 import { AppConf } from '../shared/conf/app.conf';
+import { LogInService } from '../services/log-in.service';
+import { Parameters } from '../services/parameters';
 
 /**
  * @title Table with expandable rows
@@ -37,13 +39,16 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   isCollapsed: boolean = true;
   defaultUserPicture = this.conf.default.userProfile;
   username: string = '';
+  user: User;
 
   constructor(
-    public lambdaService: LambdaInvocationService, public cognitoUtil: CognitoUtil) {}
+    public lambdaService: LambdaInvocationService, public cognitoUtil: CognitoUtil,
+      public loginService: LogInService) {}
 
   ngOnInit() {
     this.username = this.cognitoUtil.getCurrentUser().getUsername();
     this.lambdaService.getAllGroups(this);
+    this.loginService.isAuthenticated(this);
   }
 
   // only for group leaders
@@ -86,10 +91,9 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
     this.isExpanded = false;
   }
 
-  // handles the response of Delete Group
+  // handles the response of Delete API
   callbackWithParams(error: AWSError, result: any) {
     if (result ) {
-      console.log('result of delete ' + result);
     } else {
       console.log('error deleting group ' + error);
     }
@@ -97,12 +101,17 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
 
   // Response of get All Groups - Callback interface
   cognitoCallbackWithParam(result: any) {
-    const response = JSON.parse(result);
-    this.groups = response.body;
-    this.dataSource = new MatTableDataSource(this.groups);
-    this.dataSource.paginator = this.paginator;
-    // un-used as of now..
-    this.dataSource.sort = this.sort;
+    if (result) {
+      const response = JSON.parse(result);
+      this.groups = response.body;
+      this.dataSource = new MatTableDataSource(this.groups);
+      this.dataSource.paginator = this.paginator;
+      // un-used as of now..
+      this.dataSource.sort = this.sort;
+    } else {
+      window.location.reload();
+    }
+
 
     /**
      * this.dataSource.sortingDataAccessor = (item, property) => {

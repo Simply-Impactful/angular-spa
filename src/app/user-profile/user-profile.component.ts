@@ -34,7 +34,7 @@ export class UserProfileComponent implements OnInit, LoggedInCallback {
       this.user = user;
     });
 
-    this.loginService.isAuthenticated(this, this.user);
+    this.loginService.isAuthenticated(this);
    }
 
   /** Interface needed for LoggedInCallback */

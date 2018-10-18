@@ -11,7 +11,10 @@ export class AdminAccessGroupMetadataComponent implements OnInit {
   inputText;
   editField: string;
   typeList: Array<any> = [
-    { id: 1, type: 'School',  subType: 'Club' },
+    { id: 1, type: 'Non-Profit',  subType: 'Department, Entire Company' },
+    { id: 2, type: 'For-Profit',  subType: 'Department, Entire Company' },
+    { id: 3, type: 'School',  subType: '' },
+    { id: 4, type: 'Other',  subType: '' },
   ];
 
   awaitingTypeList: Array<any> = [];

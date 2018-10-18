@@ -72,7 +72,7 @@ export class LogInService {
         callback.cognitoCallback(err.message, null);
     }
 
-    isAuthenticated(callback: LoggedInCallback, user: User) {
+    isAuthenticated(callback: LoggedInCallback) {
         if (callback === null) {
             throw new Error('LogInService: Callback in isAuthenticated() cannot be null');
         }

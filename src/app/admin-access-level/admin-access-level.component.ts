@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-admin-access-level',
@@ -10,14 +11,18 @@ export class AdminAccessLevelComponent implements OnInit {
   inputText;
   editField: string;
   levelList: Array<any> = [
-    { id: 1, points: 1000,  levelInfo: 'Elephant', image: 'Elephant' },
+    { id: 1, pointsRange: '0 - 100',  status: 'Elephant',
+    statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/elephant2.svg' },
+    { id: 2, pointsRange: '100 - 200',  status: 'Lemur',
+    statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/lemur.svg' },
   ];
 
   awaitingLevelList: Array<any> = [];
 
-  constructor() { }
+  constructor(private appComp: AppComponent) { }
 
   ngOnInit() {
+    this.appComp.setAdmin();
   }
 
   saveNew() {}
