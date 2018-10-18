@@ -76,23 +76,31 @@ export class AdminActionDialogComponent implements OnInit, LoggedInCallback, Cal
           // we will allow for the creation of the item, we have a default image
           console.log(err);
           this.action.funFactImageUrl = this.conf.default.groupAvatar;
+          this.lambdaService.adminCreateAction(this.action, this);
         } else {
             this.action.funFactImageUrl = location;
-         //   this.lambdaService.adminCreateAction(this.action, this);
+            this.lambdaService.adminCreateAction(this.action, this);
         }
       });
     }
     if (this.tileIcon) {
+      console.log('this.tileIcon ' + this.tileIcon);
       this.s3.uploadFile(this.tileIcon, this.conf.imgFolders.tileIcons, (err, location) => {
         if (err) {
           // we will allow for the creation of the item, we have a default image
           console.log(err);
           this.action.tileIconUrl = this.conf.default.groupAvatar;
+          this.lambdaService.adminCreateAction(this.action, this);
         } else {
             this.action.tileIconUrl = location;
+            // shouldn't have to do this.. workaround for image not loading on the page because of URL coming back as:
+            // https://simply-impactful-image-data.s3.amazonaws.com/actions/reusable_bottle.svg
+            this.action.tileIconUrl = 'https://s3.amazonaws.com/simply-impactful-image-data/Tile+icons/' + this.tileIcon.name;
             this.lambdaService.adminCreateAction(this.action, this);
         }
       });
+    } if (!this.tileIcon && !this.funFactImage) { // still create anyway
+      this.lambdaService.adminCreateAction(this.action, this);
     }
   }
 
@@ -112,7 +120,9 @@ export class AdminActionDialogComponent implements OnInit, LoggedInCallback, Cal
   callbackWithParameters(error: AWSError, result: any) {
     if (result) {
       this.thisDialogRef.close('Confirm');
-      window.location.reload();
+      if (this.isCreating) {
+        window.location.reload();
+      }
     } else {
       console.log('ERROR ' + error);
     }

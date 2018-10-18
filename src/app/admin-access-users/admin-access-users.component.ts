@@ -7,6 +7,7 @@ import { LoggedInCallback } from '../services/cognito.service';
 import { User } from '../model/User';
 import { AWSError } from 'aws-sdk';
 import * as _ from 'lodash';
+import { LogInService } from '../services/log-in.service';
 
 @Component({
   selector: 'app-admin-access-users',
@@ -21,10 +22,11 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(public appComp: AppComponent, public lambdaService: LambdaInvocationService) { }
+  constructor(public appComp: AppComponent, public lambdaService: LambdaInvocationService, public loginService: LogInService) { }
 
   ngOnInit() {
     this.appComp.setAdmin();
+    this.loginService.isAuthenticated(this);
     this.lambdaService.listUsers(this);
   }
 
@@ -46,6 +48,7 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
     //  console.log('this.users ' + JSON.stringify(this.users));
 
      } else {
+       window.location.reload();
       console.log('error pulling the Users data' + error);
     }
   }

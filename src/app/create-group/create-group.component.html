@@ -31,9 +31,9 @@
         <mat-select [formControl]="groupControl" placeholder="Group Type"
         (focus)="focused=true" (focusout)="focused=false">
           <mat-optgroup *ngFor="let groupData of groupsData; let i = index" value="groupData.type" label="{{groupData.type}}">
-            <mat-option *ngFor="let subType of groupData.subType" value="subType" (click)="toggleOption(groupData.type, subType.subType)">{{subType.subType}}</mat-option>
+            <mat-option *ngFor="let subType of groupData.subType" value="groupData.subType" (click)="toggleOption(groupData.type, subType.subType)">{{subType.subType}}</mat-option>
           </mat-optgroup>
-          <mat-option *ngFor="let noSubType of noSubTypes" style="color: gray" value="noSubType" (click)="toggleOption(noSubType, null)">{{noSubType}}
+          <mat-option *ngFor="let noSubType of noSubTypes" style="color: gray" value="groupData.type" (click)="toggleOption(noSubType, null)">{{noSubType}}
           </mat-option>
         </mat-select>
         <mat-hint>Required &nbsp;
@@ -99,6 +99,7 @@
         <button class="upload-file">Choose Group Avatar</button>
         <input type="file" accept="image/*" (change)="fileEvent($event, FILES.groupAvatarFile)" />
         <label class="upload-file-name" *ngIf="groupAvatarFile">{{groupAvatarFile.name}}</label>
+        <mat-hint>{{avatarError}}</mat-hint>
       </div>
     </mat-grid-tile>
   </mat-grid-list>

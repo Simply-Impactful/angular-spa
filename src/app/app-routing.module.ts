@@ -35,7 +35,7 @@ const routes: Routes = [
   { path: 'adminaccesslanding', component: AdminAccessLandingComponent },
   { path: 'adminaccessusers', component: AdminAccessUsersComponent },
   { path: 'adminaccessactions', component: AdminAccessActionsComponent },
-  { path: 'adminaccesscurriculum', component: AdminAccessCurriculumComponent },
+  { path: 'adminaccessgroups', component: AdminAccessCurriculumComponent },
   { path: 'adminaccesslevel', component: AdminAccessLevelComponent }
 
 ];

@@ -41,7 +41,7 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
     }
     this.routerLink = '/home';
  **/
-    this.loginService.isAuthenticated(this, this.user);
+    this.loginService.isAuthenticated(this);
   }
 
   toggle() {

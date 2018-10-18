@@ -11,7 +11,9 @@ export class AdminAccessCurriculumComponent implements OnInit {
   inputText;
   editField: string;
   typeList: Array<any> = [
-    { id: 1, type: 'School',  subType: 'Club' },
+    { id: 1, type: 'Non-Profit',  subType: 'Department, Entire Company' },
+    { id: 2, type: 'For-Profit',  subType: 'Department, Entire Company' },
+    { id: 2, type: 'For-Profit',  subType: 'Department, Entire Company' },
   ];
 
   awaitingTypeList: Array<any> = [];
