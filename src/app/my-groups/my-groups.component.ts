@@ -17,6 +17,7 @@ export class MyGroupsComponent implements OnInit, Callback {
   groups = new Array<Group>();
   myGroups = [];
   user: User;
+  topThree = [];
 
   constructor(
     public lambdaService: LambdaInvocationService, public cognitoUtil: CognitoUtil) { }
@@ -44,7 +45,10 @@ export class MyGroupsComponent implements OnInit, Callback {
         }
       }
     }
-
+    for (let i = 0; i < 3; i ++) {
+      this.topThree.push(this.myGroups[i].members['member']);
+    }
+    console.log('top three ' + JSON.stringify(this.topThree));
   }
   callback() {}
   callbackWithParam(result: any) {}

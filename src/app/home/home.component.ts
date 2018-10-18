@@ -9,6 +9,8 @@ import { CreateProfileService } from '../services/create-profile.service';
 import { AWSError } from 'aws-sdk';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { Router } from '@angular/router';
+import { ActionComponent } from '../action/action.component';
+import { ActionService } from '../services/action.service';
 
 @Component({
   selector: 'app-home',
@@ -25,11 +27,15 @@ export class HomeComponent implements OnInit, LoggedInCallback {
     private loginService: LogInService,
     private cognitoUtil: CognitoUtil,
     private createProfileService: CreateProfileService,
-    private params: Parameters, private lambdaService: LambdaInvocationService) { }
+    private params: Parameters, private lambdaService: LambdaInvocationService,
+    public actionService: ActionService) { }
     private assignments:  any;
+    private actionComp = new ActionComponent(this.actionService, this.lambdaService);
 
   ngOnInit() {
-   this.params.user$.subscribe(user => {
+    this.assignments =
+    'https://static1.squarespace.com/static/52cdeef1e4b0874a24181252/t/5bb7a1ff104c7b4250121379/1538761216841/MathAssignmentEnergy.pdf';
+    this.params.user$.subscribe(user => {
       this.user = user;
     });
     this.loginService.isAuthenticated(this);

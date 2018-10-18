@@ -29,7 +29,9 @@
     </div>
     <!-- removed groups section-->
     <app-my-groups></app-my-groups>
+    <br>
     <mat-divider></mat-divider>
+    <br>
     <br>
     <!--<div fxFlex="100">
         <div align="right">
@@ -44,8 +46,17 @@
           </div>
         </div>
         <div *ngIf="assignments" align="left">
-          <a outerLink="/actions" routerLinkActive="router-link-active">All Assignments</a>
-        </div>
+          <li>
+          <a routerLinkActive="router-link-active" href="{{assignments}}" target="_blank" >Day Without Video Games assignment</a>
+          </li>
+          <li>
+        <a routerLinkActive="router-link-active" href="{{assignments}}" target="_blank" >Bike To School Assignment</a>
+        <li>
+        <a routerLinkActive="router-link-active" href="{{assignments}}" target="_blank" >Turn Off Lights Assignment</a>
+        </li>
+      </div>
+        <br>
+        <br>
       </div>
       <div *ngIf="!assignments">
         <h3 style="padding-top: 20px; color:rgb(140,142,144)">You currently have no assignments available</h3>
