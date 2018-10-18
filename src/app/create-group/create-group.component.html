@@ -68,7 +68,7 @@
           [(ngModel)]="createdGroup.membersString" name="membersString" 
           matInput placeholder="Group Members' Usernames"
           disabled="{{isGroupMembersDisable}}">
-          <mat-hint>Type member usernames separated by commas to add them to group
+          <mat-hint>Required: specify usernames separated by spaces to add them to group
           <span *ngIf="!createdGroup.membersString && !focused " style="color:red; font-size: 85%">
             <br> {{membersError}}</span>
         </mat-hint>

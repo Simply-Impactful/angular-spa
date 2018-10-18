@@ -101,12 +101,17 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
 
   // Response of get All Groups - Callback interface
   cognitoCallbackWithParam(result: any) {
-    const response = JSON.parse(result);
-    this.groups = response.body;
-    this.dataSource = new MatTableDataSource(this.groups);
-    this.dataSource.paginator = this.paginator;
-    // un-used as of now..
-    this.dataSource.sort = this.sort;
+    if (result) {
+      const response = JSON.parse(result);
+      this.groups = response.body;
+      this.dataSource = new MatTableDataSource(this.groups);
+      this.dataSource.paginator = this.paginator;
+      // un-used as of now..
+      this.dataSource.sort = this.sort;
+    } else {
+      window.location.reload();
+    }
+
 
     /**
      * this.dataSource.sortingDataAccessor = (item, property) => {

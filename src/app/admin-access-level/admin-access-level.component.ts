@@ -11,10 +11,10 @@ export class AdminAccessLevelComponent implements OnInit {
   inputText;
   editField: string;
   levelList: Array<any> = [
-    { id: 1, points: '0 - 100',  levelInfo: 'Elephant',
-        image: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/elephant2.svg' },
-    { id: 2, points: '100 - 200',  levelInfo: 'Lemur',
-      image: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/lemur.svg' },
+    { id: 1, pointsRange: '0 - 100',  status: 'Elephant',
+    statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/elephant2.svg' },
+    { id: 2, pointsRange: '100 - 200',  status: 'Lemur',
+    statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/lemur.svg' },
   ];
 
   awaitingLevelList: Array<any> = [];
@@ -25,7 +25,7 @@ export class AdminAccessLevelComponent implements OnInit {
     this.appComp.setAdmin();
   }
 
-  save() {}
+  saveNew() {}
 
   updateList(id: number, property: string, event: any) {
     const editField = event.target.textContent;

@@ -1,18 +1,19 @@
 <main>
   <h3 class="card-header">Level Info table</h3>
-  <button type="button" style = "margin:25px; width:150px; align-self: center" (click)="add()">Add new Level</button>
+  <button type="button" style = "margin:25px; width:150px; align-self: center" (click)="add()">Add New Level</button>
   <table class="table table-bordered table-responsive-md table-striped text-center">
     <tr>
       <th class="text-center">POINTS RANGE</th>
-      <th class="text-center">LEVEL INFO</th>
+      <th class="text-center">LEVEL</th>
       <th class="text-center">ICON</th>
       <th class="text-center">ACTION</th>
     </tr>
     <tr *ngFor="let level of levelList; let id = index">
-      <td contenteditable="true" (keyup)="changeValue(id, 'points', $event)" (blur)="updateList(id, 'points', $event)">{{level.points}}</td>
-      <td contenteditable="true" (keyup)="changeValue(id, 'levelInfo', $event)" (blur)="updateList(id, 'levelInfo', $event)">{{level.levelInfo}}</td>
-      <td contenteditable="true" (keyup)="changeValue(id, 'image', $event)" (blur)="updateList(id, 'image', $event)">
-          <img src="{{level.image}}" style="max-width:35px; max-height:35px"></td>
+      <td contenteditable="true" (keyup)="changeValue(id, 'pointsRange', $event)" (blur)="updateList(id, 'pointsRange', $event)">{{level.pointsRange}}</td>
+      <td contenteditable="true" (keyup)="changeValue(id, 'status', $event)" (blur)="updateList(id, 'status', $event)">{{level.status}}</td>
+      <td contenteditable="true" (keyup)="changeValue(id, 'statusGraphicUrl', $event)" (blur)="updateList(id, 'statusGraphicUrl', $event)">
+            <img src="{{level.statusGraphicUrl}}" style="max-width:35px; max-height:35px">
+      </td>
       <td>
       <span>
         <button type="button" size="sm" (click)="remove(id)">Remove</button>
@@ -20,4 +21,6 @@
       </td>
     </tr>
       </table>
+    <br>
+    <button mat-raised-button color="primary" (click)="saveNew()">Save changes</button>  
 </main>

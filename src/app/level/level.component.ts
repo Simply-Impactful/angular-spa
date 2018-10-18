@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { User } from '../model/User';
+import { Levels } from '../model/Levels';
 import { LogInService } from '../services/log-in.service';
 import { Parameters} from '../services/parameters';
 import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
@@ -20,32 +20,24 @@ import * as _ from 'lodash';
 })
 export class LevelComponent implements OnInit {
 
-  users: User[];
-  displayedColumns = ['username', 'email', 'zipcode'];
+  levels: Levels[];
+  displayedColumns = ['pointsRange', 'status', 'statusGraphicUrl'];
   dataSource;
-  distinct = new Array<User>();
 
   constructor( public appComp: AppComponent, public lambdaService: LambdaInvocationService) { }
 
     ngOnInit() {
-      this.lambdaService.listUsers(this);
+      this.lambdaService.listLevelData(this);
     }
   isLoggedIn(message: string, loggedIn: boolean): void {}
-  // result of lambda listActions and Delete Actions API
     callbackWithParams(error: AWSError, result: any): void {
       if (result) {
         const response = JSON.parse(result);
-        const unique = _.uniqBy(response.body, 'username');
-        this.users = unique;
-        for (let i = 0; i < this.users.length; i++) {
-          if (!this.users[i].totalCarbonPoints) {
-            this.users[i].totalCarbonPoints = 0;
-          }
-        }
-        this.dataSource = new MatTableDataSource(this.users);
-      //  console.log('this.users ' + JSON.stringify(this.users));
+        this.levels = response.body;
+        console.log('response.body', response.body);
+        this.dataSource = new MatTableDataSource(this.levels);
        } else {
-        console.log('error pulling the Users data' + error);
+        console.log('error pulling the levels data' + error);
       }
     }
     callbackWithParam(result: any): void {}
