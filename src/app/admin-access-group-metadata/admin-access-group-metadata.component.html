@@ -5,16 +5,10 @@
     <tr>
       <th class="text-center">GROUP TYPE</th>
       <th class="text-center">GROUP SUBTYPE</th>
-      <th class="text-center">ACTION</th>
     </tr>
     <tr *ngFor="let groupType of typeList; let id = index">
       <td contenteditable="true" (keyup)="changeValue(id, 'type', $event)" (blur)="updateList(id, 'type', $event)">{{groupType.type}}</td>
       <td contenteditable="true" (keyup)="changeValue(id, 'subType', $event)" (blur)="updateList(id, 'subType', $event)">{{groupType.subType}}</td>
-      <td>
-      <span>
-        <button type="button" size="sm" (click)="remove(id)">Remove</button>
-      </span>
-      </td>
     </tr>
       </table>
       <br>

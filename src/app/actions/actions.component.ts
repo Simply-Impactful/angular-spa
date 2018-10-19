@@ -55,11 +55,16 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
 
   // response of lamdba list Actions API call
   callbackWithParams(error: AWSError, result: any): void {
-    const response = JSON.parse(result);
-    this.actions = response.body;
-    this.dataSource = new MatTableDataSource(this.actions);
-    this.dataSource.paginator = this.paginator;
-    this.observableData = this.dataSource.connect();
+    if (result) {
+      const response = JSON.parse(result);
+      this.actions = response.body;
+      this.dataSource = new MatTableDataSource(this.actions);
+      this.dataSource.paginator = this.paginator;
+      this.observableData = this.dataSource.connect();
+    } else {
+      window.location.reload();
+    }
+
   }
   // response of isAuthenticated method in login service
   callbackWithParam(result: any): void {

@@ -19,7 +19,9 @@
 		  <!-- Icon Column -->
 		<ng-container matColumnDef="statusGraphicUrl">
 			<mat-header-cell *matHeaderCellDef> ICON </mat-header-cell>
-			<mat-cell *matCellDef="let levels">{{levels.statusGraphicUrl}} </mat-cell>
+			<mat-cell *matCellDef="let levels">
+				<img src="{{levels.statusGraphicUrl}}" style="max-width:35px; max-height:35px">
+			</mat-cell>
         </ng-container>
     
 
