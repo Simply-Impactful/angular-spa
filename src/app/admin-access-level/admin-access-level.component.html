@@ -7,7 +7,7 @@
       <th class="text-center">LEVEL</th>
       <th class="text-center">ICON</th>
     </tr>
-    <tr *ngFor="let level of levels | orderBy">
+    <tr *ngFor="let level of levels">
         <td contenteditable="false">{{level.pointsRange}}</td>
         <td contenteditable="false" >{{level.status}}</td>
         <td contenteditable="false">
