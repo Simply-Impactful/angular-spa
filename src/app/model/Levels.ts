@@ -4,4 +4,5 @@ export class Levels {
     statusGraphicUrl?: string;
     updatedAt?: number;
     createdAt?: number;
+    name?: string;
 }

@@ -9,10 +9,6 @@ import { CognitoUtil, LoggedInCallback, Callback } from '../services/cognito.ser
 import { S3Service } from '../services/s3.service';
 import { AppConf } from '../shared/conf/app.conf';
 
-// export interface ImageFiles {
-
-// }
-
 @Component({
   selector: 'app-admin-action-dialog',
   templateUrl: './admin-action-dialog.component.html',
@@ -26,7 +22,7 @@ export class AdminActionDialogComponent implements OnInit, LoggedInCallback, Cal
   isCreating: boolean = false;
   isEditing: boolean = false;
   displayText = 'Edit';
-  imageFiles: any = {}; // funFactImage
+  imageFiles: any = {};
   funFactImage: any;
   tileIcon: any;
 
@@ -93,9 +89,6 @@ export class AdminActionDialogComponent implements OnInit, LoggedInCallback, Cal
           this.lambdaService.adminCreateAction(this.action, this);
         } else {
             this.action.tileIconUrl = location;
-            // shouldn't have to do this.. workaround for image not loading on the page because of URL coming back as:
-            // https://simply-impactful-image-data.s3.amazonaws.com/actions/reusable_bottle.svg
-       //     this.action.tileIconUrl = 'https://s3.amazonaws.com/simply-impactful-image-data/Tile+icons/' + this.tileIcon.name;
             this.lambdaService.adminCreateAction(this.action, this);
         }
       });

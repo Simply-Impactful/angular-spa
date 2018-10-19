@@ -7,12 +7,23 @@
       <th class="text-center">LEVEL</th>
       <th class="text-center">ICON</th>
     </tr>
-    <tr *ngFor="let level of levels; let id = index">
-      <td contenteditable="true" (keyup)="changeValue(id, 'pointsRange', $event)" (blur)="updateList(id, 'pointsRange', $event)">{{level.pointsRange}}</td>
-      <td contenteditable="true" (keyup)="changeValue(id, 'status', $event)" (blur)="updateList(id, 'status', $event)">{{level.status}}</td>
-      <td contenteditable="true" (keyup)="changeValue(id, 'statusGraphicUrl', $event)" (blur)="updateList(id, 'statusGraphicUrl', $event)">
+    <tr *ngFor="let level of levels | orderBy">
+        <td contenteditable="false">{{level.pointsRange}}</td>
+        <td contenteditable="false" >{{level.status}}</td>
+        <td contenteditable="false">
             <img src="{{level.statusGraphicUrl}}" style="max-width:35px; max-height:35px">
-      </td>
+        </td>
+    </tr>
+    <tr *ngFor="let level of addingLevels">
+        <td contenteditable="true" (keyup)="changeValue('pointsRange', $event)"></td>
+        <td contenteditable="true" (keyup)="changeValue('status', $event)"></td>
+        <td contenteditable="true" (keyup)="changeValue('statusGraphicUrl', $event)">
+            <div class="upload-btn-wrapper">
+                <button class="upload-file">Choose Icon</button>
+                <input class="content-inside-tile" accept="image/*" type="file" (change)="fileEvent($event, 'statusGraphicUrl')" />
+                <label class="upload-file-name" *ngIf="statusGraphicUrl">{{statusGraphicUrl.name}}</label>
+              </div>
+        </td>
     </tr>
       </table>
     <br>
