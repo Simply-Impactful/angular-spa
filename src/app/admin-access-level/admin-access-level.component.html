@@ -8,7 +8,7 @@
       <th class="text-center">ICON</th>
       <th class="text-center">ACTION</th>
     </tr>
-    <tr *ngFor="let level of levelList; let id = index">
+    <tr *ngFor="let level of levels; let id = index">
       <td contenteditable="true" (keyup)="changeValue(id, 'pointsRange', $event)" (blur)="updateList(id, 'pointsRange', $event)">{{level.pointsRange}}</td>
       <td contenteditable="true" (keyup)="changeValue(id, 'status', $event)" (blur)="updateList(id, 'status', $event)">{{level.status}}</td>
       <td contenteditable="true" (keyup)="changeValue(id, 'statusGraphicUrl', $event)" (blur)="updateList(id, 'statusGraphicUrl', $event)">
