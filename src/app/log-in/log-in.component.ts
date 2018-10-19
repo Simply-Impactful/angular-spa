@@ -30,7 +30,7 @@ export class LogInComponent implements LoggedInCallback, OnInit {
   ngOnInit() {
     this.errorMessage = null;
     console.log('Checking if the user is already authenticated. If so, then redirect to the home page');
-    this.logInService.isAuthenticated(this, this.user);
+    this.logInService.isAuthenticated(this);
 
   }
 
@@ -43,7 +43,7 @@ export class LogInComponent implements LoggedInCallback, OnInit {
   isLoggedIn(message: string, isLoggedIn: boolean): void {
     if (isLoggedIn) {
       // will route to home page when authenticated is true
-      // this.router.navigate(['/home']);
+       this.router.navigate(['/home']);
     } else {
        this.router.navigate(['/login']);
     }
@@ -60,9 +60,6 @@ export class LogInComponent implements LoggedInCallback, OnInit {
       // use a local variable as opposed to an instance var.
       this.errorMessage = message;
       console.error('result: ' + this.errorMessage);
-       if (this.errorMessage === 'User needs to set password.') {
-        console.log('redirecting to set new password');
-      }
     } else { // success
       const currentUser = this.cognitoUtil.getCurrentUser();
       const username = currentUser.getUsername();

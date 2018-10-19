@@ -1,0 +1,25 @@
+main {
+    display: flex;
+    flex-direction: column;
+    padding-top: 0em;
+    padding-right: 10em;
+    padding-left: 10em;
+    }
+
+    .card-header{
+        text-align: center;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+    table {
+        table-layout:fixed;
+    }
+    table td {
+        word-wrap:break-word;
+    }
+    button.mat-raised-button {
+        margin-right: 15px;
+        width: 150px;
+        align-self: flex-end;
+    }
+        

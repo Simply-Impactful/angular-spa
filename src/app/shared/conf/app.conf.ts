@@ -21,6 +21,7 @@ export const AppConf: any = {
         userProfile: 'userProfile',
         groups: 'groups',
         actions: 'actions',
+        tileIcons: 'Tile+icons',
         assignments: 'assignments',
         facts: 'facts'
     }

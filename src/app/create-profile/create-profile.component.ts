@@ -1,17 +1,18 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CognitoUtil, Callback, CognitoCallback } from '../services/cognito.service';
+import { CognitoUtil, Callback, CognitoCallback, LoggedInCallback } from '../services/cognito.service';
 import { CreateProfileService } from '../services/create-profile.service';
 import { User } from '../model/User';
 import { S3Service } from '../services/s3.service';
 import { AppConf } from '../shared/conf/app.conf';
+import { AWSError } from 'aws-sdk';
 
 @Component({
   selector: 'app-create-profile',
   templateUrl: './create-profile.component.html',
   styleUrls: ['./create-profile.component.scss']
 })
-export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestroy {
+export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestroy, LoggedInCallback {
   newUser = new User();
   conf = AppConf;
   errorMessage: string;
@@ -55,20 +56,9 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
 
   createAccount() {
     if (this.checkInputs()) {
+      this.createProfileService.register(this.newUser, this);
       // TODO: should we collect the pic else where?
       console.log(this.conf.imgFolders.userProfile);
-      this.s3.uploadFile(this.profilePicture, this.conf.imgFolders.userProfile, (err, location) => {
-        if (err) {
-          // we will allow for the creation of the item, we will just not have an image
-          console.log(err);
-          this.newUser.picture = this.conf.default.userProfile;
-        } else {
-          this.newUser.picture = location;
-          this.createProfileService.register(this.newUser, this);
-        }
-      });
-
-      // this.createProfileService.register(this.newUser, this);
     }
   }
 
@@ -136,9 +126,24 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
     } else { // success
       // move to the next page if the user is authenticated
       if (result.idToken.jwtToken) {
-        this.router.navigate(['/home']);
+        this.s3.uploadFile(this.profilePicture, this.conf.imgFolders.userProfile, (err, location) => {
+          if (err) {
+            // we will allow for the creation of the item, we will just not have an image
+            console.log(err);
+            this.newUser.picture = this.conf.default.userProfile;
+          } else {
+            this.newUser.picture = location;
+            this.cognitoUtil.updateUserAttribute(this, 'picture', this.newUser.picture);
+          }
+        });
       }
     }
+  }
+  callbackWithParams(error: AWSError, result: any) {}
+  isLoggedIn(message: string, loggedIn: boolean) {}
+  callbackWithParam(result: any) {
+    console.log('result of update user after creating profile...' + result);
+    this.router.navigate(['/home']);
   }
 
   fileEvent(fileInput: any) {

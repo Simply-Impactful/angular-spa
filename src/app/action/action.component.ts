@@ -18,6 +18,7 @@ export class ActionComponent implements OnInit, LoggedInCallback {
 
   actions: Action[];
   actionsLength: number;
+  assignment: any;
 
   constructor(public actionService: ActionService, public lambdaService: LambdaInvocationService) { }
 

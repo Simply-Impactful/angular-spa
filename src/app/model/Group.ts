@@ -1,14 +1,17 @@
 export class Group {
-    zipcode?: string;
-    type?: string;
-    subType?: string[]; // for admin metaData
+    zipCode?: string;
+    type?: string; // coming in the response
+    groupType?: string; // going in the request
+    subType?: string[]; // for admin metaData.. change to comma separated string
     groupSubType: string; // for users to create a group, they only need 1
     description?: string;
     other?: string;
-    isgroupCreated?: boolean;
-    groupLeader?: string;
+    username?: string; // the leader in the request
+    leader?: string; // the leaer in the response
     members?: Object[]; // for displaying the members
-    groupMembers?: string; // for lambda call - requires string
+    membersString?: string; // for lambda call - requires string
     name?: string;
     groupAvatar?: string;
+    pointsEarned: number;
+    totalPoints: number; // response of get all groups
 }

@@ -20,13 +20,38 @@ export class ActionService implements OnInit {
   dialogResult = '';
   length: number;
   errorMessage: string = '';
+  actionRules: Action;
+  maxFrequency: number;
+  frequencyCadence: string;
 
   public cognitoUtil: CognitoUtil;
 
   constructor(private dialog: MatDialog) {
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  checkCadences (uniqueEntriesByUser: Action[], action: Action): boolean {
+   // console.log('unique entries by user for given action in scope' + JSON.stringify(uniqueEntriesByUser[0]['actionTaken']));
+    console.log('actoin rules ' + JSON.stringify(action));
+    this.maxFrequency = action.maxFrequency;
+    this.frequencyCadence = action.frequencyCadence;
+    const frequencyCadenceValue = this.getValueOfCadence(this.frequencyCadence);
+    // pull all of the actions taken in the last.. frequencyCadenceValue
+    // if the recordedFrequency total > maxFrequency
+    // throw error
+    console.log('this.actionRUles ' + this.maxFrequency + ' and ' + this.frequencyCadence);
+    return false;
+  }
+
+  getValueOfCadence(frequencyCadence: string) {
+    const cadences = {
+      perDay: 1,
+      perWeek: 7,
+      perYear: 365,
+      perLifetime: 1 // is this accurate?
+    };
+    return cadences[frequencyCadence];
   }
 
   openDialog(name: string, action: Action) {

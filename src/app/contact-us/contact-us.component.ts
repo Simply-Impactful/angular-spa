@@ -19,5 +19,7 @@ export class ContactUsComponent implements OnInit {
 
   ngOnInit() {
   }
+  send() {
 
+  }
 }

@@ -8,7 +8,7 @@
       <th style="color:black" mat-header-cell *matHeaderCellDef>
         <h4>GROUP NAME AND DESCRIPTION</h4>
       </th>
-      <td mat-cell *matCellDef="let groups">
+      <td mat-cell style="max-width:500px;" *matCellDef="let groups">
         <section class="container">
           <section class="left">
             <img class="avatarPhoto" src={{groups.groupAvatar}} />
@@ -46,7 +46,7 @@
       <th style="color:black" mat-header-cell *matHeaderCellDef>
         <h4>TOTAL POINTS</h4>
       </th>
-      <td mat-cell *matCellDef="let groups"> {{groups.totalPoints}} </td>
+      <td mat-cell style="text-align:center" *matCellDef="let groups"> {{groups.totalPoints}} </td>
     </ng-container>
 
     <!-- Zipcode Column -->
@@ -63,22 +63,36 @@
     <ng-container matColumnDef="joinGroup">
       <th style="color:black;" mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let groups; let i = index">
-        <a (click)="joinGroup(groups)"> Join Group </a>
+          <div style="margin: 15px;">
+        <a (click)="joinGroup(groups)" title="Click to become a member"> Join Group </a>
+      </div>
       </td>
     </ng-container>
+
+    <!-- TODO: Delete Group - only a feature for leaders -->
+    <ng-container matColumnDef="deleteGroup">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let groups; let i = index">
+          <a *ngIf="groups.leader === username"> 
+            <mat-icon title="Delete Group" style="color:rgba(105, 105, 105, 0.568)" (click)="deleteGroup(groups)">
+              delete_outline</mat-icon></a>
+        </td>
+      </ng-container>
+
+    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
 
     <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
     <ng-container matColumnDef="expandedDetail">
       <td mat-cell *matCellDef="let groups" [attr.colspan]="columnsToDisplay.length">
         <div class="example-element-detail" [@detailExpand]="groups == expandedElement ? 'expanded' : 'collapsed'">
-          <div style="margin: 15px;" *ngFor="let member of groups.members">
-            <mat-card class="avatar-card" style="color:black">
+          <div style="margin: 5px;" *ngFor="let member of groups.members">
+            <mat-card class = "top-performer-card" style="color:black">
               <mat-card-header>
                 <!-- TODO: should this be pulling the member info from an object? -->
-                <img mat-card-avatar src="{{defaultUserPicture}}">
-              </mat-card-header>
-              <mat-card-subtitle>{{member.member}}</mat-card-subtitle>
-              <mat-card-subtitle><strong>25 points</strong></mat-card-subtitle>
+                <img mat-card-avatar class = "top-performer-image" src="{{defaultUserPicture}}">         
+              <mat-card-title>{{member.member}}</mat-card-title>
+              <mat-card-subtitle><strong>{{member.pointsEarned}}</strong></mat-card-subtitle>
+            </mat-card-header>
             </mat-card>
           </div>
         </div>

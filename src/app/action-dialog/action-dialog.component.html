@@ -9,11 +9,13 @@
     <i style="color:gray">{{action.funFact}}</i>
     <br>
     <img src={{action.funFactImageUrl}}>
-    <br> <br> Here is an <a href = '{{action.assignmentUrl}}' target="_blank">assignment </a> you can take as part of this action. 
+   <div  *ngIf = "action.assignmentUrl">
+    <br> <br> Here is an <a  href = '{{action.assignmentUrl}}' target="_blank">assignment </a> you can take as part of this action. 
+ </div> 
   </mat-dialog-content>
   <hr>
   <div align="right">
-    <button mat-stroked-button color="primary" (click)="onCloseConfirm()">UNDO</button> 
+    <button mat-stroked-button color="primary" (click)="onCloseCancel()">UNDO</button> 
     <button mat-raised-button color="primary" (click)="onCloseConfirm()">CONFIRM</button>
   </div>      
 </div>

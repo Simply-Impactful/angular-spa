@@ -8,6 +8,9 @@ import { LoggedInCallback } from '../services/cognito.service';
 import { AWSError } from 'aws-sdk';
 import { Action } from '../model/Action';
 import { AdminActionDialogComponent } from './../admin-action-dialog/admin-action-dialog.component';
+import { Parameters} from '../services/parameters';
+import { User } from '../model/User';
+import { LogInService } from '../services/log-in.service';
 
 @Component({
   selector: 'app-admin-access-actions',
@@ -17,41 +20,38 @@ import { AdminActionDialogComponent } from './../admin-action-dialog/admin-actio
 
 export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
   actions: Action[];
-  deleteActions = new Array<Action>();
   action: Action;
   displayedColumns = ['edit', 'name', 'eligiblePoints',
     'maxFrequency', 'frequencyCadence', 'funFact', 'funFactImageUrl', 'tileIconUrl', 'carbonPoints', 'assignmentUrl', 'delete'];
   dataSource;
-  selection = new SelectionModel<Action>(true, []);
   dialogResult = '';
-  selectedRow = [];
-  index = '';
   isDeleted: boolean = false;
+  user: User;
+
+  allowMultiSelect = true;
+  initialSelection = [];
+  selection = new SelectionModel<Action>(this.allowMultiSelect, this.initialSelection);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(public appComp: AppComponent, public lambdaService: LambdaInvocationService,
-    public dialog: MatDialog) {
-    this.setClickedRow = function (index) {
-      this.index = index;
-      this.selectedRow.push(index);
-      console.log('this.selectedRow ' + JSON.stringify(this.selectedRow));
-    };
-  }
+    public dialog: MatDialog, public params: Parameters, public loginService: LogInService) { }
 
   ngOnInit() {
+    this.params.user$.subscribe(user => {
+      this.user = user;
+    });
     this.appComp.setAdmin();
+
+    this.loginService.isAuthenticated(this);
     this.lambdaService.listActions(this);
   }
 
-  // needed for the constructor method to determine which row we are displaying current action data for
-  setClickedRow(i: any) { }
-
-  edit() {
+  edit(i: string) {
     const dialogRef = this.dialog.open(AdminActionDialogComponent, {
       width: '650px',
       height: '675px',
-      data: this.actions[this.index]
+      data: this.actions[i]
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -84,24 +84,15 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
       console.log(`Dialog closed: ${result}`);
       this.dialogResult = result;
     });
-    // does this work?
-    this.selection.clear();
   }
 
   saveDelete() {
-    // delete the selected row
-    for (let i = 0; i < this.selectedRow.length; i++) {
-      console.log('this.selectedRow.length ' + this.selectedRow.length);
-      console.log('row to DELETE ' + JSON.stringify(this.actions[this.selectedRow[i]]));
-      this.deleteActions.push(this.actions[this.selectedRow[i]]);
-    }
-    this.lambdaService.adminDeleteAction(this.deleteActions, this);
+    this.lambdaService.adminDeleteAction(this.selection.selected, this);
     this.isDeleted = true;
-    // clear the selection.. does this work?
-    this.selectedRow = null;
   }
 
-  isLoggedIn(message: string, loggedIn: boolean): void { }
+   // LoggedInCallback interface
+   isLoggedIn(message: string, isLoggedIn: boolean) {}
 
   // result of lambda listActions and Delete Actions API
   callbackWithParams(error: AWSError, result: any): void {
@@ -113,6 +104,7 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
       this.dataSource.paginator = this.paginator;
     } else {
       console.log('error ' + JSON.stringify(error));
+      window.location.reload();
     }
     if (this.isDeleted) {
       window.location.reload();

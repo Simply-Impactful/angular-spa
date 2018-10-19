@@ -5,6 +5,7 @@ import { CognitoUtil, LoggedInCallback } from './services/cognito.service';
 import { User } from './model/User';
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import { AWSError } from 'aws-sdk';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -16,25 +17,34 @@ export class AppComponent implements OnInit, LoggedInCallback {
 
   isAdmin: boolean = false;
   user: User;
-  constructor(public loginService: LogInService) { }
+  currentUser;
+  constructor(public loginService: LogInService, public router: Router, public cognitoUtil: CognitoUtil) { }
 
   ngOnInit() {
     if (this.loginService) {
-    this.loginService.isAuthenticated(this, this.user);
+    this.loginService.isAuthenticated(this);
+    }
+    this.currentUser = this.cognitoUtil.getCurrentUser().getUsername();
+    if (window.location.toString().includes('/admin') && this.currentUser !== 'superUser') {
+      this.router.navigate(['/login']);
     }
   }
 
   isLoggedIn(message: string, isLoggedIn: boolean) {
     const cognito = new CognitoUtil();
     const awsUtil = new AwsUtil(cognito);
-    cognito.getIdToken({
-      callback() {
-      },
+   cognito.getIdToken({
+      callback() {},
+      callbackWithParameters(error: AWSError, result: any) {},
+      cognitoCallbackWithParam(result: any) {},
       callbackWithParam(token: any) {
         // Include the passed-in callback here as well so that it's executed downstream
         awsUtil.initAwsService(null, isLoggedIn, token);
       }
     });
+    if (!isLoggedIn && !window.location.toString().includes('/landing')) {
+      this.router.navigate(['/login']);
+    }
   }
   callbackWithParams(error: AWSError, result: CognitoUserAttribute[]) {
     console.log('result ' + result);

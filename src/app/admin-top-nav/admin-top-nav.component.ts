@@ -18,17 +18,19 @@ export class AdminTopNavComponent implements OnInit, LoggedInCallback {
   canSearch: boolean = false;
   activatedRoute: ActivatedRoute;
   user: User;
+  routerLink: string;
+  title: string;
 
   constructor(private params: Parameters, private loginService: LogInService,
     private cognitoUtil: CognitoUtil) {
   }
 
   ngOnInit() {
-    this.hideRightMenu = false;
+    this.hideRightMenu = true;
     this.params.user$.subscribe(user => {
       this.user = user;
     });
-    this.loginService.isAuthenticated(this, this.user);
+    this.loginService.isAuthenticated(this);
 
     // TODO: https://stackoverflow.com/questions/43118592/angular-2-how-to-hide-nav-bar-in-some-components
   }
@@ -42,7 +44,19 @@ export class AdminTopNavComponent implements OnInit, LoggedInCallback {
     }
   }
     /** Interface needed for LoggedInCallback */
-    isLoggedIn(message: string, isLoggedIn: boolean) {}
+  isLoggedIn(message: string, isLoggedIn: boolean) {
+    // only expose the right menu if the user is logged in
+    // only let the user route to the home page when clicking the nav icon if they're logged in
+    if (!isLoggedIn) {
+      this.hideRightMenu = true;
+      this.routerLink = '/login';
+      this.title = 'Navigate to Login Page';
+    } else {
+      this.hideRightMenu = false;
+      this.routerLink = '/adminaccesslanding';
+      this.title = 'Navigate to Admin Home Page';
+    }
+  }
     // API Response
     callbackWithParams(error: AWSError, result: any) {}
 

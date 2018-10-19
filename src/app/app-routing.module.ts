@@ -14,7 +14,11 @@ import { CreateGroupComponent } from './create-group/create-group.component';
 import { AdminAccessLandingComponent } from './admin-access-landing/admin-access-landing.component';
 import { AdminAccessActionsComponent } from './admin-access-actions/admin-access-actions.component';
 import { AdminAccessUsersComponent } from './admin-access-users/admin-access-users.component';
-import { AdminAccessCurriculumComponent } from './admin-access-curriculum/admin-access-curriculum.component';
+import { AdminAccessGroupMetadataComponent } from './admin-access-group-metadata/admin-access-group-metadata.component';
+import { AdminAccessLevelComponent } from './admin-access-level/admin-access-level.component';
+import { LevelComponent } from './level/level.component';
+
+
 
 const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -27,10 +31,12 @@ const routes: Routes = [
   { path: 'resetpass', component: ResetPasswordComponent },
   { path: 'groups', component: GroupsComponent },
   { path: 'creategroup', component: CreateGroupComponent },
+  { path: 'level', component: LevelComponent },
   { path: 'adminaccesslanding', component: AdminAccessLandingComponent },
   { path: 'adminaccessusers', component: AdminAccessUsersComponent },
   { path: 'adminaccessactions', component: AdminAccessActionsComponent },
-  { path: 'adminaccesscurriculum', component: AdminAccessCurriculumComponent }
+  { path: 'adminaccessgroupinfo', component: AdminAccessGroupMetadataComponent },
+  { path: 'adminaccesslevel', component: AdminAccessLevelComponent }
 ];
 
 @NgModule({

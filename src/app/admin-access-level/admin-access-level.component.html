@@ -1,0 +1,31 @@
+<main>
+  <h3 class="card-header">Level Info table</h3>
+  <button type="button" style = "margin:25px; width:150px; align-self: center" (click)="add()">Add New Level</button>
+  <table class="table table-bordered table-responsive-md table-striped text-center">
+    <tr>
+      <th class="text-center">POINTS RANGE</th>
+      <th class="text-center">LEVEL</th>
+      <th class="text-center">ICON</th>
+    </tr>
+    <tr *ngFor="let level of levels">
+        <td contenteditable="false">{{level.pointsRange}}</td>
+        <td contenteditable="false" >{{level.status}}</td>
+        <td contenteditable="false">
+            <img src="{{level.statusGraphicUrl}}" style="width:45px; height:55px">
+        </td>
+    </tr>
+    <tr *ngFor="let level of addingLevels">
+        <td contenteditable="true" (keyup)="changeValue('pointsRange', $event)"></td>
+        <td contenteditable="true" (keyup)="changeValue('status', $event)"></td>
+        <td contenteditable="true" (keyup)="changeValue('statusGraphicUrl', $event)">
+            <div class="upload-btn-wrapper">
+                <button class="upload-file">Choose Icon</button>
+                <input class="content-inside-tile" accept="image/*" type="file" (change)="fileEvent($event, 'statusGraphicUrl')" />
+                <label class="upload-file-name" *ngIf="statusGraphicUrl">{{statusGraphicUrl.name}}</label>
+              </div>
+        </td>
+    </tr>
+      </table>
+    <br>
+    <button mat-raised-button color="primary" (click)="saveNew()">Save changes</button>  
+</main>

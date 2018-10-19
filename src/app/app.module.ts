@@ -39,11 +39,13 @@ import { AdminTopNavComponent } from './admin-top-nav/admin-top-nav.component';
 import { AdminAccessLandingComponent } from './admin-access-landing/admin-access-landing.component';
 import { AdminAccessActionsComponent } from './admin-access-actions/admin-access-actions.component';
 import { AdminAccessUsersComponent } from './admin-access-users/admin-access-users.component';
-import { AdminAccessCurriculumComponent } from './admin-access-curriculum/admin-access-curriculum.component';
+import { AdminAccessGroupMetadataComponent } from './admin-access-group-metadata/admin-access-group-metadata.component';
 import { Parameters } from './services/parameters';
 import { LambdaInvocationService } from './services/lambdaInvocation.service';
 import { AdminActionDialogComponent } from './admin-action-dialog/admin-action-dialog.component';
 import { MyGroupsComponent } from './my-groups/my-groups.component';
+import { AdminAccessLevelComponent } from './admin-access-level/admin-access-level.component';
+import { LevelComponent } from './level/level.component';
 
 @NgModule({
   declarations: [
@@ -65,9 +67,11 @@ import { MyGroupsComponent } from './my-groups/my-groups.component';
     AdminAccessLandingComponent,
     AdminAccessActionsComponent,
     AdminAccessUsersComponent,
-    AdminAccessCurriculumComponent,
+    AdminAccessGroupMetadataComponent,
     AdminActionDialogComponent,
-    MyGroupsComponent
+    MyGroupsComponent,
+    AdminAccessLevelComponent,
+    LevelComponent
   ],
   imports: [
     [BrowserModule, FormsModule],
@@ -91,12 +95,13 @@ import { MyGroupsComponent } from './my-groups/my-groups.component';
   ],
   providers: [
     { provide: WindowWrapper, useFactory: GetWindow},
+    ActionService,
     CognitoUtil,
     AwsUtil,
     CreateProfileService,
     Parameters,
     LambdaInvocationService,
-    ActionService],
+    HomeComponent ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

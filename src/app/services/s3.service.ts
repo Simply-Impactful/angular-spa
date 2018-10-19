@@ -41,7 +41,8 @@ export class S3Service {
       Bucket: this.bucketName,
       Key: `${_folder}/${file.name}`,
       Body: body,
-      ACL: 'public-read'
+      ACL: 'public-read',
+      ContentType: file.type
     };
 
     s3.upload(params, function (err, data) {
