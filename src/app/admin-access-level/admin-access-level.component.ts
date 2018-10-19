@@ -37,6 +37,7 @@ export class AdminAccessLevelComponent implements OnInit {
     private s3: S3Service) {}
 
   ngOnInit() {
+    this.appComp.setAdmin();
     this.lambdaService.listLevelData(this);
   }
 
