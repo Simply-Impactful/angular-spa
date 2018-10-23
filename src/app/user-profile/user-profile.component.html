@@ -9,10 +9,17 @@
         <mat-card class="user-profile-card">
           <img class = "avatar-size" mat-card-avatar src="{{user.picture}}">
         </mat-card>
-        <br>
-        <h4 style ="font-weight: bold"> {{user.username}} </h4>
-        <br>
-        <h5> Total Points: {{user.totalPoints}} </h5>
+        <br><br><br><br><br><br><br>
+        <div *ngIf = "isEditProfile">
+          <div class="upload-btn-wrapper">
+            <button class="upload-file">Edit Profile Picture</button>
+            <input type="file" accept="image/*" (change)="fileEvent($event)" />
+            <label class="upload-file-name" *ngIf="profilePicture">{{profilePicture.name}}</label>
+          </div>
+        </div>
+        
+        <h3 style ="font-weight: bold"> {{user.username}} </h3>
+        <h4 style ="font-weight: bold"> Total Points: {{user.totalPoints}} </h4>
         <br>
       </div>
     </div>
