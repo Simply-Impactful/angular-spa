@@ -124,9 +124,7 @@ isLoggedIn(message: string, isLoggedIn: boolean) {
           }
         });
       }
-      if (this.isProfileUpdated ) {
-        console.log(this.isUploadImage + 'below');
-    }
+
     }
   fileEvent(fileInput: any) {
     // save the image file which will be submitted later
