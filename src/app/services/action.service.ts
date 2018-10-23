@@ -31,25 +31,44 @@ export class ActionService implements OnInit {
 
   ngOnInit() {}
 
-  checkCadences (uniqueEntriesByUser: Action[], action: Action): boolean {
-   // console.log('unique entries by user for given action in scope' + JSON.stringify(uniqueEntriesByUser[0]['actionTaken']));
+  checkCadences (uniqueEntriesByUser: Action[], action: Action, dialog: ActionDialogComponent): boolean {
+    const createdInCadence = [];
     console.log('actoin rules ' + JSON.stringify(action));
     this.maxFrequency = action.maxFrequency;
     this.frequencyCadence = action.frequencyCadence;
-    const frequencyCadenceValue = this.getValueOfCadence(this.frequencyCadence);
-    // pull all of the actions taken in the last.. frequencyCadenceValue
-    // if the recordedFrequency total > maxFrequency
-    // throw error
-    console.log('this.actionRUles ' + this.maxFrequency + ' and ' + this.frequencyCadence);
-    return false;
+    const offSet = this.getValueOfCadence(this.frequencyCadence);
+    // get timestamp of current time minus frequencyCadenceValue (in days)
+    const currentDate = new Date();
+    // converts timestamp into mm/dd/yyyy
+//    const dateOfAction = new Date(uniqueEntriesByUser[0].createdAt).toLocaleDateString('en-US');
+
+    // need to get timestamp of current date minus allowed cadence
+    // subtract the offSet from the currentDate to get timeRange
+    const timeRange = (currentDate.getTime() - offSet);
+    for (let i = 0; i < uniqueEntriesByUser.length; i++) {
+      // if the last time they took it was within the cadence timeframe...
+      if (uniqueEntriesByUser[i].createdAt > timeRange) {
+        createdInCadence.push(uniqueEntriesByUser[i]);
+      }
+    }
+    if (createdInCadence.length > this.maxFrequency) {
+      window.alert('Whoops, you have reached your max allowance for this action of ' +
+        this.maxFrequency + ' per ' + this.frequencyCadence + ' Please select another action to take');
+      console.log('throw alert, they hit their max');
+      dialog.onCloseCancel();
+      return false;
+    } else {
+      return true;
+    }
   }
 
   getValueOfCadence(frequencyCadence: string) {
     const cadences = {
-      perDay: 1,
-      perWeek: 7,
-      perYear: 365,
-      perLifetime: 1 // is this accurate?
+      // gets the off-set in a timestamp
+      perDay: (24 * 60 * 60 * 1000) * 1,
+      perWeek: (24 * 60 * 60 * 1000) * 7,
+      perYear: (24 * 60 * 60 * 1000) * 365,
+      perLifetime: undefined
     };
     return cadences[frequencyCadence];
   }

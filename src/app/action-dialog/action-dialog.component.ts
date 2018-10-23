@@ -55,18 +55,14 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
   }
 
   onCloseConfirm() {
-    this.lambdaService.performAction(this, this.user, this.action);
-    if (this.action.assignmentUrl) {
-      this.displayAssignment = true;
-    }
-  //  this.thisDialogRef.close('Confirm');
-
- /**   if (this.actionService.checkCadences(this.uniqueEntriesByUser, this.action)) {
-      this.lambdaService.performAction(this, this.user, this.action);
-      this.thisDialogRef.close('Confirm');
+    if (this.actionService.checkCadences(this.uniqueEntriesByUser, this.action, this)) {
+   //   this.lambdaService.performAction(this, this.user, this.action);
+      if (this.action.assignmentUrl) {
+        this.displayAssignment = true;
+      }
     } else {
-      // throw error
-    } **/
+      // throw error pop up window
+    }
   }
 
   // when the user clicks Done after they are displayed the assignment
