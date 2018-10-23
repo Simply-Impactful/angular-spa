@@ -31,6 +31,7 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
   private actionService = new ActionService(this.dialog);
   userActions = [];
   uniqueEntriesByUser = [];
+  displayAssignment = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)public data: Action,
@@ -55,7 +56,10 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
 
   onCloseConfirm() {
     this.lambdaService.performAction(this, this.user, this.action);
-    this.thisDialogRef.close('Confirm');
+    if (this.action.assignmentUrl) {
+      this.displayAssignment = true;
+    }
+  //  this.thisDialogRef.close('Confirm');
 
  /**   if (this.actionService.checkCadences(this.uniqueEntriesByUser, this.action)) {
       this.lambdaService.performAction(this, this.user, this.action);
@@ -63,6 +67,12 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
     } else {
       // throw error
     } **/
+  }
+
+  // when the user clicks Done after they are displayed the assignment
+  closeWindow() {
+    this.thisDialogRef.close('Confirm');
+    window.location.reload();
   }
 
   onCloseCancel() {
@@ -151,7 +161,10 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
     // response for create group API - CognitoCallback interface
     cognitoCallback(message: string, result: any) {
       if (result) {
-        window.location.reload();
+        // to reload the window when there is no assignment associated with action
+        if (!this.displayAssignment) {
+          window.location.reload();
+        }
       }
     }
 
