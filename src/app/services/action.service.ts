@@ -32,7 +32,7 @@ export class ActionService implements OnInit {
   ngOnInit() {}
 
   // TODO: need to add logic for lifetime cadence
-  checkCadences (uniqueEntriesByUser: Action[], action: Action, dialog: ActionDialogComponent): boolean {
+  checkCadences (uniqueEntriesByUser: Action[], action: Action, actionDialog: ActionDialogComponent): boolean {
     const createdInCadence = [];
     console.log('actoin rules ' + JSON.stringify(action));
     this.maxFrequency = action.maxFrequency;
@@ -40,7 +40,7 @@ export class ActionService implements OnInit {
     const offSet = this.getValueOfCadence(this.frequencyCadence);
     const currentDate = new Date();
     // converts timestamp into mm/dd/yyyy
-//    const dateOfAction = new Date(uniqueEntriesByUser[0].createdAt).toLocaleDateString('en-US');
+    //  const dateOfAction = new Date(uniqueEntriesByUser[0].createdAt).toLocaleDateString('en-US');
 
     // need to get timestamp of current date minus allowed cadence
     // subtract the offSet from the currentDate to get timeRange
@@ -52,12 +52,11 @@ export class ActionService implements OnInit {
       }
     }
     if (createdInCadence.length > this.maxFrequency) {
-      window.alert('Whoops, you have reached your max allowance for this action of ' +
-        this.maxFrequency + ' per ' + this.frequencyCadence + ' Please select another action to take');
-      dialog.onCloseCancel();
+      actionDialog.isError = true;
+     // actionDialog.onCloseCancel();
       return false;
     } else {
-      dialog.onCloseCancel();
+      actionDialog.onCloseCancel();
       return true;
     }
   }

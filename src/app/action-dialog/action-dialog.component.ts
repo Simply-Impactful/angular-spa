@@ -32,6 +32,8 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
   userActions = [];
   uniqueEntriesByUser = [];
   displayAssignment = false;
+  isError = false;
+  displayCadence: string = 'per day';
 
   constructor(
     @Inject(MAT_DIALOG_DATA)public data: Action,
@@ -52,6 +54,14 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
     });
     // get the user attributes that are set in the login service
     this.loginService.isAuthenticated(this);
+
+    this.getDisplayText(this.action);
+  }
+
+  getDisplayText(action: Action) {
+    let cadence = action.frequencyCadence;
+    cadence.replace(/\'sper'+/g, 'per ');
+    cadence = cadence.toLowerCase();
   }
 
   onCloseConfirm() {
@@ -96,7 +106,6 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
   }
  }
 }
-
 
   // response of isAuthenticated - loggedInCall back interface
   callbackWithParam(result: any): void {
