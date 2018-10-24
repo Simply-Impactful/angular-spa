@@ -17,6 +17,7 @@ export class AdminAccessGroupMetadataComponent implements OnInit {
     { id: 4, type: 'Other',  subType: '' },
   ];
 
+  addTypeList = [];
   awaitingTypeList: Array<any> = [];
 
   constructor(public appComp: AppComponent) { }
@@ -38,8 +39,8 @@ export class AdminAccessGroupMetadataComponent implements OnInit {
     }
 
     add() {
-        const groupType = this.awaitingTypeList[0];
-        this.typeList.push(groupType);
+// const groupType = this.awaitingTypeList[0];
+        this.addTypeList.push(null);
         this.awaitingTypeList.splice(0, 1);
     }
 

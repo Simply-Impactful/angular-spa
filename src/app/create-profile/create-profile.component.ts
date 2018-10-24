@@ -44,8 +44,6 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
       this.newUser.userType = params['userType']; // (+) converts string 'id' to a number
     });
     const currentPage = this.route.component.valueOf();
-    //  console.log(currentPage );
-
   }
 
   ngOnDestroy() {

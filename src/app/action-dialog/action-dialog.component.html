@@ -1,21 +1,40 @@
-<div>
+<div *ngIf="!isError">
     <img src='/assets/images/Congrats_icn.svg'>
   <h2 mat-dialog-title>Way to go!</h2>
   <hr>
   <mat-dialog-content>
-    You're about to add {{action.eligiblePoints}} points to your score.  Keep up the good work!
+    <div *ngIf="!displayAssignment"> You're about to add {{action.eligiblePoints}} points to your score.  Keep up the good work!
+    </div>  
     <br>
     <br>
     <i style="color:gray">{{action.funFact}}</i>
     <br>
     <img src={{action.funFactImageUrl}}>
-   <div  *ngIf = "action.assignmentUrl">
-    <br> <br> Here is an <a  href = '{{action.assignmentUrl}}' target="_blank">assignment </a> you can take as part of this action. 
- </div> 
+   <div  *ngIf = "displayAssignment">
+    <br> Congrats! You just added {{action.eligiblePoints}} to your score.
+    <br> Here is an <a  href = '{{action.assignmentUrl}}' (click)="closeWindow()" target="_blank">assignment </a> you can take as part of this action. 
+  </div> 
   </mat-dialog-content>
   <hr>
   <div align="right">
     <button mat-stroked-button color="primary" (click)="onCloseCancel()">UNDO</button> 
-    <button mat-raised-button color="primary" (click)="onCloseConfirm()">CONFIRM</button>
-  </div>      
-</div>
+    <button *ngIf="!displayAssignment" mat-raised-button color="primary" (click)="onCloseConfirm()">CONFIRM</button>
+    <button *ngIf="displayAssignment" mat-raised-button color="primary" (click)="closeWindow()">DONE</button>
+  </div>
+  </div>
+  <div *ngIf="isError">
+      <img src='/assets/images/warning.png'>
+      <h2 mat-dialog-title>Uh Oh!</h2>
+      <hr>
+      <mat-dialog-content>
+        <div> You have reached the maximum number of times you can perform "{{action.name}}"
+           of {{action.maxFrequency}} {{displayCadence}}.
+          <br> Please close out of this window and select another action to take.
+        </div>
+        <br>
+      </mat-dialog-content>
+      <hr>
+      <div align="right">
+        <button mat-stroked-button color="primary" (click)="onCloseCancel()">CLOSE</button> 
+      </div>
+  </div>

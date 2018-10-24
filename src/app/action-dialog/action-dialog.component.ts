@@ -31,6 +31,9 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
   private actionService = new ActionService(this.dialog);
   userActions = [];
   uniqueEntriesByUser = [];
+  displayAssignment = false;
+  isError = false;
+  displayCadence: string = 'per day';
 
   constructor(
     @Inject(MAT_DIALOG_DATA)public data: Action,
@@ -51,18 +54,31 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
     });
     // get the user attributes that are set in the login service
     this.loginService.isAuthenticated(this);
+
+    this.getDisplayText(this.action);
+  }
+
+  getDisplayText(action: Action) {
+    let cadence = action.frequencyCadence;
+    cadence.replace(/\'sper'+/g, 'per ');
+    cadence = cadence.toLowerCase();
   }
 
   onCloseConfirm() {
-    this.lambdaService.performAction(this, this.user, this.action);
-    this.thisDialogRef.close('Confirm');
-
- /**   if (this.actionService.checkCadences(this.uniqueEntriesByUser, this.action)) {
+    if (this.actionService.checkCadences(this.uniqueEntriesByUser, this.action, this)) {
       this.lambdaService.performAction(this, this.user, this.action);
-      this.thisDialogRef.close('Confirm');
+      if (this.action.assignmentUrl) {
+        this.displayAssignment = true;
+      }
     } else {
-      // throw error
-    } **/
+      // throw error pop up window
+    }
+  }
+
+  // when the user clicks Done after they are displayed the assignment
+  closeWindow() {
+    this.thisDialogRef.close('Confirm');
+    window.location.reload();
   }
 
   onCloseCancel() {
@@ -90,7 +106,6 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
   }
  }
 }
-
 
   // response of isAuthenticated - loggedInCall back interface
   callbackWithParam(result: any): void {
@@ -151,7 +166,10 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
     // response for create group API - CognitoCallback interface
     cognitoCallback(message: string, result: any) {
       if (result) {
-        window.location.reload();
+        // to reload the window when there is no assignment associated with action
+        if (!this.displayAssignment) {
+          window.location.reload();
+        }
       }
     }
 

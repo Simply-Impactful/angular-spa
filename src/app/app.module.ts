@@ -101,7 +101,8 @@ import { LevelComponent } from './level/level.component';
     CreateProfileService,
     Parameters,
     LambdaInvocationService,
-    HomeComponent ],
+    HomeComponent,
+    ActionDialogComponent ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
