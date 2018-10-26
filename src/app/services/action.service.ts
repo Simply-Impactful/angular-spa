@@ -34,7 +34,7 @@ export class ActionService implements OnInit {
   // TODO: need to add logic for lifetime cadence
   checkCadences (uniqueEntriesByUser: Action[], action: Action, actionDialog: ActionDialogComponent): boolean {
     const createdInCadence = [];
-    console.log('actoin rules ' + JSON.stringify(action));
+    console.log('action rules ' + JSON.stringify(action));
     this.maxFrequency = action.maxFrequency;
     this.frequencyCadence = action.frequencyCadence;
     const offSet = this.getValueOfCadence(this.frequencyCadence);
@@ -51,12 +51,12 @@ export class ActionService implements OnInit {
         createdInCadence.push(uniqueEntriesByUser[i]);
       }
     }
-    if (createdInCadence.length > this.maxFrequency) {
+    // if the amount of times they took the action is greater than or equal to the max frequency
+    // OR the the offset is undefined (meaning lifetime cadence) AND the action array is
+    if (createdInCadence.length >= this.maxFrequency || (!offSet && uniqueEntriesByUser.length >= 1)) {
       actionDialog.isError = true;
-     // actionDialog.onCloseCancel();
       return false;
     } else {
-      actionDialog.onCloseCancel();
       return true;
     }
   }

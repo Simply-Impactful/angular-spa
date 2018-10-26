@@ -65,11 +65,11 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
   }
 
   onCloseConfirm() {
+    if (this.action.assignmentUrl) {
+      this.displayAssignment = true;
+    }
     if (this.actionService.checkCadences(this.uniqueEntriesByUser, this.action, this)) {
       this.lambdaService.performAction(this, this.user, this.action);
-      if (this.action.assignmentUrl) {
-        this.displayAssignment = true;
-      }
     } else {
       // throw error pop up window
     }
