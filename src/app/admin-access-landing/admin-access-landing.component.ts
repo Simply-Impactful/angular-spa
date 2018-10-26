@@ -21,6 +21,7 @@ export class AdminAccessLandingComponent implements OnInit {
   factUrl: string = '';
   factOfTheDayUri: string = this.conf.default.factOfTheDayUri;
   successMessage: string;
+  errorMessage: string;
 
   constructor(public appComp: AppComponent, private s3: S3Service, private http: HttpClient) { }
 
@@ -51,38 +52,51 @@ export class AdminAccessLandingComponent implements OnInit {
 
     // if they aren't uploading an image, pass forward their existing one
     if (this.imageFile) {
+      this.successMessage = 'Loading...';
       this.s3.uploadFile(this.imageFile, this.conf.imgFolders.facts, (err, location) => {
         if (err) {
           // we will allow for the creation of the item, we have a default image
           console.error(err);
           this.fact.factUrl = this.factUrl;
+          this.errorMessage = 'The image failed to upload.';
         } else {
           this.fact.factUrl = location;
           this.s3.uploadFile(this.fact, this.conf.imgFolders.facts, (_err, _location) => {
             if (_err) {
               console.error(_err);
+              this.successMessage = '';
+              this.errorMessage = 'The fact failed to update.';
               return;
+            } else {
+              this.errorMessage = '';
+              this.successMessage = 'Fact has been updated!';
             }
-            this.successMessage = 'Fact has been updated!';
           });
         }
         const file = JSON.stringify(this.fact);
       });
 
     } else if (this.factOfTheDayText) { // they uploaded a fact
+      this.successMessage = 'Loading...';
       this.s3.uploadFile(this.fact, this.conf.imgFolders.facts, (_err, _location) => {
         if (_err) {
           console.error(_err);
+          this.successMessage = '';
+          this.errorMessage = 'The fact failed to upload.';
           return;
+        } else {
+          this.errorMessage = '';
+          this.successMessage = 'Fact has been updated!';
         }
-        this.successMessage = 'Fact has been updated!';
       });
     } else { // no input
-      window.alert('Oops. You didn\'t upload an image or a fact!');
+      this.successMessage = '';
+      this.errorMessage = 'Oops. You didn\'t upload an image or a fact!';
     }
   }
 
   fileEvent(fileInput: any) {
+    this.successMessage = '';
     // save the image file which will be submitted later
     this.imageFile = fileInput.target.files[0];
   }
