@@ -8,8 +8,8 @@ export const AppConf: any = {
         groupAvatar: 'https://s3.amazonaws.com/simply-impactful-image-data/defaults/groupAvatar.png',
         facts: 'https://s3.amazonaws.com/simply-impactful-image-data/defaults/groupAvatar.png', // TODO: replace
         factOfTheDayKey: 'factOfTheDay.json',
-        factOfTheDayUri: 'https://s3.amazonaws.com/simply-impactful-image-data/facts/factOfTheDay.json'
-    },
+        factOfTheDayUri: 'https://s3.amazonaws.com/simply-impactful-image-data/facts/factOfTheDay.json',
+        },
     aws: {
         region: environment.region,
         lambdaVersion: '',

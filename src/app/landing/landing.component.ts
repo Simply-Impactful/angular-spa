@@ -17,11 +17,12 @@ export class LandingComponent implements OnInit, LoggedInCallback {
   conf = AppConf;
   factOfTheDayText: string = 'Americans use about 500 million plastic straws each day.';
   factOfTheDayUri: string = this.conf.default.factOfTheDayUri;
+  factUrl: string = '';
 
   constructor(private http: HttpClient, public logInService: LogInService, public router: Router) {}
 
   ngOnInit() {
-    this.getFactOfDay().subscribe();
+    this.getData().subscribe();
     this.logInService.isAuthenticated(this);
   }
 
@@ -34,10 +35,12 @@ export class LandingComponent implements OnInit, LoggedInCallback {
     }
   }
 
-  getFactOfDay(): Observable<any> {
+  // remove QA when done testing
+  getData(): Observable<any> {
     return this.http.get<any>(this.factOfTheDayUri, { responseType: 'json' }).pipe(
       map(res => {
         this.factOfTheDayText = (res) ? res.factOfTheDayText : this.factOfTheDayText;
+        this.factUrl = (res) ? res.factUrl : this.factUrl;
       }),
       catchError(err => {
         const errMsg = (err || err.message) ? err.message : (err || {}).toString();
