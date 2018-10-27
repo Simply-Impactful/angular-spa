@@ -52,7 +52,8 @@ export class ActionService implements OnInit {
       }
     }
     // if the amount of times they took the action is greater than or equal to the max frequency
-    // OR the the offset is undefined (meaning lifetime cadence) AND the action array is
+    // OR the the offset is undefined (meaning lifetime cadence) AND the action array is greater than
+    // or equal to 1, throw the error.
     if (createdInCadence.length >= this.maxFrequency || (!offSet && uniqueEntriesByUser.length >= 1)) {
       actionDialog.isError = true;
       return false;

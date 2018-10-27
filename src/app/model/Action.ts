@@ -1,3 +1,4 @@
+
 export class Action {
     eligiblePoints?: number;
     updatedAt?: number;

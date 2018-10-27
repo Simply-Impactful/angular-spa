@@ -56,7 +56,7 @@ export class LambdaInvocationService implements OnInit {
 
   // get the actions for a user BY their username
   // TODO add same call to get ALL users without specifying the username
-  getUserActions(callback: LoggedInCallback, user: User) {
+  getUserActions(callback: Callback, user: User) {
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
     AWS.config.region = environment.region;
     const lambda = new AWS.Lambda({region: AWS.config.region, apiVersion: '2015-03-31'});
@@ -76,10 +76,10 @@ export class LambdaInvocationService implements OnInit {
     };
     lambda.invoke(pullParams, function(error, data) {
       if (error) {
-        callback.callbackWithParams(error, null);
+        callback.callbackWithParameters(error, null);
       } else {
      //   console.log('user action' + data.Payload);
-        callback.callbackWithParams(null, data.Payload);
+        callback.callbackWithParameters(null, data.Payload);
       }
     });
   }

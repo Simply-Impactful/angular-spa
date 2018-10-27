@@ -16,7 +16,7 @@ import { S3Service } from '../services/s3.service';
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss']
 })
-export class UserProfileComponent implements OnInit, LoggedInCallback {
+export class UserProfileComponent implements OnInit, LoggedInCallback, Callback {
   private conf = AppConf;
   user: User;
   isEditProfile: Boolean = false;
@@ -42,39 +42,44 @@ export class UserProfileComponent implements OnInit, LoggedInCallback {
    this.params.user$.subscribe(user => {
       this.user = user;
     });
-
     this.loginService.isAuthenticated(this);
    }
 
   /** Interface needed for LoggedInCallback */
-isLoggedIn(message: string, isLoggedIn: boolean) {
-  }
+  isLoggedIn(message: string, isLoggedIn: boolean) {}
 
   // API Response for any lambda calls
   callbackWithParams(error: AWSError, result: any) {
     if (error) {
       this.errorMessage = error.message;
     }
-    const response = JSON.parse(result);
-    const userActions = response.body;
-    const userActionsLength = userActions.length;
-
-      for ( let i = 0; i < userActionsLength; i++ ) {
-        if (userActions[i].totalPoints) {
-          this.user.totalPoints = userActions[i].totalPoints;
-        }
-    }
   }
 
   // response of isAuthenticated method in login service
   callbackWithParam(result: any): void {
-    const cognitoUser = this.cognitoUtil.getCurrentUser();
-    const params = new Parameters();
-    this.user = params.buildUser(result, cognitoUser);
-   // if (!this.user.picture) {
-   //   this.user.picture =  this.conf.default.userProfile;
-// }
-    this.lambdaService.getUserActions(this, this.user);
+    console.log('result in userProfile isAuth response ' + JSON.stringify(result));
+    if (result) {
+      const cognitoUser = this.cognitoUtil.getCurrentUser();
+      const params = new Parameters();
+      this.user = params.buildUser(result, cognitoUser);
+      this.lambdaService.getUserActions(this, this.user);
+    }
+   }
+
+   // Response of getUserActions API - callback interface
+   callbackWithParameters(error: AWSError, result: any) {
+      if (result) {
+        const response = JSON.parse(result);
+        const userActions = response.body;
+        const userActionsLength = userActions.length;
+          for ( let i = 0; i < userActionsLength; i++ ) {
+            if (userActions[i].totalPoints) {
+              this.user.totalPoints = userActions[i].totalPoints;
+            } else {
+              this.user.totalPoints = 0;
+            }
+        }
+      }
    }
 
    // for switching back and forth between edit and read mode
@@ -85,24 +90,19 @@ isLoggedIn(message: string, isLoggedIn: boolean) {
   // save and switch mode back to view
   saveChanges() {
     if (this.isUploadImage) {
-      console.log(this.isUploadImage);
-
+        console.log(this.isUploadImage);
         this.uploadAndSend();
     } else {
-      console.log(this.isUploadImage + 'else');
-
       for (const key of Object.keys(this.updatedUser)) {
         if (this.updatedUser[key]) {
           this.cognitoUtil.updateUserAttribute(this, key, this.updatedUser[key]);
         }
       }
-  }
+    }
     // TODO: can this be done more seemlessly?
-
   }
   uploadAndSend() {
       if (this.profilePicture) {
-        console.log(this.isUploadImage + 'upload function');
         this.s3.uploadFile(this.profilePicture, this.conf.imgFolders.userProfile, (err, location) => {
           if (err) {
             // we will allow for the creation of the item, we will just not have an image
@@ -111,25 +111,23 @@ isLoggedIn(message: string, isLoggedIn: boolean) {
             this.isProfileUpdated = true;
           } else {
             this.updatedUser.picture = location;
-          //  this.cognitoUtil.updateUserAttribute(this, 'picture', this.updatedUser.picture);
             this.isProfileUpdated = true;
-            console.log(this.isUploadImage + 'upload else');
-
             for (const key of Object.keys(this.updatedUser)) {
               if (this.updatedUser[key]) {
                 this.cognitoUtil.updateUserAttribute(this, key, this.updatedUser[key]);
               }
             }
-
           }
         });
       }
-
     }
+
   fileEvent(fileInput: any) {
     // save the image file which will be submitted later
     this.profilePicture = fileInput.target.files[0];
     this.isUploadImage = true;
-
   }
+
+  callback() {}
+  cognitoCallbackWithParam(result: any) {}
 }

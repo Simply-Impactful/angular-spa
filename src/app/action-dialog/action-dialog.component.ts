@@ -33,7 +33,7 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
   uniqueEntriesByUser = [];
   displayAssignment = false;
   isError = false;
-  displayCadence: string = 'per day';
+  displayCadence: string = '';
 
   constructor(
     @Inject(MAT_DIALOG_DATA)public data: Action,
@@ -55,13 +55,13 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
     // get the user attributes that are set in the login service
     this.loginService.isAuthenticated(this);
 
-    this.getDisplayText(this.action);
+    this.displayCadence = this.setDisplayText(this.action);
   }
 
-  getDisplayText(action: Action) {
+  setDisplayText(action: Action) {
     let cadence = action.frequencyCadence;
-    cadence.replace(/\'sper'+/g, 'per ');
-    cadence = cadence.toLowerCase();
+    const regex = /per/gi;
+    return cadence = cadence.toLowerCase().replace(regex, 'per ');
   }
 
   onCloseConfirm() {
@@ -100,12 +100,12 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
           for (let index = 0; index < this.userActions[i].actionsTaken.length; index++ ) {
             if (this.userActions[i].actionsTaken[index].actionTaken === this.action.name) {
               this.uniqueEntriesByUser.push(this.userActions[i].actionsTaken[index]);
-         }
+            }
+          }
+        }
       }
     }
   }
- }
-}
 
   // response of isAuthenticated - loggedInCall back interface
   callbackWithParam(result: any): void {
@@ -119,8 +119,8 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
    cognitoCallbackWithParam(result: any) {
     const response = JSON.parse(result);
     this.groupsResult = response.body;
-    const username = this.cognitoUtil.getCurrentUser().getUsername();
     const params = [];
+    const username = this.cognitoUtil.getCurrentUser().getUsername();
     this.pointsEarned = Number(this.action.eligiblePoints);
     // display only groups the logged in user is a member of
     for (let i = 0; i < this.groupsResult.length; i++) {
@@ -175,5 +175,5 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
 
     handleMFAStep?(challengeName: string, challengeParameters: ChallengeParameters, callback: (confirmationCode: string) => any): void;
 
-   callback() {}
+    callback() {}
 }

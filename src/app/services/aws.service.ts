@@ -87,21 +87,24 @@ export class AwsUtil {
                     // this.ddb.writeLogEntry('login');
                     AwsUtil.firstLogin = false;
                 }
+            } else {
+                // attempt a retry
+                console.log('ERROR GETTING COGNITO IDENTITY.. RETRY');
             }
         });
     }
 
-    getCognitoParametersForIdConsolidation(idTokenJwt: string): {} {
+ /**   getCognitoParametersForIdConsolidation(idTokenJwt: string): {} {
         console.log('AwsUtil: enter getCognitoParametersForIdConsolidation()');
         const url = 'cognito-idp.' + CognitoUtil._REGION.toLowerCase() + '.amazonaws.com/' + CognitoUtil._USER_POOL_ID;
         const logins: Array<string> = [];
         logins[url] = idTokenJwt;
         const params = {
-            IdentityPoolId: CognitoUtil._IDENTITY_POOL_ID, /* required */
+            IdentityPoolId: CognitoUtil._IDENTITY_POOL_ID, /* required */ /**
             Logins: logins
         };
 
         return params;
-    }
+    } **/
 
 }
