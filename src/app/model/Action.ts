@@ -4,7 +4,7 @@ export class Action {
     updatedAt?: number;
     funFactImageUrl?: string;
     funFact?: string;
-    createdAt?: number;
+    createdAt?: Date;
     tileIconUrl?: string;
     name?: string;
     frequencyCadence?: string;
