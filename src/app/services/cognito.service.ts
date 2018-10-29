@@ -46,7 +46,7 @@ export class CognitoUtil {
         ClientId: CognitoUtil._CLIENT_ID
     };
 
-    public identityCreds: AWS.CognitoIdentityCredentials.CognitoIdentityCredentialsInputs;
+ //   public identityCreds: AWS.CognitoIdentityCredentials.CognitoIdentityCredentialsInputs;
     public cognitoCreds: AWS.CognitoIdentityCredentials;
 
     getUserPool() {

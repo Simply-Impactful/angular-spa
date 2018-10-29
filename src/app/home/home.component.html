@@ -42,18 +42,13 @@
       <div>
         <div fxLayout="row">
           <div fxFlex="100">
-            <h5>Assignments</h5>
+            <h5>Your Available Assignments</h5>
           </div>
         </div>
-        <div *ngIf="assignments" align="left">
+        <div *ngFor="let assignment of assignments; let i = index" align="left">
           <li>
-          <a routerLinkActive="router-link-active" href="{{assignments}}" target="_blank" >Day Without Video Games assignment</a>
+          <a routerLinkActive="router-link-active" href="{{assignment}}" target="_blank" >{{actionNames[i]}}</a>
           </li>
-          <li>
-        <a routerLinkActive="router-link-active" href="{{assignments}}" target="_blank" >Bike To School Assignment</a>
-        <li>
-        <a routerLinkActive="router-link-active" href="{{assignments}}" target="_blank" >Turn Off Lights Assignment</a>
-        </li>
       </div>
         <br>
         <br>

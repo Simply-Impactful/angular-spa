@@ -13,9 +13,9 @@
       </mat-grid-tile>
     </mat-grid-list>
     <mat-grid-list cols="2" rowHeight="12em">
-      <mat-grid-tile class="upload-box" cols="1">
+      <mat-grid-tile>
         <div class="upload-btn-wrapper">
-          <button class="upload-file">Choose Background Image</button>
+          <button class="upload-file">Choose Profile Photo/Avatar</button>
           <input type="file" accept="image/*" (change)="fileEvent($event)" />
           <label class="upload-file-name" *ngIf="imageFile">{{imageFile.name}}</label>
         </div>
@@ -26,7 +26,7 @@
             <textarea [(ngModel)]="factOfTheDayText" 
               name="factOfTheDayText" 
               style="color:black" 
-              matInput placeholder="Americans use about 120 million plastic straws each day"
+              matInput placeholder={{factOfTheDayText}}
               maxlength="120" rows=""></textarea>
             <mat-hint>120 Characters limit</mat-hint>
           </mat-form-field>
@@ -36,6 +36,7 @@
     <mat-grid-list cols="2" rowHeight="20em">
       <mat-grid-tile cols="1">
         <h2 align="left" *ngIf="successMessage" style="color:rgba(56, 173, 109, 0.863)">{{successMessage}}</h2>
+        <h2 align="left" *ngIf="errorMessage" style="color:rgba(219, 58, 58, 0.863)">{{errorMessage}}</h2>
       </mat-grid-tile>
       <mat-grid-tile cols="1">
         <button mat-raised-button color="primary" (click)="save()">Save Changes</button>

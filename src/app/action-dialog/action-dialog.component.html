@@ -12,7 +12,7 @@
     <img src={{action.funFactImageUrl}}>
    <div  *ngIf = "displayAssignment">
     <br> Congrats! You just added {{action.eligiblePoints}} to your score.
-    <br> Here is an <a  href = '{{action.assignmentUrl}}' (click)="closeWindow()" target="_blank">assignment </a> you can take as part of this action. 
+    <br> Here is an <a  href = '{{action.assignmentUrl}}' target="_blank">assignment </a> you can take as part of this action. 
   </div> 
   </mat-dialog-content>
   <hr>
@@ -23,7 +23,7 @@
   </div>
   </div>
   <div *ngIf="isError">
-      <img src='/assets/images/warning.png'>
+      <img style="height:20%;width:200px;"src='/assets/images/Frown.png'>
       <h2 mat-dialog-title>Uh Oh!</h2>
       <hr>
       <mat-dialog-content>

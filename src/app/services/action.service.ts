@@ -34,29 +34,34 @@ export class ActionService implements OnInit {
   // TODO: need to add logic for lifetime cadence
   checkCadences (uniqueEntriesByUser: Action[], action: Action, actionDialog: ActionDialogComponent): boolean {
     const createdInCadence = [];
-    console.log('actoin rules ' + JSON.stringify(action));
+    console.log('action rules ' + JSON.stringify(action));
     this.maxFrequency = action.maxFrequency;
     this.frequencyCadence = action.frequencyCadence;
+    // get the offset, per day = 1 day back, per week = 7 days back from the time the action is taken
     const offSet = this.getValueOfCadence(this.frequencyCadence);
     const currentDate = new Date();
-    // converts timestamp into mm/dd/yyyy
-    //  const dateOfAction = new Date(uniqueEntriesByUser[0].createdAt).toLocaleDateString('en-US');
-
     // need to get timestamp of current date minus allowed cadence
     // subtract the offSet from the currentDate to get timeRange
     const timeRange = (currentDate.getTime() - offSet);
+    // convert timestamp to readable date
+    const timeRangeDate = new Date(timeRange);
+   // date.setUTCSeconds(timeRange);
     for (let i = 0; i < uniqueEntriesByUser.length; i++) {
+
+      const createdAt = uniqueEntriesByUser[i].createdAt;
+      const createdDate = new Date(createdAt);
       // if the last time they took it was within the cadence timeframe...
-      if (uniqueEntriesByUser[i].createdAt > timeRange) {
+      if (createdDate > timeRangeDate) {
         createdInCadence.push(uniqueEntriesByUser[i]);
       }
     }
-    if (createdInCadence.length > this.maxFrequency) {
+    // if the amount of times they took the action is greater than or equal to the max frequency
+    // OR the the offset is undefined (meaning lifetime cadence) AND the action array is greater than
+    // or equal to 1, throw the error.
+    if (createdInCadence.length > this.maxFrequency || (!offSet && uniqueEntriesByUser.length >= 1)) {
       actionDialog.isError = true;
-     // actionDialog.onCloseCancel();
       return false;
     } else {
-      actionDialog.onCloseCancel();
       return true;
     }
   }
@@ -64,6 +69,7 @@ export class ActionService implements OnInit {
   getValueOfCadence(frequencyCadence: string) {
     const cadences = {
       // gets the off-set in a timestamp
+      // milliseconds of time passed from the currentDate
       perDay: (24 * 60 * 60 * 1000) * 1,
       perWeek: (24 * 60 * 60 * 1000) * 7,
       perYear: (24 * 60 * 60 * 1000) * 365,

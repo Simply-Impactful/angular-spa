@@ -21,9 +21,7 @@ export class AppComponent implements OnInit, LoggedInCallback {
   constructor(public loginService: LogInService, public router: Router, public cognitoUtil: CognitoUtil) { }
 
   ngOnInit() {
-    if (this.loginService) {
     this.loginService.isAuthenticated(this);
-    }
     this.currentUser = this.cognitoUtil.getCurrentUser().getUsername();
     if (window.location.toString().includes('/admin') && this.currentUser !== 'superUser') {
       this.router.navigate(['/login']);
@@ -31,17 +29,22 @@ export class AppComponent implements OnInit, LoggedInCallback {
   }
 
   isLoggedIn(message: string, isLoggedIn: boolean) {
-    const cognito = new CognitoUtil();
-    const awsUtil = new AwsUtil(cognito);
-   cognito.getIdToken({
-      callback() {},
-      callbackWithParameters(error: AWSError, result: any) {},
-      cognitoCallbackWithParam(result: any) {},
-      callbackWithParam(token: any) {
-        // Include the passed-in callback here as well so that it's executed downstream
-        awsUtil.initAwsService(null, isLoggedIn, token);
-      }
-    });
+    console.log('Message App Component: ' + message);
+    if (isLoggedIn) {
+      console.log('is logged in - test cognito identity');
+      const cognito = new CognitoUtil();
+      const awsUtil = new AwsUtil(cognito);
+      cognito.getIdToken({
+        callback() {},
+        callbackWithParameters(error: AWSError, result: any) {},
+        cognitoCallbackWithParam(result: any) {},
+        callbackWithParam(token: any) {
+          // Include the passed-in callback here as well so that it's executed downstream
+          awsUtil.initAwsService(null, isLoggedIn, token);
+        }
+      });
+    }
+
     if (!isLoggedIn && !window.location.toString().includes('/landing')) {
       this.router.navigate(['/login']);
     }
