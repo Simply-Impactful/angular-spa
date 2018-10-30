@@ -15,7 +15,7 @@ import { AWSError } from 'aws-sdk';
 })
 export class LandingComponent implements OnInit, LoggedInCallback {
   conf = AppConf;
-  factOfTheDayText: string = 'Americans use about 500 million plastic straws each day.';
+  factOfTheDayText: string = '';
   factOfTheDayUri: string = this.conf.default.factOfTheDayUri;
   factUrl: string = '';
 

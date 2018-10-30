@@ -17,20 +17,25 @@ export class AppComponent implements OnInit, LoggedInCallback {
 
   isAdmin: boolean = false;
   user: User;
-  currentUser;
   constructor(public loginService: LogInService, public router: Router, public cognitoUtil: CognitoUtil) { }
 
   ngOnInit() {
     this.loginService.isAuthenticated(this);
-    this.currentUser = this.cognitoUtil.getCurrentUser().getUsername();
-    if (window.location.toString().includes('/admin') && this.currentUser !== 'superUser') {
-      this.router.navigate(['/login']);
-    }
   }
 
   isLoggedIn(message: string, isLoggedIn: boolean) {
+    console.log('is logged in: ' + isLoggedIn);
     if (isLoggedIn) {
-      console.log('is logged in: true');
+
+      const currentUser = this.cognitoUtil.getCurrentUser();
+      const username = currentUser.getUsername();
+      // if a non-admin is trying to access an admin site,
+      // force them to login, sign them out
+      if (window.location.toString().includes('/admin') && username !== 'superUser') {
+        this.router.navigate(['/login']);
+        currentUser.signOut();
+      }
+
       const cognito = new CognitoUtil();
       const awsUtil = new AwsUtil(cognito);
       cognito.getIdToken({
@@ -46,7 +51,8 @@ export class AppComponent implements OnInit, LoggedInCallback {
 
     // if they aren't logged in, and they aren't on the landing page, direct them to the login screen
     if (!isLoggedIn && !window.location.toString().includes('/landing')) {
-      this.router.navigate(['/login']);
+    // this.router.navigate(['/login']);
+        this.router.navigate(['/landing']);
     }
   }
   callbackWithParams(error: AWSError, result: CognitoUserAttribute[]) {
@@ -58,8 +64,7 @@ export class AppComponent implements OnInit, LoggedInCallback {
   }
   callbackWithParam(result: any): void {
     console.log('RESULT OF CALLBACK WITH PARAM - error?' + JSON.stringify(result));
-      //   this.cognitoUtil.getCurrentUser().signOut();
-  //    this.router.navigate(['/login']);
+
     // throw new Error('Method not implemented.');
   }
 }

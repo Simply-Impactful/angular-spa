@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Callback, CognitoUtil } from './cognito.service';
 import * as AWS from 'aws-sdk/global';
+import { Router } from '@angular/router';
 
 /**
  * Created by Vladimir Budilov
@@ -76,6 +77,8 @@ export class AwsUtil {
     }
 
     addCognitoCredentials(idToken: string, callback: Callback): void {
+        const router: Router = null;
+
         const creds = this.cognitoUtil.buildCognitoCreds(idToken);
 
         AWS.config.credentials = creds;
@@ -93,6 +96,8 @@ export class AwsUtil {
                 console.log('ERROR GETTING CREDS ' + JSON.stringify(err));
                 // route them to login?
                 // adding this in...
+                this.cognitoUtil.getCurrentUser().signOut();
+                router.navigate(['/login']);
                 callback.callbackWithParam('error getting user creds');
            }
         });
