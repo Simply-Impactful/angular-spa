@@ -5,21 +5,21 @@
   <form>
     <mat-form-field appearance="outline">
       <mat-label>First Name</mat-label>
-      <input matInput placeholder="First Name">
+      <input [(ngModel)]="email.firstName" name="firstName" matInput placeholder="First Name">
     </mat-form-field>
     <br>
     <mat-form-field appearance="outline">
       <mat-label>Last Name</mat-label>
-      <input matInput placeholder="Last Name">
+      <input [(ngModel)]="email.lastName" name="lastName" matInput placeholder="Last Name">
     </mat-form-field>
     <br>
     <mat-form-field appearance="outline">
       <mat-label>Email Address</mat-label>
-      <input matInput placeholder="Last Name">
+      <input [(ngModel)]="email.senderEmail" name="senderEmail" matInput placeholder="Last Name">
     </mat-form-field>
     <br>
     <mat-form-field appearance="outline" style="width: 380px">
-      <textarea class = "textarea" matInput placeholder="Short Description" maxlength="500" rows="12"></textarea>
+      <textarea class = "textarea" [(ngModel)]="email.content" name="content" matInput placeholder="Short Description" maxlength="500" rows="12"></textarea>
     </mat-form-field>
     <br>
     <button mat-raised-button color="primary" routerLink="/landing" (click)="send()">Send</button>

@@ -16,6 +16,8 @@ import { LogInService } from '../services/log-in.service';
 import { Group } from '../model/Group';
 import { Router } from '@angular/router';
 import { AppConf } from '../shared/conf/app.conf';
+import { Email } from '../model/Email';
+
 
 @Injectable()
 export class LambdaInvocationService implements OnInit {
@@ -430,5 +432,42 @@ export class LambdaInvocationService implements OnInit {
         }
       });
     }
+
+    sendEmail(email: Email, callback: CognitoCallback) {
+      //   console.log('action Data ' + JSON.stringify(actionData));
+         const JSON_BODY = {
+           firstName: email.firstName,
+           lastName: email.lastName,
+           senderEmail: email.senderEmail,
+           content: email.content
+         };
+         const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
+         AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+         AWS.config.region = this.region;
+         const lambda = new AWS.Lambda({region: this.region, apiVersion: this.apiVersion});
+         const putParams = {
+           FunctionName: 'sendEmail',
+           InvocationType: 'RequestResponse',
+           LogType: 'None',
+           Payload: JSON.stringify({
+             httpMethod: 'POST',
+             path: '/email/send',
+             resource: '',
+             queryStringParameters: {
+             },
+             pathParameters: {
+             },
+             body: body
+           })
+         };
+         lambda.invoke(putParams, function(error, data) {
+          if (error) {
+            console.log('ERROR ' + JSON.stringify(error));
+            callback.cognitoCallback(error.toString(), null);
+          } else {
+              callback.cognitoCallback(null, data.Payload);
+          }
+        });
+       }
 
 }
