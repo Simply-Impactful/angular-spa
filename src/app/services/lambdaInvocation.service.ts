@@ -347,7 +347,8 @@ export class LambdaInvocationService implements OnInit {
     const JSON_BODY = [];
     for (let i = 0; i < levelData.length; i++) {
       JSON_BODY.push({
-        pointsRange: levelData[i].pointsRange,
+        min: levelData[i].min,
+        max: levelData[i].max,
         statusGraphicUrl: levelData[i].statusGraphicUrl,
         status: levelData[i].status
       });

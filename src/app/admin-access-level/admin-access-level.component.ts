@@ -20,11 +20,12 @@ import { AppConf } from '../shared/conf/app.conf';
 })
 export class AdminAccessLevelComponent implements OnInit {
   conf = AppConf;
-//  levels: Levels[];
-  displayedColumns = ['pointsRange', 'status', 'statusGraphicUrl'];
+  levels: Levels[];
+  displayedColumns = ['min', 'max', 'status', 'statusGraphicUrl'];
   dataSource;
   inputText;
   editField: string;
+  editFieldNumber: number;
   statusGraphicUrl: any;
   awaitingLevelList: Array<any> = [];
   imageFiles: any = {};
@@ -33,25 +34,25 @@ export class AdminAccessLevelComponent implements OnInit {
   addingLevels = [];
   levelsObj = new Levels;
 
-  levels: Array<any> = [
-    { id: 1, pointsRange: '0 - 250',  status: 'Grasshopper',
-    statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/grasshopperforapp.png' },
-    { id: 2, pointsRange: '251 - 750',  status: 'Bee',
-    statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/beeforapp.png' },
-    { id: 3, pointsRange: '751 - 1750',  status: 'Koala',
-    statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/koalaforapp.png' },
-    { id: 2, pointsRange: '1751 - 3250',  status: 'Octopus',
-    statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/octopus.png' },
-    { id: 1, pointsRange: '3252 - 5250',  status: 'Owl',
-    statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/owlforapp.png' }
-  ];
+  // levels: Array<any> = [
+  //   { id: 1, pointsRange: '0 - 250',  status: 'Grasshopper',
+  //   statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/grasshopperforapp.png' },
+  //   { id: 2, pointsRange: '251 - 750',  status: 'Bee',
+  //   statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/beeforapp.png' },
+  //   { id: 3, pointsRange: '751 - 1750',  status: 'Koala',
+  //   statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/koalaforapp.png' },
+  //   { id: 2, pointsRange: '1751 - 3250',  status: 'Octopus',
+  //   statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/octopus.png' },
+  //   { id: 1, pointsRange: '3252 - 5250',  status: 'Owl',
+  //   statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/owlforapp.png' }
+  // ];
 
   constructor(public appComp: AppComponent, public lambdaService: LambdaInvocationService,
     private s3: S3Service) {}
 
   ngOnInit() {
     this.appComp.setAdmin();
-   // this.lambdaService.listLevelData(this);
+    this.lambdaService.listLevelData(this);
   }
 
 isLoggedIn(message: string, loggedIn: boolean): void {}
@@ -76,7 +77,7 @@ isLoggedIn(message: string, loggedIn: boolean): void {}
           console.log(err);
           this.levelsObj.statusGraphicUrl = this.conf.default.groupAvatar;
           this.levels.push(this.levelsObj);
-          this.lambdaService.createLevelData(this.levels, this);
+          // this.lambdaService.createLevelData(this.levels, this);
         } else {
             this.levelsObj.statusGraphicUrl = location;
             this.levels.push(this.levelsObj);
@@ -112,13 +113,20 @@ isLoggedIn(message: string, loggedIn: boolean): void {}
       this.awaitingLevelList.splice(0, 1);
   }
 
-  changeValue(property: string, event: any) {
+  changeValueString(property: string, event: any) {
     this.editField = event.target.textContent;
-    if (property === 'pointsRange') {
-      this.levelsObj.pointsRange = this.editField;
-    }
     if (property === 'status') {
       this.levelsObj.status = this.editField;
+    }
+  }
+
+  changeValueNumber(property: string, event: any) {
+    this.editFieldNumber = event.target.textContent;
+    if (property === 'min') {
+      this.levelsObj.min = this.editFieldNumber;
+    }
+    if (property === 'max') {
+      this.levelsObj.max = this.editFieldNumber;
     }
   }
 
