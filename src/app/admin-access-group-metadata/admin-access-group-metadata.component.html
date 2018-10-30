@@ -6,11 +6,17 @@
       <th class="text-center">GROUP TYPE</th>
       <th class="text-center">GROUP SUBTYPE</th>
     </tr>
-    <tr *ngFor="let groupType of typeList; let id = index">
-      <td contenteditable="true" (keyup)="changeValue(id, 'type', $event)" (blur)="updateList(id, 'type', $event)">{{groupType.type}}</td>
-      <td contenteditable="true" (keyup)="changeValue(id, 'subType', $event)" (blur)="updateList(id, 'subType', $event)">{{groupType.subType}}</td>
+
+    <tr *ngFor="let groupType of typeList">
+      <td contenteditable="false">{{groupType.type}}</td>
+      <td contenteditable="false">{{groupType.subType}}</td>
     </tr>
-      </table>
+
+    <tr *ngFor="let groupType of addTypeList">
+      <td contenteditable="true" (keyup)="changeValue(id, 'type', $event)">{{groupType.type}}</td>
+      <td contenteditable="true" (keyup)="changeValue(id, 'subType', $event)">{{groupType.subType}}</td>
+    </tr>
+  </table>
       <br>
       <button mat-raised-button color="primary" (click)="saveNew()">Save changes</button>  
 </main>

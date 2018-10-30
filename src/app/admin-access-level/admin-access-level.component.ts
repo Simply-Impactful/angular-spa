@@ -9,8 +9,9 @@ import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { Router } from '@angular/router';
 import { AppComponent } from '../app.component';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
-
 import * as _ from 'lodash';
+import { S3Service } from '../services/s3.service';
+import { AppConf } from '../shared/conf/app.conf';
 
 @Component({
   selector: 'app-admin-access-level',
@@ -18,26 +19,39 @@ import * as _ from 'lodash';
   styleUrls: ['./admin-access-level.component.scss']
 })
 export class AdminAccessLevelComponent implements OnInit {
-
-  levels: Levels[];
+  conf = AppConf;
+//  levels: Levels[];
   displayedColumns = ['pointsRange', 'status', 'statusGraphicUrl'];
   dataSource;
-
   inputText;
   editField: string;
-  // levelList: Array<any> = [
-  //  { id: 1, pointsRange: '0 - 100',  status: 'Elephant',
-  //  statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/elephant2.svg' },
-  //  { id: 2, pointsRange: '100 - 200',  status: 'Lemur',
-  //  statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/lemur.svg' },
-  // ];
-
+  statusGraphicUrl: any;
   awaitingLevelList: Array<any> = [];
+  imageFiles: any = {};
+  isViewing: boolean = true;
+  isAdding: boolean = false;
+  addingLevels = [];
+  levelsObj = new Levels;
 
-  constructor( public appComp: AppComponent, public lambdaService: LambdaInvocationService) { }
+  levels: Array<any> = [
+    { id: 1, pointsRange: '0 - 250',  status: 'Grasshopper',
+    statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/grasshopperforapp.png' },
+    { id: 2, pointsRange: '251 - 750',  status: 'Bee',
+    statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/beeforapp.png' },
+    { id: 3, pointsRange: '751 - 1750',  status: 'Koala',
+    statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/koalaforapp.png' },
+    { id: 2, pointsRange: '1751 - 3250',  status: 'Octopus',
+    statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/octopus.png' },
+    { id: 1, pointsRange: '3252 - 5250',  status: 'Owl',
+    statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/owlforapp.png' }
+  ];
+
+  constructor(public appComp: AppComponent, public lambdaService: LambdaInvocationService,
+    private s3: S3Service) {}
 
   ngOnInit() {
-    this.lambdaService.listLevelData(this);
+    this.appComp.setAdmin();
+   // this.lambdaService.listLevelData(this);
   }
 
 isLoggedIn(message: string, loggedIn: boolean): void {}
@@ -49,12 +63,38 @@ isLoggedIn(message: string, loggedIn: boolean): void {}
       this.dataSource = new MatTableDataSource(this.levels);
      } else {
       console.log('error pulling the levels data' + error);
+      window.location.reload();
     }
   }
   callbackWithParam(result: any): void {}
 
+  saveNew() {
+    if (this.statusGraphicUrl) {
+      this.s3.uploadFile(this.statusGraphicUrl, this.conf.imgFolders.actions, (err, location) => {
+        if (err) {
+          // we will allow for the creation of the item, we have a default image
+          console.log(err);
+          this.levelsObj.statusGraphicUrl = this.conf.default.groupAvatar;
+          this.levels.push(this.levelsObj);
+          this.lambdaService.createLevelData(this.levels, this);
+        } else {
+            this.levelsObj.statusGraphicUrl = location;
+            this.levels.push(this.levelsObj);
+            // response goes to cognitoCallback
+            this.lambdaService.createLevelData(this.levels, this);
+        }
+      });
+    }
+  }
 
-  saveNew() {}
+  cognitoCallback(message: string, result: any) {
+    if (result) {
+      console.log('result of create level ' + result);
+      this.addingLevels.pop();
+    } else {
+      console.log('error ' + message);
+    }
+  }
 
   updateList(id: number, property: string, event: any) {
     const editField = event.target.textContent;
@@ -67,12 +107,23 @@ isLoggedIn(message: string, loggedIn: boolean): void {}
   }
 
   add() {
-      const level = this.awaitingLevelList[0];
-      this.levels.push(level);
+  //    const level = this.awaitingLevelList[0];
+      this.addingLevels.push(null);
       this.awaitingLevelList.splice(0, 1);
   }
 
-  changeValue(id: number, property: string, event: any) {
+  changeValue(property: string, event: any) {
     this.editField = event.target.textContent;
+    if (property === 'pointsRange') {
+      this.levelsObj.pointsRange = this.editField;
+    }
+    if (property === 'status') {
+      this.levelsObj.status = this.editField;
+    }
+  }
+
+  // storing as single variables instead of an array for now...
+  fileEvent(fileInput: any, imageName: string) {
+    this[imageName] = fileInput.target.files[0];
   }
 }

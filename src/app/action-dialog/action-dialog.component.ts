@@ -31,6 +31,9 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
   private actionService = new ActionService(this.dialog);
   userActions = [];
   uniqueEntriesByUser = [];
+  displayAssignment = false;
+  isError = false;
+  displayCadence: string = '';
 
   constructor(
     @Inject(MAT_DIALOG_DATA)public data: Action,
@@ -51,18 +54,31 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
     });
     // get the user attributes that are set in the login service
     this.loginService.isAuthenticated(this);
+
+    this.displayCadence = this.setDisplayText(this.action);
+  }
+
+  setDisplayText(action: Action) {
+    let cadence = action.frequencyCadence;
+    const regex = /per/gi;
+    return cadence = cadence.toLowerCase().replace(regex, 'per ');
   }
 
   onCloseConfirm() {
-    this.lambdaService.performAction(this, this.user, this.action);
-    this.thisDialogRef.close('Confirm');
-
- /**   if (this.actionService.checkCadences(this.uniqueEntriesByUser, this.action)) {
+    if (this.action.assignmentUrl) {
+      this.displayAssignment = true;
+    }
+    if (this.actionService.checkCadences(this.uniqueEntriesByUser, this.action, this)) {
       this.lambdaService.performAction(this, this.user, this.action);
-      this.thisDialogRef.close('Confirm');
     } else {
-      // throw error
-    } **/
+      // throw error pop up window
+    }
+  }
+
+  // when the user clicks Done after they are displayed the assignment
+  closeWindow() {
+    this.thisDialogRef.close('Confirm');
+    window.location.reload();
   }
 
   onCloseCancel() {
@@ -84,13 +100,12 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
           for (let index = 0; index < this.userActions[i].actionsTaken.length; index++ ) {
             if (this.userActions[i].actionsTaken[index].actionTaken === this.action.name) {
               this.uniqueEntriesByUser.push(this.userActions[i].actionsTaken[index]);
-         }
+            }
+          }
+        }
       }
     }
   }
- }
-}
-
 
   // response of isAuthenticated - loggedInCall back interface
   callbackWithParam(result: any): void {
@@ -104,8 +119,8 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
    cognitoCallbackWithParam(result: any) {
     const response = JSON.parse(result);
     this.groupsResult = response.body;
-    const username = this.cognitoUtil.getCurrentUser().getUsername();
     const params = [];
+    const username = this.cognitoUtil.getCurrentUser().getUsername();
     this.pointsEarned = Number(this.action.eligiblePoints);
     // display only groups the logged in user is a member of
     for (let i = 0; i < this.groupsResult.length; i++) {
@@ -151,11 +166,14 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
     // response for create group API - CognitoCallback interface
     cognitoCallback(message: string, result: any) {
       if (result) {
-        window.location.reload();
+        // to reload the window when there is no assignment associated with action
+        if (!this.displayAssignment) {
+          window.location.reload();
+        }
       }
     }
 
     handleMFAStep?(challengeName: string, challengeParameters: ChallengeParameters, callback: (confirmationCode: string) => any): void;
 
-   callback() {}
+    callback() {}
 }

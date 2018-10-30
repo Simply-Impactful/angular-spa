@@ -202,7 +202,7 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
       // TODO: implement..
       if (result) {
         // TODO: can we do this without a window reload?
-        //  window.location.reload();
+        window.location.reload();
         this.router.navigate(['/home']);
       }
   }

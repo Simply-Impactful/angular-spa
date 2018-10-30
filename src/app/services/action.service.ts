@@ -31,25 +31,49 @@ export class ActionService implements OnInit {
 
   ngOnInit() {}
 
-  checkCadences (uniqueEntriesByUser: Action[], action: Action): boolean {
-   // console.log('unique entries by user for given action in scope' + JSON.stringify(uniqueEntriesByUser[0]['actionTaken']));
-    console.log('actoin rules ' + JSON.stringify(action));
+  // TODO: need to add logic for lifetime cadence
+  checkCadences (uniqueEntriesByUser: Action[], action: Action, actionDialog: ActionDialogComponent): boolean {
+    const createdInCadence = [];
+    console.log('action rules ' + JSON.stringify(action));
     this.maxFrequency = action.maxFrequency;
     this.frequencyCadence = action.frequencyCadence;
-    const frequencyCadenceValue = this.getValueOfCadence(this.frequencyCadence);
-    // pull all of the actions taken in the last.. frequencyCadenceValue
-    // if the recordedFrequency total > maxFrequency
-    // throw error
-    console.log('this.actionRUles ' + this.maxFrequency + ' and ' + this.frequencyCadence);
-    return false;
+    // get the offset, per day = 1 day back, per week = 7 days back from the time the action is taken
+    const offSet = this.getValueOfCadence(this.frequencyCadence);
+    const currentDate = new Date();
+    // need to get timestamp of current date minus allowed cadence
+    // subtract the offSet from the currentDate to get timeRange
+    const timeRange = (currentDate.getTime() - offSet);
+    // convert timestamp to readable date
+    const timeRangeDate = new Date(timeRange);
+   // date.setUTCSeconds(timeRange);
+    for (let i = 0; i < uniqueEntriesByUser.length; i++) {
+
+      const createdAt = uniqueEntriesByUser[i].createdAt;
+      const createdDate = new Date(createdAt);
+      // if the last time they took it was within the cadence timeframe...
+      if (createdDate > timeRangeDate) {
+        createdInCadence.push(uniqueEntriesByUser[i]);
+      }
+    }
+    // if the amount of times they took the action is greater than or equal to the max frequency
+    // OR the the offset is undefined (meaning lifetime cadence) AND the action array is greater than
+    // or equal to 1, throw the error.
+    if (createdInCadence.length > this.maxFrequency || (!offSet && uniqueEntriesByUser.length >= 1)) {
+      actionDialog.isError = true;
+      return false;
+    } else {
+      return true;
+    }
   }
 
   getValueOfCadence(frequencyCadence: string) {
     const cadences = {
-      perDay: 1,
-      perWeek: 7,
-      perYear: 365,
-      perLifetime: 1 // is this accurate?
+      // gets the off-set in a timestamp
+      // milliseconds of time passed from the currentDate
+      perDay: (24 * 60 * 60 * 1000) * 1,
+      perWeek: (24 * 60 * 60 * 1000) * 7,
+      perYear: (24 * 60 * 60 * 1000) * 365,
+      perLifetime: undefined
     };
     return cadences[frequencyCadence];
   }

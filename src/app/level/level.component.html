@@ -20,10 +20,9 @@
 		<ng-container matColumnDef="statusGraphicUrl">
 			<mat-header-cell *matHeaderCellDef> ICON </mat-header-cell>
 			<mat-cell *matCellDef="let levels">
-				<img src="{{levels.statusGraphicUrl}}" style="max-width:35px; max-height:35px">
+				<img src="{{levels.statusGraphicUrl}}" style="max-width:45px; max-height:55px">
 			</mat-cell>
         </ng-container>
-    
 
 		<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 		<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

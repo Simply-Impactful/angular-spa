@@ -58,7 +58,7 @@ export class LambdaInvocationService implements OnInit {
 
   // get the actions for a user BY their username
   // TODO add same call to get ALL users without specifying the username
-  getUserActions(callback: LoggedInCallback, user: User) {
+  getUserActions(callback: Callback, user: User) {
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
     AWS.config.region = environment.region;
     const lambda = new AWS.Lambda({region: AWS.config.region, apiVersion: '2015-03-31'});
@@ -78,10 +78,10 @@ export class LambdaInvocationService implements OnInit {
     };
     lambda.invoke(pullParams, function(error, data) {
       if (error) {
-        callback.callbackWithParams(error, null);
+        callback.callbackWithParameters(error, null);
       } else {
      //   console.log('user action' + data.Payload);
-        callback.callbackWithParams(null, data.Payload);
+        callback.callbackWithParameters(null, data.Payload);
       }
     });
   }
@@ -198,7 +198,7 @@ export class LambdaInvocationService implements OnInit {
    }
 
 
-  // Allow admins to delete an action - bulk or single
+  // TODO: Allow admins to delete an action - bulk or single - WIP
   adminDeleteAction(actionData: Action[], callback: LoggedInCallback) {
     const body = new Buffer(JSON.stringify(actionData)).toString('utf8');
 
@@ -238,7 +238,6 @@ export class LambdaInvocationService implements OnInit {
       funFactImageUrl: actionData.funFactImageUrl,
       funFact: actionData.funFact,
       maxFrequency: actionData.maxFrequency,
-  //   tileIconUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Tile+icons/reusable_bottle.svg',
       tileIconUrl: actionData.tileIconUrl,
       frequencyCadence: actionData.frequencyCadence,
       assignmentUrl: actionData.assignmentUrl,
@@ -274,6 +273,48 @@ export class LambdaInvocationService implements OnInit {
     });
   }
 
+     // Allow Admins to create the groups metaData used on 'Create Group' page
+     adminCreateGroupsData(groupsData: any, callback: CognitoCallback) {
+      // need to do a summation of points earned with the group total points
+      const JSON_BODY = [];
+      for (let i = 0; i < groupsData.length; i++) {
+        JSON_BODY.push({
+          type: groupsData[i].type,
+          subType: groupsData[i].subType
+        });
+      }
+    //  console.log('json body ' + JSON.stringify(JSON_BODY));
+
+      const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
+
+      AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+      AWS.config.region = this.region;
+      const lambda = new AWS.Lambda({region: this.region, apiVersion: this.apiVersion});
+      const putParams = {
+        FunctionName: 'createAdminData',
+        InvocationType: 'RequestResponse',
+        LogType: 'None',
+        Payload: JSON.stringify({
+          httpMethod: 'POST',
+          path: '/adminData',
+          resource: '',
+          queryStringParameters: {
+          },
+          pathParameters: {
+          },
+          body: body
+        })
+      };
+      lambda.invoke(putParams, function(error, data) {
+        if (error) {
+          console.log('ERROR ' + JSON.stringify(error));
+          callback.cognitoCallback(error.toString(), null);
+        } else {
+            callback.cognitoCallback(null, data.Payload);
+        }
+      });
+    }
+
    // Admin function - get all of the meta data for groups - categories and subcategories
    listGroupsMetaData(callback: LoggedInCallback) {
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
@@ -296,6 +337,49 @@ export class LambdaInvocationService implements OnInit {
         callback.callbackWithParams(error, null);
       } else {
         callback.callbackWithParams(null, data.Payload);
+      }
+    });
+  }
+
+   // Allow Users to create/update a group
+   createLevelData(levelData: any, callback: CognitoCallback) {
+    // need to do a summation of points earned with the group total points
+    const JSON_BODY = [];
+    for (let i = 0; i < levelData.length; i++) {
+      JSON_BODY.push({
+        pointsRange: levelData[i].pointsRange,
+        statusGraphicUrl: levelData[i].statusGraphicUrl,
+        status: levelData[i].status
+      });
+    }
+    console.log('json body ' + JSON.stringify(JSON_BODY));
+
+    const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
+
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+    AWS.config.region = this.region;
+    const lambda = new AWS.Lambda({region: this.region, apiVersion: this.apiVersion});
+    const putParams = {
+      FunctionName: 'createLevelData',
+      InvocationType: 'RequestResponse',
+      LogType: 'None',
+      Payload: JSON.stringify({
+        httpMethod: 'POST',
+        path: '/levelData',
+        resource: '',
+        queryStringParameters: {
+        },
+        pathParameters: {
+        },
+        body: body
+      })
+    };
+    lambda.invoke(putParams, function(error, data) {
+      if (error) {
+        console.log('ERROR ' + JSON.stringify(error));
+        callback.cognitoCallback(error.toString(), null);
+      } else {
+          callback.cognitoCallback(null, data.Payload);
       }
     });
   }
@@ -358,7 +442,6 @@ export class LambdaInvocationService implements OnInit {
 
   // Allow Users to create/update a group
   createGroup(groupData: any, callback: CognitoCallback) {
-
     // need to do a summation of points earned with the group total points
   const JSON_BODY = [];
     for (let i = 0; i < groupData.length; i++) {

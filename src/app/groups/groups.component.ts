@@ -58,22 +58,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
 
   // only for non-group members
   joinGroup(group: Group) {
-    const updateList = [];
-    const memberObj = {
-      member: this.username
-    };
-    // adding the new member to the array
- //   group.members.push(memberObj);
-
-    // pushing each individual name to an array which will be converted into
-    // a list, then strip the commas
- /**   for (let i = 0; i < group.members.length; i++) {
-      updateList.push(group.members[i]['member']);
-    } **/
     group.membersString = this.username;
-    // strip the commas, separate by space
- //   group.membersString = group.membersString.replace(/\,+/g, ' ');
-
     group.username = group.leader;
     const groupArray = [];
     groupArray.push(group);
