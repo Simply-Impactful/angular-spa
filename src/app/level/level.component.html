@@ -1,32 +1,31 @@
 <app-top-nav></app-top-nav>
 <main>
-  <h3 align = "center" style = "padding-top:50px;font-weight: bold"> LEVEL INFO </h3>
-  <div class="userdata-container mat-elevation-z8">
-	  <mat-table #table [dataSource]="dataSource">
+	<h3 align="center" style="padding-top:50px;font-weight: bold"> LEVEL INFO </h3>
+	<div class="userdata-container mat-elevation-z8">
+		<mat-table #table [dataSource]="dataSource">
 
-		  <!-- Points Column -->
-		<ng-container matColumnDef="pointsRange">
-			<mat-header-cell *matHeaderCellDef> POINTS RANGE </mat-header-cell>
-			<mat-cell *matCellDef="let levels"> {{levels.pointsRange}} </mat-cell>
-		</ng-container>
+			<!-- Points Column -->
+			<ng-container matColumnDef="pointsRange">
+				<mat-header-cell *matHeaderCellDef> POINTS RANGE</mat-header-cell>
+				<mat-cell *matCellDef="let levels"> {{levels.min}} - {{levels.max}} </mat-cell>
+			</ng-container>
 
-		  <!-- Level Column -->
-		<ng-container matColumnDef="status">
-			<mat-header-cell *matHeaderCellDef> LEVEL </mat-header-cell>
-			<mat-cell *matCellDef="let levels"> {{levels.status}}</mat-cell>
-		</ng-container>
+			<!-- Level Column -->
+			<ng-container matColumnDef="status">
+				<mat-header-cell *matHeaderCellDef> LEVEL </mat-header-cell>
+				<mat-cell *matCellDef="let levels"> {{levels.status}}</mat-cell>
+			</ng-container>
 
-		  <!-- Icon Column -->
-		<ng-container matColumnDef="statusGraphicUrl">
-			<mat-header-cell *matHeaderCellDef> ICON </mat-header-cell>
-			<mat-cell *matCellDef="let levels">
-				<img src="{{levels.statusGraphicUrl}}" style="max-width:45px; max-height:55px">
-			</mat-cell>
-        </ng-container>
+			<!-- Icon Column -->
+			<ng-container matColumnDef="statusGraphicUrl">
+				<mat-header-cell *matHeaderCellDef> ICON </mat-header-cell>
+				<mat-cell *matCellDef="let levels">
+					<img src="{{levels.statusGraphicUrl}}" style="max-width:45px; max-height:55px">
+				</mat-cell>
+			</ng-container>
 
-		<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-		<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-	</mat-table>
-  </div>
+			<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+			<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+		</mat-table>
+	</div>
 </main>
-
