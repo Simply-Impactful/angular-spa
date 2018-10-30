@@ -29,9 +29,8 @@ export class AppComponent implements OnInit, LoggedInCallback {
   }
 
   isLoggedIn(message: string, isLoggedIn: boolean) {
-    console.log('Message App Component: ' + message);
     if (isLoggedIn) {
-      console.log('is logged in - test cognito identity');
+      console.log('is logged in: true');
       const cognito = new CognitoUtil();
       const awsUtil = new AwsUtil(cognito);
       cognito.getIdToken({
@@ -45,6 +44,7 @@ export class AppComponent implements OnInit, LoggedInCallback {
       });
     }
 
+    // if they aren't logged in, and they aren't on the landing page, direct them to the login screen
     if (!isLoggedIn && !window.location.toString().includes('/landing')) {
       this.router.navigate(['/login']);
     }
@@ -57,6 +57,9 @@ export class AppComponent implements OnInit, LoggedInCallback {
     this.isAdmin = true;
   }
   callbackWithParam(result: any): void {
+    console.log('RESULT OF CALLBACK WITH PARAM - error?' + JSON.stringify(result));
+      //   this.cognitoUtil.getCurrentUser().signOut();
+  //    this.router.navigate(['/login']);
     // throw new Error('Method not implemented.');
   }
 }

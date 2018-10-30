@@ -61,7 +61,7 @@ export class AwsUtil {
             // const mobileAnalyticsClient = new AMA.Manager(options);
             // mobileAnalyticsClient.submitEvents(); **/
 
-            this.addCognitoCredentials(idToken);
+            this.addCognitoCredentials(idToken, callback);
         } else {
             // add some error handling or else.
             console.log('AwsUtil: User is not logged in');
@@ -75,10 +75,11 @@ export class AwsUtil {
         AwsUtil.runningInit = false;
     }
 
-    addCognitoCredentials(idToken: string): void {
+    addCognitoCredentials(idToken: string, callback: Callback): void {
         const creds = this.cognitoUtil.buildCognitoCreds(idToken);
 
         AWS.config.credentials = creds;
+        console.log('creds ' + JSON.stringify(creds));
 
         creds.get(function (err) {
             if (!err) {
@@ -89,8 +90,11 @@ export class AwsUtil {
                 }
             } else {
                 // attempt a retry
-                console.log('ERROR GETTING COGNITO IDENTITY.. RETRY');
-            }
+                console.log('ERROR GETTING CREDS ' + JSON.stringify(err));
+                // route them to login?
+                // adding this in...
+                callback.callbackWithParam('error getting user creds');
+           }
         });
     }
 

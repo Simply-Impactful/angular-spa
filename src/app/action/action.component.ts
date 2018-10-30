@@ -37,7 +37,7 @@ export class ActionComponent implements OnInit, LoggedInCallback {
     if (result) {
      // console.log('result in action ' + result);
     } else {
-    window.location.reload();
+ //   window.location.reload();
     }
     const response = JSON.parse(result);
     this.actions = response.body;

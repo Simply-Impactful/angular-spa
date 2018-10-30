@@ -28,7 +28,7 @@
       </div>
     </div>
     <!-- removed groups section-->
-    <app-my-groups></app-my-groups>
+    <app-my-groups *ngIf="isLoggedIn"></app-my-groups>
     <br>
     <mat-divider></mat-divider>
     <br>

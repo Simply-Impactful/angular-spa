@@ -92,7 +92,7 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
          this.lambdaService.createGroup(this.groupArray, this);
          // TODO: can we do this without a window reload?
          this.router.navigate(['/home']);
-         window.location.reload();
+      //   window.location.reload();
       });
     }
   }
