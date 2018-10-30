@@ -6,6 +6,8 @@ import { AppConf } from '../shared/conf/app.conf';
 import { Observable, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
+import { LogInService } from '../services/log-in.service';
+import { AWSError } from 'aws-sdk';
 
 @Component({
   selector: 'app-admin-access-landing',
@@ -23,13 +25,23 @@ export class AdminAccessLandingComponent implements OnInit {
   successMessage: string;
   errorMessage: string;
 
-  constructor(public appComp: AppComponent, private s3: S3Service, private http: HttpClient) { }
+  constructor(public appComp: AppComponent,
+      private s3: S3Service,
+      private http: HttpClient,
+      private loginService: LogInService) { }
 
   ngOnInit() {
+    this.loginService.isAuthenticated(this);
     // TODO: this is not the right place to set this. Admin is set on congito profile response
     this.appComp.setAdmin();
     this.getData().subscribe();
   }
+
+  isLoggedIn(message: string, isLoggedIn: boolean) {}
+    // result of lambda listActions and Delete Actions API
+    callbackWithParams(error: AWSError, result: any): void {
+      console.log('result in isAuthenticated Admin landing ' + result);
+    }
 
   getData(): Observable<any> {
     return this.http.get<any>(this.factOfTheDayUri, { responseType: 'json' }).pipe(
@@ -101,4 +113,5 @@ export class AdminAccessLandingComponent implements OnInit {
     this.imageFile = fileInput.target.files[0];
   }
 
+  callbackWithParam(result: any): void { }
 }

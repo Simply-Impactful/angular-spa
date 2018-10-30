@@ -92,7 +92,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
       // un-used as of now..
       this.dataSource.sort = this.sort;
     } else {
-      window.location.reload();
+      window.alert('There was an error. Try logging out and logging back in');
     }
 
 

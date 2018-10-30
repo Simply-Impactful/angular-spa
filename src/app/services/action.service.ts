@@ -45,20 +45,19 @@ export class ActionService implements OnInit {
     const timeRange = (currentDate.getTime() - offSet);
     // convert timestamp to readable date
     const timeRangeDate = new Date(timeRange);
-   // date.setUTCSeconds(timeRange);
     for (let i = 0; i < uniqueEntriesByUser.length; i++) {
 
       const createdAt = uniqueEntriesByUser[i].createdAt;
       const createdDate = new Date(createdAt);
       // if the last time they took it was within the cadence timeframe...
-      if (createdDate > timeRangeDate) {
+      if (createdDate >= timeRangeDate) {
         createdInCadence.push(uniqueEntriesByUser[i]);
       }
     }
     // if the amount of times they took the action is greater than or equal to the max frequency
     // OR the the offset is undefined (meaning lifetime cadence) AND the action array is greater than
     // or equal to 1, throw the error.
-    if (createdInCadence.length > this.maxFrequency || (!offSet && uniqueEntriesByUser.length >= 1)) {
+    if (createdInCadence.length >= this.maxFrequency || (!offSet && uniqueEntriesByUser.length >= 1)) {
       actionDialog.isError = true;
       return false;
     } else {

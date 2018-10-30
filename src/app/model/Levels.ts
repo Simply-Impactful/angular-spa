@@ -1,5 +1,6 @@
 export class Levels {
-    pointsRange?: string;
+    min?: number;
+    max?: number;
     status?: string;
     statusGraphicUrl?: string;
     updatedAt?: number;
