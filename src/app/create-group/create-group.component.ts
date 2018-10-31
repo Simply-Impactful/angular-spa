@@ -3,7 +3,7 @@ import { Group } from '../model/Group';
 import * as AWS from 'aws-sdk/global';
 import { environment } from '../../environments/environment';
 import { AuthenticationDetails, CognitoUserAttribute, CognitoUser, CognitoUserPool } from 'amazon-cognito-identity-js';
-import { CognitoCallback, LoggedInCallback, Callback, ChallengeParameters } from '../services/cognito.service';
+import { CognitoCallback, LoggedInCallback, Callback, ChallengeParameters, CognitoUtil } from '../services/cognito.service';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { AWSError } from 'aws-sdk/global';
 import { FormControl } from '@angular/forms';
@@ -46,15 +46,19 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
   membersFile: File;
   isFileReader: boolean;
   isGroupMembersDisable: boolean = false;
+  usernames = [];
 
   constructor(public lambdaService: LambdaInvocationService,
     public router: Router,
+    private cognitoUtil: CognitoUtil,
     private s3: S3Service) { }
 
   ngOnInit() {
     this.isFileReader = true;
     this.createdGroup = new Array<Group>();
     this.lambdaService.listGroupsMetaData(this);
+    let optionalFilter = 'Username';
+    this.usernames = this.cognitoUtil.listUsers(optionalFilter);
   }
 
   toggleOption(type: string, subtype: string) {
@@ -79,6 +83,8 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
     if (this.checkInputs()) {
       // TODO: wouldn't this cause an issue if they input 2 names?
       this.createdGroup.membersString = this.createdGroup.membersString.replace(/\,+/g, ' ');
+      // we assume that an individual member is equal to a username
+      console.log("GROUP CONTAINS ALL VALID USERS: " + this.groupContainsAllValidUsers(this.createdGroup.membersString.split(" ")));
       this.s3.uploadFile(this.groupAvatarFile, this.conf.imgFolders.groups, (err, location) => {
         if (err) {
           // we will allow for the creation of the item, we have a default image
@@ -95,6 +101,12 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
          window.location.reload();
       });
     }
+  }
+
+  groupContainsAllValidUsers(members: Array): boolean {
+    console.log(this.usernames);
+    let groupContainsAllValidUsers = this.usernames.some(r=> members.includes(r))
+    return groupContainsAllValidUsers;
   }
 
   checkInputs() {

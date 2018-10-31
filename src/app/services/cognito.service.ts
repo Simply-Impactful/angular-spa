@@ -6,6 +6,7 @@ import * as awsservice from 'aws-sdk/lib/service';
 import * as CognitoIdentity from 'aws-sdk/clients/cognitoidentity';
 import { AWSError } from 'aws-sdk/global';
 import { User } from '../model/User';
+import * as CognitoIdentityServiceProvider from 'aws-sdk/clients/cognitoidentityserviceprovider';
 
 /**
  * Created by Vladimir Budilov
@@ -58,6 +59,34 @@ export class CognitoUtil {
 
     getCurrentUser() {
         return this.getUserPool().getCurrentUser();
+    }
+
+    listUsers(optionalFilter?: any): Array {
+      const attributesToGet = ['Username']; // FILTER AND PAGINAITONTOKEN OPTIONAL
+      const listUsersRequest: CognitoIdentityServiceProvider.ListUsersRequest = {
+        UserPoolId: environment.userPoolId,
+        Limit: 60
+      };
+      var cognitoIdentityServiceProvider = new AWS.CognitoIdentityServiceProvider();
+      cognitoIdentityServiceProvider.listUsers(listUsersRequest, function(err, data) {
+      if (err) {
+        console.log(err, err.stack);
+      } else {
+        // successful api call
+        if (data.hasOwnProperty("Users")) {
+          let unfilteredUsers = data.Users;
+          if (optionalFilter !== null && optionalFilter !== undefined) {
+            let filteredUsers = [];
+            for (var index = 0; index < unfilteredUsers.length; ++index) {
+              filteredUsers.push(unfilteredUsers[index][optionalFilter]);
+            }
+            console.log(filteredUsers);
+          return filteredUsers;
+          }
+          console.log(unfilteredUsers);
+        return unfilteredUsers;
+        }
+    });
     }
 
     // AWS Stores Credentials in many ways, and with TypeScript this means that
@@ -226,4 +255,5 @@ export class CognitoUtil {
             }
         });
     }
+
 }
