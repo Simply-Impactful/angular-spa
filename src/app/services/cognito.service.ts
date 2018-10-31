@@ -67,24 +67,24 @@ export class CognitoUtil {
         UserPoolId: environment.userPoolId,
         Limit: 60
       };
-      var cognitoIdentityServiceProvider = new AWS.CognitoIdentityServiceProvider();
-      cognitoIdentityServiceProvider.listUsers(listUsersRequest, function(err, data) {
+      let unfilteredUsers = [];
+      let filteredUsers = [];
+      new AWS.CognitoIdentityServiceProvider().listUsers(listUsersRequest, function(err, data) {
       if (err) {
         console.log(err, err.stack);
       } else {
         // successful api call
         if (data.hasOwnProperty("Users")) {
-          let unfilteredUsers = data.Users;
+          unfilteredUsers = data.Users;
           if (optionalFilter !== null && optionalFilter !== undefined) {
-            let filteredUsers = [];
-            for (var index = 0; index < unfilteredUsers.length; ++index) {
+            for (let index = 0; index < unfilteredUsers.length; ++index) {
               filteredUsers.push(unfilteredUsers[index][optionalFilter]);
             }
             console.log(filteredUsers);
           return filteredUsers;
-          }
-          console.log(unfilteredUsers);
-        return unfilteredUsers;
+        } else {
+          return unfilteredUsers;
+        }
         }
       }
     });

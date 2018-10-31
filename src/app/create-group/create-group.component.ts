@@ -57,8 +57,6 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
     this.isFileReader = true;
     this.createdGroup = new Array<Group>();
     this.lambdaService.listGroupsMetaData(this);
-    let optionalFilter = 'Username';
-    this.usernames = this.cognitoUtil.listUsers(optionalFilter);
   }
 
   toggleOption(type: string, subtype: string) {
@@ -104,6 +102,9 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
   }
 
   groupContainsAllValidUsers(members: any): boolean {
+    let optionalFilter = 'Username';
+    this.usernames = this.cognitoUtil.listUsers(optionalFilter);
+    console.log(members);
     console.log(this.usernames);
     let groupContainsAllValidUsers = this.usernames.some(r=> members.includes(r))
     return groupContainsAllValidUsers;
