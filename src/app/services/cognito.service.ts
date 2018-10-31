@@ -69,9 +69,11 @@ export class CognitoUtil {
       };
       let unfilteredUsers = [];
       let filteredUsers = [];
-      new AWS.CognitoIdentityServiceProvider().listUsers(listUsersRequest, function(err, data) {
+      let promise = new Promise((resolve, reject) => {
+        new AWS.CognitoIdentityServiceProvider().listUsers(listUsersRequest, function(err, data) {
       if (err) {
         console.log(err, err.stack);
+        reject(err);
       } else {
         // successful api call
         if (data.hasOwnProperty("Users")) {
@@ -81,13 +83,15 @@ export class CognitoUtil {
               filteredUsers.push(unfilteredUsers[index][optionalFilter]);
             }
             console.log(filteredUsers);
-          return filteredUsers;
+          resolve(filteredUsers);
         } else {
-          return unfilteredUsers;
+          resolve(unfilteredUsers);
         }
         }
       }
     });
+  });
+  return promise;
   }
 
 

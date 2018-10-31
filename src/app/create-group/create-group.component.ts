@@ -46,7 +46,6 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
   membersFile: File;
   isFileReader: boolean;
   isGroupMembersDisable: boolean = false;
-  usernames = [];
 
   constructor(public lambdaService: LambdaInvocationService,
     public router: Router,
@@ -82,7 +81,9 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
       // TODO: wouldn't this cause an issue if they input 2 names?
       this.createdGroup.membersString = this.createdGroup.membersString.replace(/\,+/g, ' ');
       // we assume that an individual member is equal to a username
-      console.log("GROUP CONTAINS ALL VALID USERS: " + this.groupContainsAllValidUsers(this.createdGroup.membersString.split(" ")));
+      this.groupContainsAllValidUsers(this.createdGroup.membersString.split(" ")).then(canCreateGroup => {
+      console.log("GROUP CONTAINS ALL VALID USERS: " + canCreateGroup);
+      if (canCreateGroup) {
       this.s3.uploadFile(this.groupAvatarFile, this.conf.imgFolders.groups, (err, location) => {
         if (err) {
           // we will allow for the creation of the item, we have a default image
@@ -99,15 +100,27 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
          window.location.reload();
       });
     }
+  });
+  }
   }
 
-  groupContainsAllValidUsers(members: any): boolean {
+  groupContainsAllValidUsers(members: any): any {
     let optionalFilter = 'Username';
-    this.usernames = this.cognitoUtil.listUsers(optionalFilter);
-    console.log(members);
-    console.log(this.usernames);
-    let groupContainsAllValidUsers = this.usernames.some(r=> members.includes(r))
-    return groupContainsAllValidUsers;
+    let groupContainsAllValidUsers = true;
+     let promise = new Promise((resolve, reject) => {
+       this.cognitoUtil.listUsers(optionalFilter).then(usernames => {
+         console.log("USERNAMES INSIDE CREATE GROUP COMPONENT: " + usernames);
+         console.log(typeof usernames); // coming in as object, but we don't need to convert to array for some reason - is it because .includes works on strings and objects, not just arrays?
+         console.log(members);
+         for (let index = 0; index < members.length; index++) {
+           if (!usernames.includes(members[index])) {
+             groupContainsAllValidUsers = false;
+           }
+         }
+         resolve(groupContainsAllValidUsers);
+    });
+  });
+  return promise;
   }
 
   checkInputs() {
