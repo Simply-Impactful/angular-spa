@@ -463,7 +463,8 @@ export class LambdaInvocationService implements OnInit {
     const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
 
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
-    AWS.config.region = this.region;
+    AWS.config.region = environment.region;
+
     const lambda = new AWS.Lambda({region: this.region, apiVersion: this.apiVersion});
     const putParams = {
       FunctionName: 'createGroups',

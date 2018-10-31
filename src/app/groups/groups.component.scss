@@ -15,6 +15,7 @@ mat-icon{
 }
 tr.example-detail-row {
   height: 0;
+//  width: 1000px;
 }
 
 tr.example-element-row:not(.example-expanded-row):hover {
@@ -34,9 +35,9 @@ a {
   border-bottom-width: 0;
 }
 .example-element-detail {
-  overflow: auto;
+ // overflow: auto;
   display: flex;
-  max-width: 1200px;
+  width: 100%;
 }
 
 .example-element-diagram {
@@ -78,7 +79,7 @@ a {
 }
 .top-performer-card {
   width: 200px;
-  margin: 0px;
+  margin: 4px;
   height: 75px;
   display: inline-block;
   background-color: azure;
