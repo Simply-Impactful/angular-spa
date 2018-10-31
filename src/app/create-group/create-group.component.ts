@@ -103,7 +103,7 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
     }
   }
 
-  groupContainsAllValidUsers(members: Array): boolean {
+  groupContainsAllValidUsers(members: any): boolean {
     console.log(this.usernames);
     let groupContainsAllValidUsers = this.usernames.some(r=> members.includes(r))
     return groupContainsAllValidUsers;
