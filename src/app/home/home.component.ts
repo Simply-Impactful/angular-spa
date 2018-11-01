@@ -35,17 +35,18 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
     private actionComp = new ActionComponent(this.actionService, this.lambdaService);
 
   ngOnInit() {
+    this.loginService.isAuthenticated(this);
     this.params.user$.subscribe(user => {
       this.user = user;
     });
-    this.loginService.isAuthenticated(this);
-    this.lambdaService.listActions(this);
    }
 
    // LoggedInCallback interface
    isLoggedIn(message: string, isLoggedIn: boolean) {
      if (!isLoggedIn) {
        this.router.navigate(['/login']);
+     } else {
+      this.lambdaService.listActions(this);
      }
    }
 

@@ -11,6 +11,7 @@ import { S3Service } from '../services/s3.service';
 import { AppConf } from '../shared/conf/app.conf';
 import { LogInService } from '../services/log-in.service';
 import { Parameters } from '../services/parameters';
+import { Router } from '@angular/router';
 
 /**
  * @title Table with expandable rows
@@ -43,11 +44,9 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
 
   constructor(
     public lambdaService: LambdaInvocationService, public cognitoUtil: CognitoUtil,
-      public loginService: LogInService) {}
+      public loginService: LogInService, public router: Router) {}
 
   ngOnInit() {
-    this.username = this.cognitoUtil.getCurrentUser().getUsername();
-    this.lambdaService.getAllGroups(this);
     this.loginService.isAuthenticated(this);
   }
 
@@ -74,6 +73,17 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
     this.isExpanded = false;
   }
 
+  isLoggedIn(message: string, loggedIn: boolean): void {
+    if (loggedIn) {
+      this.username = this.cognitoUtil.getCurrentUser().getUsername();
+      this.lambdaService.getAllGroups(this);
+    } else {
+      const currentUser = this.cognitoUtil.getCurrentUser();
+      this.router.navigate(['/landing']);
+      currentUser.signOut();
+    }
+  }
+
   // handles the response of Delete API
   callbackWithParams(error: AWSError, result: any) {
     if (result ) {
@@ -92,7 +102,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
       // un-used as of now..
       this.dataSource.sort = this.sort;
     } else {
-      window.location.reload();
+      window.alert('There was an error. Try logging out and logging back in');
     }
 
 
@@ -133,8 +143,6 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
 
   // response of isAuthenticated method in login service
   callbackWithParam(result: any): void {}
-
-  isLoggedIn(message: string, loggedIn: boolean): void {}
 
   callback() {}
 }

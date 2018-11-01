@@ -18,8 +18,6 @@ import { AdminAccessGroupMetadataComponent } from './admin-access-group-metadata
 import { AdminAccessLevelComponent } from './admin-access-level/admin-access-level.component';
 import { LevelComponent } from './level/level.component';
 
-
-
 const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
   { path: 'landing', component: LandingComponent },
