@@ -9,7 +9,6 @@ import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { Router } from '@angular/router';
 import { AppComponent } from '../app.component';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
-import * as _ from 'lodash';
 import { S3Service } from '../services/s3.service';
 import { AppConf } from '../shared/conf/app.conf';
 

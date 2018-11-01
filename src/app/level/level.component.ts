@@ -10,9 +10,6 @@ import { Router } from '@angular/router';
 import { AppComponent } from '../app.component';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
 
-
-import * as _ from 'lodash';
-
 @Component({
   selector: 'app-level',
   templateUrl: './level.component.html',
