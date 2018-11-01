@@ -65,8 +65,12 @@ export class AdminAccessLandingComponent implements OnInit {
   }
 
   save() {
+    if (this.inputText) {
+      this.fact.factOfTheDayText = this.inputText;
+    } else {
+      this.fact.factOfTheDayText = this.factOfTheDayText.substring(0, 120);
+    }
     // update stored value in database when the user clicks save
-    this.fact.factOfTheDayText = this.factOfTheDayText.substring(0, 120);
     this.fact.name = this.conf.default.factOfTheDayKey;
     this.fact.type = 'application/json';
 
@@ -89,7 +93,9 @@ export class AdminAccessLandingComponent implements OnInit {
               return;
             } else {
               this.errorMessage = '';
-              this.successMessage = 'Fact has been updated!';
+              this.successMessage = 'The Landing page has been updated!';
+              // refresh the data for the session
+              this.getData().subscribe();
             }
           });
         }
@@ -98,6 +104,7 @@ export class AdminAccessLandingComponent implements OnInit {
 
     } else if (this.factOfTheDayText) { // they uploaded a fact
       this.successMessage = 'Loading...';
+      this.fact.factUrl = this.factUrl;
       this.s3.uploadFile(this.fact, this.conf.imgFolders.facts, (_err, _location) => {
         if (_err) {
           console.error(_err);
@@ -106,7 +113,8 @@ export class AdminAccessLandingComponent implements OnInit {
           return;
         } else {
           this.errorMessage = '';
-          this.successMessage = 'Fact has been updated!';
+          this.successMessage = 'The Landing page has been updated!';
+          this.getData().subscribe();
         }
       });
     } else { // no input

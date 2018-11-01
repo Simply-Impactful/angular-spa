@@ -96,8 +96,10 @@ export class AwsUtil {
                 console.log('ERROR GETTING CREDS ' + JSON.stringify(err));
                 // route them to login?
                 // adding this in...
-                this.cognitoUtil.getCurrentUser().signOut();
-                router.navigate(['/login']);
+             //   this.cognitoUtil.getCurrentUser().signOut();
+             //   router.navigate(['/login']);
+                // retry
+                this.addCognitoCredentials();
                 callback.callbackWithParam('error getting user creds');
            }
         });
