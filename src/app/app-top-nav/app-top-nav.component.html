@@ -26,6 +26,7 @@
                 <mat-icon>expand_more</mat-icon>
               </button>
             <mat-menu #menu="matMenu">
+          <button *ngIf="isAdmin" mat-menu-item routerLink="/adminaccesslanding">Admin View</button>
           <button mat-menu-item routerLink="/userprofile">My Profile</button>
           <button mat-menu-item routerLink="/landing" (click)="logout()">Logout</button>
         </mat-menu>

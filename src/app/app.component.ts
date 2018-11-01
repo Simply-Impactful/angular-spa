@@ -35,6 +35,9 @@ export class AppComponent implements OnInit, LoggedInCallback {
         this.router.navigate(['/login']);
         currentUser.signOut();
       }
+      if (username === 'superUser') {
+        this.setAdmin();
+      }
 
       const cognito = new CognitoUtil();
       const awsUtil = new AwsUtil(cognito);

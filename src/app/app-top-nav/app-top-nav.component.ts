@@ -7,6 +7,7 @@ import { AWSError } from 'aws-sdk';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppConf } from '../shared/conf/app.conf';
 import { HomeComponent } from '../home/home.component';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-top-nav',
@@ -22,10 +23,11 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
   user: User;
   isViewAll: boolean;
   routerLink: string;
+  isAdmin: boolean;
 
   constructor(private params: Parameters, private loginService: LogInService,
     private cognitoUtil: CognitoUtil, private route: ActivatedRoute,
-    private homeComp: HomeComponent) {}
+    private homeComp: HomeComponent, private appComp: AppComponent) {}
 
   ngOnInit() {
     this.params.user$.subscribe(user => {
@@ -41,6 +43,7 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
     }
     this.routerLink = '/home';
  **/
+    this.isAdmin = this.appComp.isAdmin;
     this.loginService.isAuthenticated(this);
   }
 

@@ -23,29 +23,38 @@ export class MyGroupsComponent implements OnInit, Callback {
     public lambdaService: LambdaInvocationService, public cognitoUtil: CognitoUtil) { }
 
   ngOnInit() {
+    console.log('my groups ');
    this.lambdaService.getAllGroups(this);
   }
 
   // response of getAllGroups - Callback interface
   cognitoCallbackWithParam(result: any) {
-    const filteredGroups = [];
-    const response = JSON.parse(result);
-    this.groups = response.body;
-
-    const username = this.cognitoUtil.getCurrentUser().getUsername();
-
-    // display only groups the logged in user is a member of
-    for (let i = 0; i < this.groups.length; i++) {
-      if (!this.groups[i].groupAvatar) {
-        this.groups[i].groupAvatar = this.conf.default.userProfile;
-      }
-      for (let j = 0; j < this.groups[i].members.length; j++) {
-        if ( this.groups[i].members[j]['member'] === username) {
-          this.myGroups.push(this.groups[i]);
-        }
-      }
+    if (result) {
+      if (result.toString().includes('CredentialsError')) {
+        // if auth error - retry
+        console.log('my groups credentials error.. RETRYING');
+        this.lambdaService.getAllGroups(this);
+      } else {
+        const response = JSON.parse(result);
+         // no error
+         const filteredGroups = [];
+         this.groups = response.body;
+         const username = this.cognitoUtil.getCurrentUser().getUsername();
+         // display only groups the logged in user is a member of
+         for (let i = 0; i < this.groups.length; i++) {
+           if (!this.groups[i].groupAvatar) {
+             this.groups[i].groupAvatar = this.conf.default.userProfile;
+           }
+           for (let j = 0; j < this.groups[i].members.length; j++) {
+             if ( this.groups[i].members[j]['member'] === username) {
+               this.myGroups.push(this.groups[i]);
+             }
+           }
+         }
+       }
     }
   }
+
   callback() {}
   callbackWithParam(result: any) {}
   callbackWithParameters(error: AWSError, result: any) {}

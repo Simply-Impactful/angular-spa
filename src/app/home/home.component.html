@@ -11,7 +11,7 @@
         </mat-toolbar>
       </div>
   <div *ngIf="isHomePage" class="backimage">
-    <app-action></app-action>
+    <app-action *ngIf="isLoggedIn"></app-action>
     <button mat-raised-button color="primary" (click)="navigate()">View All</button>
   </div>
   <div *ngIf="isHomePage" class="main-body">
@@ -60,5 +60,5 @@
     </div>
   </div>
 
-  <app-actions *ngIf="isViewAll"></app-actions>
+  <app-actions *ngIf="isViewAll && isLoggedIn"></app-actions>
 </main>

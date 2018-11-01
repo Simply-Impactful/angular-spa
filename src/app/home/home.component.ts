@@ -32,7 +32,6 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
     private createProfileService: CreateProfileService,
     private params: Parameters, private lambdaService: LambdaInvocationService,
     public actionService: ActionService) { }
-    private actionComp = new ActionComponent(this.actionService, this.lambdaService);
 
   ngOnInit() {
     this.loginService.isAuthenticated(this);
@@ -46,6 +45,7 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
      if (!isLoggedIn) {
        this.router.navigate(['/login']);
      } else {
+       // get the user actions for their total points
       this.lambdaService.listActions(this);
      }
    }
