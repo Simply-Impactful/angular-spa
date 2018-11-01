@@ -24,7 +24,8 @@
                   </button>
                 <mat-menu #menu="matMenu">
        <!--       <button mat-menu-item routerLink="/userprofile">My Profile</button> -->
-              <button mat-menu-item routerLink="/login">Logout</button>
+              <button mat-menu-item routerLink="/home">Home Page</button>
+              <button mat-menu-item routerLink="/landing" (click)="logout()">Logout</button>
             </mat-menu>
           </div>
       </mat-toolbar-row>

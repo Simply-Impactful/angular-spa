@@ -260,8 +260,8 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
         if (message.includes('credentials')) {
           console.log('message ' + message);
           this.generalError = message;
-          // TODO: try and remove the paylaod and resend behind the scenes..
-          // payload is already added to JSON body array in lambdaService
+          // RETRY
+          this.creategroup();
         } else {
           this.generalError = '';
         }
@@ -270,7 +270,6 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
   handleMFAStep ? (challengeName: string, challengeParameters: ChallengeParameters, callback: (confirmationCode: string) => any): void ;
 
   callback() {}
-
   callbackWithParameters(error: AWSError, result: any) {}
   callbackWithParam(result: any): void {}
 

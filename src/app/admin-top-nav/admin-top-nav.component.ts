@@ -57,6 +57,9 @@ export class AdminTopNavComponent implements OnInit, LoggedInCallback {
       this.title = 'Navigate to Admin Home Page';
     }
   }
+  logout() {
+    this.cognitoUtil.getCurrentUser().signOut();
+  }
     // API Response
     callbackWithParams(error: AWSError, result: any) {}
 

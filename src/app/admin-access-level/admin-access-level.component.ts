@@ -33,19 +33,6 @@ export class AdminAccessLevelComponent implements OnInit {
   addingLevels = [];
   levelsObj = new Levels;
 
-  // levels: Array<any> = [
-  //   { id: 1, pointsRange: '0 - 250',  status: 'Grasshopper',
-  //   statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/grasshopperforapp.png' },
-  //   { id: 2, pointsRange: '251 - 750',  status: 'Bee',
-  //   statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/beeforapp.png' },
-  //   { id: 3, pointsRange: '751 - 1750',  status: 'Koala',
-  //   statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/koalaforapp.png' },
-  //   { id: 2, pointsRange: '1751 - 3250',  status: 'Octopus',
-  //   statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/octopus.png' },
-  //   { id: 1, pointsRange: '3252 - 5250',  status: 'Owl',
-  //   statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/owlforapp.png' }
-  // ];
-
   constructor(public appComp: AppComponent, public lambdaService: LambdaInvocationService,
     private s3: S3Service) {}
 

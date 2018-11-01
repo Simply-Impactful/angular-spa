@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { LogInService } from '../services/log-in.service';
 import { AWSError } from 'aws-sdk';
+import { CognitoUtil } from '../services/cognito.service';
 
 @Component({
   selector: 'app-admin-access-landing',
@@ -27,21 +28,28 @@ export class AdminAccessLandingComponent implements OnInit {
 
   constructor(public appComp: AppComponent,
       private s3: S3Service,
-      private http: HttpClient,
-      private loginService: LogInService) { }
+      private http: HttpClient, private router: Router,
+      private loginService: LogInService, private cognitoUtil: CognitoUtil) { }
 
   ngOnInit() {
     this.loginService.isAuthenticated(this);
     // TODO: this is not the right place to set this. Admin is set on congito profile response
-    this.appComp.setAdmin();
-    this.getData().subscribe();
   }
 
-  isLoggedIn(message: string, isLoggedIn: boolean) {}
-    // result of lambda listActions and Delete Actions API
-    callbackWithParams(error: AWSError, result: any): void {
-      console.log('result in isAuthenticated Admin landing ' + result);
+  isLoggedIn(message: string, isLoggedIn: boolean) {
+    if (isLoggedIn) {
+      this.appComp.setAdmin();
+      this.getData().subscribe();
+    } else {
+      console.log('not logged in');
+      this.cognitoUtil.getCurrentUser().signOut();
+      this.router.navigate(['/landing']);
     }
+  }
+  // result of lambda listActions and Delete Actions API
+  callbackWithParams(error: AWSError, result: any): void {
+    console.log('result in isAuthenticated Admin landing ' + result);
+  }
 
   getData(): Observable<any> {
     return this.http.get<any>(this.factOfTheDayUri, { responseType: 'json' }).pipe(
