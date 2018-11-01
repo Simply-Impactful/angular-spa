@@ -37,7 +37,7 @@
           </mat-option>
         </mat-select>
         <mat-hint>Required &nbsp;
-        <span style="color:red; font-size: 85%">
+        <span style="color:red; font-size: 95%">
             {{groupTypeError}} </span>
           </mat-hint>
       </mat-form-field>
@@ -47,7 +47,7 @@
         <input (focus)="focused=true" (focusout)="focused=false"
         [(ngModel)]="createdGroup.groupType" name="other" matInput placeholder="Please specify other group type">
         <mat-hint>Required &nbsp;
-        <span style="color:red; font-size: 85%" *ngIf=" !createdGroup.groupType && !focused">
+        <span style="color:red; font-size: 95%" *ngIf=" !createdGroup.groupType && !focused">
             {{groupTypeError}} </span>
           </mat-hint>
       </mat-form-field>
@@ -57,7 +57,7 @@
         <input (focus)="focused=true" (focusout)="focused=false"
         [(ngModel)]="createdGroup.username" name="username" matInput placeholder="Group Leader Username">
         <mat-hint>Required &nbsp;
-        <span style="color:red; font-size: 85%" *ngIf=" !createdGroup.username && !focused">
+        <span style="color:red; font-size: 95%" *ngIf=" !createdGroup.username && !focused">
           {{groupsLeaderError}} </span>
         </mat-hint>
       </mat-form-field>
@@ -69,13 +69,15 @@
           matInput placeholder="Group Members' Usernames"
           disabled="{{isGroupMembersDisable}}">
           <mat-hint>Required: specify usernames separated by spaces to add them to group
-          <span *ngIf="!createdGroup.membersString && !focused " style="color:red; font-size: 85%">
+          <span *ngIf="!createdGroup.membersString && !focused " style="color:red; font-size: 95%">
+            <br> {{membersError}}</span>
+          <span *ngIf="invalidUsers" style="color:red; font-size: 95%">
             <br> {{membersError}}</span>
         </mat-hint>
       </mat-form-field>
     </mat-grid-tile>
   </mat-grid-list>
-  <mat-grid-list cols="2" rowHeight="3em">
+  <mat-grid-list cols="2" rowHeight="4em">
     <mat-grid-tile cols="1">
     </mat-grid-tile>
     <mat-grid-tile cols="1">
@@ -109,6 +111,8 @@
     <mat-grid-tile cols="1">
       <button mat-stroked-button color="primary" routerLink="/home">CANCEL</button>
       <button mat-raised-button color="primary" (click)="creategroup()">CREATE</button>
+      <span style="color:red; font-size: 95%">
+        <br> {{generalError}}</span>
     </mat-grid-tile>
   </mat-grid-list>
 </main>

@@ -11,7 +11,6 @@ import { CognitoUtil, LoggedInCallback, Callback, CognitoCallback, ChallengePara
 import { ActionComponent } from '../action/action.component';
 import { AppConf } from '../shared/conf/app.conf';
 import { Group } from '../model/Group';
-import * as _ from 'lodash';
 
 @Component({
   selector: 'app-action-dialog',

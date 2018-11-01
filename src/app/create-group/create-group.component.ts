@@ -46,6 +46,8 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
   membersFile: File;
   isFileReader: boolean;
   isGroupMembersDisable: boolean = false;
+  invalidUsers = [];
+  generalError: string = '';
 
   constructor(public lambdaService: LambdaInvocationService,
     public router: Router,
@@ -78,11 +80,18 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
     this.createdGroup.pointsEarned = 0;
     this.createdGroup.groupAvatar = this.groupAvatarUrl;
     if (this.checkInputs()) {
-      // TODO: wouldn't this cause an issue if they input 2 names?
-      this.createdGroup.membersString = this.createdGroup.membersString.replace(/\,+/g, ' ');
-      // we assume that an individual member is equal to a username
-      this.groupContainsAllValidUsers(this.createdGroup.membersString.split(" ")).then(canCreateGroup => {
-      console.log("GROUP CONTAINS ALL VALID USERS: " + canCreateGroup);
+
+      // Takes a comma and a space, and replaces it with a space
+      if (this.createdGroup.membersString.includes(', ')) {
+        this.createdGroup.membersString = this.createdGroup.membersString.replace(/\, +/g, ' ');
+      }
+      // if there's a comma, replace a comma with a space
+      if (this.createdGroup.membersString.includes(',')) {
+        this.createdGroup.membersString = this.createdGroup.membersString.replace(/\,+/g, ' ');
+      }
+
+      this.groupContainsAllValidUsers(this.createdGroup.membersString.split(' ')).then(canCreateGroup => {
+      console.log('GROUP CONTAINS ALL VALID USERS: ' + canCreateGroup);
       if (canCreateGroup) {
       this.s3.uploadFile(this.groupAvatarFile, this.conf.imgFolders.groups, (err, location) => {
         if (err) {
@@ -95,37 +104,50 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
          // EXPECTS an array
          this.groupArray.push(this.createdGroup);
          this.lambdaService.createGroup(this.groupArray, this);
-         // TODO: can we do this without a window reload?
-         this.router.navigate(['/home']);
-         window.location.reload();
+      });
+      } else {
+        this.invalidUsers = [];
+        this.membersError = '';
+      }
       });
     }
-  });
-  }
   }
 
-  groupContainsAllValidUsers(members: any): any {
-    let optionalFilter = 'Username';
+  groupContainsAllValidUsers(groupMembers: any): any {
+    const optionalFilter = 'Username';
     let groupContainsAllValidUsers = true;
-     let promise = new Promise((resolve, reject) => {
+     const promise = new Promise((resolve, reject) => {
        this.cognitoUtil.listUsers(optionalFilter).then(usernames => {
-         console.log("USERNAMES INSIDE CREATE GROUP COMPONENT: " + usernames);
-         console.log(typeof usernames); // coming in as object, but we don't need to convert to array for some reason - is it because .includes works on strings and objects, not just arrays?
-         console.log(members);
-         for (let index = 0; index < members.length; index++) {
-           if (!usernames.includes(members[index])) {
+         console.log('USERNAMES INSIDE CREATE GROUP COMPONENT: ' + usernames);
+         console.log(typeof usernames); // coming in as object, but we don't need to convert to array for
+         // some reason - is it because .includes works on strings and objects, not just arrays?
+         console.log(groupMembers);
+         for (let index = 0; index < groupMembers.length; index++) {
+           if (!usernames.includes(groupMembers[index])) {
+             this.invalidUsers.push(groupMembers[index]);
+
              groupContainsAllValidUsers = false;
            }
          }
+         if (!groupContainsAllValidUsers) {
+           this.membersError = 'The following users are invalid: ' + this.invalidUsers.toString() +
+          '. Please remove these users and try again....';
+         }
          resolve(groupContainsAllValidUsers);
+      });
     });
-  });
-  return promise;
+    return promise;
   }
 
   checkInputs() {
     if (!this.createdGroup.membersString) {
       this.membersError = 'You must enter at least one group member. Consider adding yourself';
+    } else {
+      this.membersError = '';
+    }
+    if (this.createdGroup.membersString && this.invalidUsers.length >= 1) {
+      this.membersError = 'The following users are invalid: ' + this.invalidUsers.toString() +
+      '. Please remove these users and try again.';
     } else {
       this.membersError = '';
     }
@@ -225,18 +247,31 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
 
   // Response of Create Groups API - CognitoCallback Interface
   cognitoCallback(message: string, result: any) {
-      // TODO: implement..
       if (result) {
-        // TODO: can we do this without a window reload?
-        window.location.reload();
-        this.router.navigate(['/home']);
+        const response = JSON.parse(result);
+        if (response.statusCode === 200) {
+          this.router.navigate(['/home']);
+          // TODO: can we do this without a window reload?
+       //   window.location.reload();
+        }
+      }
+      // odd credential error occurred
+      if (message) {
+        if (message.includes('credentials')) {
+          console.log('message ' + message);
+          this.generalError = message;
+          // TODO: try and remove the paylaod and resend behind the scenes..
+          // payload is already added to JSON body array in lambdaService
+        } else {
+          this.generalError = '';
+        }
       }
   }
-  handleMFAStep?(challengeName: string, challengeParameters: ChallengeParameters, callback: (confirmationCode: string) => any): void;
+  handleMFAStep ? (challengeName: string, challengeParameters: ChallengeParameters, callback: (confirmationCode: string) => any): void ;
 
   callback() {}
 
   callbackWithParameters(error: AWSError, result: any) {}
-  callbackWithParam(result: any): void { }
+  callbackWithParam(result: any): void {}
 
 }
