@@ -80,6 +80,9 @@ isLoggedIn(message: string, loggedIn: boolean): void {}
       this.addingLevels.pop();
     } else {
       console.log('error ' + message);
+      if (message.toString().includes('credentials')) {
+        this.lambdaService.createLevelData(this.levels, this);
+      }
     }
   }
 

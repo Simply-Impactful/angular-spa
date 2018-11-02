@@ -353,7 +353,7 @@ export class LambdaInvocationService implements OnInit {
         status: levelData[i].status
       });
     }
-    console.log('json body ' + JSON.stringify(JSON_BODY));
+    console.log('json body in createLevelData' + JSON.stringify(JSON_BODY));
 
     const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
 
