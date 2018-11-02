@@ -68,15 +68,15 @@ export class CognitoUtil {
         Limit: 60
       };
       let unfilteredUsers = [];
-      let filteredUsers = [];
-      let promise = new Promise((resolve, reject) => {
+      const filteredUsers = [];
+      const promise = new Promise((resolve, reject) => {
         new AWS.CognitoIdentityServiceProvider().listUsers(listUsersRequest, function(err, data) {
       if (err) {
         console.log(err, err.stack);
         reject(err);
       } else {
         // successful api call
-        if (data.hasOwnProperty("Users")) {
+        if (data.hasOwnProperty('Users')) {
           unfilteredUsers = data.Users;
           if (optionalFilter !== null && optionalFilter !== undefined) {
             for (let index = 0; index < unfilteredUsers.length; ++index) {

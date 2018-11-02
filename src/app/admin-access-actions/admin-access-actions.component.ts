@@ -115,12 +115,12 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
         // window.location.reload();
         console.log('credentials error, RETRYING');
         this.lambdaService.listActions(this);
-    }
-    if (this.isDeleted) {
-      window.location.reload();
+      }
+      if (this.isDeleted) {
+        window.location.reload();
+      }
     }
   }
-}
 
-callbackWithParam(result: any): void {}
+  callbackWithParam(result: any): void {}
 }
