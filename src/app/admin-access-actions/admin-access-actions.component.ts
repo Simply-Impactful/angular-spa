@@ -123,3 +123,4 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
 }
 
 callbackWithParam(result: any): void {}
+}
