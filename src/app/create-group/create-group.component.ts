@@ -48,7 +48,9 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
   isGroupMembersDisable: boolean = false;
   invalidUsers = [];
   generalError: string = '';
-  isValidGroup: boolean = true;
+  invalidMembersError: string = '';
+  invalidGroupLeader: string =  '';
+  isValidGroup: boolean;
 
   constructor(public lambdaService: LambdaInvocationService,
     public router: Router,
@@ -77,6 +79,8 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
   }
 
   creategroup() {
+    // assume it can be created, unless below conditions set it to false
+    this.isValidGroup = true;
     // fresh new group needs points set to 0
     this.createdGroup.pointsEarned = 0;
     this.createdGroup.groupAvatar = this.groupAvatarUrl;
@@ -119,8 +123,12 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
      const promise = new Promise((resolve, reject) => {
        this.cognitoUtil.listUsers(optionalFilter).then(usernames => {
           if (!usernames.includes(groupLeader)) {
-            this.invalidUsers.push(groupLeader);
+       //     this.invalidUsers.push(groupLeader);
             this.isValidGroup = false;
+            this.invalidGroupLeader = 'The leader is not a valid user. Please try entering another';
+          } else {
+            this.isValidGroup = true;
+            this.invalidGroupLeader = '';
           }
           for (let index = 0; index < groupMembers.length; index++) {
             if (!usernames.includes(groupMembers[index])) {
@@ -128,10 +136,12 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
               this.isValidGroup = false;
             }
           }
-         if (!this.isValidGroup) {
-           this.membersError = 'The following users are invalid: ' + this.invalidUsers.toString() +
+         if (!this.isValidGroup && this.invalidUsers.length >= 1) {
+           this.invalidMembersError = 'The following users are invalid: ' + this.invalidUsers.toString() +
           '. Please remove these users and try again....';
-          console.log(this.membersError);
+          console.log(this.invalidMembersError);
+         } else {
+           this.invalidMembersError = '';
          }
          resolve(this.isValidGroup);
       });
@@ -146,10 +156,10 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
       this.membersError = '';
     }
     if (this.createdGroup.membersString && this.invalidUsers.length >= 1) {
-      this.membersError = 'The following users are invalid: ' + this.invalidUsers.toString() +
+      this.invalidMembersError = 'The following users are invalid: ' + this.invalidUsers.toString() +
       '. Please remove these users and try again.';
     } else {
-      this.membersError = '';
+      this.invalidMembersError = '';
     }
     if (!this.createdGroup.name) {
       this.namesError = 'Group name is required';
@@ -258,12 +268,9 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
       // odd credential error occurred
       if (message) {
         if (message.includes('credentials')) {
-          console.log('message ' + message);
-          this.generalError = message;
+          this.groupArray = [];
           // RETRY
           this.creategroup();
-        } else {
-          this.generalError = '';
         }
       }
   }
