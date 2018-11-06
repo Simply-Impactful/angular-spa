@@ -48,6 +48,7 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
   isGroupMembersDisable: boolean = false;
   invalidUsers = [];
   generalError: string = '';
+  isValidGroup: boolean = true;
 
   constructor(public lambdaService: LambdaInvocationService,
     public router: Router,
@@ -90,18 +91,17 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
         this.createdGroup.membersString = this.createdGroup.membersString.replace(/\,+/g, ' ');
       }
 
-      this.groupContainsAllValidUsers(this.createdGroup.membersString.split(' ')).then(canCreateGroup => {
-      console.log('GROUP CONTAINS ALL VALID USERS: ' + canCreateGroup);
-      if (canCreateGroup) {
-      this.s3.uploadFile(this.groupAvatarFile, this.conf.imgFolders.groups, (err, location) => {
-        if (err) {
-          // we will allow for the creation of the item, we have a default image
-          console.log(err);
-          this.createdGroup.groupAvatar = this.conf.default.groupAvatar;
-        } else {
-          this.createdGroup.groupAvatar = location;
-        }
-         // EXPECTS an array
+      this.canCreateGroup(this.createdGroup.membersString.split(' ')).then(canCreateGroupResult => {
+      console.log('CAN CREATE GROUP: ' + canCreateGroupResult);
+      if (canCreateGroupResult === true) {
+        this.s3.uploadFile(this.groupAvatarFile, this.conf.imgFolders.groups, (err, location) => {
+          if (err) {
+            // we will allow for the creation of the item, we have a default image
+            console.log(err);
+            this.createdGroup.groupAvatar = this.conf.default.groupAvatar;
+          } else {
+            this.createdGroup.groupAvatar = location;
+          }
          this.groupArray.push(this.createdGroup);
          this.lambdaService.createGroup(this.groupArray, this);
       });
@@ -113,27 +113,27 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
     }
   }
 
-  groupContainsAllValidUsers(groupMembers: any): any {
+  canCreateGroup(groupMembers: any): any {
     const optionalFilter = 'Username';
-    let groupContainsAllValidUsers = true;
+    const groupLeader = this.createdGroup.username;
      const promise = new Promise((resolve, reject) => {
        this.cognitoUtil.listUsers(optionalFilter).then(usernames => {
-         console.log('USERNAMES INSIDE CREATE GROUP COMPONENT: ' + usernames);
-         console.log(typeof usernames); // coming in as object, but we don't need to convert to array for
-         // some reason - is it because .includes works on strings and objects, not just arrays?
-         console.log(groupMembers);
-         for (let index = 0; index < groupMembers.length; index++) {
-           if (!usernames.includes(groupMembers[index])) {
-             this.invalidUsers.push(groupMembers[index]);
-
-             groupContainsAllValidUsers = false;
-           }
-         }
-         if (!groupContainsAllValidUsers) {
+          if (!usernames.includes(groupLeader)) {
+            this.invalidUsers.push(groupLeader);
+            this.isValidGroup = false;
+          }
+          for (let index = 0; index < groupMembers.length; index++) {
+            if (!usernames.includes(groupMembers[index])) {
+              this.invalidUsers.push(groupMembers[index]);
+              this.isValidGroup = false;
+            }
+          }
+         if (!this.isValidGroup) {
            this.membersError = 'The following users are invalid: ' + this.invalidUsers.toString() +
           '. Please remove these users and try again....';
+          console.log(this.membersError);
          }
-         resolve(groupContainsAllValidUsers);
+         resolve(this.isValidGroup);
       });
     });
     return promise;

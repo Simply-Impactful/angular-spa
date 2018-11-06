@@ -82,7 +82,6 @@ export class CognitoUtil {
             for (let index = 0; index < unfilteredUsers.length; ++index) {
               filteredUsers.push(unfilteredUsers[index][optionalFilter]);
             }
-            console.log(filteredUsers);
           resolve(filteredUsers);
         } else {
           resolve(unfilteredUsers);
