@@ -1,4 +1,4 @@
-import { User } from './../model/User';
+import { User } from '../model/User';
 import { Action } from '../model/Action';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
@@ -6,6 +6,7 @@ import { LoggedInCallback, CognitoUtil, Callback, CognitoCallback, ChallengePara
 import { AWSError } from 'aws-sdk';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { Group } from '../model/Group';
+import { Member } from '../model/Member';
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { S3Service } from '../services/s3.service';
 import { AppConf } from '../shared/conf/app.conf';
@@ -41,6 +42,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   defaultUserPicture = this.conf.default.userProfile;
   username: string = '';
   user: User;
+  isNotGroupMember: {};
 
   constructor(
     public lambdaService: LambdaInvocationService, public cognitoUtil: CognitoUtil,
@@ -48,6 +50,9 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
 
   ngOnInit() {
     this.loginService.isAuthenticated(this);
+     this.isNotGroupMember = {};
+    //  this.isNotGroupMember['test'] = true;
+    //  console.log('Init: this.isNotGroupMember[test] == ' + this.isNotGroupMember['test']);
   }
 
   // only for group leaders
@@ -63,7 +68,6 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
     groupArray.push(group);
     this.lambdaService.createGroup(groupArray, this);
   }
-
   expand() {
     this.isExpanded = true;
     this.isCollapsed = false;
@@ -101,8 +105,20 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
       this.dataSource.paginator = this.paginator;
       // un-used as of now..
       this.dataSource.sort = this.sort;
+
+      // logic to find if the user is already a member of a group
+      let isFound: boolean = false;
+      this.groups.forEach(group => {
+        isFound = false;
+        group.members.forEach(member => {
+          if ((member as Member).member === this.username) {
+            isFound = true;
+          }
+        });
+        this.isNotGroupMember[group.name.toString()] = !isFound;
+      });
     } else {
-      window.alert('There was an error. Try logging out and logging back in');
+      window.alert('There was an error. Try logging out and logging back in' );
     }
 
 
