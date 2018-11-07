@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AWSError } from 'aws-sdk';
 import { Group } from '../model/Group';
+import { Member } from '../model/Member';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { CognitoUtil, Callback } from '../services/cognito.service';
 import { User } from '../model/User';
