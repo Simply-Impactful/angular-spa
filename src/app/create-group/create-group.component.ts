@@ -151,6 +151,7 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
 
   checkInputs() {
     if (!this.createdGroup.membersString) {
+      console.log('true');
       this.membersError = 'You must enter at least one group member. Consider adding yourself';
     } else {
       this.membersError = '';

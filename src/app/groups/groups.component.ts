@@ -43,6 +43,8 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   username: string = '';
   user: User;
   isNotGroupMember: {};
+  groupToDelete: Group;
+  groupToJoin: Group;
 
   constructor(
     public lambdaService: LambdaInvocationService, public cognitoUtil: CognitoUtil,
@@ -57,11 +59,13 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
 
   // only for group leaders
   deleteGroup(group: Group) {
+    this.groupToDelete = group;
     this.lambdaService.deleteGroup(this, group);
   }
 
   // only for non-group members
   joinGroup(group: Group) {
+    this.groupToJoin = group;
     group.membersString = this.username;
     group.username = group.leader;
     const groupArray = [];
@@ -91,7 +95,14 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   // handles the response of Delete API
   callbackWithParams(error: AWSError, result: any) {
     if (result ) {
+      // TODO: call getGroups to refresh screen data?
     } else {
+        if (error) {
+          if (error.toString().includes('credentials')) {
+            // RETRY
+            this.deleteGroup(this.groupToDelete);
+          }
+        }
       console.log('error deleting group ' + error);
     }
   }
@@ -99,28 +110,33 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   // Response of get All Groups - Callback interface
   cognitoCallbackWithParam(result: any) {
     if (result) {
-      const response = JSON.parse(result);
-      this.groups = response.body;
-      this.dataSource = new MatTableDataSource(this.groups);
-      this.dataSource.paginator = this.paginator;
-      // un-used as of now..
-      this.dataSource.sort = this.sort;
+      if (result.includes('credentials')) {
+        //  window.alert('There was an error. Try logging out and logging back in' );
+        // retry
+        this.lambdaService.getAllGroups(this);
+      } else {
+        const response = JSON.parse(result);
+        this.groups = response.body;
+        this.dataSource = new MatTableDataSource(this.groups);
+        this.dataSource.paginator = this.paginator;
+        // un-used as of now..
+        this.dataSource.sort = this.sort;
 
-      // logic to find if the user is already a member of a group
-      let isFound: boolean = false;
-      this.groups.forEach(group => {
-        isFound = false;
-        group.members.forEach(member => {
-          if ((member as Member).member === this.username) {
-            isFound = true;
-          }
+        // logic to find if the user is already a member of a group
+        let isFound: boolean = false;
+        this.groups.forEach(group => {
+          isFound = false;
+          group.members.forEach(member => {
+            if ((member as Member).member === this.username) {
+              isFound = true;
+            }
+          });
+          this.isNotGroupMember[group.name.toString()] = !isFound;
         });
-        this.isNotGroupMember[group.name.toString()] = !isFound;
-      });
+      }
     } else {
-      window.alert('There was an error. Try logging out and logging back in' );
+      console.log('unnexpected error occurred - could not get get all groups');
     }
-
 
     /**
      * this.dataSource.sortingDataAccessor = (item, property) => {
@@ -152,6 +168,14 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   cognitoCallback(message: string, result: any) {
     if (result) {
       console.log('user successfully added');
+      // no longer 'not a group member'
+      this.isNotGroupMember[this.groupToJoin.name.toString()] = false;
+    } else {
+      if (message.includes('credentials')) {
+        this.joinGroup(this.groupToJoin);
+      } else {
+        console.log('unnexepected error occurred - could not join group: ' + message);
+      }
     }
   }
 
