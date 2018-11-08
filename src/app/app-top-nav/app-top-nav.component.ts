@@ -24,6 +24,7 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
   isViewAll: boolean;
   routerLink: string;
   isAdmin: boolean;
+  isOnLevelPage: boolean = false;
 
   constructor(private params: Parameters, private loginService: LogInService,
     private cognitoUtil: CognitoUtil, private route: ActivatedRoute,
@@ -33,6 +34,9 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
     this.params.user$.subscribe(user => {
       this.user = user;
     });
+    if (window.location.toString().includes('level')) {
+      this.isOnLevelPage = true;
+    }
 
  /**   // TODO: inclue logic for this on reset password?
     if (window.location.toString().includes('landing')

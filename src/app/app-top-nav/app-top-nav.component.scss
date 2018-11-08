@@ -35,7 +35,7 @@
 }
 
 .mat-elevation-z6 {
-    box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
+   //  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
 }
 
 .white-text {
@@ -45,9 +45,9 @@
     margin:10px;
     font-weight: 700;
 }
+
 .mat-button{
-    width:3px;
-    margin-bottom: 15px;
+    border: none;
 }
 
 .mat-card:not([class*=mat-elevation-z]) {

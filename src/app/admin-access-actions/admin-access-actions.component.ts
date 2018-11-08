@@ -111,7 +111,7 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
       this.dataSource.paginator = this.paginator;
     } else {
       console.log('error ' + JSON.stringify(error));
-      if (result.toString().includes('CredentialsError')) {
+      if (error.toString().includes('credentials')) {
         // window.location.reload();
         console.log('credentials error, RETRYING');
         this.lambdaService.listActions(this);

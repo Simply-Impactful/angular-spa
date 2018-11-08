@@ -47,7 +47,8 @@ isLoggedIn(message: string, loggedIn: boolean): void {}
       const response = JSON.parse(result);
       this.levels = response.body;
       console.log('response.body', response.body);
-      this.dataSource = new MatTableDataSource(this.levels);
+      const ascending = this.levels.sort((a, b) => Number(a.min) - Number(b.min));
+      this.dataSource = new MatTableDataSource(ascending);
      } else {
       console.log('error pulling the levels data' + error);
       window.location.reload();
