@@ -160,42 +160,42 @@ export class LambdaInvocationService implements OnInit {
 
      // Allowing group leaders to delete the group
      deleteGroup(callback: LoggedInCallback, group: Group) {
-     const JSON_BODY = {
-       name: group.name,
-       members: group.members
-     };
-     const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
+      AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+      AWS.config.region = environment.region;
+      const JSON_BODY = {
+        name: group.name,
+        members: group.members
+      };
+      const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
 
-     AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
-     AWS.config.region = environment.region;
-     const lambda = new AWS.Lambda({region: AWS.config.region, apiVersion: '2015-03-31'});
-     const putParams = {
-       FunctionName: 'deleteGroups',
-       InvocationType: 'RequestResponse',
-       LogType: 'None',
-       Payload: JSON.stringify({
-         httpMethod: 'POST',
-         path: '/groups/delete',
-         resource: '',
-         queryStringParameters: {
-         },
-         pathParameters: {
-         },
-         body: body
-       })
-     };
+      const lambda = new AWS.Lambda({region: AWS.config.region, apiVersion: '2015-03-31'});
+      const putParams = {
+        FunctionName: 'deleteGroups',
+        InvocationType: 'RequestResponse',
+        LogType: 'None',
+        Payload: JSON.stringify({
+          httpMethod: 'POST',
+          path: '/groups/delete',
+          resource: '',
+          queryStringParameters: {
+          },
+          pathParameters: {
+          },
+          body: body
+        })
+      };
 
-     lambda.invoke(putParams, function(error, data) {
-       if (error) {
-         console.log(error);
-         callback.callbackWithParams(error, null);
-       } else {
-         console.log('Delete Group ' + data);
-          callback.callbackWithParams(null, data.Payload);
+      lambda.invoke(putParams, function(error, data) {
+        if (error) {
+          console.log(error);
+          callback.callbackWithParams(error, null);
+        } else {
+          console.log('Delete Group ' + data);
+            callback.callbackWithParams(null, data.Payload);
 
-       }
-     });
-   }
+        }
+      });
+    }
 
 
   // TODO: Allow admins to delete an action - bulk or single - WIP

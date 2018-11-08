@@ -48,6 +48,9 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
   isGroupMembersDisable: boolean = false;
   invalidUsers = [];
   generalError: string = '';
+  invalidMembersError: string = '';
+  invalidGroupLeader: string =  '';
+  isValidGroup: boolean;
 
   constructor(public lambdaService: LambdaInvocationService,
     public router: Router,
@@ -76,6 +79,8 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
   }
 
   creategroup() {
+    // assume it can be created, unless below conditions set it to false
+    this.isValidGroup = true;
     // fresh new group needs points set to 0
     this.createdGroup.pointsEarned = 0;
     this.createdGroup.groupAvatar = this.groupAvatarUrl;
@@ -90,18 +95,17 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
         this.createdGroup.membersString = this.createdGroup.membersString.replace(/\,+/g, ' ');
       }
 
-      this.groupContainsAllValidUsers(this.createdGroup.membersString.split(' ')).then(canCreateGroup => {
-      console.log('GROUP CONTAINS ALL VALID USERS: ' + canCreateGroup);
-      if (canCreateGroup) {
-      this.s3.uploadFile(this.groupAvatarFile, this.conf.imgFolders.groups, (err, location) => {
-        if (err) {
-          // we will allow for the creation of the item, we have a default image
-          console.log(err);
-          this.createdGroup.groupAvatar = this.conf.default.groupAvatar;
-        } else {
-          this.createdGroup.groupAvatar = location;
-        }
-         // EXPECTS an array
+      this.canCreateGroup(this.createdGroup.membersString.split(' ')).then(canCreateGroupResult => {
+      console.log('CAN CREATE GROUP: ' + canCreateGroupResult);
+      if (canCreateGroupResult === true) {
+        this.s3.uploadFile(this.groupAvatarFile, this.conf.imgFolders.groups, (err, location) => {
+          if (err) {
+            // we will allow for the creation of the item, we have a default image
+            console.log(err);
+            this.createdGroup.groupAvatar = this.conf.default.groupAvatar;
+          } else {
+            this.createdGroup.groupAvatar = location;
+          }
          this.groupArray.push(this.createdGroup);
          this.lambdaService.createGroup(this.groupArray, this);
       });
@@ -113,27 +117,33 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
     }
   }
 
-  groupContainsAllValidUsers(groupMembers: any): any {
+  canCreateGroup(groupMembers: any): any {
     const optionalFilter = 'Username';
-    let groupContainsAllValidUsers = true;
+    const groupLeader = this.createdGroup.username;
      const promise = new Promise((resolve, reject) => {
        this.cognitoUtil.listUsers(optionalFilter).then(usernames => {
-         console.log('USERNAMES INSIDE CREATE GROUP COMPONENT: ' + usernames);
-         console.log(typeof usernames); // coming in as object, but we don't need to convert to array for
-         // some reason - is it because .includes works on strings and objects, not just arrays?
-         console.log(groupMembers);
-         for (let index = 0; index < groupMembers.length; index++) {
-           if (!usernames.includes(groupMembers[index])) {
-             this.invalidUsers.push(groupMembers[index]);
-
-             groupContainsAllValidUsers = false;
-           }
-         }
-         if (!groupContainsAllValidUsers) {
-           this.membersError = 'The following users are invalid: ' + this.invalidUsers.toString() +
+          if (!usernames.includes(groupLeader)) {
+       //     this.invalidUsers.push(groupLeader);
+            this.isValidGroup = false;
+            this.invalidGroupLeader = 'The leader is not a valid user. Please try entering another';
+          } else {
+            this.isValidGroup = true;
+            this.invalidGroupLeader = '';
+          }
+          for (let index = 0; index < groupMembers.length; index++) {
+            if (!usernames.includes(groupMembers[index])) {
+              this.invalidUsers.push(groupMembers[index]);
+              this.isValidGroup = false;
+            }
+          }
+         if (!this.isValidGroup && this.invalidUsers.length >= 1) {
+           this.invalidMembersError = 'The following users are invalid: ' + this.invalidUsers.toString() +
           '. Please remove these users and try again....';
+          console.log(this.invalidMembersError);
+         } else {
+           this.invalidMembersError = '';
          }
-         resolve(groupContainsAllValidUsers);
+         resolve(this.isValidGroup);
       });
     });
     return promise;
@@ -141,15 +151,16 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
 
   checkInputs() {
     if (!this.createdGroup.membersString) {
+      console.log('true');
       this.membersError = 'You must enter at least one group member. Consider adding yourself';
     } else {
       this.membersError = '';
     }
     if (this.createdGroup.membersString && this.invalidUsers.length >= 1) {
-      this.membersError = 'The following users are invalid: ' + this.invalidUsers.toString() +
+      this.invalidMembersError = 'The following users are invalid: ' + this.invalidUsers.toString() +
       '. Please remove these users and try again.';
     } else {
-      this.membersError = '';
+      this.invalidMembersError = '';
     }
     if (!this.createdGroup.name) {
       this.namesError = 'Group name is required';
@@ -258,12 +269,9 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
       // odd credential error occurred
       if (message) {
         if (message.includes('credentials')) {
-          console.log('message ' + message);
-          this.generalError = message;
+          this.groupArray = [];
           // RETRY
           this.creategroup();
-        } else {
-          this.generalError = '';
         }
       }
   }

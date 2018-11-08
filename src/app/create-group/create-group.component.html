@@ -59,20 +59,22 @@
         <mat-hint>Required &nbsp;
         <span style="color:red; font-size: 95%" *ngIf=" !createdGroup.username && !focused">
           {{groupsLeaderError}} </span>
+          <span style="color:red; font-size: 95%" *ngIf=" !isValidGroup">
+            {{invalidGroupLeader}} </span>
         </mat-hint>
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile cols="2">
       <mat-form-field style="margin-bottom: 10px;" appearance="outline">
         <input (focus)="focused=true" (focusout)="focused=false"
-          [(ngModel)]="createdGroup.membersString" name="membersString" 
+          [(ngModel)]="createdGroup.membersString" name="membersString"
           matInput placeholder="Group Members' Usernames"
           disabled="{{isGroupMembersDisable}}">
           <mat-hint>Required: specify usernames separated by spaces to add them to group
           <span *ngIf="!createdGroup.membersString && !focused " style="color:red; font-size: 95%">
             <br> {{membersError}}</span>
-          <span *ngIf="invalidUsers" style="color:red; font-size: 95%">
-            <br> {{membersError}}</span>
+          <span *ngIf="!isValidGroup" style="color:red; font-size: 95%">
+            <br> {{invalidMembersError}}</span>
         </mat-hint>
       </mat-form-field>
     </mat-grid-tile>
