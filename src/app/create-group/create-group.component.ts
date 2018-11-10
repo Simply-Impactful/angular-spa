@@ -123,7 +123,6 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
      const promise = new Promise((resolve, reject) => {
        this.cognitoUtil.listUsers(optionalFilter).then(usernames => {
           if (!usernames.includes(groupLeader)) {
-       //     this.invalidUsers.push(groupLeader);
             this.isValidGroup = false;
             this.invalidGroupLeader = 'The leader is not a valid user. Please try entering another';
           } else {

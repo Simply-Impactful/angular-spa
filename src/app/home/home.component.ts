@@ -11,6 +11,7 @@ import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { Router } from '@angular/router';
 import { ActionComponent } from '../action/action.component';
 import { ActionService } from '../services/action.service';
+import { AwsUtil } from '../services/aws.service';
 
 @Component({
   selector: 'app-home',
@@ -35,9 +36,6 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
 
   ngOnInit() {
     this.loginService.isAuthenticated(this);
-    this.params.user$.subscribe(user => {
-      this.user = user;
-    });
    }
 
    // LoggedInCallback interface
@@ -45,6 +43,10 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
      if (!isLoggedIn) {
        this.router.navigate(['/login']);
      } else {
+      console.log('lgoged in');
+      this.params.user$.subscribe(user => {
+        this.user = user;
+      });
        // get the user actions for their total points
       this.lambdaService.listActions(this);
      }

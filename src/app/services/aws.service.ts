@@ -42,7 +42,6 @@ export class AwsUtil {
         }
     }
 
-
     /**
      * Sets up the AWS global params
      *
@@ -82,7 +81,7 @@ export class AwsUtil {
         const creds = this.cognitoUtil.buildCognitoCreds(idToken);
 
         AWS.config.credentials = creds;
-        console.log('creds ' + JSON.stringify(creds));
+   //     console.log('creds ' + JSON.stringify(creds));
 
         creds.get(function (err) {
             if (!err) {

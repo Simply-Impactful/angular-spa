@@ -50,9 +50,9 @@ import { LevelComponent } from './level/level.component';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    LogInComponent,
     LandingComponent,
+    LogInComponent,
+    HomeComponent,
     ContactUsComponent,
     UserProfileComponent,
     CreateProfileComponent,

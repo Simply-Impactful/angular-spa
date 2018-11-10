@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { User } from '../model/User';
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import { AWSError } from 'aws-sdk';
+import { AwsUtil } from '../services/aws.service';
 
 @Component({
   selector: 'app-log-in',
@@ -41,8 +42,8 @@ export class LogInComponent implements LoggedInCallback, OnInit {
 
   // LoggedInCallback interface
   isLoggedIn(message: string, isLoggedIn: boolean): void {
+    console.log('isLoggedInMethod');
     if (isLoggedIn) {
-      // will route to home page when authenticated is true
        this.router.navigate(['/home']);
     } else {
        this.router.navigate(['/login']);
@@ -54,23 +55,25 @@ export class LogInComponent implements LoggedInCallback, OnInit {
     // this.logInService.forgotPassword();
   }
 
-  // CognitoCallback interface
+  // CognitoCallback interface - Response of 'authenticate'
   cognitoCallback(message: string, result: any) {
     if (message !== null) { // if there is an error
       // use a local variable as opposed to an instance var.
       this.errorMessage = message;
-      console.error('result: ' + this.errorMessage);
+      console.error('error on login: ' + this.errorMessage);
     } else { // success
-      const currentUser = this.cognitoUtil.getCurrentUser();
-      const username = currentUser.getUsername();
-      if (username === 'superUser') {
-        this.router.navigate(['/adminaccesslanding']);
-      } else {
-        this.router.navigate(['/home']);
+      if (result) {
+        const currentUser = this.cognitoUtil.getCurrentUser();
+        const username = currentUser.getUsername();
+        if (username === 'superUser') {
+          this.router.navigate(['/adminaccesslanding']);
+        } else {
+          this.router.navigate(['/home']);
+        }
       }
-
     }
   }
+
   /** Interface required for LoggedInCallback */
   callbackWithParams(error: AWSError, result: CognitoUserAttribute[]) {}
   // CognitoCallback interface

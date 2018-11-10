@@ -1,15 +1,15 @@
 <main>
 <mat-tab-group>
-  <mat-tab *ngFor="let myGroup of myGroups" style="font-weight: bold" label="{{myGroup.name}}">
+  <mat-tab *ngFor="let myGroup of myGroups" style="font-weight: bold" label="{{myGroup.groupName}}">
     <form>
       <img class = "img-in-tab" src= "{{myGroup.groupAvatar}}">
 <!--      <h3 style="padding: 20px; color:rgb(140,142,144)" > This week top three leaders in {{myGroup.name}}</h3> -->
     </form>
     <div align = "left">
-      <mat-card *ngFor="let member of myGroup.members" class="top-performer-card">
+      <mat-card *ngFor="let member of myGroup.groupMembers" class="top-performer-card">
         <mat-card-header>
-          <div mat-card-avatar class="top-performer-image"></div>
-          <mat-card-title>{{member.member}}</mat-card-title>
+            <img mat-card-avatar class = "top-performer-image" src="{{member.picture}}">         
+            <mat-card-title>{{member.member}}</mat-card-title>
           <mat-card-subtitle>{{member.pointsEarned}}</mat-card-subtitle>
         </mat-card-header>
       </mat-card>
