@@ -350,7 +350,8 @@ export class LambdaInvocationService implements OnInit {
         min: levelData[i].min,
         max: levelData[i].max,
         statusGraphicUrl: levelData[i].statusGraphicUrl,
-        status: levelData[i].status
+        status: levelData[i].status,
+        description: levelData[i].description
       });
     }
     console.log('json body in createLevelData' + JSON.stringify(JSON_BODY));
