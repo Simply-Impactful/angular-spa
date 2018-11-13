@@ -35,61 +35,32 @@ export class MyGroupsComponent implements OnInit, Callback {
    this.lambdaService.getAllGroups(this);
   }
 
-  getAttributesForUser(groupMember: Member[], cognitoResponse: any[]) {
+  getAttributesForUser(group: Group, cognitoResponse: any[]): void {
+    // cross-check the cognito users and map the data for each member of the group passed in
     cognitoResponse.map((members) => {
-      const match = groupMember.find((member) => {
-        return true;
-      });
-      if (match.member === members.Username) {
-        for (let i = 0; i < members.Attributes.length; i++) {
-          if (members.Attributes[i]['Name'] === 'picture') {
-            this.picture = members.Attributes[i]['Value'] ;
+      for (let i = 0; i < group.groupMembers.length; i++) {
+        if (group.groupMembers[i].member === members.Username) {
+          for (let j = 0; j < members.Attributes.length; j++) {
+            if (members.Attributes[j]['Name'] === 'picture') {
+              group.groupMembers[i].picture = members.Attributes[j]['Value'];
+            }
           }
         }
       }
     });
-    // if the user doesn't have a picture, assign them the default
-    // may not be necessary if we already do this on create
-    // TODO: confirm above assumption
-    if (!this.picture) {
-      this.picture = this.conf.default.userProfile;
-    }
-    return this.picture;
   }
-
 
   listUsers() {
+    // calls the cognito Util to get all of the cognito users
     this.cognitoUtil.listUsers().then(response => {
       this.cognitoUsersResponse = response;
+      // build out the members data for each group
       for (let i = 0; i < this.myGroups.length; i++) {
-
-        for (let j = 0; j < this.myGroups[i].groupMembers.length; j++) {
-          const mems = this.myGroups[i]['groupMembers'];
-          this.myGroups[i].groupMembers[j].picture = this.getAttributesForUser(mems, this.cognitoUsersResponse);
-        }
+        this.getAttributesForUser(this.myGroups[i], this.cognitoUsersResponse);
       }
-  //    let attributes: CognitoUserAttribute[];
-   //   attributes = this.cognitoUsersResponse[0].Attributes;
- //     const property = attributes[0].getName();
-  //  console.log('attributes of first user ' + JSON.stringify(attributes[0]['Name']));
- //     const property = attributes[0].getName();
-    //  console.log('first property ' + property);
- //     console.log('this.cogntioResponse ' + JSON.stringify(this.cognitoUsersResponse[0].Attributes['picture']));
-   //   this.myGroups[0].groupMembers[0].picture = '123';
-/**      for (let i = 0; i < this.myGroups.length; i++) {
-        for (let j = 0; j < this.cognitoUsersResponse.length; j++) {
-          console.log('this.myGroups[i].groupMembers[i] ' + JSON.stringify(this.myGroups[i].groupMembers[i]));
-          if (this.myGroups[i].groupMembers[i] === this.cognitoUsersResponse[j].Username) {
-            console.log('match');
-          }
-        }
-      } **/
-   //   const picture = this.getAttributesForUser([{ member: 'eahendricks6', pointsEarned: 0, picture: '123' }]);
-     // console.log('picture ' + picture);
     });
-
-  // console.log('index ' + username);
   }
+
   // response of getAllGroups - Callback interface
   cognitoCallbackWithParam(result: any) {
     this.members = [];
@@ -121,6 +92,7 @@ export class MyGroupsComponent implements OnInit, Callback {
              }
            }
          }
+         // call the list users method in order to build out the memebrs data
          this.listUsers();
        }
     }
