@@ -17,7 +17,7 @@ import {MatPaginator, MatTableDataSource} from '@angular/material';
 })
 export class LevelComponent implements OnInit {
   levels: Levels[];
-  displayedColumns = ['pointsRange', 'status', 'statusGraphicUrl'];
+  displayedColumns = ['pointsRange', 'status', 'statusGraphicUrl', 'description'];
   dataSource;
 
   constructor( public appComp: AppComponent, public lambdaService: LambdaInvocationService) { }

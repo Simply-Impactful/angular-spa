@@ -20,7 +20,7 @@ import { AppConf } from '../shared/conf/app.conf';
 export class AdminAccessLevelComponent implements OnInit {
   conf = AppConf;
   levels: Levels[];
-  displayedColumns = ['min', 'max', 'status', 'statusGraphicUrl'];
+  displayedColumns = ['min', 'max', 'status', 'statusGraphicUrl', 'description'];
   dataSource;
   inputText;
   editField: string;
@@ -107,6 +107,9 @@ isLoggedIn(message: string, loggedIn: boolean): void {}
     this.editField = event.target.textContent;
     if (property === 'status') {
       this.levelsObj.status = this.editField;
+    }
+    if (property === 'description') {
+      this.levelsObj.description = this.editField;
     }
   }
 
