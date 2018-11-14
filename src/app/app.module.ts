@@ -46,6 +46,7 @@ import { AdminActionDialogComponent } from './admin-action-dialog/admin-action-d
 import { MyGroupsComponent } from './my-groups/my-groups.component';
 import { AdminAccessLevelComponent } from './admin-access-level/admin-access-level.component';
 import { LevelComponent } from './level/level.component';
+import { LevelsMapping } from './shared/levels-mapping';
 
 @NgModule({
   declarations: [
@@ -102,6 +103,7 @@ import { LevelComponent } from './level/level.component';
     Parameters,
     LambdaInvocationService,
     HomeComponent,
+    LevelsMapping,
     ActionDialogComponent ],
   bootstrap: [AppComponent]
 })

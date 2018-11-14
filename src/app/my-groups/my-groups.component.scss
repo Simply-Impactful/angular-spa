@@ -70,15 +70,6 @@ mat-form-field {
     background-color: #F1F1F3;
   }
 
-  /**.top-performer-card {
-    width: 300px;
-    margin: 4px;
-    height: 75px;
-    display: inline-block;
-    background-color: azure;
-    text-align: left;
-  } 
-**/
 .top-performer-card {
     width: 200px;
     margin: 4px;
@@ -88,7 +79,12 @@ mat-form-field {
     text-align: left;
     padding:10px;
   }
-  .top-performer-image {
-    //  background-image: url('/assets/images/Congrats_icn.svg'); 
+
+.top-performer-image {
       background-size: 100px;
-    }
+}
+
+.badge-image {
+    align-content: right;
+    background-size: 100px;
+}

@@ -9,6 +9,8 @@ import { AppConf } from '../shared/conf/app.conf';
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import { Parameters } from '../services/parameters';
 import * as _ from 'lodash';
+import { LevelsMapping } from '../shared/levels-mapping';
+import { Levels } from '../model/Levels';
 
 @Component({
   selector: 'app-my-groups',
@@ -27,12 +29,15 @@ export class MyGroupsComponent implements OnInit, Callback {
   myGroupsObject = {};
   picture: String = '';
   defaultUserPicture = this.conf.default.userProfile;
+  level: Levels;
 
   constructor(
-    public lambdaService: LambdaInvocationService, public cognitoUtil: CognitoUtil, public params: Parameters) { }
+    public lambdaService: LambdaInvocationService, public cognitoUtil: CognitoUtil, public params: Parameters,
+      public levelsData: LevelsMapping) { }
 
   ngOnInit() {
    this.lambdaService.getAllGroups(this);
+   this.levelsData.getData();
   }
 
   getAttributesForUsers(group: Group, cognitoResponse: any[]): void {
@@ -55,6 +60,12 @@ export class MyGroupsComponent implements OnInit, Callback {
     });
   }
 
+  getUserLevel (group: Group) {
+    for (let i = 0; i < group.groupMembers.length; i++) {
+      group.groupMembers[i] = this.levelsData.getUserLevel(group, i);
+    }
+  }
+
   listUsers() {
     // calls the cognito Util to get all of the cognito users
     this.cognitoUtil.listUsers().then(response => {
@@ -62,6 +73,7 @@ export class MyGroupsComponent implements OnInit, Callback {
       // build out the members data for each group
       for (let i = 0; i < this.myGroups.length; i++) {
         this.getAttributesForUsers(this.myGroups[i], this.cognitoUsersResponse);
+        this.getUserLevel(this.myGroups[i]);
       }
     });
   }

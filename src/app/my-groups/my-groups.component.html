@@ -8,7 +8,10 @@
     <div align = "left">
       <mat-card *ngFor="let member of myGroup.groupMembers" class="top-performer-card">
         <mat-card-header>
-            <img mat-card-avatar class = "top-performer-image" src="{{member.picture}}">         
+            <span>
+                <img mat-card-avatar class="badge-image" src="{{member.level}}">                
+            </span>
+            <img mat-card-avatar class="top-performer-image" src="{{member.picture}}">  
             <mat-card-title>{{member.member}}</mat-card-title>
           <mat-card-subtitle>{{member.pointsEarned}}</mat-card-subtitle>
         </mat-card-header>
