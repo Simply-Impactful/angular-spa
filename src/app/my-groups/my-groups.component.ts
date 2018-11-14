@@ -35,12 +35,17 @@ export class MyGroupsComponent implements OnInit, Callback {
    this.lambdaService.getAllGroups(this);
   }
 
-  getAttributesForUser(group: Group, cognitoResponse: any[]): void {
+  getAttributesForUsers(group: Group, cognitoResponse: any[]): void {
     // cross-check the cognito users and map the data for each member of the group passed in
     cognitoResponse.map((members) => {
       for (let i = 0; i < group.groupMembers.length; i++) {
         if (group.groupMembers[i].member === members.Username) {
           for (let j = 0; j < members.Attributes.length; j++) {
+          // if they don't have a picture, assign them the default
+          // if they do have a picture in cognito, assing it to their member object
+            if (members.Attributes[j]['Name'] !== 'picture') {
+              group.groupMembers[i].picture = this.conf.default.userProfile;
+            }
             if (members.Attributes[j]['Name'] === 'picture') {
               group.groupMembers[i].picture = members.Attributes[j]['Value'];
             }
@@ -56,7 +61,7 @@ export class MyGroupsComponent implements OnInit, Callback {
       this.cognitoUsersResponse = response;
       // build out the members data for each group
       for (let i = 0; i < this.myGroups.length; i++) {
-        this.getAttributesForUser(this.myGroups[i], this.cognitoUsersResponse);
+        this.getAttributesForUsers(this.myGroups[i], this.cognitoUsersResponse);
       }
     });
   }

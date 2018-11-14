@@ -39,12 +39,12 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   groups: Group[];
   isExpanded: boolean = false;
   isCollapsed: boolean = true;
-  defaultUserPicture = this.conf.default.userProfile;
   username: string = '';
   user: User;
   isNotGroupMember: {};
   groupToDelete: Group;
   groupToJoin: Group;
+  cognitoUsersResponse = [];
 
   constructor(
     public lambdaService: LambdaInvocationService, public cognitoUtil: CognitoUtil,
@@ -52,9 +52,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
 
   ngOnInit() {
     this.loginService.isAuthenticated(this);
-     this.isNotGroupMember = {};
-    //  this.isNotGroupMember['test'] = true;
-    //  console.log('Init: this.isNotGroupMember[test] == ' + this.isNotGroupMember['test']);
+    this.isNotGroupMember = {};
   }
 
   // only for group leaders
@@ -111,7 +109,6 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   cognitoCallbackWithParam(result: any) {
     if (result) {
       if (result.includes('credentials')) {
-        //  window.alert('There was an error. Try logging out and logging back in' );
         // retry
         this.lambdaService.getAllGroups(this);
       } else {
@@ -122,7 +119,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
         // un-used as of now..
         this.dataSource.sort = this.sort;
 
-        // logic to find if the user is already a member of a group
+        // logic to find if the logged in user is already a member of a group
         let isFound: boolean = false;
         this.groups.forEach(group => {
           isFound = false;
@@ -133,6 +130,8 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
           });
           this.isNotGroupMember[group.name.toString()] = !isFound;
         });
+        // get the members data
+        this.listUsers();
       }
     } else {
       console.log('unnexpected error occurred - could not get get all groups');
@@ -159,6 +158,38 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
       return +index;
     }; **/
     // TODO: implement..
+  }
+
+  listUsers() {
+    // calls the cognito Util to get all of the cognito users
+    this.cognitoUtil.listUsers().then(response => {
+      this.cognitoUsersResponse = response;
+      // build out the members data for each group
+      for (let i = 0; i < this.groups.length; i++) {
+        this.getAttributesForUsers(this.groups[i], this.cognitoUsersResponse);
+      }
+    });
+  }
+
+  getAttributesForUsers(group: Group, cognitoResponse: any[]): void {
+    // cross-check the cognito users and map the data for each member of the group passed in
+    cognitoResponse.map((members) => {
+      for (let i = 0; i < group.members.length; i++) {
+        if (group.members[i].member === members.Username) {
+          for (let j = 0; j < members.Attributes.length; j++) {
+          // if they don't have a picture, assign them the default
+          // if they do have a picture in cognito, assing it to their member object
+          // TODO: May not have to do this if we assign a default one on creation
+            if (members.Attributes[j]['Name'] !== 'picture') {
+              group.members[i].picture = this.conf.default.userProfile;
+            }
+            if (members.Attributes[j]['Name'] === 'picture') {
+              group.members[i].picture = members.Attributes[j]['Value'];
+            }
+          }
+        }
+      }
+    });
   }
 
    // Logged In Callback interface

@@ -89,7 +89,7 @@
             <mat-card *ngFor="let member of groups.members" class="top-performer-card" style="color:black">
               <mat-card-header>
                 <!-- TODO: should this be pulling the member info from an object? -->
-                <img mat-card-avatar class = "top-performer-image" src="{{defaultUserPicture}}">         
+                <img mat-card-avatar class = "top-performer-image" src="{{member.picture}}">         
               <mat-card-title>{{member.member}}</mat-card-title>
               <mat-card-subtitle><strong>{{member.pointsEarned}}</strong></mat-card-subtitle>
             </mat-card-header>
