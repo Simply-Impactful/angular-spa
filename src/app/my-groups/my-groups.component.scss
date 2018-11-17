@@ -84,7 +84,10 @@ mat-form-field {
       background-size: 100px;
 }
 
-.badge-image {
-    align-content: right;
+.level-image {
     background-size: 100px;
+    position: absolute;
+    right:-20px;
+    top:-8px;
+    z-index: 1;
 }

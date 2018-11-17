@@ -150,7 +150,6 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
 
   checkInputs() {
     if (!this.createdGroup.membersString) {
-      console.log('true');
       this.membersError = 'You must enter at least one group member. Consider adding yourself';
     } else {
       this.membersError = '';
@@ -210,7 +209,11 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
       // the final array to display
       this.groupsData = this.types;
     } else {
-      console.log('error ' + JSON.stringify(error));
+      if (error.toString().includes('credentials')) {
+        console.log('error - retrying' + JSON.stringify(error));
+        // retry
+        this.lambdaService.listGroupsMetaData(this);
+      }
     }
   }
 
