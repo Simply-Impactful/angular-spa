@@ -45,6 +45,12 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
    this.loginService.isAuthenticated(this);
   }
 
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
+
   openDialog(name: string, action: Action) {
    // required for page render
     this.actionService.openDialog(name, action);

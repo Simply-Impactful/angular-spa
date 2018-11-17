@@ -13,6 +13,8 @@ import { AppConf } from '../shared/conf/app.conf';
 import { LogInService } from '../services/log-in.service';
 import { Parameters } from '../services/parameters';
 import { Router } from '@angular/router';
+import { LevelsMapping } from '../shared/levels-mapping';
+import { Levels } from '../model/Levels';
 
 /**
  * @title Table with expandable rows
@@ -32,6 +34,7 @@ import { Router } from '@angular/router';
 export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallback, Callback {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
   private conf = AppConf;
 
   dataSource;
@@ -45,14 +48,22 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   groupToDelete: Group;
   groupToJoin: Group;
   cognitoUsersResponse = [];
+  level: Levels;
 
   constructor(
     public lambdaService: LambdaInvocationService, public cognitoUtil: CognitoUtil,
-      public loginService: LogInService, public router: Router) {}
+      public loginService: LogInService, public router: Router, public levelsData: LevelsMapping) {}
 
   ngOnInit() {
     this.loginService.isAuthenticated(this);
     this.isNotGroupMember = {};
+    this.levelsData.getData();
+  }
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
   }
 
   // only for group leaders
@@ -167,6 +178,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
       // build out the members data for each group
       for (let i = 0; i < this.groups.length; i++) {
         this.getAttributesForUsers(this.groups[i], this.cognitoUsersResponse);
+        this.getUserLevel(this.groups[i]);
       }
     });
   }
@@ -190,6 +202,12 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
         }
       }
     });
+  }
+
+  getUserLevel (group: Group) {
+    for (let i = 0; i < group.members.length; i++) {
+      group.members[i] = this.levelsData.getUserLevel(group, i);
+    }
   }
 
    // Logged In Callback interface

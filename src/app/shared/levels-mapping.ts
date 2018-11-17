@@ -20,7 +20,7 @@ export class LevelsMapping {
       if (result) {
         const response = JSON.parse(result);
         this.levels = response.body;
-        console.log('response.body', response.body);
+     //   console.log('response.body', response.body);
        } else {
         console.log('error pulling the levels data: ' + error);
         if (error.toString().includes('credentials')) {
@@ -36,13 +36,13 @@ export class LevelsMapping {
     }
     getUserLevel(group: Group, i: number): Member {
       //  find the graphic for the value in the range
-      const value = group.groupMembers[i].pointsEarned;
+      const value = group.members[i].pointsEarned;
       for (let j = 0; j < this.levels.length; j++) {
           if (this.levels[j].min <= value && this.levels[j].max >= value) {
-            group.groupMembers[i].level = this.levels[j].statusGraphicUrl;
+            group.members[i].level = this.levels[j].statusGraphicUrl;
           }
       }
-      return group.groupMembers[i];
+      return group.members[i];
     }
 
     callbackWithParam(result: any): void {}

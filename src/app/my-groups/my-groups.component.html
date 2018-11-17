@@ -6,7 +6,7 @@
 <!--      <h3 style="padding: 20px; color:rgb(140,142,144)" > This week top three leaders in {{myGroup.name}}</h3> -->
     </form>
     <div align = "left">
-      <mat-card *ngFor="let member of myGroup.groupMembers" class="top-performer-card">
+      <mat-card *ngFor="let member of myGroup.members" class="top-performer-card">
         <mat-card-header>
             <span>
                 <img mat-card-avatar class="badge-image" src="{{member.level}}">                

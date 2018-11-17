@@ -43,16 +43,16 @@ export class MyGroupsComponent implements OnInit, Callback {
   getAttributesForUsers(group: Group, cognitoResponse: any[]): void {
     // cross-check the cognito users and map the data for each member of the group passed in
     cognitoResponse.map((members) => {
-      for (let i = 0; i < group.groupMembers.length; i++) {
-        if (group.groupMembers[i].member === members.Username) {
+      for (let i = 0; i < group.members.length; i++) {
+        if (group.members[i].member === members.Username) {
           for (let j = 0; j < members.Attributes.length; j++) {
           // if they don't have a picture, assign them the default
           // if they do have a picture in cognito, assing it to their member object
             if (members.Attributes[j]['Name'] !== 'picture') {
-              group.groupMembers[i].picture = this.conf.default.userProfile;
+              group.members[i].picture = this.conf.default.userProfile;
             }
             if (members.Attributes[j]['Name'] === 'picture') {
-              group.groupMembers[i].picture = members.Attributes[j]['Value'];
+              group.members[i].picture = members.Attributes[j]['Value'];
             }
           }
         }
@@ -61,8 +61,8 @@ export class MyGroupsComponent implements OnInit, Callback {
   }
 
   getUserLevel (group: Group) {
-    for (let i = 0; i < group.groupMembers.length; i++) {
-      group.groupMembers[i] = this.levelsData.getUserLevel(group, i);
+    for (let i = 0; i < group.members.length; i++) {
+      group.members[i] = this.levelsData.getUserLevel(group, i);
     }
   }
 
@@ -102,7 +102,7 @@ export class MyGroupsComponent implements OnInit, Callback {
               // build an object to parse the build out the members and group data
                this.myGroupsObject = {
                  groupName: this.groups[i].name,
-                 groupMembers: this.groups[i].members,
+                 members: this.groups[i].members,
                  groupAvatar: this.groups[i].groupAvatar
                };
                this.myGroups.push(this.myGroupsObject);
