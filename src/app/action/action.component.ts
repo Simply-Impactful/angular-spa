@@ -44,7 +44,7 @@ export class ActionComponent implements OnInit, LoggedInCallback {
     } else {
       // credentials error likely occurred.. retry if so
       if (error.toString().includes('credentials')) {
-        console.log('my groups credentials error.. RETRYING ' + JSON.stringify(error));
+        console.log('action credentials error.. RETRYING ' + JSON.stringify(error));
         this.lambdaService.listActions(this);
       }
     }

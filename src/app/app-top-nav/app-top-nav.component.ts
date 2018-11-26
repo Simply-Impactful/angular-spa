@@ -8,6 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AppConf } from '../shared/conf/app.conf';
 import { HomeComponent } from '../home/home.component';
 import { AppComponent } from '../app.component';
+import { LevelsMapping } from '../shared/levels-mapping';
 
 @Component({
   selector: 'app-top-nav',
@@ -31,9 +32,9 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
     private homeComp: HomeComponent, private appComp: AppComponent) {}
 
   ngOnInit() {
-    this.params.user$.subscribe(user => {
-      this.user = user;
-    });
+      this.params.user$.subscribe(user => {
+        this.user = user;
+      });
     if (window.location.toString().includes('level')) {
       this.isOnLevelPage = true;
     }

@@ -6,6 +6,7 @@ import { User } from './model/User';
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import { AWSError } from 'aws-sdk';
 import { Router } from '@angular/router';
+import { LevelsMapping } from './shared/levels-mapping';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,8 @@ export class AppComponent implements OnInit, LoggedInCallback {
 
   isAdmin: boolean = false;
   user: User;
-  constructor(public loginService: LogInService, public router: Router, public cognitoUtil: CognitoUtil) { }
+  constructor(public loginService: LogInService, public router: Router, public cognitoUtil: CognitoUtil,
+    private levelsMapping: LevelsMapping) { }
 
   ngOnInit() {
     this.loginService.isAuthenticated(this);
@@ -26,7 +28,6 @@ export class AppComponent implements OnInit, LoggedInCallback {
   isLoggedIn(message: string, isLoggedIn: boolean) {
     console.log('is logged in: ' + isLoggedIn);
     if (isLoggedIn) {
-
       const currentUser = this.cognitoUtil.getCurrentUser();
       const username = currentUser.getUsername();
       // if a non-admin is trying to access an admin site,

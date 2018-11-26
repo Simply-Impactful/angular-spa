@@ -30,14 +30,26 @@ export class MyGroupsComponent implements OnInit, Callback {
   picture: String = '';
   defaultUserPicture = this.conf.default.userProfile;
   level: Levels;
-
+  isViewAllMembers: boolean = false;
+  mostActiveMembers = [];
+  
   constructor(
     public lambdaService: LambdaInvocationService, public cognitoUtil: CognitoUtil, public params: Parameters,
       public levelsData: LevelsMapping) { }
 
   ngOnInit() {
    this.lambdaService.getAllGroups(this);
-   this.levelsData.getData();
+   // kick this off to get the data aggregated in the levels mapping
+   this.levelsData.getAllData();
+  }
+
+  // TODO: implement
+  viewAll () {
+    this.isViewAllMembers = true;
+  }
+
+  close () {
+    this.isViewAllMembers = false;
   }
 
   getAttributesForUsers(group: Group, cognitoResponse: any[]): void {
@@ -60,9 +72,17 @@ export class MyGroupsComponent implements OnInit, Callback {
     });
   }
 
-  getUserLevel (group: Group) {
+  getTopFiveMostActive () {
+
+ //   const ascending = this.levels.sort((a, b) => Number(a.min) - Number(b.min));
+    // this.mostActiveMembers = ...;
+    // TODO: do highest points for now
+    // sort on full list for each group
+  }
+
+  getMembersLevels (group: Group) {
     for (let i = 0; i < group.members.length; i++) {
-      group.members[i] = this.levelsData.getUserLevel(group, i);
+      group.members[i] = this.levelsData.getMembersLevels(group, i);
     }
   }
 
@@ -73,7 +93,7 @@ export class MyGroupsComponent implements OnInit, Callback {
       // build out the members data for each group
       for (let i = 0; i < this.myGroups.length; i++) {
         this.getAttributesForUsers(this.myGroups[i], this.cognitoUsersResponse);
-        this.getUserLevel(this.myGroups[i]);
+        this.getMembersLevels(this.myGroups[i]);
       }
     });
   }

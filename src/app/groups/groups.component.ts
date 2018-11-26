@@ -57,7 +57,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   ngOnInit() {
     this.loginService.isAuthenticated(this);
     this.isNotGroupMember = {};
-    this.levelsData.getData();
+    this.levelsData.getAllData();
   }
 
   applyFilter(filterValue: string) {
@@ -79,6 +79,24 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
     group.username = group.leader;
     const groupArray = [];
     groupArray.push(group);
+    this.lambdaService.createGroup(groupArray, this);
+  }
+
+  // only for group members
+  leaveGroup(group: Group) {
+    // find the location of the user to remove
+    for (let i = 0; i < group.members.length; i ++) {
+      if (group.members[i].member === this.username) {
+        group.members.splice(i);
+      }
+    }
+    group.membersString = JSON.stringify(group.members);
+    group.username = group.leader;
+    group.pointsEarned = group.totalPoints; 
+    const groupArray = [];
+    this.groupToJoin = group;
+    groupArray.push(group);
+    // TODO: need to make the membre inactive
     this.lambdaService.createGroup(groupArray, this);
   }
   expand() {
@@ -178,7 +196,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
       // build out the members data for each group
       for (let i = 0; i < this.groups.length; i++) {
         this.getAttributesForUsers(this.groups[i], this.cognitoUsersResponse);
-        this.getUserLevel(this.groups[i]);
+        this.getMembersLevels(this.groups[i]);
       }
     });
   }
@@ -204,9 +222,9 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
     });
   }
 
-  getUserLevel (group: Group) {
+  getMembersLevels (group: Group) {
     for (let i = 0; i < group.members.length; i++) {
-      group.members[i] = this.levelsData.getUserLevel(group, i);
+      group.members[i] = this.levelsData.getMembersLevels(group, i);
     }
   }
 
@@ -216,9 +234,11 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   // CognitoCallback Interface - response of create group API - join group
   cognitoCallback(message: string, result: any) {
     if (result) {
-      console.log('user successfully added');
+      console.log('user successfully modified');
       // no longer 'not a group member'
       this.isNotGroupMember[this.groupToJoin.name.toString()] = false;
+      // call to refresh the data
+      this.lambdaService.getAllGroups(this);
     } else {
       if (message.includes('credentials')) {
         this.joinGroup(this.groupToJoin);

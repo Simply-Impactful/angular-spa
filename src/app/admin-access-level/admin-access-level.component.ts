@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Levels } from '../model/Levels';
 import { LogInService } from '../services/log-in.service';
 import { Parameters} from '../services/parameters';
-import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
+import { CognitoUtil, LoggedInCallback, Callback } from '../services/cognito.service';
 import { AWSError } from 'aws-sdk';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { Router } from '@angular/router';
@@ -17,7 +17,8 @@ import { AppConf } from '../shared/conf/app.conf';
   templateUrl: './admin-access-level.component.html',
   styleUrls: ['./admin-access-level.component.scss']
 })
-export class AdminAccessLevelComponent implements OnInit {
+export class AdminAccessLevelComponent implements OnInit, Callback {
+
   conf = AppConf;
   levels: Levels[];
   displayedColumns = ['min', 'max', 'status', 'statusGraphicUrl', 'description'];
@@ -42,18 +43,22 @@ export class AdminAccessLevelComponent implements OnInit {
   }
 
 isLoggedIn(message: string, loggedIn: boolean): void {}
-  callbackWithParams(error: AWSError, result: any): void {
+cognitoCallbackWithParam(result: any): void {
     if (result) {
-      const response = JSON.parse(result);
-      this.levels = response.body;
-      console.log('response.body', response.body);
-      const ascending = this.levels.sort((a, b) => Number(a.min) - Number(b.min));
-      this.dataSource = new MatTableDataSource(ascending);
-     } else {
-      console.log('error pulling the levels data' + error);
-      window.location.reload();
-    }
+      if (result.toString().includes('error')) {
+        console.log('error pulling the levels data' + result);
+        // retry
+        this.lambdaService.listLevelData(this);
+      } else {
+        const response = JSON.parse(result);
+        this.levels = response.body;
+        console.log('response.body', response.body);
+        const ascending = this.levels.sort((a, b) => Number(a.min) - Number(b.min));
+        this.dataSource = new MatTableDataSource(ascending);
+      }
+     }
   }
+
   callbackWithParam(result: any): void {}
 
   saveNew() {
@@ -126,5 +131,12 @@ isLoggedIn(message: string, loggedIn: boolean): void {}
   // storing as single variables instead of an array for now...
   fileEvent(fileInput: any, imageName: string) {
     this[imageName] = fileInput.target.files[0];
+  }
+
+  callback(): void {
+    throw new Error("Method not implemented.");
+  }
+  callbackWithParameters(error: AWSError, result: any) {
+    throw new Error("Method not implemented.");
   }
 }

@@ -17,6 +17,7 @@ import { Group } from '../model/Group';
 import { Router } from '@angular/router';
 import { AppConf } from '../shared/conf/app.conf';
 import { Email } from '../model/Email';
+import { Observable } from 'rxjs/internal/Observable';
 
 
 @Injectable()
@@ -491,17 +492,19 @@ export class LambdaInvocationService implements OnInit {
   }
 
     // get all of the levels data
-    listLevelData(callback: LoggedInCallback) {
-      AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+    listLevelData (callback: Callback): any {
       AWS.config.region = environment.region;
       const lambda = new AWS.Lambda({region: AWS.config.region, apiVersion: '2015-03-31'});
+      if (!AWS.config.credentials) {
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+      }
       const pullParams = {
         FunctionName: 'listLevelData',
         InvocationType: 'RequestResponse',
         LogType: 'None',
         Payload:  JSON.stringify({
             httpMethod:  'GET',
-            path:  '/actions',
+            path:  '/levelData',
             resource:  '',
             queryStringParameters:  {},
               pathParameters:  {}
@@ -509,9 +512,10 @@ export class LambdaInvocationService implements OnInit {
       };
       lambda.invoke(pullParams, function(error, data) {
         if (error) {
-          callback.callbackWithParams(error, null);
+          callback.cognitoCallbackWithParam(error);
         } else {
-          callback.callbackWithParams(null, data.Payload);
+          callback.cognitoCallbackWithParam(data.Payload);
+          return true;
         }
       });
     }

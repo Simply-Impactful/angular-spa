@@ -5,7 +5,7 @@
       <img class = "img-in-tab" src= "{{myGroup.groupAvatar}}">
 <!--      <h3 style="padding: 20px; color:rgb(140,142,144)" > This week top three leaders in {{myGroup.name}}</h3> -->
     </form>
-    <div align = "left">
+    <div *ngIf="!isViewAllMembers" align = "left">
       <mat-card *ngFor="let member of myGroup.members" class="top-performer-card">
         <mat-card-header>
             <span>
@@ -17,6 +17,19 @@
         </mat-card-header>
       </mat-card>
     </div>
+    <a (click)="viewAll()"> View All Members </a>
+    <div *ngIf="isViewAllMembers" align = "left">
+        <mat-card *ngFor="let member of mostActiveMembers" class="top-performer-card">
+          <mat-card-header>
+              <span>
+                  <img mat-card-avatar class="level-image" src="{{member.level}}">                
+              </span>
+              <img mat-card-avatar class="top-performer-image" src="{{member.picture}}">  
+              <mat-card-title>{{member.member}}</mat-card-title>
+            <mat-card-subtitle>{{member.pointsEarned}}</mat-card-subtitle>
+          </mat-card-header>
+        </mat-card>
+      </div>
     <br>
   </mat-tab>
 </mat-tab-group>

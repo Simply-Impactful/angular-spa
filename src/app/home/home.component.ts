@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { ActionComponent } from '../action/action.component';
 import { ActionService } from '../services/action.service';
 import { AwsUtil } from '../services/aws.service';
+import { LevelsMapping } from '../shared/levels-mapping';
 
 @Component({
   selector: 'app-home',
@@ -32,26 +33,40 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
     private cognitoUtil: CognitoUtil,
     private createProfileService: CreateProfileService,
     private params: Parameters, private lambdaService: LambdaInvocationService,
-    public actionService: ActionService) { }
+    public actionService: ActionService,
+    public levelsMapping: LevelsMapping) { }
 
   ngOnInit() {
     this.loginService.isAuthenticated(this);
-   }
+  }
 
    // LoggedInCallback interface
    isLoggedIn(message: string, isLoggedIn: boolean) {
      if (!isLoggedIn) {
        this.router.navigate(['/login']);
      } else {
-      console.log('lgoged in');
+      const lambdaService = new LambdaInvocationService;
+      lambdaService.listLevelData(this);
       this.params.user$.subscribe(user => {
         this.user = user;
       });
-       // get the user actions for their total points
+      // get the user actions for their total points
       this.lambdaService.listActions(this);
      }
    }
 
+  // response of isAuthenticated method in login service
+  callbackWithParam(result: any): void {
+    if (result) {
+      const cognitoUser = this.cognitoUtil.getCurrentUser();
+      const params = new Parameters();
+      this.user = params.buildUser(result, cognitoUser);
+      // get the user actions if they are authenticated
+      // gets the total points and the assignments they've taken
+      this.lambdaService.getUserActions(this, this.user);
+    }
+   }
+  
    // Response of listActions API - logged in callback interface
   callbackWithParams(error: AWSError, result: any) {
     if (result) {
@@ -84,18 +99,6 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
     }
   }
 
-  // response of isAuthenticated method in login service
-  callbackWithParam(result: any): void {
-    if (result) {
-      const cognitoUser = this.cognitoUtil.getCurrentUser();
-      const params = new Parameters();
-      this.user = params.buildUser(result, cognitoUser);
-      // get the user actions if they are authenticated
-      // gets the total points and the assignments they've taken
-      this.lambdaService.getUserActions(this, this.user);
-    }
-   }
-
    // for switching back and forth between actions page
    navigate() {
      this.isViewAll = true;
@@ -107,7 +110,24 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
     this.isViewAll = false;
   }
 
+  // response of listLevelData
+  cognitoCallbackWithParam(result: any) {
+    const lambdaService = new LambdaInvocationService();
+    if (result) {
+      const response = JSON.parse(result);
+      if (response.statusCode != 200) {
+        // retry
+        lambdaService.listLevelData(this);
+      } else {
+        const levels = response.body;
+        this.user.level= this.levelsMapping.getUserLevel(this.user, levels);
+        if (!this.user.level) {
+          lambdaService.listLevelData(this);
+        }
+      }
+     }
+  }
+
   callback() {}
-  cognitoCallbackWithParam(result: any) {}
 
 }

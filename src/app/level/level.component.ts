@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Levels } from '../model/Levels';
 import { LogInService } from '../services/log-in.service';
 import { Parameters} from '../services/parameters';
-import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
+import { CognitoUtil, LoggedInCallback, Callback } from '../services/cognito.service';
 import { AWSError } from 'aws-sdk';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { Router } from '@angular/router';
@@ -15,7 +15,8 @@ import {MatPaginator, MatTableDataSource} from '@angular/material';
   templateUrl: './level.component.html',
   styleUrls: ['./level.component.scss']
 })
-export class LevelComponent implements OnInit {
+export class LevelComponent implements OnInit, Callback {
+
   levels: Levels[];
   displayedColumns = ['pointsRange', 'status', 'statusGraphicUrl', 'description'];
   dataSource;
@@ -27,20 +28,31 @@ export class LevelComponent implements OnInit {
     this.dataSource = new MatTableDataSource(this.levels);
     }
   isLoggedIn(message: string, loggedIn: boolean): void {}
-    callbackWithParams(error: AWSError, result: any): void {
-      if (result) {
+
+  cognitoCallbackWithParam(result: any): void {
+    if (result) {
+      if (result.toString().includes('error')) {
+        // retry
+        this.lambdaService.listLevelData(this);
+      } else {
         const response = JSON.parse(result);
         this.levels = response.body;
         console.log('response.body', response.body);
         const ascending = this.levels.sort((a, b) => Number(a.min) - Number(b.min));
         this.dataSource = new MatTableDataSource(ascending);
-       } else {
-        console.log('error pulling the levels data: ' + error);
-        if (error.toString().includes('credentials')) {
-          // retry
-          this.lambdaService.listLevelData(this);
-        }
       }
-    }
-    callbackWithParam(result: any): void {}
+     }
+ }
+
+  callbackWithParams(error: AWSError, result: any): void {}
+
+  callbackWithParam(result: any): void {}
+
+  callback(): void {
+    throw new Error("Method not implemented.");
   }
+  callbackWithParameters(error: AWSError, result: any) {
+    throw new Error("Method not implemented.");
+  }
+
+}
