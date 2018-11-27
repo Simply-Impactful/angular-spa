@@ -48,11 +48,8 @@ export class LevelComponent implements OnInit, Callback {
 
   callbackWithParam(result: any): void {}
 
-  callback(): void {
-    throw new Error("Method not implemented.");
-  }
-  callbackWithParameters(error: AWSError, result: any) {
-    throw new Error("Method not implemented.");
-  }
+  callback(): void {}
+
+  callbackWithParameters(error: AWSError, result: any) {}
 
 }

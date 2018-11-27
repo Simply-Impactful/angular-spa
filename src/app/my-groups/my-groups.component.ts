@@ -32,7 +32,7 @@ export class MyGroupsComponent implements OnInit, Callback {
   level: Levels;
   isViewAllMembers: boolean = false;
   mostActiveMembers = [];
-  
+
   constructor(
     public lambdaService: LambdaInvocationService, public cognitoUtil: CognitoUtil, public params: Parameters,
       public levelsData: LevelsMapping) { }
@@ -48,7 +48,7 @@ export class MyGroupsComponent implements OnInit, Callback {
     this.isViewAllMembers = true;
   }
 
-  close () {
+  viewTopFive () {
     this.isViewAllMembers = false;
   }
 
@@ -72,12 +72,12 @@ export class MyGroupsComponent implements OnInit, Callback {
     });
   }
 
-  getTopFiveMostActive () {
+  // TODO: Using top points for now
+  getTopFiveMostActive (group: Group) {
+      group.members.sort((a, b) => Number(b.pointsEarned) - Number(a.pointsEarned));
+      this.mostActiveMembers.push(group);
 
- //   const ascending = this.levels.sort((a, b) => Number(a.min) - Number(b.min));
-    // this.mostActiveMembers = ...;
-    // TODO: do highest points for now
-    // sort on full list for each group
+    console.log('most active ' + JSON.stringify(this.mostActiveMembers[0].members));
   }
 
   getMembersLevels (group: Group) {
@@ -94,6 +94,7 @@ export class MyGroupsComponent implements OnInit, Callback {
       for (let i = 0; i < this.myGroups.length; i++) {
         this.getAttributesForUsers(this.myGroups[i], this.cognitoUsersResponse);
         this.getMembersLevels(this.myGroups[i]);
+    //    this.getTopFiveMostActive(this.myGroups[i]);
       }
     });
   }
@@ -121,7 +122,7 @@ export class MyGroupsComponent implements OnInit, Callback {
              if ( this.groups[i].members[j]['member'] === username) {
               // build an object to parse the build out the members and group data
                this.myGroupsObject = {
-                 groupName: this.groups[i].name,
+                 name: this.groups[i].name,
                  members: this.groups[i].members,
                  groupAvatar: this.groups[i].groupAvatar
                };

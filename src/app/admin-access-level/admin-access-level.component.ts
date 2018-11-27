@@ -133,10 +133,7 @@ cognitoCallbackWithParam(result: any): void {
     this[imageName] = fileInput.target.files[0];
   }
 
-  callback(): void {
-    throw new Error("Method not implemented.");
-  }
-  callbackWithParameters(error: AWSError, result: any) {
-    throw new Error("Method not implemented.");
-  }
+  callback(): void {}
+
+  callbackWithParameters(error: AWSError, result: any) {}
 }

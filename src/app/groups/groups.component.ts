@@ -77,6 +77,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
     this.groupToJoin = group;
     group.membersString = this.username;
     group.username = group.leader;
+    group.pointsEarned = group.totalPoints;
     const groupArray = [];
     groupArray.push(group);
     this.lambdaService.createGroup(groupArray, this);
@@ -92,12 +93,12 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
     }
     group.membersString = JSON.stringify(group.members);
     group.username = group.leader;
-    group.pointsEarned = group.totalPoints; 
+    group.pointsEarned = group.totalPoints;
     const groupArray = [];
     this.groupToJoin = group;
     groupArray.push(group);
     // TODO: need to make the membre inactive
-    this.lambdaService.createGroup(groupArray, this);
+ //   this.lambdaService.createGroup(groupArray, this);
   }
   expand() {
     this.isExpanded = true;
@@ -137,7 +138,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   // Response of get All Groups - Callback interface
   cognitoCallbackWithParam(result: any) {
     if (result) {
-      if (result.includes('credentials')) {
+      if (result.toString().includes('credentials')) {
         // retry
         this.lambdaService.getAllGroups(this);
       } else {

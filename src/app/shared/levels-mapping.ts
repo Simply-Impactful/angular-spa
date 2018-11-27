@@ -22,7 +22,7 @@ export class LevelsMapping {
     cognitoCallbackWithParam (result: any): void {
       if (result) {
         const response = JSON.parse(result);
-        if (response.statusCode != 200) {
+        if (response.statusCode !== 200) {
           // retry
           const lambdaService = new LambdaInvocationService();
           lambdaService.listLevelData(this);
@@ -47,6 +47,9 @@ export class LevelsMapping {
     getUserLevel(user: User, levels: Levels[]): any {
       //  find the graphic for the value in the range
       const value = user.totalPoints;
+      if (!value) {
+        user.totalPoints = 0;
+      }
       for (let j = 0; j < levels.length; j++) {
           if (levels[j].min <= value && levels[j].max >= value) {
             user.level = levels[j].statusGraphicUrl;
@@ -57,18 +60,23 @@ export class LevelsMapping {
 
     getMembersLevels(group: Group, i: number): Member {
       //  find the graphic for the value in the range
+      if (!group.members[i].pointsEarned) {
+        group.members[i].pointsEarned = 0;
+      }
       const value = group.members[i].pointsEarned;
-      for (let j = 0; j < this.levels.length; j++) {
+      if (this.levels) {
+        for (let j = 0; j < this.levels.length; j++) {
           if (this.levels[j].min <= value && this.levels[j].max >= value) {
             group.members[i].level = this.levels[j].statusGraphicUrl;
           }
+        }
       }
       return group.members[i];
     }
 
     callbackWithParam(result: any): void {}
 
-    callback(): void {};
-  
-    callbackWithParameters(error: AWSError, result: any) {};
+    callback(): void {}
+
+    callbackWithParameters(error: AWSError, result: any) {}
   }

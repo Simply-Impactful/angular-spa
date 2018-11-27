@@ -1,11 +1,11 @@
 <main>
 <mat-tab-group>
-  <mat-tab *ngFor="let myGroup of myGroups" style="font-weight: bold" label="{{myGroup.groupName}}" >
+  <mat-tab *ngFor="let myGroup of myGroups" style="font-weight: bold" label="{{myGroup.name}}" >
     <form>
       <img class = "img-in-tab" src= "{{myGroup.groupAvatar}}">
 <!--      <h3 style="padding: 20px; color:rgb(140,142,144)" > This week top three leaders in {{myGroup.name}}</h3> -->
     </form>
-    <div *ngIf="!isViewAllMembers" align = "left">
+    <div align = "left">
       <mat-card *ngFor="let member of myGroup.members" class="top-performer-card">
         <mat-card-header>
             <span>
@@ -17,23 +17,25 @@
         </mat-card-header>
       </mat-card>
     </div>
-    <a (click)="viewAll()"> View All Members </a>
-    <div *ngIf="isViewAllMembers" align = "left">
-        <mat-card *ngFor="let member of mostActiveMembers" class="top-performer-card">
+  <!--  <div *ngIf="!isViewAllMembers" align = "left">
+        <mat-card *ngFor="let mostActive of mostActiveMembers.members" class="top-performer-card">
           <mat-card-header>
               <span>
-                  <img mat-card-avatar class="level-image" src="{{member.level}}">                
+                  <img mat-card-avatar class="level-image" src="{{mostActive.level}}">                
               </span>
-              <img mat-card-avatar class="top-performer-image" src="{{member.picture}}">  
-              <mat-card-title>{{member.member}}</mat-card-title>
-            <mat-card-subtitle>{{member.pointsEarned}}</mat-card-subtitle>
+              <img mat-card-avatar class="top-performer-image" src="{{mostActive.picture}}">  
+              <mat-card-title>{{mostActive.member}}</mat-card-title>
+            <mat-card-subtitle>{{mostActive.pointsEarned}}</mat-card-subtitle>
           </mat-card-header>
         </mat-card>
-      </div>
+      </div>  -->
     <br>
   </mat-tab>
 </mat-tab-group>
 <div align ="left">
+<!--  <a *ngIf="!isViewAllMembers" (click)="viewAll()"> View All Members</a>
+  <a *ngIf="isViewAllMembers" (click)="viewTopFive()"> View Top 5 Members</a>-->
+  <br>
   <a routerLink="/groups"> View all groups</a>
 </div>
 </main>
