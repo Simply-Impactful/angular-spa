@@ -83,8 +83,8 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
     this.lambdaService.createGroup(groupArray, this);
   }
 
-  // only for group members
-  leaveGroup(group: Group) {
+  // only for group members - NEEDS TESTING
+/**  leaveGroup(group: Group) {
     // find the location of the user to remove
     for (let i = 0; i < group.members.length; i ++) {
       if (group.members[i].member === this.username) {
@@ -99,7 +99,8 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
     groupArray.push(group);
     // TODO: need to make the membre inactive
  //   this.lambdaService.createGroup(groupArray, this);
-  }
+  }  **/
+
   expand() {
     this.isExpanded = true;
     this.isCollapsed = false;
