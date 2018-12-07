@@ -10,6 +10,8 @@ import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { S3Service } from '../services/s3.service';
 import { AppConf } from '../shared/conf/app.conf';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 
 let members;
 
@@ -51,6 +53,12 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
   invalidMembersError: string = '';
   invalidGroupLeader: string =  '';
   isValidGroup: boolean;
+  myControl = new FormControl();
+  membersResponse = [];
+  filteredOptions: Observable<string[]>;
+  membersArray = [];
+  value: string;
+  updated: boolean = false;
 
   constructor(public lambdaService: LambdaInvocationService,
     public router: Router,
@@ -61,8 +69,19 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
     this.isFileReader = true;
     this.createdGroup = new Array<Group>();
     this.lambdaService.listGroupsMetaData(this);
+    this.getData();
+    this.filteredOptions = this.myControl.valueChanges
+    .pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    );
   }
 
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.membersResponse.filter(option => option.toLowerCase().includes(filterValue));
+  }
   toggleOption(type: string, subtype: string) {
     this.createdGroup.groupType = type;
     // inputted string list
@@ -117,11 +136,35 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
     }
   }
 
+  getData(): any {
+    const promise = new Promise((resolve, reject) => {
+      this.cognitoUtil.listUsers('Username').then(usernames => {
+        this.membersResponse = usernames;
+        resolve(true);
+     });
+   });
+   return promise;
+  }
+
+  addToList(value: string) {
+    this.value = value;
+  }
+
+  addToMembers() {
+    this.membersArray.push(this.value);
+  }
+
+  update() {
+    console.log('MEMBERS ' + JSON.stringify(this.membersArray));
+
+    this.updated = true;
+  }
   canCreateGroup(groupMembers: any): any {
     const optionalFilter = 'Username';
     const groupLeader = this.createdGroup.username;
      const promise = new Promise((resolve, reject) => {
        this.cognitoUtil.listUsers(optionalFilter).then(usernames => {
+         this.membersResponse = usernames;
           if (!usernames.includes(groupLeader)) {
             this.isValidGroup = false;
             this.invalidGroupLeader = 'The leader is not a valid user. Please try entering another';

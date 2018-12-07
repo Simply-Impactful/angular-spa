@@ -12,7 +12,8 @@ import {
   MatIconModule,
   MatInputModule,
   MatDialogRef,
-  MatSelectModule
+  MatSelectModule,
+  MatAutocompleteModule
 } from '@angular/material';
 
 import { ActionsComponent } from './actions/actions.component';
@@ -88,7 +89,8 @@ import { LevelsMapping } from './shared/levels-mapping';
     HttpClientModule,
     MatTableModule,
     MatPaginatorModule,
-    MatIconModule
+    MatIconModule,
+    MatAutocompleteModule
   ],
   entryComponents: [
     ActionDialogComponent,
@@ -107,4 +109,12 @@ import { LevelsMapping } from './shared/levels-mapping';
     ActionDialogComponent ],
   bootstrap: [AppComponent]
 })
+
+@NgModule({
+  exports: [
+    MatAutocompleteModule
+  ]
+})
+
+
 export class AppModule { }
