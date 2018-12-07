@@ -17,6 +17,7 @@ import { Group } from '../model/Group';
 import { Router } from '@angular/router';
 import { AppConf } from '../shared/conf/app.conf';
 import { Email } from '../model/Email';
+import { Observable } from 'rxjs/internal/Observable';
 
 
 @Injectable()
@@ -115,6 +116,8 @@ export class LambdaInvocationService implements OnInit {
 
    // Records points when a user takes an action
    performAction(callback: Callback, user: User, action: Action) {
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+    AWS.config.region = this.region;
      // needed for create group method (to udpate group points per user)
     this.pointsEarned = action.eligiblePoints;
     const JSON_BODY = {
@@ -128,8 +131,6 @@ export class LambdaInvocationService implements OnInit {
     };
     const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
 
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
-    AWS.config.region = this.region;
     const lambda = new AWS.Lambda({region: this.region, apiVersion: this.apiVersion});
     const putParams = {
       FunctionName: 'createUserActions',
@@ -160,50 +161,51 @@ export class LambdaInvocationService implements OnInit {
 
      // Allowing group leaders to delete the group
      deleteGroup(callback: LoggedInCallback, group: Group) {
-     const JSON_BODY = {
-       name: group.name,
-       members: group.members
-     };
-     const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
+      AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+      AWS.config.region = environment.region;
+      const JSON_BODY = {
+        name: group.name,
+        members: group.members
+      };
+      const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
 
-     AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
-     AWS.config.region = environment.region;
-     const lambda = new AWS.Lambda({region: AWS.config.region, apiVersion: '2015-03-31'});
-     const putParams = {
-       FunctionName: 'deleteGroups',
-       InvocationType: 'RequestResponse',
-       LogType: 'None',
-       Payload: JSON.stringify({
-         httpMethod: 'POST',
-         path: '/groups/delete',
-         resource: '',
-         queryStringParameters: {
-         },
-         pathParameters: {
-         },
-         body: body
-       })
-     };
+      const lambda = new AWS.Lambda({region: AWS.config.region, apiVersion: '2015-03-31'});
+      const putParams = {
+        FunctionName: 'deleteGroups',
+        InvocationType: 'RequestResponse',
+        LogType: 'None',
+        Payload: JSON.stringify({
+          httpMethod: 'POST',
+          path: '/groups/delete',
+          resource: '',
+          queryStringParameters: {
+          },
+          pathParameters: {
+          },
+          body: body
+        })
+      };
 
-     lambda.invoke(putParams, function(error, data) {
-       if (error) {
-         console.log(error);
-         callback.callbackWithParams(error, null);
-       } else {
-         console.log('Delete Group ' + data);
-          callback.callbackWithParams(null, data.Payload);
+      lambda.invoke(putParams, function(error, data) {
+        if (error) {
+          console.log(error);
+          callback.callbackWithParams(error, null);
+        } else {
+          console.log('Delete Group ' + data);
+            callback.callbackWithParams(null, data.Payload);
 
-       }
-     });
-   }
+        }
+      });
+    }
 
 
   // TODO: Allow admins to delete an action - bulk or single - WIP
   adminDeleteAction(actionData: Action[], callback: LoggedInCallback) {
-    const body = new Buffer(JSON.stringify(actionData)).toString('utf8');
-
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
     AWS.config.region = this.region;
+
+    const body = new Buffer(JSON.stringify(actionData)).toString('utf8');
+
     const lambda = new AWS.Lambda({region: this.region, apiVersion: this.apiVersion});
     const putParams = {
       FunctionName: 'deleteActions',
@@ -231,7 +233,9 @@ export class LambdaInvocationService implements OnInit {
 
   // Allow admins to add more actions for users to take
   adminCreateAction(actionData: Action, callback: Callback) {
- //   console.log('action Data ' + JSON.stringify(actionData));
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+    AWS.config.region = this.region;
+
     const JSON_BODY = {
       name: actionData.name,
       eligiblePoints: actionData.eligiblePoints,
@@ -246,8 +250,6 @@ export class LambdaInvocationService implements OnInit {
 
     const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
 
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
-    AWS.config.region = this.region;
     const lambda = new AWS.Lambda({region: this.region, apiVersion: this.apiVersion});
     const putParams = {
       FunctionName: 'createActions',
@@ -275,6 +277,8 @@ export class LambdaInvocationService implements OnInit {
 
      // Allow Admins to create the groups metaData used on 'Create Group' page
      adminCreateGroupsData(groupsData: any, callback: CognitoCallback) {
+      AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+      AWS.config.region = this.region;
       // need to do a summation of points earned with the group total points
       const JSON_BODY = [];
       for (let i = 0; i < groupsData.length; i++) {
@@ -287,8 +291,6 @@ export class LambdaInvocationService implements OnInit {
 
       const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
 
-      AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
-      AWS.config.region = this.region;
       const lambda = new AWS.Lambda({region: this.region, apiVersion: this.apiVersion});
       const putParams = {
         FunctionName: 'createAdminData',
@@ -343,6 +345,8 @@ export class LambdaInvocationService implements OnInit {
 
    // Allow Users to create/update a group
    createLevelData(levelData: any, callback: CognitoCallback) {
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+    AWS.config.region = this.region;
     // need to do a summation of points earned with the group total points
     const JSON_BODY = [];
     for (let i = 0; i < levelData.length; i++) {
@@ -350,15 +354,14 @@ export class LambdaInvocationService implements OnInit {
         min: levelData[i].min,
         max: levelData[i].max,
         statusGraphicUrl: levelData[i].statusGraphicUrl,
-        status: levelData[i].status
+        status: levelData[i].status,
+        description: levelData[i].description
       });
     }
-    console.log('json body ' + JSON.stringify(JSON_BODY));
+    console.log('json body in createLevelData' + JSON.stringify(JSON_BODY));
 
     const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
 
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
-    AWS.config.region = this.region;
     const lambda = new AWS.Lambda({region: this.region, apiVersion: this.apiVersion});
     const putParams = {
       FunctionName: 'createLevelData',
@@ -435,7 +438,6 @@ export class LambdaInvocationService implements OnInit {
         if (error) {
           callback.cognitoCallbackWithParam(error);
         } else {
-       //    console.log('ALL groups' + data.Payload);
           callback.cognitoCallbackWithParam(data.Payload); // at the bottom of this class
         }
       });
@@ -443,8 +445,10 @@ export class LambdaInvocationService implements OnInit {
 
   // Allow Users to create/update a group
   createGroup(groupData: any, callback: CognitoCallback) {
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+    AWS.config.region = environment.region;
     // need to do a summation of points earned with the group total points
-  const JSON_BODY = [];
+    const JSON_BODY = [];
     for (let i = 0; i < groupData.length; i++) {
       JSON_BODY.push({
         name: groupData[i].name,
@@ -458,12 +462,9 @@ export class LambdaInvocationService implements OnInit {
         pointsEarned: groupData[i].pointsEarned
       });
     }
-  //  console.log('json body ' + JSON.stringify(JSON_BODY));
 
     const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
 
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
-    AWS.config.region = this.region;
     const lambda = new AWS.Lambda({region: this.region, apiVersion: this.apiVersion});
     const putParams = {
       FunctionName: 'createGroups',
@@ -491,17 +492,19 @@ export class LambdaInvocationService implements OnInit {
   }
 
     // get all of the levels data
-    listLevelData(callback: LoggedInCallback) {
-      AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+    listLevelData (callback: Callback): any {
       AWS.config.region = environment.region;
       const lambda = new AWS.Lambda({region: AWS.config.region, apiVersion: '2015-03-31'});
+      if (!AWS.config.credentials) {
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+      }
       const pullParams = {
         FunctionName: 'listLevelData',
         InvocationType: 'RequestResponse',
         LogType: 'None',
         Payload:  JSON.stringify({
             httpMethod:  'GET',
-            path:  '/actions',
+            path:  '/levelData',
             resource:  '',
             queryStringParameters:  {},
               pathParameters:  {}
@@ -509,16 +512,17 @@ export class LambdaInvocationService implements OnInit {
       };
       lambda.invoke(pullParams, function(error, data) {
         if (error) {
-          callback.callbackWithParams(error, null);
+          callback.cognitoCallbackWithParam(error);
         } else {
-       //   console.log('user action' + data.Payload);
-          callback.callbackWithParams(null, data.Payload);
+          callback.cognitoCallbackWithParam(data.Payload);
+          return true;
         }
       });
     }
 
     sendEmail(email: Email, callback: CognitoCallback) {
-      //   console.log('action Data ' + JSON.stringify(actionData));
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
+        AWS.config.region = this.region;
          const JSON_BODY = {
            firstName: email.firstName,
            lastName: email.lastName,
@@ -526,8 +530,7 @@ export class LambdaInvocationService implements OnInit {
            content: email.content
          };
          const body = new Buffer(JSON.stringify(JSON_BODY)).toString('utf8');
-         AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
-         AWS.config.region = this.region;
+
          const lambda = new AWS.Lambda({region: this.region, apiVersion: this.apiVersion});
          const putParams = {
            FunctionName: 'sendEmail',
@@ -553,5 +556,4 @@ export class LambdaInvocationService implements OnInit {
           }
         });
        }
-
 }

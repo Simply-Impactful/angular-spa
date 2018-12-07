@@ -24,6 +24,12 @@
 				</mat-cell>
 			</ng-container>
 
+			<!-- Description Column -->
+			<ng-container matColumnDef="description">
+				<mat-header-cell *matHeaderCellDef> DESCRIPTION </mat-header-cell>
+				<mat-cell *matCellDef="let levels"> {{levels.description}}</mat-cell>
+			</ng-container>
+
 			<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 			<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 		</mat-table>

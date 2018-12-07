@@ -46,6 +46,7 @@ export class LogInService {
 
     private onLoginSuccess = (callback: CognitoCallback, session: CognitoUserSession) => {
         this.accessToken = session.getAccessToken();
+        console.log('on lgin success');
         AWS.config.credentials = this.cognitoUtil.buildCognitoCreds(session.getIdToken().getJwtToken());
 
         // So, when CognitoIdentity authenticates a user, it doesn't actually hand us the IdentityID,

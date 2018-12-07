@@ -3,7 +3,7 @@ import { Group } from '../model/Group';
 import * as AWS from 'aws-sdk/global';
 import { environment } from '../../environments/environment';
 import { AuthenticationDetails, CognitoUserAttribute, CognitoUser, CognitoUserPool } from 'amazon-cognito-identity-js';
-import { CognitoCallback, LoggedInCallback, Callback, ChallengeParameters } from '../services/cognito.service';
+import { CognitoCallback, LoggedInCallback, Callback, ChallengeParameters, CognitoUtil } from '../services/cognito.service';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { AWSError } from 'aws-sdk/global';
 import { FormControl } from '@angular/forms';
@@ -46,9 +46,15 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
   membersFile: File;
   isFileReader: boolean;
   isGroupMembersDisable: boolean = false;
+  invalidUsers = [];
+  generalError: string = '';
+  invalidMembersError: string = '';
+  invalidGroupLeader: string =  '';
+  isValidGroup: boolean;
 
   constructor(public lambdaService: LambdaInvocationService,
     public router: Router,
+    private cognitoUtil: CognitoUtil,
     private s3: S3Service) { }
 
   ngOnInit() {
@@ -73,28 +79,73 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
   }
 
   creategroup() {
+    // assume it can be created, unless below conditions set it to false
+    this.isValidGroup = true;
     // fresh new group needs points set to 0
     this.createdGroup.pointsEarned = 0;
     this.createdGroup.groupAvatar = this.groupAvatarUrl;
     if (this.checkInputs()) {
-      // TODO: wouldn't this cause an issue if they input 2 names?
-      this.createdGroup.membersString = this.createdGroup.membersString.replace(/\,+/g, ' ');
-      this.s3.uploadFile(this.groupAvatarFile, this.conf.imgFolders.groups, (err, location) => {
-        if (err) {
-          // we will allow for the creation of the item, we have a default image
-          console.log(err);
-          this.createdGroup.groupAvatar = this.conf.default.groupAvatar;
-        } else {
-          this.createdGroup.groupAvatar = location;
-        }
-         // EXPECTS an array
+
+      // Takes a comma and a space, and replaces it with a space
+      if (this.createdGroup.membersString.includes(', ')) {
+        this.createdGroup.membersString = this.createdGroup.membersString.replace(/\, +/g, ' ');
+      }
+      // if there's a comma, replace a comma with a space
+      if (this.createdGroup.membersString.includes(',')) {
+        this.createdGroup.membersString = this.createdGroup.membersString.replace(/\,+/g, ' ');
+      }
+
+      this.canCreateGroup(this.createdGroup.membersString.split(' ')).then(canCreateGroupResult => {
+      console.log('CAN CREATE GROUP: ' + canCreateGroupResult);
+      if (canCreateGroupResult === true) {
+        this.s3.uploadFile(this.groupAvatarFile, this.conf.imgFolders.groups, (err, location) => {
+          if (err) {
+            // we will allow for the creation of the item, we have a default image
+            console.log(err);
+            this.createdGroup.groupAvatar = this.conf.default.groupAvatar;
+          } else {
+            this.createdGroup.groupAvatar = location;
+          }
          this.groupArray.push(this.createdGroup);
          this.lambdaService.createGroup(this.groupArray, this);
-         // TODO: can we do this without a window reload?
-         this.router.navigate(['/home']);
-      //   window.location.reload();
+      });
+      } else {
+        this.invalidUsers = [];
+        this.membersError = '';
+      }
       });
     }
+  }
+
+  canCreateGroup(groupMembers: any): any {
+    const optionalFilter = 'Username';
+    const groupLeader = this.createdGroup.username;
+     const promise = new Promise((resolve, reject) => {
+       this.cognitoUtil.listUsers(optionalFilter).then(usernames => {
+          if (!usernames.includes(groupLeader)) {
+            this.isValidGroup = false;
+            this.invalidGroupLeader = 'The leader is not a valid user. Please try entering another';
+          } else {
+            this.isValidGroup = true;
+            this.invalidGroupLeader = '';
+          }
+          for (let index = 0; index < groupMembers.length; index++) {
+            if (!usernames.includes(groupMembers[index])) {
+              this.invalidUsers.push(groupMembers[index]);
+              this.isValidGroup = false;
+            }
+          }
+         if (!this.isValidGroup && this.invalidUsers.length >= 1) {
+           this.invalidMembersError = 'The following users are invalid: ' + this.invalidUsers.toString() +
+          '. Please remove these users and try again....';
+          console.log(this.invalidMembersError);
+         } else {
+           this.invalidMembersError = '';
+         }
+         resolve(this.isValidGroup);
+      });
+    });
+    return promise;
   }
 
   checkInputs() {
@@ -102,6 +153,12 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
       this.membersError = 'You must enter at least one group member. Consider adding yourself';
     } else {
       this.membersError = '';
+    }
+    if (this.createdGroup.membersString && this.invalidUsers.length >= 1) {
+      this.invalidMembersError = 'The following users are invalid: ' + this.invalidUsers.toString() +
+      '. Please remove these users and try again.';
+    } else {
+      this.invalidMembersError = '';
     }
     if (!this.createdGroup.name) {
       this.namesError = 'Group name is required';
@@ -152,7 +209,11 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
       // the final array to display
       this.groupsData = this.types;
     } else {
-      console.log('error ' + JSON.stringify(error));
+      if (error.toString().includes('credentials')) {
+        console.log('error - retrying' + JSON.stringify(error));
+        // retry
+        this.lambdaService.listGroupsMetaData(this);
+      }
     }
   }
 
@@ -199,18 +260,27 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
 
   // Response of Create Groups API - CognitoCallback Interface
   cognitoCallback(message: string, result: any) {
-      // TODO: implement..
       if (result) {
-        // TODO: can we do this without a window reload?
-        window.location.reload();
-        this.router.navigate(['/home']);
+        const response = JSON.parse(result);
+        if (response.statusCode === 200) {
+          this.router.navigate(['/home']);
+          // TODO: can we do this without a window reload?
+       //   window.location.reload();
+        }
+      }
+      // odd credential error occurred
+      if (message) {
+        if (message.includes('credentials')) {
+          this.groupArray = [];
+          // RETRY
+          this.creategroup();
+        }
       }
   }
-  handleMFAStep?(challengeName: string, challengeParameters: ChallengeParameters, callback: (confirmationCode: string) => any): void;
+  handleMFAStep ? (challengeName: string, challengeParameters: ChallengeParameters, callback: (confirmationCode: string) => any): void ;
 
   callback() {}
-
   callbackWithParameters(error: AWSError, result: any) {}
-  callbackWithParam(result: any): void { }
+  callbackWithParam(result: any): void {}
 
 }

@@ -3,27 +3,34 @@
 <nav id="app-navbar">
   <mat-toolbar color="primary">
     <!-- top navigation with menu-->
-    <mat-toolbar-row>
-      <button class="nav-logo" title="{{title}}" routerLink="{{routerLink}}" (click)="toggle()"></button>
+    <mat-toolbar-row class="white-text">
+      <button style="height:80px; width:80px;" class="nav-logo" title="{{title}}" routerLink="{{routerLink}}" (click)="toggle()"></button>
+      <button style="height:200px; width:200px;" class="nav-brand" title="{{title}}" routerLink="{{routerLink}}" (click)="toggle()"></button>
+
       <span class="spacer"></span>
 
-      <a href = 'http://www.changeissimple.org/' class="white-text">About </a>
-      <a *ngIf= "!hideRightMenu" href = './level' class="white-text">Level </a>
-      <a *ngIf= "!hideRightMenu" href = './contactus'  class="white-text">Contact </a>
-      <a href = 'http://www.changeissimple.org/joinus/'  class="white-text">FAQ </a>
+      <a href = 'http://www.changeissimple.org/' target="_blank" class="white-text">About </a>
+      <a *ngIf= "!hideRightMenu || isOnLevelPage" routerLink="/level" class="white-text">Level </a>
+      <a *ngIf= "!hideRightMenu" routerLink = "/contactus" class="white-text">Contact </a>
+      <a href = 'http://www.changeissimple.org/joinus/' target="_blank" class="white-text">FAQ </a>
 
-    <!--  <button class="white-text" style = "margin-top:52.5px;" mat-button routerLink="/contactus">Contact us</button> -->
       <div [hidden]="hideRightMenu" class="white-text">
         <span class="spacer"></span>
-        <mat-card style="margin-right:10px"class="avatar-card">
+        <mat-card *ngIf="!isOnLevelPage" style="margin-right:10px; vertical-align:center" class="avatar-card">
             <mat-card-header>
               <img mat-card-avatar src="{{user.picture}}">
             </mat-card-header>
-          </mat-card>
-            <button class="mat-button" style = "width:1px;" [matMenuTriggerFor]="menu">
-                <mat-icon>expand_more</mat-icon>
-              </button>
-            <mat-menu #menu="matMenu">
+        </mat-card>
+        <mat-card *ngIf="isOnLevelPage" style="margin-right:30px; vertical-align:center" class="avatar-card">
+          <mat-card-header>
+            <img mat-card-avatar src="{{user.picture}}">
+          </mat-card-header>
+      </mat-card>
+        <button class="mat-button" [matMenuTriggerFor]="menu">
+          <mat-icon style="vertical-align:center">expand_more</mat-icon>
+        </button>          
+        <mat-menu #menu="matMenu">
+          <button *ngIf="isAdmin" mat-menu-item routerLink="/adminaccesslanding">Admin View</button>
           <button mat-menu-item routerLink="/userprofile">My Profile</button>
           <button mat-menu-item routerLink="/landing" (click)="logout()">Logout</button>
         </mat-menu>

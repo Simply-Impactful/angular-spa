@@ -3,13 +3,12 @@ import { BehaviorSubject } from 'rxjs';
 import { Levels } from '../model/Levels';
 import { LogInService } from '../services/log-in.service';
 import { Parameters} from '../services/parameters';
-import { CognitoUtil, LoggedInCallback } from '../services/cognito.service';
+import { CognitoUtil, LoggedInCallback, Callback } from '../services/cognito.service';
 import { AWSError } from 'aws-sdk';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { Router } from '@angular/router';
 import { AppComponent } from '../app.component';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
-import * as _ from 'lodash';
 import { S3Service } from '../services/s3.service';
 import { AppConf } from '../shared/conf/app.conf';
 
@@ -18,10 +17,11 @@ import { AppConf } from '../shared/conf/app.conf';
   templateUrl: './admin-access-level.component.html',
   styleUrls: ['./admin-access-level.component.scss']
 })
-export class AdminAccessLevelComponent implements OnInit {
+export class AdminAccessLevelComponent implements OnInit, Callback {
+
   conf = AppConf;
   levels: Levels[];
-  displayedColumns = ['min', 'max', 'status', 'statusGraphicUrl'];
+  displayedColumns = ['min', 'max', 'status', 'statusGraphicUrl', 'description'];
   dataSource;
   inputText;
   editField: string;
@@ -34,19 +34,6 @@ export class AdminAccessLevelComponent implements OnInit {
   addingLevels = [];
   levelsObj = new Levels;
 
-  // levels: Array<any> = [
-  //   { id: 1, pointsRange: '0 - 250',  status: 'Grasshopper',
-  //   statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/grasshopperforapp.png' },
-  //   { id: 2, pointsRange: '251 - 750',  status: 'Bee',
-  //   statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/beeforapp.png' },
-  //   { id: 3, pointsRange: '751 - 1750',  status: 'Koala',
-  //   statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/koalaforapp.png' },
-  //   { id: 2, pointsRange: '1751 - 3250',  status: 'Octopus',
-  //   statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/octopus.png' },
-  //   { id: 1, pointsRange: '3252 - 5250',  status: 'Owl',
-  //   statusGraphicUrl: 'https://s3.amazonaws.com/simply-impactful-image-data/Levels/owlforapp.png' }
-  // ];
-
   constructor(public appComp: AppComponent, public lambdaService: LambdaInvocationService,
     private s3: S3Service) {}
 
@@ -56,17 +43,22 @@ export class AdminAccessLevelComponent implements OnInit {
   }
 
 isLoggedIn(message: string, loggedIn: boolean): void {}
-  callbackWithParams(error: AWSError, result: any): void {
+cognitoCallbackWithParam(result: any): void {
     if (result) {
-      const response = JSON.parse(result);
-      this.levels = response.body;
-      console.log('response.body', response.body);
-      this.dataSource = new MatTableDataSource(this.levels);
-     } else {
-      console.log('error pulling the levels data' + error);
-      window.location.reload();
-    }
+      if (result.toString().includes('error')) {
+        console.log('error pulling the levels data' + result);
+        // retry
+        this.lambdaService.listLevelData(this);
+      } else {
+        const response = JSON.parse(result);
+        this.levels = response.body;
+        console.log('response.body', response.body);
+        const ascending = this.levels.sort((a, b) => Number(a.min) - Number(b.min));
+        this.dataSource = new MatTableDataSource(ascending);
+      }
+     }
   }
+
   callbackWithParam(result: any): void {}
 
   saveNew() {
@@ -94,6 +86,9 @@ isLoggedIn(message: string, loggedIn: boolean): void {}
       this.addingLevels.pop();
     } else {
       console.log('error ' + message);
+      if (message.toString().includes('credentials')) {
+        this.lambdaService.createLevelData(this.levels, this);
+      }
     }
   }
 
@@ -118,6 +113,9 @@ isLoggedIn(message: string, loggedIn: boolean): void {}
     if (property === 'status') {
       this.levelsObj.status = this.editField;
     }
+    if (property === 'description') {
+      this.levelsObj.description = this.editField;
+    }
   }
 
   changeValueNumber(property: string, event: any) {
@@ -134,4 +132,8 @@ isLoggedIn(message: string, loggedIn: boolean): void {}
   fileEvent(fileInput: any, imageName: string) {
     this[imageName] = fileInput.target.files[0];
   }
+
+  callback(): void {}
+
+  callbackWithParameters(error: AWSError, result: any) {}
 }

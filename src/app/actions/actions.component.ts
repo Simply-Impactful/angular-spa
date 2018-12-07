@@ -45,6 +45,21 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
    this.loginService.isAuthenticated(this);
   }
 
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    // make it so the user is only searching for an action name
+    const actionNames = [];
+  /** attempt at filtering by action name only so other data elements are not filtered on
+    for (let i = 0; i < this.actions.length; i ++) {
+      actionNames.push(this.actions[i].name);
+    }
+    // does this mess up the rendering on the UI?
+    this.dataSource = actionNames;
+    console.log('actoin names ' + JSON.stringify(actionNames)); **/
+    this.dataSource.filter = filterValue;
+  }
+
   openDialog(name: string, action: Action) {
    // required for page render
     this.actionService.openDialog(name, action);

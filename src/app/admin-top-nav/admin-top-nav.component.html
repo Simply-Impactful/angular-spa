@@ -4,14 +4,15 @@
     <mat-toolbar color="primary">
       <!-- top navigation with menu-->
       <mat-toolbar-row class="white-text">
-        <button class="nav-logo" title="{{title}}" routerLink="{{routerLink}}"></button>
+        <button style="height:80px; width:80px;" class="nav-logo" title="{{title}}" routerLink="{{routerLink}}"></button>
+        <button style="height:200px; width:200px;" class="nav-brand" title="{{title}}" routerLink="{{routerLink}}"></button>
+        <span class="spacer"></span>
         <button mat-button routerLink="/adminaccesslanding">Landing</button>
         <button mat-button routerLink="/adminaccessactions">Actions</button>
         <button mat-button routerLink="/adminaccessusers">Users</button>
         <button mat-button routerLink="/adminaccessgroupinfo">Group Info</button>
         <button mat-button routerLink="/adminaccesslevel">Level Info</button>
 
-        <span class="spacer"></span>
         <div [hidden]="hideRightMenu" class="white-text">
             <span class="spacer"></span>
             <mat-card style="margin-right:10px; vertical-align:center"class="avatar-card">
@@ -24,7 +25,8 @@
                   </button>
                 <mat-menu #menu="matMenu">
        <!--       <button mat-menu-item routerLink="/userprofile">My Profile</button> -->
-              <button mat-menu-item routerLink="/login">Logout</button>
+              <button mat-menu-item routerLink="/home">Home Page</button>
+              <button mat-menu-item routerLink="/landing" (click)="logout()">Logout</button>
             </mat-menu>
           </div>
       </mat-toolbar-row>

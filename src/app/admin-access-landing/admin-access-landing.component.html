@@ -1,46 +1,55 @@
-<main>
-
-  <body class="admin-background">
+<main class="admin-background">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <body>
+    <br><br>
     <br><br>
     <mat-grid-list cols="2" rowHeight="6em">
       <mat-grid-tile cols="1">
-        <h3>Change background image or environmental fact here</h3>
+        <h3>Change background image</h3>
+        <br>
+        <br>
       </mat-grid-tile>
       <mat-grid-tile cols="1">
         <div class="text-inside-grid">
-          <h3 class="right-title">Enter environmental fact</h3>
+          <h3>Enter environmental fact</h3>
         </div>
       </mat-grid-tile>
     </mat-grid-list>
-    <mat-grid-list cols="2" rowHeight="12em">
+    <mat-grid-list cols="2" rowHeight="15em">
       <mat-grid-tile>
-        <div class="upload-btn-wrapper">
-          <button class="upload-file">Choose Profile Photo/Avatar</button>
-          <input type="file" accept="image/*" (change)="fileEvent($event)" />
-          <label class="upload-file-name" *ngIf="imageFile">{{imageFile.name}}</label>
-        </div>
+          <img style="width:200px; height:200px" src="{{factUrl}}">
       </mat-grid-tile>
       <mat-grid-tile cols="1">
         <div class="text-inside-grid">
           <mat-form-field appearance="outline" style="width:500px; font-weight:bold">
-            <textarea [(ngModel)]="factOfTheDayText" 
-              name="factOfTheDayText" 
-              style="color:black" 
-              matInput placeholder={{factOfTheDayText}}
-              maxlength="120" rows=""></textarea>
+            <input
+              [(ngModel)]="inputText"
+              name="factOfTheDayText"
+              style="color: grey" 
+              maxlength="120" rows=""
+              matInput placeholder="{{factOfTheDayText}}">
             <mat-hint>120 Characters limit</mat-hint>
           </mat-form-field>
         </div>
       </mat-grid-tile>
     </mat-grid-list>
-    <mat-grid-list cols="2" rowHeight="20em">
-      <mat-grid-tile cols="1">
-        <h2 align="left" *ngIf="successMessage" style="color:rgba(56, 173, 109, 0.863)">{{successMessage}}</h2>
-        <h2 align="left" *ngIf="errorMessage" style="color:rgba(219, 58, 58, 0.863)">{{errorMessage}}</h2>
-      </mat-grid-tile>
-      <mat-grid-tile cols="1">
-        <button mat-raised-button color="primary" (click)="save()">Save Changes</button>
-      </mat-grid-tile>
-    </mat-grid-list>
+    <mat-grid-list cols="2" rowHeight="6em">
+        <mat-grid-tile>
+            <div class="upload-btn-wrapper">
+                <button class="upload-file">Choose Landing Page Image</button>
+                <input type="file" accept="image/*" (change)="fileEvent($event)" />
+                <label class="upload-file-name" *ngIf="imageFile">{{imageFile.name}}</label>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile cols="1">
+            <button mat-raised-button color="primary" (click)="save()">Save Changes</button>
+          </mat-grid-tile>
+        <mat-grid-tile cols="2">
+            <h2 align="left" *ngIf="successMessage" style="color:rgba(56, 173, 109, 0.863)">{{successMessage}}</h2>
+            <h2 align="left" *ngIf="errorMessage" style="color:rgba(219, 58, 58, 0.863)">{{errorMessage}}</h2>
+          </mat-grid-tile>
+      </mat-grid-list>
+      <!--make the grey fill the page 
+      <mat-grid-list rowHeight="40em"></mat-grid-list>-->
   </body>
 </main>

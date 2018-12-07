@@ -6,12 +6,16 @@
             <span class="spacer"></span>
             <span>Hi {{user.username}}, what actions have you taken today?</span>
             <span class="spacer"></span>
-            Your Score: {{user.totalPoints}} <!-- <span class="score-flag"></span> -->
+            Your Score: {{user.totalPoints}}
+            <span>
+                <img src="{{user.level}}">                
+            </span> 
+         <!--   <span class="score-flag"></span> -->
           </mat-toolbar-row>
         </mat-toolbar>
       </div>
   <div *ngIf="isHomePage" class="backimage">
-    <app-action></app-action>
+    <app-action *ngIf="isLoggedIn"></app-action>
     <button mat-raised-button color="primary" (click)="navigate()">View All</button>
   </div>
   <div *ngIf="isHomePage" class="main-body">
@@ -33,11 +37,6 @@
     <mat-divider></mat-divider>
     <br>
     <br>
-    <!--<div fxFlex="100">
-        <div align="right">
-          <button mat-button color="primary" style="font-weight: bold" routerLink="/creategroup">+ Create New</button>
-        </div>
-      </div> -->
     <div>
       <div>
         <div fxLayout="row">
@@ -60,5 +59,5 @@
     </div>
   </div>
 
-  <app-actions *ngIf="isViewAll"></app-actions>
+  <app-actions *ngIf="isViewAll && isLoggedIn"></app-actions>
 </main>

@@ -6,6 +6,7 @@ import * as awsservice from 'aws-sdk/lib/service';
 import * as CognitoIdentity from 'aws-sdk/clients/cognitoidentity';
 import { AWSError } from 'aws-sdk/global';
 import { User } from '../model/User';
+import * as CognitoIdentityServiceProvider from 'aws-sdk/clients/cognitoidentityserviceprovider';
 
 /**
  * Created by Vladimir Budilov
@@ -46,7 +47,7 @@ export class CognitoUtil {
         ClientId: CognitoUtil._CLIENT_ID
     };
 
- //   public identityCreds: AWS.CognitoIdentityCredentials.CognitoIdentityCredentialsInputs;
+    public identityCreds: AWS.CognitoIdentityCredentials.CognitoIdentityCredentialsInputs;
     public cognitoCreds: AWS.CognitoIdentityCredentials;
 
     getUserPool() {
@@ -59,6 +60,41 @@ export class CognitoUtil {
     getCurrentUser() {
         return this.getUserPool().getCurrentUser();
     }
+
+    listUsers(optionalFilter?: any): any {
+      const attributesToGet = ['Username']; // FILTER AND PAGINAITONTOKEN OPTIONAL
+      const listUsersRequest: CognitoIdentityServiceProvider.ListUsersRequest = {
+        UserPoolId: environment.userPoolId,
+        Limit: 60
+      };
+      let unfilteredUsers = [];
+      const filteredUsers = [];
+      const promise = new Promise((resolve, reject) => {
+        new AWS.CognitoIdentityServiceProvider().listUsers(listUsersRequest, function(err, data) {
+      if (err) {
+        console.log(err, err.stack);
+        reject(err);
+      } else {
+        // successful api call
+        if (data.hasOwnProperty('Users')) {
+          unfilteredUsers = data.Users;
+
+   //     console.log('data ' + JSON.stringify(unfilteredUsers));
+
+          if (optionalFilter !== null && optionalFilter !== undefined) {
+            for (let index = 0; index < unfilteredUsers.length; ++index) {
+              filteredUsers.push(unfilteredUsers[index][optionalFilter]);
+            }
+          resolve(filteredUsers);
+        } else {
+          resolve(unfilteredUsers);
+        }
+        }
+      }
+    });
+  });
+  return promise;
+  }
 
     // AWS Stores Credentials in many ways, and with TypeScript this means that
     // getting the base credentials we authenticated with from the AWS globals gets really murky,
@@ -99,6 +135,7 @@ export class CognitoUtil {
             serviceConfigs.endpoint = environment.cognito_identity_endpoint;
         }
         const creds = new AWS.CognitoIdentityCredentials(params, serviceConfigs);
+    //    console.log('setting creds ' + JSON.stringify(creds));
         this.setCognitoCreds(creds);
         return creds;
     }
@@ -226,4 +263,5 @@ export class CognitoUtil {
             }
         });
     }
+
 }

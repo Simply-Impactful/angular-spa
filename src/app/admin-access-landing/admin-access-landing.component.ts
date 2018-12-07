@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { LogInService } from '../services/log-in.service';
 import { AWSError } from 'aws-sdk';
+import { CognitoUtil } from '../services/cognito.service';
 
 @Component({
   selector: 'app-admin-access-landing',
@@ -27,21 +28,28 @@ export class AdminAccessLandingComponent implements OnInit {
 
   constructor(public appComp: AppComponent,
       private s3: S3Service,
-      private http: HttpClient,
-      private loginService: LogInService) { }
+      private http: HttpClient, private router: Router,
+      private loginService: LogInService, private cognitoUtil: CognitoUtil) { }
 
   ngOnInit() {
     this.loginService.isAuthenticated(this);
     // TODO: this is not the right place to set this. Admin is set on congito profile response
-    this.appComp.setAdmin();
-    this.getData().subscribe();
   }
 
-  isLoggedIn(message: string, isLoggedIn: boolean) {}
-    // result of lambda listActions and Delete Actions API
-    callbackWithParams(error: AWSError, result: any): void {
-      console.log('result in isAuthenticated Admin landing ' + result);
+  isLoggedIn(message: string, isLoggedIn: boolean) {
+    if (isLoggedIn) {
+      this.appComp.setAdmin();
+      this.getData().subscribe();
+    } else {
+      console.log('not logged in');
+      this.cognitoUtil.getCurrentUser().signOut();
+      this.router.navigate(['/landing']);
     }
+  }
+  // result of lambda listActions and Delete Actions API
+  callbackWithParams(error: AWSError, result: any): void {
+    console.log('result in isAuthenticated Admin landing ' + result);
+  }
 
   getData(): Observable<any> {
     return this.http.get<any>(this.factOfTheDayUri, { responseType: 'json' }).pipe(
@@ -57,8 +65,12 @@ export class AdminAccessLandingComponent implements OnInit {
   }
 
   save() {
+    if (this.inputText) {
+      this.fact.factOfTheDayText = this.inputText;
+    } else {
+      this.fact.factOfTheDayText = this.factOfTheDayText.substring(0, 120);
+    }
     // update stored value in database when the user clicks save
-    this.fact.factOfTheDayText = this.factOfTheDayText.substring(0, 120);
     this.fact.name = this.conf.default.factOfTheDayKey;
     this.fact.type = 'application/json';
 
@@ -81,7 +93,9 @@ export class AdminAccessLandingComponent implements OnInit {
               return;
             } else {
               this.errorMessage = '';
-              this.successMessage = 'Fact has been updated!';
+              this.successMessage = 'The Landing page has been updated!';
+              // refresh the data for the session
+              this.getData().subscribe();
             }
           });
         }
@@ -90,6 +104,7 @@ export class AdminAccessLandingComponent implements OnInit {
 
     } else if (this.factOfTheDayText) { // they uploaded a fact
       this.successMessage = 'Loading...';
+      this.fact.factUrl = this.factUrl;
       this.s3.uploadFile(this.fact, this.conf.imgFolders.facts, (_err, _location) => {
         if (_err) {
           console.error(_err);
@@ -98,7 +113,8 @@ export class AdminAccessLandingComponent implements OnInit {
           return;
         } else {
           this.errorMessage = '';
-          this.successMessage = 'Fact has been updated!';
+          this.successMessage = 'The Landing page has been updated!';
+          this.getData().subscribe();
         }
       });
     } else { // no input

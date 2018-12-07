@@ -4,7 +4,7 @@ import { Route, Router } from '@angular/router';
 import { MatTableDataSource, MatPaginator, MatButton, MatCheckbox, MatDialog } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
-import { LoggedInCallback } from '../services/cognito.service';
+import { LoggedInCallback, CognitoUtil } from '../services/cognito.service';
 import { AWSError } from 'aws-sdk';
 import { Action } from '../model/Action';
 import { AdminActionDialogComponent } from './../admin-action-dialog/admin-action-dialog.component';
@@ -35,7 +35,8 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(public appComp: AppComponent, public lambdaService: LambdaInvocationService,
-    public dialog: MatDialog, public params: Parameters, public loginService: LogInService) { }
+    public dialog: MatDialog, public cognitoUtil: CognitoUtil,
+    public params: Parameters, public loginService: LogInService) { }
 
   ngOnInit() {
     this.params.user$.subscribe(user => {
@@ -44,7 +45,6 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
     this.appComp.setAdmin();
 
     this.loginService.isAuthenticated(this);
-    this.lambdaService.listActions(this);
   }
 
   edit(i: string) {
@@ -92,7 +92,14 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
   }
 
    // LoggedInCallback interface
-   isLoggedIn(message: string, isLoggedIn: boolean) {}
+   isLoggedIn(message: string, isLoggedIn: boolean) {
+     if (isLoggedIn) {
+      this.lambdaService.listActions(this);
+     } else {
+       // not logged in
+       this.cognitoUtil.getCurrentUser().signOut();
+     }
+   }
 
   // result of lambda listActions and Delete Actions API
   callbackWithParams(error: AWSError, result: any): void {
@@ -104,13 +111,16 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
       this.dataSource.paginator = this.paginator;
     } else {
       console.log('error ' + JSON.stringify(error));
-      window.location.reload();
-    }
-    if (this.isDeleted) {
-      window.location.reload();
+      if (error.toString().includes('credentials')) {
+        // window.location.reload();
+        console.log('credentials error, RETRYING');
+        this.lambdaService.listActions(this);
+      }
+      if (this.isDeleted) {
+        window.location.reload();
+      }
     }
   }
-  callbackWithParam(result: any): void { }
+
+  callbackWithParam(result: any): void {}
 }
-
-

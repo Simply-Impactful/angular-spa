@@ -46,23 +46,24 @@ import { AdminActionDialogComponent } from './admin-action-dialog/admin-action-d
 import { MyGroupsComponent } from './my-groups/my-groups.component';
 import { AdminAccessLevelComponent } from './admin-access-level/admin-access-level.component';
 import { LevelComponent } from './level/level.component';
+import { LevelsMapping } from './shared/levels-mapping';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    LogInComponent,
     LandingComponent,
-    ContactUsComponent,
-    UserProfileComponent,
-    CreateProfileComponent,
-    ResetPasswordComponent,
+    LogInComponent,
+    HomeComponent,
+    LevelComponent,
     AppTopNavComponent,
     ActionsComponent,
     ActionComponent,
     GroupsComponent,
+    ContactUsComponent,
+    UserProfileComponent,
+    CreateProfileComponent,
+    ResetPasswordComponent,
     CreateGroupComponent,
-    ActionDialogComponent,
     AdminTopNavComponent,
     AdminAccessLandingComponent,
     AdminAccessActionsComponent,
@@ -71,7 +72,7 @@ import { LevelComponent } from './level/level.component';
     AdminActionDialogComponent,
     MyGroupsComponent,
     AdminAccessLevelComponent,
-    LevelComponent
+    ActionDialogComponent
   ],
   imports: [
     [BrowserModule, FormsModule],
@@ -102,6 +103,7 @@ import { LevelComponent } from './level/level.component';
     Parameters,
     LambdaInvocationService,
     HomeComponent,
+    LevelsMapping,
     ActionDialogComponent ],
   bootstrap: [AppComponent]
 })

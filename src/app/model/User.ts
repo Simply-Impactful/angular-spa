@@ -13,4 +13,5 @@ export class User {
     totalCarbonPoints?: number;
     userType?: string;
     picture?: string;
+    level?: string;
 }

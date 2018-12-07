@@ -3,7 +3,6 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { Action } from '../model/Action';
 import { ActionService } from '../services/action.service';
 import { User } from '../model/User';
-import { Parameters } from '../services/parameters';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { AWSError } from 'aws-sdk';
 import { LogInService } from '../services/log-in.service';
@@ -11,7 +10,7 @@ import { CognitoUtil, LoggedInCallback, Callback, CognitoCallback, ChallengePara
 import { ActionComponent } from '../action/action.component';
 import { AppConf } from '../shared/conf/app.conf';
 import { Group } from '../model/Group';
-import * as _ from 'lodash';
+import { Parameters } from '../services/parameters';
 
 @Component({
   selector: 'app-action-dialog',

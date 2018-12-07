@@ -11,14 +11,31 @@
 
 #flush-nav {
     display: block;
-    height: 80px;
+    height: 100%;
+}
+.white-text {
+    color: white;
+    font-size: 15px;
+    text-decoration:none;  
+    margin:10px;
+    font-weight: 700;
 }
 
 .nav-logo {
     height: 3.5em;
     width: 3.5em;
     cursor: pointer;
-    background: transparent url('/assets/images/CiS_bird_logo.png') left/4.25em no-repeat;
+    background: transparent url('/assets/images/Bird Logo - Black.png') left/4.25em no-repeat;
+    background-size: 70%;
+    border: none;
+    background-color: none;
+}
+
+.nav-brand {
+    height: 3.5em;
+    width: 3.5em;
+    cursor: pointer;
+    background: transparent url('/assets/images/it-all-adds-up brand.png') left/1.25em no-repeat;
     background-size: 70%;
     border: none;
     background-color: none;
@@ -28,10 +45,6 @@
     box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
 }
 
-.white-text {
-    color: white;
-    vertical-align: center;
-}
 .mat-button{
     width:3px;
   //  margin-bottom: 15px;

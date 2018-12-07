@@ -1,3 +1,5 @@
+import { Member } from 'src/app/model/Member';
+
 export class Group {
     zipCode?: string;
     type?: string; // coming in the response
@@ -8,7 +10,8 @@ export class Group {
     other?: string;
     username?: string; // the leader in the request
     leader?: string; // the leaer in the response
-    members?: Object[]; // for displaying the members
+    members?: Member[]; // for displaying the members
+    groupMembers?: Member[]; // for displaying the members of myGroups
     membersString?: string; // for lambda call - requires string
     name?: string;
     groupAvatar?: string;

@@ -7,7 +7,6 @@ import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { AWSError } from 'aws-sdk';
 import { LoggedInCallback } from '../services/cognito.service';
 import { Parameters } from 'src/app/services/parameters';
-import { LogInService } from '../services/log-in.service';
 
 @Component({
   selector: 'app-action',
@@ -33,18 +32,21 @@ export class ActionComponent implements OnInit, LoggedInCallback {
 
   // Result is response of listActions API lambda call
   callbackWithParams(error: AWSError, result: any): void {
-    // if list Actions fails (probably an auth error), reload the page
     if (result) {
-     // console.log('result in action ' + result);
+      // console.log('result in action ' + result);
+      const response = JSON.parse(result);
+      this.actions = response.body;
+      this.actionsLength = response.body.length;
+      // display the first three in the list.. need to make it most common 3?
+      for ( let i = this.actionsLength; i > 3; i -- ) {
+        this.actions.pop();
+      }
     } else {
-       window.location.reload();
-    }
-    const response = JSON.parse(result);
-    this.actions = response.body;
-    this.actionsLength = response.body.length;
-    // display the first three in the list.. need to make it most common 3?
-    for ( let i = this.actionsLength; i > 3; i -- ) {
-      this.actions.pop();
+      // credentials error likely occurred.. retry if so
+      if (error.toString().includes('credentials')) {
+        console.log('action credentials error.. RETRYING ' + JSON.stringify(error));
+        this.lambdaService.listActions(this);
+      }
     }
   }
   callbackWithParam(result: any): void {}

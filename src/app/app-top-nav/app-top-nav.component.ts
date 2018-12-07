@@ -7,6 +7,8 @@ import { AWSError } from 'aws-sdk';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppConf } from '../shared/conf/app.conf';
 import { HomeComponent } from '../home/home.component';
+import { AppComponent } from '../app.component';
+import { LevelsMapping } from '../shared/levels-mapping';
 
 @Component({
   selector: 'app-top-nav',
@@ -22,15 +24,20 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
   user: User;
   isViewAll: boolean;
   routerLink: string;
+  isAdmin: boolean;
+  isOnLevelPage: boolean = false;
 
   constructor(private params: Parameters, private loginService: LogInService,
     private cognitoUtil: CognitoUtil, private route: ActivatedRoute,
-    private homeComp: HomeComponent) {}
+    private homeComp: HomeComponent, private appComp: AppComponent) {}
 
   ngOnInit() {
-    this.params.user$.subscribe(user => {
-      this.user = user;
-    });
+      this.params.user$.subscribe(user => {
+        this.user = user;
+      });
+    if (window.location.toString().includes('level')) {
+      this.isOnLevelPage = true;
+    }
 
  /**   // TODO: inclue logic for this on reset password?
     if (window.location.toString().includes('landing')
@@ -41,6 +48,7 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
     }
     this.routerLink = '/home';
  **/
+    this.isAdmin = this.appComp.isAdmin;
     this.loginService.isAuthenticated(this);
   }
 
@@ -56,7 +64,7 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
     const cognitoUser = this.cognitoUtil.getCurrentUser();
     const params = new Parameters();
     this.user = params.buildUser(result, cognitoUser);
-    console.log('this.user ' + JSON.stringify(this.user));
+ //   console.log('this.user ' + JSON.stringify(this.user));
     if (!this.user.picture) {
       this.user.picture = this.conf.default.userProfile;
     }
