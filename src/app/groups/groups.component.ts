@@ -7,7 +7,7 @@ import { AWSError } from 'aws-sdk';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { Group } from '../model/Group';
 import { Member } from '../model/Member';
-import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { S3Service } from '../services/s3.service';
 import { AppConf } from '../shared/conf/app.conf';
 import { LogInService } from '../services/log-in.service';
@@ -15,6 +15,7 @@ import { Parameters } from '../services/parameters';
 import { Router } from '@angular/router';
 import { LevelsMapping } from '../shared/levels-mapping';
 import { Levels } from '../model/Levels';
+import * as _ from 'lodash';
 
 /**
  * @title Table with expandable rows
@@ -32,7 +33,6 @@ import { Levels } from '../model/Levels';
   ],
 })
 export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallback, Callback {
-  @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   private conf = AppConf;
@@ -49,6 +49,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   groupToJoin: Group;
   cognitoUsersResponse = [];
   level: Levels;
+  users: User[];
 
   constructor(
     public lambdaService: LambdaInvocationService, public cognitoUtil: CognitoUtil,
@@ -57,6 +58,8 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   ngOnInit() {
     this.loginService.isAuthenticated(this);
     this.isNotGroupMember = {};
+    // get the users' data - total points of each user
+    this.lambdaService.listUsers(this);
     this.levelsData.getAllData();
   }
 
@@ -77,7 +80,6 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
     this.groupToJoin = group;
     group.membersString = this.username;
     group.username = group.leader;
-    group.pointsEarned = group.totalPoints;
     const groupArray = [];
     groupArray.push(group);
     this.lambdaService.createGroup(groupArray, this);
@@ -121,7 +123,18 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
     }
   }
 
-  // handles the response of Delete API
+  // response of listUsers API - LoggedInCallback Interface
+  callbackWithParams(error: AWSError, result: any): void {
+    if (result) {
+      const response = JSON.parse(result);
+      const unique = _.uniqBy(response.body, 'username');
+      this.users = unique;
+     } else {
+      this.lambdaService.listUsers(this);
+    }
+  }
+
+  /** handles the response of Delete API
   callbackWithParams(error: AWSError, result: any) {
     if (result ) {
       // TODO: call getGroups to refresh screen data?
@@ -134,7 +147,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
         }
       console.log('error deleting group ' + error);
     }
-  }
+  } **/
 
   // Response of get All Groups - Callback interface
   cognitoCallbackWithParam(result: any) {
@@ -147,8 +160,6 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
         this.groups = response.body;
         this.dataSource = new MatTableDataSource(this.groups);
         this.dataSource.paginator = this.paginator;
-        // un-used as of now..
-        this.dataSource.sort = this.sort;
 
         // logic to find if the logged in user is already a member of a group
         let isFound: boolean = false;
@@ -167,28 +178,6 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
     } else {
       console.log('unnexpected error occurred - could not get get all groups');
     }
-
-    /**
-     * this.dataSource.sortingDataAccessor = (item, property) => {
-
-      let newItem;
-      if (item.element !== undefined) {
-        newItem = item.element;
-        } else {
-        newItem = item;
-        }
-      console.log(this.tempElementData);
-      let foundElement;
-      if (item.element !== undefined) {
-        foundElement = this.tempElementData.find(i => i.element !== undefined && item.element.name === i.element.name);
-        } else {
-        foundElement = this.tempElementData.find(i => item.name === i.name);
-      }
-      const index = this.tempElementData.indexOf(foundElement);
-      console.log('foundElement: ' + JSON.stringify(item) + ' '  + +index);
-      return +index;
-    }; **/
-    // TODO: implement..
   }
 
   listUsers() {
@@ -226,6 +215,11 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
 
   getMembersLevels (group: Group) {
     for (let i = 0; i < group.members.length; i++) {
+      for (let j = 0; j < this.users.length; j++) {
+        if (this.users[j].username === group.members[i].member) {
+          group.members[i].totalMemberPoints = this.users[j].totalPoints;
+        }
+      }
       group.members[i] = this.levelsData.getMembersLevels(group, i);
     }
   }

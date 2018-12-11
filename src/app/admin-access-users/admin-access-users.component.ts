@@ -32,7 +32,7 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
 
   isLoggedIn(message: string, loggedIn: boolean): void {}
 
-  // result of lambda listUsers and Delete Actions API
+  // result of lambda listUsers API
   callbackWithParams(error: AWSError, result: any): void {
     if (result) {
       const response = JSON.parse(result);
@@ -48,7 +48,7 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
     //  console.log('this.users ' + JSON.stringify(this.users));
 
      } else {
-       window.location.reload();
+      this.lambdaService.listUsers(this);
       console.log('error pulling the Users data' + error);
     }
   }

@@ -1,12 +1,14 @@
 <main>
 <mat-tab-group>
-  <mat-tab *ngFor="let myGroup of myGroups" style="font-weight: bold" label="{{myGroup.name}}" >
+  <mat-tab *ngFor="let myGroup of mostActiveMembers" style="font-weight: bold" label="{{myGroup.name}}" >
     <form>
       <img class = "img-in-tab" src= "{{myGroup.groupAvatar}}">
-<!--      <h3 style="padding: 20px; color:rgb(140,142,144)" > This week top three leaders in {{myGroup.name}}</h3> -->
+      <h3 *ngIf="!isViewAllMembers" style="padding: 20px; color:black; size:50%"> Most Active Members in the {{myGroup.name}} Group</h3>
+      <h3 *ngIf="isViewAllMembers" style="padding: 20px; color:black; size:50%" > All Members in the {{myGroup.name}} Group</h3>
     </form>
-    <div align = "left">
-      <mat-card *ngFor="let member of myGroup.members" class="top-performer-card">
+    <div *ngIf="!isViewAllMembers" align = "left">
+     <span *ngFor="let member of myGroup.members; let i = index">
+      <mat-card *ngIf="i<5" class="top-performer-card">
         <mat-card-header>
             <span>
                 <img mat-card-avatar class="level-image" src="{{member.level}}">                
@@ -16,26 +18,29 @@
           <mat-card-subtitle>{{member.pointsEarned}}</mat-card-subtitle>
         </mat-card-header>
       </mat-card>
+    </span>
     </div>
-  <!--  <div *ngIf="!isViewAllMembers" align = "left">
-        <mat-card *ngFor="let mostActive of mostActiveMembers.members" class="top-performer-card">
-          <mat-card-header>
-              <span>
-                  <img mat-card-avatar class="level-image" src="{{mostActive.level}}">                
-              </span>
-              <img mat-card-avatar class="top-performer-image" src="{{mostActive.picture}}">  
-              <mat-card-title>{{mostActive.member}}</mat-card-title>
-            <mat-card-subtitle>{{mostActive.pointsEarned}}</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-      </div>  -->
+    <div *ngIf="isViewAllMembers" align = "left">
+        <span *ngFor="let member of myGroup.members; let i = index">
+         <mat-card class="top-performer-card">
+           <mat-card-header>
+               <span>
+                   <img mat-card-avatar class="level-image" src="{{member.level}}">                
+               </span>
+               <img mat-card-avatar class="top-performer-image" src="{{member.picture}}">  
+               <mat-card-title>{{member.member}}</mat-card-title>
+             <mat-card-subtitle>{{member.pointsEarned}}</mat-card-subtitle>
+           </mat-card-header>
+         </mat-card>
+       </span>
+      </div>
     <br>
   </mat-tab>
 </mat-tab-group>
 <div align ="left">
-<!--  <a *ngIf="!isViewAllMembers" (click)="viewAll()"> View All Members</a>
-  <a *ngIf="isViewAllMembers" (click)="viewTopFive()"> View Top 5 Members</a>-->
+  <a *ngIf="!isViewAllMembers" (click)="viewAll()"> View All Members</a>
+  <a *ngIf="isViewAllMembers" (click)="viewTopFive()"> View Top 5 Most Active Members</a>
   <br>
-  <a routerLink="/groups"> View all groups</a>
+  <a routerLink="/groups"> View All Groups</a>
 </div>
 </main>

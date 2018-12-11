@@ -3,7 +3,7 @@ import { AWSError } from 'aws-sdk';
 import { Group } from '../model/Group';
 import { Member } from '../model/Member';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
-import { CognitoUtil, Callback } from '../services/cognito.service';
+import { CognitoUtil, Callback, LoggedInCallback } from '../services/cognito.service';
 import { User } from '../model/User';
 import { AppConf } from '../shared/conf/app.conf';
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
@@ -17,7 +17,7 @@ import { Levels } from '../model/Levels';
   templateUrl: './my-groups.component.html',
   styleUrls: ['./my-groups.component.scss']
 })
-export class MyGroupsComponent implements OnInit, Callback {
+export class MyGroupsComponent implements OnInit, Callback, LoggedInCallback {
 
   private conf = AppConf;
   groups = new Array<Group>();
@@ -32,15 +32,19 @@ export class MyGroupsComponent implements OnInit, Callback {
   level: Levels;
   isViewAllMembers: boolean = false;
   mostActiveMembers = [];
+  users: User [];
 
   constructor(
     public lambdaService: LambdaInvocationService, public cognitoUtil: CognitoUtil, public params: Parameters,
       public levelsData: LevelsMapping) { }
 
   ngOnInit() {
+    // get the users' data - total points of each user
+    this.lambdaService.listUsers(this);
    this.lambdaService.getAllGroups(this);
    // kick this off to get the data aggregated in the levels mapping
    this.levelsData.getAllData();
+
   }
 
   // TODO: implement
@@ -76,12 +80,17 @@ export class MyGroupsComponent implements OnInit, Callback {
   getTopFiveMostActive (group: Group) {
       group.members.sort((a, b) => Number(b.pointsEarned) - Number(a.pointsEarned));
       this.mostActiveMembers.push(group);
-
-    console.log('most active ' + JSON.stringify(this.mostActiveMembers[0].members));
   }
 
+  // this is called for each group
   getMembersLevels (group: Group) {
+  //  console.log('this.users ' + JSON.stringify(this.users));
     for (let i = 0; i < group.members.length; i++) {
+      for (let j = 0; j < this.users.length; j++) {
+        if (this.users[j].username === group.members[i].member) {
+          group.members[i].totalMemberPoints = this.users[j].totalPoints;
+        }
+      }
       group.members[i] = this.levelsData.getMembersLevels(group, i);
     }
   }
@@ -94,9 +103,20 @@ export class MyGroupsComponent implements OnInit, Callback {
       for (let i = 0; i < this.myGroups.length; i++) {
         this.getAttributesForUsers(this.myGroups[i], this.cognitoUsersResponse);
         this.getMembersLevels(this.myGroups[i]);
-    //    this.getTopFiveMostActive(this.myGroups[i]);
+        this.getTopFiveMostActive(this.myGroups[i]);
       }
     });
+  }
+
+  // response of listUsers API - LoggedInCallback Interface
+  callbackWithParams(error: AWSError, result: any): void {
+    if (result) {
+      const response = JSON.parse(result);
+      const unique = _.uniqBy(response.body, 'username');
+      this.users = unique;
+     } else {
+      this.lambdaService.listUsers(this);
+    }
   }
 
   // response of getAllGroups - Callback interface
@@ -134,6 +154,10 @@ export class MyGroupsComponent implements OnInit, Callback {
          this.listUsers();
        }
     }
+  }
+
+  isLoggedIn(message: string, loggedIn: boolean): void {
+    throw new Error('Method not implemented.');
   }
 
   callback() {}

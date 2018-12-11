@@ -64,6 +64,31 @@
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile cols="2">
+     <!--   <mat-form-field style="margin-bottom: 10px;" appearance="outline">
+            <input type="text" (focus)="focused=true" (focusout)="focused=false"
+              matInput [formControl]="myControl" [matAutocomplete]="auto"
+              placeholder="Group Members' Usernames"
+              disabled="{{isGroupMembersDisable}}">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let input of filteredOptions | async" [value]="input"
+                  (click)="addToList(input)">
+                  {{input}}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-hint>
+                  Required: specify usernames separated by spaces to add them to group
+                <span *ngIf="!createdGroup.membersString && !focused " style="color:red; font-size: 95%">
+                  <br> {{membersError}}</span>
+                <span *ngIf="!isValidGroup" style="color:red; font-size: 95%">
+                  <br> {{invalidMembersError}}</span>
+            </mat-hint>
+          </mat-form-field>
+          <a (click)="addToMembers(); update()"> + Add 
+          </a>
+          <span *ngFor="let member of membersArray" style="color:black; font-size: 95%">
+              <br>{{member}} </span>
+          -->
+
       <mat-form-field style="margin-bottom: 10px;" appearance="outline">
         <input (focus)="focused=true" (focusout)="focused=false"
           [(ngModel)]="createdGroup.membersString" name="membersString"
