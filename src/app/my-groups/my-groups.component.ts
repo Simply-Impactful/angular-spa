@@ -80,8 +80,6 @@ export class MyGroupsComponent implements OnInit, Callback, LoggedInCallback {
   getTopFiveMostActive (group: Group) {
       group.members.sort((a, b) => Number(b.pointsEarned) - Number(a.pointsEarned));
       this.mostActiveMembers.push(group);
-
-    console.log('most active ' + JSON.stringify(this.mostActiveMembers[0].members));
   }
 
   // this is called for each group
@@ -105,7 +103,7 @@ export class MyGroupsComponent implements OnInit, Callback, LoggedInCallback {
       for (let i = 0; i < this.myGroups.length; i++) {
         this.getAttributesForUsers(this.myGroups[i], this.cognitoUsersResponse);
         this.getMembersLevels(this.myGroups[i]);
-    //    this.getTopFiveMostActive(this.myGroups[i]);
+        this.getTopFiveMostActive(this.myGroups[i]);
       }
     });
   }
