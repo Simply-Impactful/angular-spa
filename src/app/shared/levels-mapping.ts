@@ -60,10 +60,10 @@ export class LevelsMapping {
 
     getMembersLevels(group: Group, i: number): Member {
       //  find the graphic for the value in the range
-      if (!group.members[i].pointsEarned) {
-        group.members[i].pointsEarned = 0;
+      if (!group.members[i].totalMemberPoints) {
+        group.members[i].totalMemberPoints = 0;
       }
-      const value = group.members[i].pointsEarned;
+      const value = group.members[i].totalMemberPoints;
       if (this.levels) {
         for (let j = 0; j < this.levels.length; j++) {
           if (this.levels[j].min <= value && this.levels[j].max >= value) {

@@ -15,6 +15,7 @@ import { Parameters } from '../services/parameters';
 import { Router } from '@angular/router';
 import { LevelsMapping } from '../shared/levels-mapping';
 import { Levels } from '../model/Levels';
+import * as _ from 'lodash';
 
 /**
  * @title Table with expandable rows
@@ -49,6 +50,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   groupToJoin: Group;
   cognitoUsersResponse = [];
   level: Levels;
+  users: User[];
 
   constructor(
     public lambdaService: LambdaInvocationService, public cognitoUtil: CognitoUtil,
@@ -57,6 +59,8 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   ngOnInit() {
     this.loginService.isAuthenticated(this);
     this.isNotGroupMember = {};
+    // get the users' data - total points of each user
+    this.lambdaService.listUsers(this);
     this.levelsData.getAllData();
   }
 
@@ -121,7 +125,18 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
     }
   }
 
-  // handles the response of Delete API
+  // response of listUsers API - LoggedInCallback Interface
+  callbackWithParams(error: AWSError, result: any): void {
+    if (result) {
+      const response = JSON.parse(result);
+      const unique = _.uniqBy(response.body, 'username');
+      this.users = unique;
+     } else {
+      this.lambdaService.listUsers(this);
+    }
+  }
+
+  /** handles the response of Delete API
   callbackWithParams(error: AWSError, result: any) {
     if (result ) {
       // TODO: call getGroups to refresh screen data?
@@ -134,7 +149,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
         }
       console.log('error deleting group ' + error);
     }
-  }
+  } **/
 
   // Response of get All Groups - Callback interface
   cognitoCallbackWithParam(result: any) {
@@ -226,6 +241,11 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
 
   getMembersLevels (group: Group) {
     for (let i = 0; i < group.members.length; i++) {
+      for (let j = 0; j < this.users.length; j++) {
+        if (this.users[j].username === group.members[i].member) {
+          group.members[i].totalMemberPoints = this.users[j].totalPoints;
+        }
+      }
       group.members[i] = this.levelsData.getMembersLevels(group, i);
     }
   }
