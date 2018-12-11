@@ -63,6 +63,9 @@ export class LevelsMapping {
       if (!group.members[i].totalMemberPoints) {
         group.members[i].totalMemberPoints = 0;
       }
+      if (!group.members[i].pointsEarned) {
+        group.members[i].pointsEarned = 0;
+      }
       const value = group.members[i].totalMemberPoints;
       if (this.levels) {
         for (let j = 0; j < this.levels.length; j++) {

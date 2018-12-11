@@ -7,7 +7,7 @@ import { AWSError } from 'aws-sdk';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { Group } from '../model/Group';
 import { Member } from '../model/Member';
-import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { S3Service } from '../services/s3.service';
 import { AppConf } from '../shared/conf/app.conf';
 import { LogInService } from '../services/log-in.service';
@@ -33,7 +33,6 @@ import * as _ from 'lodash';
   ],
 })
 export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallback, Callback {
-  @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   private conf = AppConf;
@@ -81,7 +80,6 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
     this.groupToJoin = group;
     group.membersString = this.username;
     group.username = group.leader;
-    group.pointsEarned = group.totalPoints;
     const groupArray = [];
     groupArray.push(group);
     this.lambdaService.createGroup(groupArray, this);
@@ -162,8 +160,6 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
         this.groups = response.body;
         this.dataSource = new MatTableDataSource(this.groups);
         this.dataSource.paginator = this.paginator;
-        // un-used as of now..
-        this.dataSource.sort = this.sort;
 
         // logic to find if the logged in user is already a member of a group
         let isFound: boolean = false;
@@ -182,28 +178,6 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
     } else {
       console.log('unnexpected error occurred - could not get get all groups');
     }
-
-    /**
-     * this.dataSource.sortingDataAccessor = (item, property) => {
-
-      let newItem;
-      if (item.element !== undefined) {
-        newItem = item.element;
-        } else {
-        newItem = item;
-        }
-      console.log(this.tempElementData);
-      let foundElement;
-      if (item.element !== undefined) {
-        foundElement = this.tempElementData.find(i => i.element !== undefined && item.element.name === i.element.name);
-        } else {
-        foundElement = this.tempElementData.find(i => item.name === i.name);
-      }
-      const index = this.tempElementData.indexOf(foundElement);
-      console.log('foundElement: ' + JSON.stringify(item) + ' '  + +index);
-      return +index;
-    }; **/
-    // TODO: implement..
   }
 
   listUsers() {
