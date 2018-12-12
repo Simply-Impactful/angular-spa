@@ -110,11 +110,11 @@ import { LevelsMapping } from './shared/levels-mapping';
   bootstrap: [AppComponent]
 })
 
-@NgModule({
+/**@NgModule({
   exports: [
     MatAutocompleteModule
   ]
-})
+}) **/
 
 
 export class AppModule { }
