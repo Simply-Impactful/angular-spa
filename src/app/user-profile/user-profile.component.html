@@ -21,6 +21,9 @@
         <h3 style ="font-weight: bold"> {{user.username}} </h3>
         <h4 style ="font-weight: bold"> Total Points: {{user.totalPoints}} </h4>
         <br>
+        <mat-card class="user-profile-card">
+          <img class = "level-size" mat-card-avatar src="{{user.level}}">
+        </mat-card>
       </div>
     </div>
     <div fxFlex="100">

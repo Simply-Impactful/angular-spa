@@ -9,6 +9,8 @@ import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppConf } from '../shared/conf/app.conf';
 import { S3Service } from '../services/s3.service';
+import { LevelsMapping } from '../shared/levels-mapping';
+import { CognitoUser } from 'amazon-cognito-identity-js';
 
 
 @Component({
@@ -29,6 +31,7 @@ export class UserProfileComponent implements OnInit, LoggedInCallback, Callback 
   isGenericMessage: boolean = null;
   isUploadImage: boolean = false;
   isProfileUpdated: boolean = false;
+  cognitoUser;
 
   constructor(
     private loginService: LogInService,
@@ -36,7 +39,7 @@ export class UserProfileComponent implements OnInit, LoggedInCallback, Callback 
     private params: Parameters, private lambdaService: LambdaInvocationService,
     public router: Router,
     public createProfileService: CreateProfileService,
-    private s3: S3Service) { }
+    private s3: S3Service, public levelsMapping: LevelsMapping) { }
 
   ngOnInit() {
    this.params.user$.subscribe(user => {
@@ -57,13 +60,27 @@ export class UserProfileComponent implements OnInit, LoggedInCallback, Callback 
 
   // response of isAuthenticated method in login service
   callbackWithParam(result: any): void {
-    console.log('result in userProfile isAuth response ' + JSON.stringify(result));
     if (result) {
-      const cognitoUser = this.cognitoUtil.getCurrentUser();
+      this.levelsMapping.getAllData();
+      this.cognitoUser = this.cognitoUtil.getCurrentUser();
       const params = new Parameters();
-      this.user = params.buildUser(result, cognitoUser);
+      this.user = params.buildUser(result, this.cognitoUser);
       this.lambdaService.getUserActions(this, this.user);
     }
+   }
+
+   getLevelsData() {
+    this.levelsMapping.getLevels().then(response => {
+      // this should never hit
+      if (response === 'levels not defined') {
+        console.log('not defined');
+        this.levelsMapping.getAllData();
+        this.getLevelsData();
+      } else {
+        // timing issue
+        this.user.level = this.levelsMapping.getUserLevel(this.user, response);
+      }
+    });
    }
 
    // Response of getUserActions API - callback interface
@@ -75,6 +92,7 @@ export class UserProfileComponent implements OnInit, LoggedInCallback, Callback 
           for ( let i = 0; i < userActionsLength; i++ ) {
             if (userActions[i].totalPoints) {
               this.user.totalPoints = userActions[i].totalPoints;
+              this.getLevelsData();
             } else {
               this.user.totalPoints = 0;
             }
@@ -99,8 +117,10 @@ export class UserProfileComponent implements OnInit, LoggedInCallback, Callback 
         }
       }
     }
-    // TODO: can this be done more seemlessly?
+    this.isEditProfile = false;
+    this.isViewProfile = true;
   }
+
   uploadAndSend() {
       if (this.profilePicture) {
         this.s3.uploadFile(this.profilePicture, this.conf.imgFolders.userProfile, (err, location) => {

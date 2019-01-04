@@ -37,6 +37,9 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
     public levelsMapping: LevelsMapping) { }
 
   ngOnInit() {
+    this.params.user$.subscribe(user => {
+      this.user = user;
+    });
     this.loginService.isAuthenticated(this);
   }
 
@@ -47,9 +50,7 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
      } else {
       const lambdaService = new LambdaInvocationService;
       lambdaService.listLevelData(this);
-      this.params.user$.subscribe(user => {
-        this.user = user;
-      });
+
       // get the user actions for their total points
       this.lambdaService.listActions(this);
      }

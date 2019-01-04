@@ -115,7 +115,6 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
       }
 
       this.canCreateGroup(this.createdGroup.membersString.split(' ')).then(canCreateGroupResult => {
-      console.log('CAN CREATE GROUP: ' + canCreateGroupResult);
       if (canCreateGroupResult === true) {
         this.s3.uploadFile(this.groupAvatarFile, this.conf.imgFolders.groups, (err, location) => {
           if (err) {

@@ -59,7 +59,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
     this.loginService.isAuthenticated(this);
     this.isNotGroupMember = {};
     // get the users' data - total points of each user
-    this.lambdaService.listUsers(this);
+    this.lambdaService.listUserActions(this);
     this.levelsData.getAllData();
   }
 
@@ -123,14 +123,14 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
     }
   }
 
-  // response of listUsers API - LoggedInCallback Interface
+  // response of listUserActions API - LoggedInCallback Interface
   callbackWithParams(error: AWSError, result: any): void {
     if (result) {
       const response = JSON.parse(result);
       const unique = _.uniqBy(response.body, 'username');
       this.users = unique;
      } else {
-      this.lambdaService.listUsers(this);
+      this.lambdaService.listUserActions(this);
     }
   }
 

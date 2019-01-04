@@ -27,12 +27,13 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
   ngOnInit() {
     this.appComp.setAdmin();
     this.loginService.isAuthenticated(this);
-    this.lambdaService.listUsers(this);
+    // response in callbackWithParams
+    this.lambdaService.listUserActions(this);
   }
 
   isLoggedIn(message: string, loggedIn: boolean): void {}
 
-  // result of lambda listUsers API
+  // result of lambda listUserActions API
   callbackWithParams(error: AWSError, result: any): void {
     if (result) {
       const response = JSON.parse(result);
@@ -48,7 +49,7 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
     //  console.log('this.users ' + JSON.stringify(this.users));
 
      } else {
-      this.lambdaService.listUsers(this);
+      this.lambdaService.listUserActions(this);
       console.log('error pulling the Users data' + error);
     }
   }

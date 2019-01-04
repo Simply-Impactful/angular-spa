@@ -68,7 +68,8 @@
       <td mat-cell *matCellDef="let groups; let i = index">
           <div style="margin: 15px;">
         <a *ngIf = "isNotGroupMember[groups.name]"  (click)="joinGroup(groups)" title="Click to become a member"> Join Group </a>
-        <a *ngIf = "!isNotGroupMember[groups.name]"  (click)="leaveGroup(groups)" title="Click to leave the group"> Leave Group </a>
+   <!--  commenting out until ready to impelment
+       <a *ngIf = "!isNotGroupMember[groups.name]"  (click)="leaveGroup(groups)" title="Click to leave the group"> Leave Group </a> -->
       </div>
       </td>
     </ng-container>
@@ -77,11 +78,12 @@
     <ng-container matColumnDef="deleteGroup">
         <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
         <td mat-cell *matCellDef="let groups; let i = index">
-          <a *ngIf="groups.leader === username"> 
+    <!--     commenting out until ready to impelment
+      <a *ngIf="groups.leader === username"> 
             <mat-icon title="Delete Group" style="color:rgba(105, 105, 105, 0.568)" (click)="deleteGroup(groups)">
               delete_outline</mat-icon></a>
-        </td>
-      </ng-container>
+        </td> -->
+      </ng-container> 
 
     <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
     <ng-container matColumnDef="expandedDetail">

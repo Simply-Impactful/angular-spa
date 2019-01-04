@@ -60,7 +60,7 @@ export class AppComponent implements OnInit, LoggedInCallback {
     }
   }
   callbackWithParams(error: AWSError, result: CognitoUserAttribute[]) {
-    console.log('result ' + result);
+   // console.log('result ' + result);
   }
 
   setAdmin() {
@@ -68,8 +68,6 @@ export class AppComponent implements OnInit, LoggedInCallback {
   }
   callbackWithParam(result: any): void {
 //    console.log('RESULT OF CALLBACK WITH PARAM - error?' + JSON.stringify(result));
-
-    // throw new Error('Method not implemented.');
   }
 }
 

@@ -88,7 +88,7 @@ export class LambdaInvocationService implements OnInit {
   }
 
   // get all of the users - need to put a distinct filter on the result
-  listUsers(callback: LoggedInCallback) {
+  listUserActions(callback: LoggedInCallback) {
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
     AWS.config.region = environment.region;
     const lambda = new AWS.Lambda({region: AWS.config.region, apiVersion: '2015-03-31'});

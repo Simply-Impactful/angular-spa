@@ -70,31 +70,29 @@ export class CognitoUtil {
       let unfilteredUsers = [];
       const filteredUsers = [];
       const promise = new Promise((resolve, reject) => {
-        new AWS.CognitoIdentityServiceProvider().listUsers(listUsersRequest, function(err, data) {
-      if (err) {
-        console.log(err, err.stack);
-        reject(err);
-      } else {
-        // successful api call
-        if (data.hasOwnProperty('Users')) {
-          unfilteredUsers = data.Users;
+          new AWS.CognitoIdentityServiceProvider().listUsers(listUsersRequest, function(err, data) {
+              if (err) {
+                console.log(err, err.stack);
+                reject(err);
+                } else {
+                    // successful api call
+                    if (data.hasOwnProperty('Users')) {
+                    unfilteredUsers = data.Users;
 
-   //     console.log('data ' + JSON.stringify(unfilteredUsers));
-
-          if (optionalFilter !== null && optionalFilter !== undefined) {
-            for (let index = 0; index < unfilteredUsers.length; ++index) {
-              filteredUsers.push(unfilteredUsers[index][optionalFilter]);
-            }
-          resolve(filteredUsers);
-        } else {
-          resolve(unfilteredUsers);
-        }
-        }
-      }
-    });
-  });
-  return promise;
-  }
+                    if (optionalFilter !== null && optionalFilter !== undefined) {
+                        for (let index = 0; index < unfilteredUsers.length; ++index) {
+                        filteredUsers.push(unfilteredUsers[index][optionalFilter]);
+                        }
+                        resolve(filteredUsers);
+                        } else {
+                            resolve(unfilteredUsers);
+                        }
+                    }
+                }
+            });
+        });
+        return promise;
+    }
 
     // AWS Stores Credentials in many ways, and with TypeScript this means that
     // getting the base credentials we authenticated with from the AWS globals gets really murky,

@@ -18,26 +18,8 @@ export class LevelsMapping {
 
     isLoggedIn(message: string, loggedIn: boolean): void {}
 
-    // response of listLevelData
-    cognitoCallbackWithParam (result: any): void {
-      if (result) {
-        const response = JSON.parse(result);
-        if (response.statusCode !== 200) {
-          // retry
-          const lambdaService = new LambdaInvocationService();
-          lambdaService.listLevelData(this);
-        } else {
-          this.levels = response.body;
-          this.setLevels(this.levels);
-        }
-       }
-    }
-
     callbackWithParams(error: AWSError, result: any): void {}
 
-    setLevels(levels: Levels[]) {
-      this.levels = levels;
-    }
 
     getAllData() {
         const lambdaService = new LambdaInvocationService;
@@ -56,6 +38,37 @@ export class LevelsMapping {
           }
       }
       return user.level;
+    }
+
+    // response of listLevelData
+    cognitoCallbackWithParam (result: any): void {
+      if (result) {
+        const response = JSON.parse(result);
+        if (response.statusCode !== 200 || !response.body) {
+          // retry
+          const lambdaService = new LambdaInvocationService();
+          lambdaService.listLevelData(this);
+        } else {
+          this.levels = response.body;
+          this.setLevels(this.levels);
+        }
+       }
+    }
+
+    setLevels(levels: Levels[]) {
+      this.levels = levels;
+    }
+
+    getLevels(): any {
+      const promise = new Promise((resolve, reject) => {
+        if (!this.levels) {
+          const err = 'levels not defined';
+        //  resolve(err);
+        } else {
+          resolve(this.levels);
+        }
+      });
+      return promise;
     }
 
     getMembersLevels(group: Group, i: number): Member {

@@ -44,7 +44,7 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
   ngOnInit() {
     // required to get the userActions table - for cadences and frequences
     // response goes to callbackWithParams
-    this.lambdaService.listUsers(this);
+    this.lambdaService.listUserActions(this);
 
     // passed into the constructor of the dialog window from action(s).component.ts
     this.action = this.data;
