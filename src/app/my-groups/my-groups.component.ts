@@ -40,11 +40,12 @@ export class MyGroupsComponent implements OnInit, Callback, LoggedInCallback {
 
   ngOnInit() {
     // get the users' data - total points of each user
-    this.lambdaService.listUsers(this);
-   this.lambdaService.getAllGroups(this);
-   // kick this off to get the data aggregated in the levels mapping
-   this.levelsData.getAllData();
+    // The users are a dependency for the groups - this will also call the getAllGroups API
+    // if the users are defined in the listUserActions response
+    this.lambdaService.listUserActions(this);
 
+    // kick this off to get the data aggregated in the levels mapping
+    this.levelsData.getAllData();
   }
 
   // TODO: implement
@@ -84,7 +85,6 @@ export class MyGroupsComponent implements OnInit, Callback, LoggedInCallback {
 
   // this is called for each group
   getMembersLevels (group: Group) {
-  //  console.log('this.users ' + JSON.stringify(this.users));
     for (let i = 0; i < group.members.length; i++) {
       for (let j = 0; j < this.users.length; j++) {
         if (this.users[j].username === group.members[i].member) {
@@ -100,22 +100,25 @@ export class MyGroupsComponent implements OnInit, Callback, LoggedInCallback {
     this.cognitoUtil.listUsers().then(response => {
       this.cognitoUsersResponse = response;
       // build out the members data for each group
-      for (let i = 0; i < this.myGroups.length; i++) {
-        this.getAttributesForUsers(this.myGroups[i], this.cognitoUsersResponse);
-        this.getMembersLevels(this.myGroups[i]);
-        this.getTopFiveMostActive(this.myGroups[i]);
+      if (this.myGroups) {
+        for (let i = 0; i < this.myGroups.length; i++) {
+          this.getAttributesForUsers(this.myGroups[i], this.cognitoUsersResponse);
+          this.getMembersLevels(this.myGroups[i]);
+          this.getTopFiveMostActive(this.myGroups[i]);
+        }
       }
     });
   }
 
-  // response of listUsers API - LoggedInCallback Interface
+  // response of listUserActions API - LoggedInCallback Interface
   callbackWithParams(error: AWSError, result: any): void {
     if (result) {
       const response = JSON.parse(result);
       const unique = _.uniqBy(response.body, 'username');
       this.users = unique;
+      this.lambdaService.getAllGroups(this);
      } else {
-      this.lambdaService.listUsers(this);
+      this.lambdaService.listUserActions(this);
     }
   }
 
