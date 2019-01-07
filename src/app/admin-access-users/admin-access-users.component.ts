@@ -8,6 +8,7 @@ import { User } from '../model/User';
 import { AWSError } from 'aws-sdk';
 import * as _ from 'lodash';
 import { LogInService } from '../services/log-in.service';
+import { ExcelService } from '../services/excel.service';
 
 @Component({
   selector: 'app-admin-access-users',
@@ -18,14 +19,16 @@ import { LogInService } from '../services/log-in.service';
 export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
   users: User[];
   displayedColumns = ['username', 'first name', 'last name', 'email', 'zipcode', 'carbon', 'totalpoints'];
-  dataSource;
+  dataSource: any;
+  data: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(public appComp: AppComponent,
     public lambdaService: LambdaInvocationService,
     public loginService: LogInService,
-    public cognitoUtil: CognitoUtil) { }
+    public cognitoUtil: CognitoUtil,
+    public excelService: ExcelService) { }
 
   ngOnInit() {
     this.appComp.setAdmin();
@@ -40,8 +43,12 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
   callbackWithParams(error: AWSError, result: any): void {
     if (result) {
       const response = JSON.parse(result);
+      // filter results by username as the API returns all user actions by every user
       const unique = _.uniqBy(response.body, 'username');
       this.users = unique;
+      // set the data of the excel output
+      // TODO: should this be non-unique?
+      this.data = this.users;
       for (let i = 0; i < this.users.length; i++) {
         if (!this.users[i].totalCarbonPoints) {
           this.users[i].totalCarbonPoints = 0;
@@ -66,6 +73,10 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
     this.cognitoUtil.listUsers().then(response => {
       this.getAttributesForUsers(users, response);
     });
+  }
+
+  exportAsXLSX(): void {
+    this.excelService.exportAsExcelFile(this.data, 'sample');
   }
 
   getAttributesForUsers(users: User[], cognitoResponse: any[]): void {

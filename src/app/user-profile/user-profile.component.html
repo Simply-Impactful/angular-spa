@@ -6,7 +6,7 @@
   <div fxLayout="row">
     <div fxFlex="100">
       <div align="right" style ="text-align:left">
-        <mat-card class="user-profile-card">
+        <mat-card *ngIf="user.picture" class="user-profile-card">
           <img class = "avatar-size" mat-card-avatar src="{{user.picture}}">
         </mat-card>
         <br><br><br><br><br><br><br>
@@ -21,7 +21,7 @@
         <h3 style ="font-weight: bold"> {{user.username}} </h3>
         <h4 style ="font-weight: bold"> Total Points: {{user.totalPoints}} </h4>
         <br>
-        <mat-card class="user-profile-card">
+        <mat-card *ngIf="user.level" class="user-profile-card">
           <img class = "level-size" mat-card-avatar src="{{user.level}}">
         </mat-card>
       </div>

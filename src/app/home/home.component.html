@@ -7,7 +7,7 @@
             <span>Hi {{user.username}}, what actions have you taken today?</span>
             <span class="spacer"></span>
             Your Score: {{user.totalPoints}}
-            <span>
+            <span *ngIf="user.level">
                 <img src="{{user.level}}">                
             </span> 
          <!--   <span class="score-flag"></span> -->
