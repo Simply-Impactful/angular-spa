@@ -48,9 +48,6 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
      if (!isLoggedIn) {
        this.router.navigate(['/login']);
      } else {
-      const lambdaService = new LambdaInvocationService;
-      lambdaService.listLevelData(this);
-
       // get the user actions for their total points
       this.lambdaService.listActions(this);
      }
@@ -59,6 +56,7 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
   // response of isAuthenticated method in login service
   callbackWithParam(result: any): void {
     if (result) {
+      this.levelsMapping.getAllData();
       const cognitoUser = this.cognitoUtil.getCurrentUser();
       const params = new Parameters();
       this.user = params.buildUser(result, cognitoUser);
@@ -91,15 +89,14 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
       const userActions = response.body;
       const userActionsLength = userActions.length;
       // if the user hasn't taken any actions
-      if (!userActionsLength) {
-        this.user.totalPoints = 0;
-      } else { // otherwise, they have taken actions
         for ( let i = 0; i < userActionsLength; i++ ) {
           if (userActions[i].totalPoints) {
             this.user.totalPoints = userActions[i].totalPoints;
+            this.getLevelsData();
+          } else { // otherwise, they have taken actions
+            this.user.totalPoints = 0;
           }
-        }
-      }
+       }
     }
   }
 
@@ -114,23 +111,21 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
     this.isViewAll = false;
   }
 
-  // response of listLevelData
-  cognitoCallbackWithParam(result: any) {
-    const lambdaService = new LambdaInvocationService();
-    if (result) {
-      const response = JSON.parse(result);
-      if (response.statusCode !== 200) {
-        // retry
-        lambdaService.listLevelData(this);
+  getLevelsData() {
+    this.levelsMapping.getLevels().then(response => {
+      // this should never hit
+      if (response === 'levels not defined') {
+        console.log('not defined');
+        this.levelsMapping.getAllData();
+        this.getLevelsData();
       } else {
-        const levels = response.body;
-        this.user.level = this.levelsMapping.getUserLevel(this.user, levels);
-        if (!this.user.level) {
-          lambdaService.listLevelData(this);
-        }
+        // timing issue
+        this.user.level = this.levelsMapping.getUserLevel(this.user, response);
       }
-     }
-  }
+    });
+   }
+
+  cognitoCallbackWithParam(result: any) {}
 
   callback() {}
 

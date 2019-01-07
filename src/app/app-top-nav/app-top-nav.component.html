@@ -17,7 +17,7 @@
       <div [hidden]="hideRightMenu" class="white-text">
         <span class="spacer"></span>
         <mat-card *ngIf="!isOnLevelPage" style="margin-right:10px; vertical-align:center" class="avatar-card">
-            <mat-card-header>
+            <mat-card-header *ngIf="user.picture">
               <img mat-card-avatar src="{{user.picture}}">
             </mat-card-header>
         </mat-card>

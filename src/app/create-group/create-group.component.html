@@ -5,7 +5,7 @@
 <main >
   <h2>Create a New Group</h2>
 
-  <mat-grid-list cols="2" rowHeight="6em">
+  <mat-grid-list cols="2" rowHeight="8em">
     <mat-grid-tile cols="1">
       <mat-form-field appearance="outline">
         <input (focus)="focused=true" (focusout)="focused=false"
@@ -94,7 +94,7 @@
           [(ngModel)]="createdGroup.membersString" name="membersString"
           matInput placeholder="Group Members' Usernames"
           disabled="{{isGroupMembersDisable}}">
-          <mat-hint>Required: specify usernames separated by spaces to add them to group
+          <mat-hint>Required: Input members' usernames separated by a comma, space, or semicolor to add them to group.
           <span *ngIf="!createdGroup.membersString && !focused " style="color:red; font-size: 95%">
             <br> {{membersError}}</span>
           <span *ngIf="!isValidGroup" style="color:red; font-size: 95%">
