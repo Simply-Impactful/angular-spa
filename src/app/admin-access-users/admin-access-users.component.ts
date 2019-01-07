@@ -8,7 +8,7 @@ import { User } from '../model/User';
 import { AWSError } from 'aws-sdk';
 import * as _ from 'lodash';
 import { LogInService } from '../services/log-in.service';
-import { ExcelService } from '../services/excel.service';
+// import { ExcelService } from '../services/excel.service';
 
 @Component({
   selector: 'app-admin-access-users',
@@ -27,8 +27,8 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
   constructor(public appComp: AppComponent,
     public lambdaService: LambdaInvocationService,
     public loginService: LogInService,
-    public cognitoUtil: CognitoUtil,
-    public excelService: ExcelService) { }
+    public cognitoUtil: CognitoUtil) {}
+//    public excelService: ExcelService) { }
 
   ngOnInit() {
     this.appComp.setAdmin();
@@ -75,9 +75,9 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
     });
   }
 
-  exportAsXLSX(): void {
+ /** exportAsXLSX(): void {
     this.excelService.exportAsExcelFile(this.data, 'sample');
-  }
+  } */
 
   getAttributesForUsers(users: User[], cognitoResponse: any[]): void {
     // cross-check the cognito users and map the data for each member of the group passed in
