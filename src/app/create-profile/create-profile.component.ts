@@ -6,6 +6,7 @@ import { User } from '../model/User';
 import { S3Service } from '../services/s3.service';
 import { AppConf } from '../shared/conf/app.conf';
 import { AWSError } from 'aws-sdk';
+import { LogInService } from '../services/log-in.service';
 
 @Component({
   selector: 'app-create-profile',
@@ -35,7 +36,7 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
     public router: Router,
     public cognitoUtil: CognitoUtil,
     public createProfileService: CreateProfileService,
-    private s3: S3Service) {
+    private s3: S3Service, private loginService: LogInService) {
     const errorMessage = this.errorMessage;
   }
 
@@ -86,11 +87,7 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
     } else {
       this.nullZipError = '';
     }
-    // when the user indicates to create account, we need to call s3 and upload the image.
-    // then save this imageUrl on this field and pass to cognito.
-    // if (this.picture) {
-    //   this.newUser.picture = this.picture;
-    // }
+
     if (!this.isPasswordValid()) {
       console.log('pass doesnt match');
       this.confirmPassError = 'Passwords do not match';
@@ -112,31 +109,43 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
   }
 
   cognitoCallback(message: string, result: any) {
+    const loginService = new LogInService(this.cognitoUtil);
     if (message !== null) { // AWS threw an error
-      if (message.includes('email')) {
-        this.emailError = message;
+      if (message.toString().includes('CredentialsError')) {
+        // retry due to caching previous logged in User
+        loginService.authenticate(this.newUser.username, this.newUser.password, this);
       } else {
-        this.genericMessage = message;
-        console.log('generic message ' + this.genericMessage);
-        this.isGenericMessage = true;
+        if (message.includes('email')) {
+          this.emailError = message;
+        } else {
+          this.genericMessage = message;
+          console.log('generic message ' + this.genericMessage);
+          this.isGenericMessage = true;
+        }
       }
-
     } else { // success
       // move to the next page if the user is authenticated
       if (result.idToken.jwtToken) {
-        this.s3.uploadFile(this.profilePicture, this.conf.imgFolders.userProfile, (err, location) => {
-          if (err) {
-            // we will allow for the creation of the item, we will just not have an image
-            console.log(err);
-            this.newUser.picture = this.conf.default.userProfile;
-          } else {
-            this.newUser.picture = location;
-            this.cognitoUtil.updateUserAttribute(this, 'picture', this.newUser.picture);
-          }
-        });
+        // if nothing was uploaded, provide the user the default image
+        if (!this.profilePicture) {
+          this.newUser.picture = this.conf.default.userProfile;
+          this.cognitoUtil.updateUserAttribute(this, 'picture', this.newUser.picture);
+        } else { // needs to be uploaded otherwise
+          this.s3.uploadFile(this.profilePicture, this.conf.imgFolders.userProfile, (err, location) => {
+            if (err) {
+              // we will allow for the creation of the item, we will just not have an image
+              console.log('err on upload ' + err);
+              this.newUser.picture = this.conf.default.userProfile;
+            } else {
+              this.newUser.picture = location;
+              this.cognitoUtil.updateUserAttribute(this, 'picture', this.newUser.picture);
+            }
+          });
+        }
       }
     }
   }
+
   callbackWithParams(error: AWSError, result: any) {}
   isLoggedIn(message: string, loggedIn: boolean) {}
   callbackWithParam(result: any) {
