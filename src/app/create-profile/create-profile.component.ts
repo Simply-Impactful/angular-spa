@@ -56,8 +56,6 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
   createAccount() {
     if (this.checkInputs()) {
       this.createProfileService.register(this.newUser, this);
-      // TODO: should we collect the pic else where?
-      console.log(this.conf.imgFolders.userProfile);
     }
   }
 

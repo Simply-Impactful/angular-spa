@@ -14,4 +14,5 @@ export class User {
     userType?: string;
     picture?: string;
     level?: string;
+    actionsTaken?: String[];
 }

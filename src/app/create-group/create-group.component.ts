@@ -306,8 +306,6 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
         const response = JSON.parse(result);
         if (response.statusCode === 200) {
           this.router.navigate(['/home']);
-          // TODO: can we do this without a window reload?
-       //   window.location.reload();
         }
       }
       // odd credential error occurred

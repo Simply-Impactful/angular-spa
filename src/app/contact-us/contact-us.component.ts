@@ -35,10 +35,7 @@ export class ContactUsComponent implements OnInit, CognitoCallback {
          window.location.reload();
      }
   cognitoCallback(message: string, result: any) {
-      // TODO: implement..
       if (result) {
-        // TODO: can we do this without a window reload?
-        //  window.location.reload();
         this.router.navigate(['/home']);
       }
   }

@@ -58,7 +58,6 @@ export class LambdaInvocationService implements OnInit {
   }
 
   // get the actions for a user BY their username
-  // TODO add same call to get ALL users without specifying the username
   getUserActions(callback: Callback, user: User) {
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
     AWS.config.region = environment.region;
@@ -198,8 +197,7 @@ export class LambdaInvocationService implements OnInit {
       });
     }
 
-
-  // TODO: Allow admins to delete an action - bulk or single - WIP
+  // Allow admins to delete an action - bulk or single
   adminDeleteAction(actionData: Action[], callback: LoggedInCallback) {
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId: environment.identityPoolId});
     AWS.config.region = this.region;

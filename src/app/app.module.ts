@@ -48,6 +48,7 @@ import { MyGroupsComponent } from './my-groups/my-groups.component';
 import { AdminAccessLevelComponent } from './admin-access-level/admin-access-level.component';
 import { LevelComponent } from './level/level.component';
 import { LevelsMapping } from './shared/levels-mapping';
+import { ExcelService } from './services/excel.service';
 
 @NgModule({
   declarations: [
@@ -106,7 +107,8 @@ import { LevelsMapping } from './shared/levels-mapping';
     LambdaInvocationService,
     HomeComponent,
     LevelsMapping,
-    ActionDialogComponent ],
+    ActionDialogComponent,
+    ExcelService ],
   bootstrap: [AppComponent]
 })
 

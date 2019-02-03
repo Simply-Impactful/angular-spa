@@ -3,12 +3,6 @@ import { Callback, CognitoUtil } from './cognito.service';
 import * as AWS from 'aws-sdk/global';
 import { Router } from '@angular/router';
 
-/**
- * Created by Vladimir Budilov
- */
-
-// declare var AMA: any;
-
 @Injectable()
 export class AwsUtil {
     public static firstLogin: boolean = false;
@@ -51,16 +45,6 @@ export class AwsUtil {
     setupAWS(isLoggedIn: boolean, callback: Callback, idToken: string): void {
 
         if (isLoggedIn) {
-            /** Setup mobile analytics
-            const options = {
-                appId: '32673c035a0b40e99d6e1f327be0cb60',
-                appTitle: 'aws-cognito-angular2-quickstart'
-            };
-
-            // TODO: The mobile Analytics client needs some work to handle Typescript. Disabling for the time being.
-            // const mobileAnalyticsClient = new AMA.Manager(options);
-            // mobileAnalyticsClient.submitEvents(); **/
-
             this.addCognitoCredentials(idToken, callback);
         } else {
             // add some error handling or else.
@@ -81,40 +65,18 @@ export class AwsUtil {
         const creds = this.cognitoUtil.buildCognitoCreds(idToken);
 
         AWS.config.credentials = creds;
-   //     console.log('creds ' + JSON.stringify(creds));
 
         creds.get(function (err) {
             if (!err) {
                 if (AwsUtil.firstLogin) {
-                    // save the login info to DDB
-                    // this.ddb.writeLogEntry('login');
                     AwsUtil.firstLogin = false;
                 }
             } else {
                 // attempt a retry
                 console.log('ERROR GETTING CREDS ' + JSON.stringify(err));
-                // route them to login?
-                // adding this in...
-             //   this.cognitoUtil.getCurrentUser().signOut();
-             //   router.navigate(['/login']);
-                // retry
                 this.addCognitoCredentials();
                 callback.callbackWithParam('error getting user creds');
            }
         });
     }
-
- /**   getCognitoParametersForIdConsolidation(idTokenJwt: string): {} {
-        console.log('AwsUtil: enter getCognitoParametersForIdConsolidation()');
-        const url = 'cognito-idp.' + CognitoUtil._REGION.toLowerCase() + '.amazonaws.com/' + CognitoUtil._USER_POOL_ID;
-        const logins: Array<string> = [];
-        logins[url] = idTokenJwt;
-        const params = {
-            IdentityPoolId: CognitoUtil._IDENTITY_POOL_ID, /* required */ /**
-            Logins: logins
-        };
-
-        return params;
-    } **/
-
 }
