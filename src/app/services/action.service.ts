@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Action } from '../model/Action';
 import { User } from '../model/User';
 import { MatDialog } from '@angular/material';
@@ -10,7 +10,7 @@ import { LambdaInvocationService } from './lambdaInvocation.service';
 import { AWSError } from 'aws-sdk';
 
 @Injectable()
-export class ActionService implements OnInit {
+export class ActionService {
 
   public apiEndpoint: string = '';
 
@@ -26,15 +26,10 @@ export class ActionService implements OnInit {
 
   public cognitoUtil: CognitoUtil;
 
-  constructor(private dialog: MatDialog) {
-  }
+  constructor(private dialog: MatDialog) {}
 
-  ngOnInit() {}
-
-  // TODO: need to add logic for lifetime cadence
   checkCadences (uniqueEntriesByUser: Action[], action: Action, actionDialog: ActionDialogComponent): boolean {
     const createdInCadence = [];
-    console.log('action rules ' + JSON.stringify(action));
     this.maxFrequency = action.maxFrequency;
     this.frequencyCadence = action.frequencyCadence;
     // get the offset, per day = 1 day back, per week = 7 days back from the time the action is taken

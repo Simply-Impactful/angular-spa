@@ -22,7 +22,6 @@ export class CreateProfileService {
         public loginService: LogInService) {}
 
     register(user: User, callback: CognitoCallback): void {
-
         const attributeList = [];
 
         const dataFirstName = {
@@ -74,7 +73,7 @@ export class CreateProfileService {
             Pool: userPool
         };
 
-         const loginService = new LogInService(this.cognitoUtil);
+        const loginService = new LogInService(this.cognitoUtil);
          userPool.signUp(user.username, user.password, attributeList, null, function (err, result) {
             if (err) {
                 console.error('Sign Up Error, sending to callback. ERROR ' + JSON.stringify(err) + 'MESSAGE' + err.message);
@@ -85,5 +84,10 @@ export class CreateProfileService {
                 // callback.cognitoCallback(null, result);
             }
         });
+    }
+
+    cognitoCallback(err, result) {
+        console.log('err ' + err);
+        console.log('err ' + result);
     }
 }

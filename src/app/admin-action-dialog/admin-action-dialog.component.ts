@@ -126,38 +126,11 @@ export class AdminActionDialogComponent implements OnInit, LoggedInCallback, Cal
     this[imageName] = fileInput.target.files[0];
   }
 
-  /**
-   * TODO: Which lambda is this invoking?
-   * createActions
-   *
-   * @param item
-   * @returns void
-   */
-  save(action) {
-    console.log(JSON.stringify(action, null, 2));
-    // TODO: uploadFiles. Might need async series. This will not work.
-    this.s3.uploadFiles(this.imageFiles, this.conf.default.action, this.conf.imgFolders.actions,
-        (err, locations) => {
-      if (err) {
-        return new Error('Was not able to create admin page: ' + err);
-      } else {
-        console.log('locations?', location);
-      }
-      // lambda invoke save actions
-    });
-  }
-    /**
-     // when we upload the image, this doesn't go out to s3 right way. Or does it?
-    fileEvent(fileInput: any, imageName) {
-      // captures an image file and adds it to the object of images. Pass correct name from html
-      this.imageFiles[imageName] = fileInput.target.files[0];
-    } */
+  // LoggedInCallback interface
+  isLoggedIn(message: string, loggedIn: boolean): void { }
+  callbackWithParam(result: any): void {}
 
-    // LoggedInCallback interface
-    isLoggedIn(message: string, loggedIn: boolean): void { }
-    callbackWithParam(result: any): void {}
-
-     // Callback Interface
-    callback() {}
-    cognitoCallbackWithParam(result: any) {}
-  }
+    // Callback Interface
+  callback() {}
+  cognitoCallbackWithParam(result: any) {}
+}

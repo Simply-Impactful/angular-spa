@@ -46,7 +46,8 @@ export class LogInService {
 
     private onLoginSuccess = (callback: CognitoCallback, session: CognitoUserSession) => {
         this.accessToken = session.getAccessToken();
-        console.log('on lgin success');
+        console.log('on login success');
+
         AWS.config.credentials = this.cognitoUtil.buildCognitoCreds(session.getIdToken().getJwtToken());
 
         // So, when CognitoIdentity authenticates a user, it doesn't actually hand us the IdentityID,
@@ -63,13 +64,18 @@ export class LogInService {
 
         const sts = new STS(clientParams);
         sts.getCallerIdentity(function (err, data) {
-            callback.cognitoCallback(null, session);
+            if (err) {
+                console.log('err ' + err);
+                callback.cognitoCallback(err, session);
+            } else {
+                callback.cognitoCallback(null, session);
+            }
         });
     }
 
     private onLoginError = (callback: CognitoCallback, err) => {
         // always print the error
-        console.error(err.message);
+        console.error('LOGIN ERROR: ' + err.message);
         callback.cognitoCallback(err.message, null);
     }
 
