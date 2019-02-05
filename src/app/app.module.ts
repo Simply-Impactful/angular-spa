@@ -49,6 +49,8 @@ import { AdminAccessLevelComponent } from './admin-access-level/admin-access-lev
 import { LevelComponent } from './level/level.component';
 import { LevelsMapping } from './shared/levels-mapping';
 import { ExcelService } from './services/excel.service';
+import { LoaderComponent } from './loader/loader.component';
+import { CommonService } from './services/common.service';
 
 @NgModule({
   declarations: [
@@ -74,7 +76,8 @@ import { ExcelService } from './services/excel.service';
     AdminActionDialogComponent,
     MyGroupsComponent,
     AdminAccessLevelComponent,
-    ActionDialogComponent
+    ActionDialogComponent,
+    LoaderComponent
   ],
   imports: [
     [BrowserModule, FormsModule],
@@ -108,6 +111,7 @@ import { ExcelService } from './services/excel.service';
     HomeComponent,
     LevelsMapping,
     ActionDialogComponent,
+    CommonService,
     ExcelService ],
   bootstrap: [AppComponent]
 })

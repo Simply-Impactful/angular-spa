@@ -1,4 +1,6 @@
 <!--Top Navigation Content. Might need to be moved to its own component -->
 <!--<app-top-nav *ngIf="!isAdmin"></app-top-nav> -->
 <admin-top-nav *ngIf="isAdmin"></admin-top-nav>
-<router-outlet></router-outlet>
+<router-outlet>
+    <app-loader-component></app-loader-component>
+</router-outlet>

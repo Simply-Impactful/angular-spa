@@ -18,7 +18,7 @@ import { AwsUtil } from '../services/aws.service';
 })
 export class LogInComponent implements LoggedInCallback, OnInit {
 
-  errorMessage: string = '';
+  errorMessage;
   username: string = '';
   password: string = '';
   user: User;
@@ -52,30 +52,32 @@ export class LogInComponent implements LoggedInCallback, OnInit {
 
   forgotPass() {
     this.router.navigate(['/resetpass']);
-    // this.logInService.forgotPassword();
   }
 
-  // CognitoCallback interface - Response of 'authenticate'
-  cognitoCallback(message: string, result: any) {
-    if (message !== null) { // if there is an error
-      // use a local variable as opposed to an instance var.
-      this.errorMessage = message;
-      console.error('error on login: ' + this.errorMessage);
-    } else { // success
-      if (result) {
-        const currentUser = this.cognitoUtil.getCurrentUser();
-        const username = currentUser.getUsername();
-        if (username === 'superUser') {
-          this.router.navigate(['/adminaccesslanding']);
-        } else {
-          this.router.navigate(['/home']);
-        }
+/** Interface required for LoggedInCallback
+  * Response of 'Authenticate'
+  */
+ callbackWithParams(error: AWSError, result: CognitoUserAttribute[]) {
+  if (error !== null) { // if there is an error
+    // use a local variable as opposed to an instance var.
+    this.errorMessage = error;
+    console.error('error on login: ' + this.errorMessage);
+  } else { // success
+    if (result) {
+      const currentUser = this.cognitoUtil.getCurrentUser();
+      const username = currentUser.getUsername();
+      if (username === 'superUser') {
+        this.router.navigate(['/adminaccesslanding']);
+      } else {
+        this.router.navigate(['/home']);
       }
     }
   }
+}
 
-  /** Interface required for LoggedInCallback */
-  callbackWithParams(error: AWSError, result: CognitoUserAttribute[]) {}
+  // CognitoCallback interface
+  cognitoCallback(message: string, result: any) {}
+
   // CognitoCallback interface
   handleMFAStep?(
     challengeName: string,

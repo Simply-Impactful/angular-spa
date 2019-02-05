@@ -21,7 +21,7 @@ export class LogInService {
     constructor(
         public cognitoUtil: CognitoUtil) { }
 
-    authenticate(username: string, password: string, callback: CognitoCallback) {
+    authenticate(username: string, password: string, callback: LoggedInCallback) {
         const authenticationData = {
             Username: username,
             Password: password,
@@ -38,13 +38,13 @@ export class LogInService {
 
         cognitoUser.authenticateUser(authenticationDetails, {
             newPasswordRequired: (userAttributes, requiredAttributes) =>
-                callback.cognitoCallback('User needs to set password.', null),
+                callback.callbackWithParams('User needs to set password.', null),
             onSuccess: result => this.onLoginSuccess(callback, result),
             onFailure: err => this.onLoginError(callback, err)
         });
     }
 
-    private onLoginSuccess = (callback: CognitoCallback, session: CognitoUserSession) => {
+    private onLoginSuccess = (callback: LoggedInCallback, session: CognitoUserSession) => {
         this.accessToken = session.getAccessToken();
         console.log('on login success');
 
@@ -66,17 +66,17 @@ export class LogInService {
         sts.getCallerIdentity(function (err, data) {
             if (err) {
                 console.log('err ' + err);
-                callback.cognitoCallback(err, session);
+                callback.callbackWithParams(err, session);
             } else {
-                callback.cognitoCallback(null, session);
+                callback.callbackWithParams(null, session);
             }
         });
     }
 
-    private onLoginError = (callback: CognitoCallback, err) => {
+    private onLoginError = (callback: LoggedInCallback, err) => {
         // always print the error
         console.error('LOGIN ERROR: ' + err.message);
-        callback.cognitoCallback(err.message, null);
+        callback.callbackWithParams(err.message, null);
     }
 
     isAuthenticated(callback: LoggedInCallback) {

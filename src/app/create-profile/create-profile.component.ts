@@ -7,6 +7,7 @@ import { S3Service } from '../services/s3.service';
 import { AppConf } from '../shared/conf/app.conf';
 import { AWSError } from 'aws-sdk';
 import { LogInService } from '../services/log-in.service';
+import { CommonService } from '../services/common.service';
 
 @Component({
   selector: 'app-create-profile',
@@ -30,13 +31,15 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
   isGenericMessage: boolean = null;
   profilePicture: any;
   focused: boolean = false;
+  signUp: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
     public router: Router,
     public cognitoUtil: CognitoUtil,
     public createProfileService: CreateProfileService,
-    private s3: S3Service, private loginService: LogInService) {
+    private s3: S3Service, private loginService: LogInService,
+    private commonService: CommonService) {
     const errorMessage = this.errorMessage;
   }
 
@@ -106,12 +109,14 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
     }
   }
 
+  // Result of Sign Up
   cognitoCallback(message: string, result: any) {
     const loginService = new LogInService(this.cognitoUtil);
     if (message !== null) { // AWS threw an error
       if (message.toString().includes('CredentialsError')) {
         // retry due to caching previous logged in User
-        loginService.authenticate(this.newUser.username, this.newUser.password, this);
+     //   loginService.authenticate(this.newUser.username, this.newUser.password, this);
+        this.errorMessage = 'Unexpected Error, please try refreshing the page';
       } else {
         if (message.includes('email')) {
           this.emailError = message;
@@ -122,33 +127,50 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
         }
       }
     } else { // success
-      // move to the next page if the user is authenticated
-      if (result.idToken.jwtToken) {
-        // if nothing was uploaded, provide the user the default image
-        if (!this.profilePicture) {
-          this.newUser.picture = this.conf.default.userProfile;
-          this.cognitoUtil.updateUserAttribute(this, 'picture', this.newUser.picture);
-        } else { // needs to be uploaded otherwise
-          this.s3.uploadFile(this.profilePicture, this.conf.imgFolders.userProfile, (err, location) => {
-            if (err) {
-              // we will allow for the creation of the item, we will just not have an image
-              console.log('err on upload ' + err);
-              this.newUser.picture = this.conf.default.userProfile;
-            } else {
-              this.newUser.picture = location;
-              this.cognitoUtil.updateUserAttribute(this, 'picture', this.newUser.picture);
-            }
-          });
-        }
+      this.signUp = false;
+    }
+  }
+
+  login() {
+      this.loginService.authenticate(this.newUser.username, this.newUser.password, this);
+      this.setLoader('Logging In ' + this.newUser.name, true, true);
+  }
+
+  setLoader(message: string, showLoader: boolean, hasNext: boolean = false) {
+    this.commonService.setMessage({message: message , isError: false , hasNext: hasNext});
+    const cb = function () { this.commonService.setLoader(showLoader); };
+    setTimeout(cb.bind(this), 1000);
+  }
+
+  // response of 'authenticate' in the loginService
+  callbackWithParams(error: AWSError, result: any) {
+    // move to the next page if the user is authenticated
+    if (result.idToken.jwtToken) {
+      // if nothing was uploaded, provide the user the default image
+      if (!this.profilePicture) {
+        this.newUser.picture = this.conf.default.userProfile;
+        this.cognitoUtil.updateUserAttribute(this, 'picture', this.newUser.picture);
+      } else { // needs to be uploaded otherwise
+        this.s3.uploadFile(this.profilePicture, this.conf.imgFolders.userProfile, (err, location) => {
+          if (err) {
+            // we will allow for the creation of the item, we will just not have an image
+            console.log('err on upload ' + err);
+            this.newUser.picture = this.conf.default.userProfile;
+          } else {
+            this.newUser.picture = location;
+            this.cognitoUtil.updateUserAttribute(this, 'picture', this.newUser.picture);
+          }
+        });
       }
     }
   }
 
-  callbackWithParams(error: AWSError, result: any) {}
   isLoggedIn(message: string, loggedIn: boolean) {}
   callbackWithParam(result: any) {
-    console.log('result of update user after creating profile...' + result);
-    this.router.navigate(['/home']);
+    if (result) {
+      this.setLoader('Done', false, false);
+      this.router.navigate(['/home']);
+    }
   }
 
   fileEvent(fileInput: any) {

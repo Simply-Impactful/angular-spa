@@ -37,9 +37,6 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
     public levelsMapping: LevelsMapping) { }
 
   ngOnInit() {
-    this.params.user$.subscribe(user => {
-      this.user = user;
-    });
     this.loginService.isAuthenticated(this);
   }
 
@@ -48,20 +45,23 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
      if (!isLoggedIn) {
        this.router.navigate(['/login']);
      } else {
-      // get the user actions for their total points
+      // get All the actions to parse the assignments
+      // response in callbackWithParams method
       this.lambdaService.listActions(this);
+      // kick off the levels data
+      this.levelsMapping.getAllData();
      }
    }
 
   // response of isAuthenticated method in login service
   callbackWithParam(result: any): void {
     if (result) {
-      this.levelsMapping.getAllData();
+
       const cognitoUser = this.cognitoUtil.getCurrentUser();
       const params = new Parameters();
       this.user = params.buildUser(result, cognitoUser);
-      // get the user actions if they are authenticated
-      // gets the total points and the assignments they've taken
+      // get all actions a user has taken and their points
+      // response in callbackWithParameters method
       this.lambdaService.getUserActions(this, this.user);
     }
    }
@@ -83,20 +83,25 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
   }
 
   // Response of getUserActions API - callback interface
+  // Total points being captrued from response
   callbackWithParameters(error: AWSError, result: any) {
     if (result) {
       const response = JSON.parse(result);
       const userActions = response.body;
-      const userActionsLength = userActions.length;
-      // if the user hasn't taken any actions
-        for ( let i = 0; i < userActionsLength; i++ ) {
-          if (userActions[i].totalPoints) {
-            this.user.totalPoints = userActions[i].totalPoints;
-            this.getLevelsData();
-          } else { // otherwise, they have taken actions
-            this.user.totalPoints = 0;
+      // if they haven't taken any actions...
+      if (response.statusCode === 400) {
+        this.user.totalPoints = 0;
+        this.getLevelsData();
+      } else {
+          const userActionsLength = userActions.length;
+          // if the user has taken actions
+          if (userActionsLength > 0) {
+            for ( let i = 0; i < userActionsLength; i++ ) {
+              this.user.totalPoints = userActions[i].totalPoints;
+              this.getLevelsData();
           }
-       }
+        }
+      }
     }
   }
 

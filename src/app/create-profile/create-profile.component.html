@@ -1,10 +1,10 @@
 <app-top-nav></app-top-nav>
+<div *ngIf="signUp">
 <div class="create-profile-container">
   <main>
     <form>
       <img src="italladdsup/images/Avatar.png" class="bg" alt="">
       <h2 style="padding-top: 50px; padding-bottom: 50px;"> Create an account by completing the simple steps below:</h2>
-
     </form>
     <div fxLayout="row">
       <div fxFlex="100">
@@ -89,3 +89,8 @@
   </mat-grid-tile>
 </mat-grid-list>
 <!-- somewhat redundant and not user friendly <mat-hint style="color: red; font-size: 75%">{{genericMessage}}</mat-hint> -->
+</div>
+<div *ngIf="!signUp">
+  <h2 style="padding-top: 50px; padding-bottom: 50px;">Account successfully created! Click the login button below to begin!</h2>
+  <button mat-raised-button color="primary" (click)="login()">Login</button>
+</div>
