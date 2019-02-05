@@ -4,6 +4,7 @@ import { User } from '../model/User';
 import { MatDialog } from '@angular/material';
 import { ActionDialogComponent } from './../action-dialog/action-dialog.component';
 import * as AWS from 'aws-sdk';
+import * as AWSCognito from 'aws-sdk';
 import { CognitoUtil, Callback, LoggedInCallback, CognitoCallback } from './cognito.service';
 import { environment } from '../../environments/environment';
 import { ActionService } from './action.service';
@@ -152,7 +153,7 @@ export class LambdaInvocationService implements OnInit {
         console.log(error);
         callback.callbackWithParameters(error, data);
       } else {
-        console.log('perform action data ' + data);
+        console.log('perform action data ' + JSON.stringify(data));
          callback.callbackWithParameters(null, data.Payload);
       }
     });

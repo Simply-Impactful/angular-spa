@@ -68,7 +68,7 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
 
   isLoggedIn(message: string, loggedIn: boolean): void {}
 
-  // response of lamdba list Actions API call
+  // response of lambda list Actions API call
   callbackWithParams(error: AWSError, result: any): void {
     if (result) {
       const response = JSON.parse(result);
@@ -79,8 +79,8 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
     } else {
       window.location.reload();
     }
-
   }
+
   // response of isAuthenticated method in login service
   callbackWithParam(result: any): void {
     const cognitoUser = this.cognitoUtil.getCurrentUser();

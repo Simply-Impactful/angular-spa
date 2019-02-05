@@ -151,6 +151,10 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
     if (params.length > 0) {
       // last step: update points - response of create group goes to callbackWithParameters line 145
       this.lambdaService.createGroup(params, this);
+    } else {
+      // not part of any groups
+      this.thisDialogRef.close('Confirm');
+      window.location.reload();
     }
    }
 
