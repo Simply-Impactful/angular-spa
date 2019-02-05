@@ -1,0 +1,114 @@
+
+
+
+#modal {
+  display:block;
+  .modal-content {
+    box-shadow: 0px 0px 12px 4px rgba(0, 0, 0, 0.5);
+  }
+  .tracking-number {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    text-align:center;
+  }
+  .modal-dialog {
+      max-width: 800px;
+      margin: 1.75rem auto;
+  }
+  .modal-title {
+    i.material-icons {
+        font-size: 34px;
+    }
+  }
+  .modal-img {
+      padding: 0.25rem;
+      background-color: #FFFFFF;
+      border: 1px solid #dee2e6;
+      border-radius: 0.25rem;
+  }
+  ul.modal-list {
+    align-items: center;
+    padding-left:0px;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    list-style:none;
+    li.modal-list-item {
+      margin:10px 0px;
+      i.material-icons {
+        font-size: 2rem;
+        //color:$primary;
+      }
+    }
+  }
+}
+#modal.modal-error {
+
+  .modal-title {
+    color: #721c24;
+  }
+
+  .modal-message.alert {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+  }
+}
+#modal.modal-success {
+  .modal-title {
+      color: #676f57;
+  }
+  .modal-message.alert {
+      color: #676f57;
+      background-color: #f4f7ee;
+      border-color: #eff4e7;
+  }
+}
+
+#loader-overlay {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    background-color: rgba(255, 255, 255, 0.85);
+    z-index: 1021;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&1+0,0+100 */
+    //background: -moz-radial-gradient(center, ellipse cover, rgba(255,255,255,1) 75%, rgba(255,255,255,0) 100%); /* FF3.6-15 */
+    //background: -webkit-radial-gradient(center, ellipse cover, rgba(255,255,255,1) 75%,rgba(255,255,255,0) 100%); /* Chrome10-25,Safari5.1-6 */
+    //background: radial-gradient(ellipse at center, rgba(255,255,255,1) 75%,rgba(255,255,255,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    //filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+#done-icon {
+    width: 50px;
+    font-size: 50px;
+    font-weight: 1000;
+    //color: $primary;
+}
+.spinner-container {
+  .loader-message {
+    font-weight: 800;
+    color: #4db6ac;
+  }
+  .loader {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+  }
+  .loader-green {
+     border: 6px solid #ccc;
+     border-top: 6px solid #4db6ac;
+   }
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+}

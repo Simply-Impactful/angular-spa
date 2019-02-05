@@ -1,0 +1,7 @@
+<div *ngIf="isLoading || modalIsShown" id="loader-overlay" class="d-flex align-items-center justify-content-center">
+  <div class="flex-column align-items-center spinner-container d-flex">
+    <div *ngIf="message.hasNext" class="loader loader-green"></div>
+    <i id="done-icon" *ngIf="!message?.hasNext" class="material-icons text-primary">done</i>
+    <p *ngIf="!modalIsShown" class="loader-message mt-3">{{message?.message}}</p>
+  </div>
+</div>

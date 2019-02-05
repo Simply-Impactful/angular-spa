@@ -18,7 +18,7 @@ export interface CognitoCallback {
 }
 
 export interface LoggedInCallback {
-    callbackWithParams(error: AWSError, result: any): void;
+    callbackWithParams(error: any, result: any): void;
     isLoggedIn(message: string, loggedIn: boolean): void;
     callbackWithParam(result: any): void;
 }
@@ -194,13 +194,12 @@ export class CognitoUtil {
                 console.log('error ' + error);
              // not working because of type. Add an error callback?
                 callback.callbackWithParam(error);
-                window.location.reload();
+             //   window.location.reload();
                 return;
             } else {
                 callback.callbackWithParam(result1);
-                window.location.reload();
+           //     window.location.reload();
             }
-            console.log('Update call result: ' + result1);
         });
     }
 

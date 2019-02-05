@@ -7,6 +7,7 @@ import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { AWSError } from 'aws-sdk';
 import { LoggedInCallback } from '../services/cognito.service';
 import { Parameters } from 'src/app/services/parameters';
+import { LogInService } from '../services/log-in.service';
 
 @Component({
   selector: 'app-action',
@@ -19,16 +20,24 @@ export class ActionComponent implements OnInit, LoggedInCallback {
   actionsLength: number;
   assignment: any;
 
-  constructor(public actionService: ActionService, public lambdaService: LambdaInvocationService) { }
+  constructor(public actionService: ActionService, public lambdaService: LambdaInvocationService,
+    public loginService: LogInService) { }
 
   ngOnInit() {
-    this.lambdaService.listActions(this);
+    this.loginService.isAuthenticated(this);
   }
 
   openDialog(name: string, action: Action) {
     this.actionService.openDialog(name, action);
   }
-  isLoggedIn(message: string, loggedIn: boolean): void {}
+
+  // Response of 'isAuthenticated' in ngOnInit
+  isLoggedIn(message: string, loggedIn: boolean): void {
+    if (loggedIn) {
+      // don't request lambda data until we are logged in
+      this.lambdaService.listActions(this);
+    }
+  }
 
   // Result is response of listActions API lambda call
   callbackWithParams(error: AWSError, result: any): void {
@@ -44,7 +53,6 @@ export class ActionComponent implements OnInit, LoggedInCallback {
     } else {
       // credentials error likely occurred.. retry if so
       if (error.toString().includes('credentials')) {
-        console.log('action credentials error.. RETRYING ' + JSON.stringify(error));
         this.lambdaService.listActions(this);
       }
     }

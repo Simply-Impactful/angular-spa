@@ -80,14 +80,13 @@ export class CreateProfileService {
                 callback.cognitoCallback(err.message, null);
             } else {
                 // authenticate the user
-                loginService.authenticate(user.username, user.password, callback);
-                // callback.cognitoCallback(null, result);
+                callback.cognitoCallback(null, result);
             }
         });
     }
 
     cognitoCallback(err, result) {
-        console.log('err ' + err);
-        console.log('err ' + result);
+        console.log('ERR in Create Profile Service: ' + err);
+        console.log('RESULT in create profile Service: ' + result);
     }
 }
