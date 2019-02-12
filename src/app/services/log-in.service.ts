@@ -63,6 +63,7 @@ export class LogInService {
         }
 
         const sts = new STS(clientParams);
+        console.log('sts ' + JSON.stringify(sts));
         sts.getCallerIdentity(function (err, data) {
             if (err) {
                 console.log('err ' + err);

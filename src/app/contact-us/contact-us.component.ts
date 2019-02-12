@@ -32,7 +32,7 @@ export class ContactUsComponent implements OnInit, CognitoCallback {
          this.lambdaService.sendEmail(this.email, this);
          // TODO: can we do this without a window reload?
          this.router.navigate(['/home']);
-         window.location.reload();
+   //      window.location.reload();
      }
   cognitoCallback(message: string, result: any) {
       if (result) {

@@ -16,7 +16,7 @@ export const environment = {
   ddbTableName: '',
   cognito_idp_endpoint: '',
   cognito_identity_endpoint: '',
-  sts_endpoint: '',
+  sts_endpoint: 'sts.us-east-1.amazonaws.com',
   dynamodb_endpoint: '',
   s3_endpoint: ''
 };
