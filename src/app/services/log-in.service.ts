@@ -65,7 +65,7 @@ export class LogInService {
         const sts = new STS(clientParams);
         sts.getCallerIdentity(function (err, data) {
             callback.callbackWithParams(null, session);
-            /** 
+            /**
             if (err) {
                 console.log('err ' + err);
                 callback.callbackWithParams(err, session);
@@ -77,8 +77,14 @@ export class LogInService {
 
     private onLoginError = (callback: LoggedInCallback, err) => {
         // always print the error
+        console.error('Login error message ' + err.code);
         console.error('LOGIN ERROR: ' + err.message);
-        callback.callbackWithParams(err.message, null);
+        if (err.code === 'InvalidParameterException') {
+            callback.callbackWithParams('Please enter Username', null);
+
+        } else {
+            callback.callbackWithParams(err.message, null);
+        }
     }
 
     isAuthenticated(callback: LoggedInCallback) {
