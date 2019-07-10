@@ -13,7 +13,8 @@ import {
   MatInputModule,
   MatDialogRef,
   MatSelectModule,
-  MatAutocompleteModule
+  MatAutocompleteModule,
+  MatDialogModule
 } from '@angular/material';
 
 import { ActionsComponent } from './actions/actions.component';
@@ -51,6 +52,7 @@ import { LevelsMapping } from './shared/levels-mapping';
 import { ExcelService } from './services/excel.service';
 import { LoaderComponent } from './loader/loader.component';
 import { CommonService } from './services/common.service';
+import { ActionDeleteDialogComponent } from './action-delete-dialog/action-delete-dialog.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +79,8 @@ import { CommonService } from './services/common.service';
     MyGroupsComponent,
     AdminAccessLevelComponent,
     ActionDialogComponent,
-    LoaderComponent
+    LoaderComponent,
+    ActionDeleteDialogComponent
   ],
   imports: [
     [BrowserModule, FormsModule],
@@ -94,11 +97,13 @@ import { CommonService } from './services/common.service';
     MatTableModule,
     MatPaginatorModule,
     MatIconModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatDialogModule
   ],
   entryComponents: [
     ActionDialogComponent,
-    AdminActionDialogComponent
+    AdminActionDialogComponent,
+    ActionDeleteDialogComponent
   ],
   providers: [
     { provide: WindowWrapper, useFactory: GetWindow},

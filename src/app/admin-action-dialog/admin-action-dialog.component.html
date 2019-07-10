@@ -1,11 +1,11 @@
 <div>
   <h5 style="font-size:18px; padding-top: 8px">{{displayText}} an action</h5>
   <mat-dialog-content style="padding-left:80px; padding-right: 80px; align-content: center">
-    <mat-form-field class="edit-action-name" *ngIf="isCreating" appearance="outline">
+    <mat-form-field class="edit-action-name" appearance="outline">
       <input matInput [(ngModel)]="action.name" matInput placeholder="Action Name">
     </mat-form-field>
-    <h1 class="edit-action-name" style="text-align: left; font-size:15px; color:grey" *ngIf="isEditing"> Action Name:
-      {{action.name}} </h1>
+    <!--<h1 class="edit-action-name" style="text-align: left; font-size:15px; color:grey" *ngIf="isEditing"> Action Name:
+      {{action.name}} </h1> -->
     <mat-grid-list cols="4" rowHeight="6em">
       <mat-grid-tile cols="1">
         <mat-form-field appearance="outline" style="margin-right:0px; width:110px">

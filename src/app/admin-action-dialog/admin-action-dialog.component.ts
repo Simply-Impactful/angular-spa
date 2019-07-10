@@ -50,6 +50,10 @@ export class AdminActionDialogComponent implements OnInit, LoggedInCallback, Cal
   onCloseConfirm() {
     let isError = false;
     const name = this.action.name;
+    if (this.isEditing) {
+        this.checkEditActionName();
+    }
+
     if (this.isCreating && this.existingActions) {
       for (let i = 0; i < this.existingActions.length; i++) {
         if (this.existingActions[i].name === name) {
@@ -65,6 +69,23 @@ export class AdminActionDialogComponent implements OnInit, LoggedInCallback, Cal
    }
   }
 
+  checkEditActionName() {
+    let isError = false;
+    const name = this.action.name;
+    if (this.isEditing && this.existingActions) {
+      for (let i = 0; i < this.existingActions.length; i++) {
+        if (this.existingActions[i].name === name) {
+          this.errorMessage = 'Error: Unable to edit an action with a name that already exists.' +
+            'Please Hit UNDO and edit the action instead.';
+          isError = true;
+          break;
+        }
+      }
+    }
+
+    if (!isError) {
+    }
+  }
   uploadAndSend() {
     if (this.funFactImage) {
       this.s3.uploadFile(this.funFactImage, this.conf.imgFolders.actions, (err, location) => {

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AppComponent } from '../app.component';
 import { Route, Router } from '@angular/router';
-import { MatTableDataSource, MatPaginator, MatButton, MatCheckbox, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatButton, MatCheckbox, MatDialog , MatDialogConfig} from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { LoggedInCallback, CognitoUtil } from '../services/cognito.service';
@@ -11,6 +11,7 @@ import { AdminActionDialogComponent } from './../admin-action-dialog/admin-actio
 import { Parameters} from '../services/parameters';
 import { User } from '../model/User';
 import { LogInService } from '../services/log-in.service';
+import { ActionDeleteDialogComponent } from '../action-delete-dialog/action-delete-dialog.component';
 
 @Component({
   selector: 'app-admin-access-actions',
@@ -57,6 +58,26 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog closed: ${result}`);
       this.dialogResult = result;
+      this.selection.clear();
+    });
+  }
+
+  delete(i: string) {
+
+    console.log('lets delete this action');
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '450px';
+    dialogConfig.height = '200px';
+    dialogConfig.data = {
+       data: this.actions[i]
+    };
+    const dialogRefer = this.dialog.open(ActionDeleteDialogComponent, dialogConfig);
+
+    dialogRefer.afterClosed().subscribe(result => {
+      console.log('Dialog closed: ${results}');
+      this.dialogResult = result ;
       this.selection.clear();
     });
   }
@@ -124,3 +145,4 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
 
   callbackWithParam(result: any): void {}
 }
+
