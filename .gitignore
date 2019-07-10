@@ -4,3 +4,5 @@ node_modules
 dist
 .serverless
 package-lock.json
+.idea/*
+.
