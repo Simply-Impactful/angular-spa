@@ -12,7 +12,7 @@ import { AWSError } from 'aws-sdk';
   templateUrl: './action-delete-dialog.component.html',
   styleUrls: ['./action-delete-dialog.component.scss']
 })
-export class ActionDeleteDialogComponent implements OnInit, LoggedInCallback, Callback {
+export class ActionDeleteDialogComponent implements OnInit, Callback {
   action: Action;
   actions: Action[] = [];
 
@@ -28,7 +28,6 @@ export class ActionDeleteDialogComponent implements OnInit, LoggedInCallback, Ca
     }
     console.log(this.action);
 
-    console.log(`${this.action.name}`);
   }
 
   onCloseCancel() {
@@ -40,25 +39,24 @@ export class ActionDeleteDialogComponent implements OnInit, LoggedInCallback, Ca
     const isError = false;
     const name = this.action.name;
     this.actions.push(this.action);
-    console.log(name);
     this.lambdaService.adminDeleteAction(this.actions, this);
    }
 
    // API response of Create Actions
-  callbackWithParameters(error: AWSError, result: any) {
-    if (result) {
-      console.log('result');
-      console.log(`${result}`);
-      this.thisDialogRef.close('Confirm');
-      window.location.reload();
-    } else {
-      console.log('ERROR ' + error);
-    }
-  }
-  // API response of list Actions
+  callbackWithParameters(error: AWSError, result: any) { }
+
+  // API response of delete Actions
   callbackWithParams(error: AWSError, result: any): void {
     if (result) {
+      this.thisDialogRef.close('Confirm');
+      window.location.reload();
       const response = JSON.parse(result);
+      console.log('response after deletion ');
+      console.log(response);
+    }
+    if (error) {
+      this.thisDialogRef.close('Confirm');
+      // window.location.reload();
     }
   }
    // LoggedInCallback interface

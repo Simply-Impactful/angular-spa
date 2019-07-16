@@ -64,19 +64,15 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
 
   delete(i: string) {
 
-    console.log('lets delete this action');
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = false;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '450px';
-    dialogConfig.height = '200px';
-    dialogConfig.data = {
-       data: this.actions[i]
-    };
-    const dialogRefer = this.dialog.open(ActionDeleteDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(ActionDeleteDialogComponent, {
+      width: '450px',
+      height: '200px',
+      data: this.actions[i]
 
-    dialogRefer.afterClosed().subscribe(result => {
-      console.log('Dialog closed: ${results}');
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog closed: ${result}`);
       this.dialogResult = result ;
       this.selection.clear();
     });
