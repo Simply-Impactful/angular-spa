@@ -65,7 +65,7 @@ export class LogInService {
         const sts = new STS(clientParams);
         sts.getCallerIdentity(function (err, data) {
             callback.callbackWithParams(null, session);
-            /** 
+            /**
             if (err) {
                 console.log('err ' + err);
                 callback.callbackWithParams(err, session);

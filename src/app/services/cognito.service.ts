@@ -189,15 +189,27 @@ export class CognitoUtil {
         const attribute1 = new CognitoUserAttribute(attribute);
         attributeList.push(attribute1);
 
-        cognitoUser.updateAttributes(attributeList, function(error, result1) {
-            if (error) {
-                console.log('error ' + error);
+        cognitoUser.updateAttributes(attributeList, function(updateError, result1) {
+            if (updateError) {
+                console.log('error ' + updateError);
              // not working because of type. Add an error callback?
-                callback.callbackWithParam(error);
+                callback.callbackWithParam(updateError);
              //   window.location.reload();
                 return;
             } else {
-                callback.callbackWithParam(result1);
+                // result1 contains "SUCCESS", we need to refetch the attributes
+                // callback.callbackWithParam(result1);
+
+                cognitoUser.getUserAttributes(function (attributeError, result) {
+                    if (attributeError) {
+                        console.log('error' + attributeError.message);
+                        callback.callbackWithParam(attributeError);
+                    } else {
+                        if (result) {
+                            callback.callbackWithParam(result);
+                        }
+                    }
+                });
            //     window.location.reload();
             }
         });
