@@ -223,8 +223,11 @@ export class LambdaInvocationService implements OnInit {
     };
     lambda.invoke(putParams, function(error, data) {
       if (error) {
+        console.log('error in deleting the action');
+        console.log(error);
         callback.callbackWithParams(error, null);
       } else {
+        console.log('deleted');
         callback.callbackWithParams(null, data.Payload);
       }
     });
