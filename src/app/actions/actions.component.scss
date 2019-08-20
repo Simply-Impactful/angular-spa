@@ -6,6 +6,10 @@ main {
     margin-bottom: 0.25em;
 }
 
+.container-div {
+    padding: 5px;
+}
+
 button.cis-logo {
     height: 12.5em;
     width: 12.5em;
@@ -17,33 +21,49 @@ button.cis-logo {
 
 .score-flag {
     height: 2.77em;
-    margin-top:-24px;
+    margin-top:-10px;
+    margin-left: -30px;
+    padding-right: 20px;
     background: url('/assets/images/score-flag.png') no-repeat;
 }
 
 form {
     background-color: #D3D3D3;
-  //  padding-left: 25px;
- //   padding-right: 25px;
     cursor: hand;
     padding-bottom: 300px;
     text-align: center;
+}
 
-}img {
+.actions-mat-form-field {
+    padding-left:5px;
+    width: 300px
+}
+
+.actions-mat-card {
+    padding: 10px;
+    width: 180px;
+    height: 180px;
+    display: inline-block;
+    background-color: #F1F1F3;
+    cursor: pointer;
+}
+
+.actions-mat-card-header {
+    float:right;
+}
+
+.actions-mat-card-subtitle {
+    color: black;
+    font-size:12.6px;
+    margin-top:5px;
+}
+
+.actions-img {
     margin-top:20px;
-    height: 80%;
-    width: 60%;
-  }
+    width:80px;
+    max-height:100px;
+}
 
 .score-box1 {
     height: 50px;
 }
-
-.card-container {
-    margin: 50px;
-    width: 200px;
-    display: inline-block;
-    height:200px;
-    background-color: #F1F1F3;
-    cursor: pointer;
-  }
