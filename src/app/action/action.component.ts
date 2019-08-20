@@ -8,6 +8,8 @@ import { AWSError } from 'aws-sdk';
 import { LoggedInCallback } from '../services/cognito.service';
 import { Parameters } from 'src/app/services/parameters';
 import { LogInService } from '../services/log-in.service';
+import { ActionConfirmDialogComponent } from '../action-confirm-dialog/action-confirm-dialog.component';
+import { MatTableDataSource, MatPaginator, MatButton, MatCheckbox, MatDialog , MatDialogConfig} from '@angular/material';
 
 @Component({
   selector: 'app-action',
@@ -20,7 +22,9 @@ export class ActionComponent implements OnInit, LoggedInCallback {
   actionsLength: number;
   assignment: any;
 
-  constructor(public actionService: ActionService, public lambdaService: LambdaInvocationService,
+  constructor(public actionService: ActionService,
+    public dialog: MatDialog,
+    public lambdaService: LambdaInvocationService,
     public loginService: LogInService) { }
 
   ngOnInit() {
@@ -29,6 +33,18 @@ export class ActionComponent implements OnInit, LoggedInCallback {
 
   openDialog(name: string, action: Action) {
     this.actionService.openDialog(name, action);
+    /*const dialogRef = this.dialog.open(ActionConfirmDialogComponent,{
+      width: '600px',
+      data: action
+    });
+    dialogRef.afterClosed().subscribe(data => {
+      console.log(`Dialog closed: ${data}`);
+      const result = data
+      if (result == 'Log Action') {
+      this.actionService.openDialog(name, action);
+      }
+
+    }); */
   }
 
   // Response of 'isAuthenticated' in ngOnInit
