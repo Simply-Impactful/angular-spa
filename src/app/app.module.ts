@@ -53,6 +53,7 @@ import { ExcelService } from './services/excel.service';
 import { LoaderComponent } from './loader/loader.component';
 import { CommonService } from './services/common.service';
 import { ActionDeleteDialogComponent } from './action-delete-dialog/action-delete-dialog.component';
+import { ActionConfirmDialogComponent } from './action-confirm-dialog/action-confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { ActionDeleteDialogComponent } from './action-delete-dialog/action-delet
     AdminAccessLevelComponent,
     ActionDialogComponent,
     LoaderComponent,
-    ActionDeleteDialogComponent
+    ActionDeleteDialogComponent,
+    ActionConfirmDialogComponent
   ],
   imports: [
     [BrowserModule, FormsModule],
@@ -103,7 +105,8 @@ import { ActionDeleteDialogComponent } from './action-delete-dialog/action-delet
   entryComponents: [
     ActionDialogComponent,
     AdminActionDialogComponent,
-    ActionDeleteDialogComponent
+    ActionDeleteDialogComponent,
+    ActionConfirmDialogComponent
   ],
   providers: [
     { provide: WindowWrapper, useFactory: GetWindow},
@@ -117,7 +120,8 @@ import { ActionDeleteDialogComponent } from './action-delete-dialog/action-delet
     LevelsMapping,
     ActionDialogComponent,
     CommonService,
-    ExcelService ],
+    ExcelService,
+    ActionConfirmDialogComponent],
   bootstrap: [AppComponent]
 })
 

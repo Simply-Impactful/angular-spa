@@ -3,6 +3,7 @@ import { Action } from '../model/Action';
 import { User } from '../model/User';
 import { MatDialog } from '@angular/material';
 import { ActionDialogComponent } from './../action-dialog/action-dialog.component';
+import { ActionConfirmDialogComponent } from './../action-confirm-dialog/action-confirm-dialog.component';
 import * as AWS from 'aws-sdk';
 import { CognitoUtil, LoggedInCallback } from './cognito.service';
 import { environment } from '../../environments/environment';
@@ -52,8 +53,11 @@ export class ActionService {
     // if the amount of times they took the action is greater than or equal to the max frequency
     // OR the the offset is undefined (meaning lifetime cadence) AND the action array is greater than
     // or equal to 1, throw the error.
+    actionDialog.isBeginning = false;
+
     if (createdInCadence.length >= this.maxFrequency || (!offSet && uniqueEntriesByUser.length >= 1)) {
       actionDialog.isError = true;
+      // actionDialog.isBeginning = false;
       return false;
     } else {
       return true;
@@ -71,6 +75,8 @@ export class ActionService {
     };
     return cadences[frequencyCadence];
   }
+
+
 
   openDialog(name: string, action: Action) {
     const dialogRef = this.dialog.open(ActionDialogComponent, {

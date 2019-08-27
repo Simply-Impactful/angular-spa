@@ -10,6 +10,9 @@ import { Parameters } from '../services/parameters';
 import { User } from '../model/User';
 import { LogInService } from '../services/log-in.service';
 import { Observable } from 'rxjs';
+import { ActionConfirmDialogComponent } from '../action-confirm-dialog/action-confirm-dialog.component';
+import { MatButton, MatCheckbox , MatDialogConfig} from '@angular/material';
+
 
 @Component({
   selector: 'app-actions',
@@ -40,10 +43,9 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
     });
 
    this.lambdaService.listActions(this);
-
    // to get the user data that's diplayed across the top
    this.loginService.isAuthenticated(this);
-  }
+}
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -63,7 +65,19 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
   openDialog(name: string, action: Action) {
    // required for page render
     this.actionService.openDialog(name, action);
-   // this.action = this.getActionsData(name);
+      /*const dialogRef = this.dialog.open( ActionConfirmDialogComponent, {
+        width: '600px',
+        data: action
+      });
+      dialogRef.afterClosed().subscribe(data => {
+        console.log(`Dialog closed: ${data}`);
+        const result = data
+        if (result == 'Log Action') {
+        this.actionService.openDialog(name, action);
+        }
+
+      });*/
+
   }
 
   isLoggedIn(message: string, loggedIn: boolean): void {}
