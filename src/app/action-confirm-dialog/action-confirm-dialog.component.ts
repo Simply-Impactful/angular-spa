@@ -12,12 +12,13 @@ import { AppConf } from '../shared/conf/app.conf';
 import { Group } from '../model/Group';
 import { Parameters } from '../services/parameters';
 
+
 @Component({
-  selector: 'app-action-dialog',
-  templateUrl: './action-dialog.component.html',
-  styleUrls: ['./action-dialog.component.scss']
+  selector: 'app-action-confirm-dialog',
+  templateUrl: './action-confirm-dialog.component.html',
+  styleUrls: ['./action-confirm-dialog.component.scss']
 })
-export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback, CognitoCallback {
+export class ActionConfirmDialogComponent implements OnInit, LoggedInCallback, Callback, CognitoCallback {
 
   action: Action;
   user: User;
@@ -33,14 +34,13 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
   displayAssignment = false;
   isError = false;
   displayCadence: string = '';
-  isBeginning = true;
+  name: string = '';
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA)public data: Action,
-    public thisDialogRef: MatDialogRef<ActionDialogComponent>,
-    private params: Parameters, private cognitoUtil: CognitoUtil,
-    private lambdaService: LambdaInvocationService,
-    private loginService: LogInService) { }
+  constructor(@Inject(MAT_DIALOG_DATA)public data: Action,
+  public thisDialogRef: MatDialogRef<ActionConfirmDialogComponent>,
+  private params: Parameters, private cognitoUtil: CognitoUtil,
+  private lambdaService: LambdaInvocationService,
+  private loginService: LogInService) { }
 
   ngOnInit() {
     // required to get the userActions table - for cadences and frequences
@@ -49,6 +49,7 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
 
     // passed into the constructor of the dialog window from action(s).component.ts
     this.action = this.data;
+    this.name = this.action.name;
     this.params.user$.subscribe(user => {
       this.user = user;
     });
@@ -60,33 +61,49 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
 
   setDisplayText(action: Action) {
     let cadence = action.frequencyCadence;
-    const regex = /per/gi;
-    return cadence = cadence.toLowerCase().replace(regex, 'per ');
+    switch (cadence) {
+      case 'perDay' : {
+        cadence = 'Daily';
+        break;
+      }
+      case 'perWeek' : {
+        cadence = 'Weekly';
+        break;
+      }
+      case 'perMonth' : {
+        cadence = 'Monthly';
+        break;
+      }
+      case 'perYear' : {
+        cadence = 'Yearly';
+        break;
+      }
+      case 'perLifeTime' : {
+        cadence = 'Lifetime';
+        break;
+      }
+      default : {
+        cadence = cadence;
+        break;
+      }
+    }
+    return cadence ;
   }
 
   onCloseLogAction() {
-    if (this.action.assignmentUrl) {
-      this.displayAssignment = true;
-    }
-    if (this.actionService.checkCadences(this.uniqueEntriesByUser, this.action, this)) {
-      // this.lambdaService.performAction(this, this.user, this.action);
-    } else {
-      // throw error pop up window
-    }
-   // this.thisDialogRef.close('Confirm');
+    this.thisDialogRef.close('Log Action');
   }
 
-  // when the user clicks Done after they are displayed the assignment
-  closeWindow() {
-    this.lambdaService.performAction(this, this.user, this.action);
-    this.thisDialogRef.close('Confirm');
-    // window.location.reload();
-  }
+
+// when the user clicks Done after they are displayed the assignment
+closeWindow() {
+  this.thisDialogRef.close('Confirm');
+  window.location.reload();
+}
 
   onCloseCancel() {
     this.thisDialogRef.close('Cancel');
   }
-
   // Skeletal methods we need to put here in order to use the lambdaService
   isLoggedIn(message: string, loggedIn: boolean): void {}
 
@@ -157,7 +174,7 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
     } else {
       // not part of any groups
       this.thisDialogRef.close('Confirm');
-      // window.location.reload();
+      window.location.reload();
     }
    }
 
@@ -183,3 +200,5 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
 
     callback() {}
 }
+
+
