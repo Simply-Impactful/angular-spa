@@ -1,23 +1,40 @@
-
-.card-container {
-  margin: 50px;
-  width: 200px;
-  display: inline-block;
-  height:200px;
-  background-color: #F1F1F3;
-  cursor: pointer;
+.action-container {
+  padding-top: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
-  img {
-    margin-top:20px;
-    height: 80%;
-    width: 60%;
-  }
+.action-mat-card {
+  flex-grow: 1;
+  padding: 10px;
+  width: 180px;
+  height: 180px;
+  display: inline-block;
+  background-color: #F1F1F3;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
 
-  .score-flag {
-    height: 2.77em;
-    margin-top:-24px;
-    background: url('/assets/images/score-flag.png') no-repeat;
-   // max-width: fit-content;
-    
+.action-mat-card-header {
+  float:right;
+}
+
+.action-mat-card-subtitle {
+  color: black;
+  font-size:12.6px;
+  margin-top:5px;
+}
+
+img {
+  margin-top:20px;
+}
+
+.score-flag {
+  height: 2.77em;
+  margin-top:-10px;
+  margin-left: -30px;
+  padding-right: 20px;
+  background: url('/assets/images/score-flag.png') no-repeat;
 }
