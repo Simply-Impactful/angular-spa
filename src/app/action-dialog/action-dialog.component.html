@@ -1,25 +1,59 @@
-<div *ngIf="!isError">
+<div *ngIf="isBeginning">
+  <h2 mat-dialog-title  style="margin-left: 25px;">{{action.name}}</h2>
+<hr>
+<mat-dialog-content>
+  <div>
+  <img src={{action.funFactImageUrl}}  style="margin-left: 20px;  width:25%;">
+  <div style="margin-left: 28px;  width:66%; display:inline-block;"> 
+  <p style= "text-align: left">Point Value:  {{action.eligiblePoints}}</p>
+  <p style="text-align: left">Frequency:  {{displayCadence}}</p>
+  </div>
+</div>
+<br>
+<br>
+<div>  
+    <i style="color:gray; margin-left: 25px; font-size: 14px;">{{action.funFact}}</i>
+</div>
+<br>
+
+ <div  *ngIf = "displayAssignment">
+  <br> Congrats! You just added {{action.eligiblePoints}} to your score.
+  <br> Here is an <a  href = '{{action.assignmentUrl}}' target="_blank">assignment </a> you can take as part of this action. 
+</div> 
+</mat-dialog-content>
+<hr>
+<div style="display:flex; flex-direction: row; justify-content: center; align-items: left">
+  <button color="primary" (click)="onCloseCancel()" style="margin-left: 25px;  width:33%;
+  display:inline-block;">Cancel</button> 
+  <button mat-raised-button color="primary" align="right" style="margin-left: 25px;  width:33%;
+  display:inline-block;" (click)="onCloseLogAction()">Log Action</button>
+</div>
+</div>
+
+<div *ngIf="!isError && !isBeginning">
     <img src='/assets/images/Congrats_icn.svg'>
   <h2 mat-dialog-title>Way to go!</h2>
   <hr>
   <mat-dialog-content>
-    <div *ngIf="!displayAssignment"> You're about to add {{action.eligiblePoints}} points to your score.  Keep up the good work!
-    </div>  
-    <br>
+    <!--<div *ngIf="!displayAssignment"> You're about to add {{action.eligiblePoints}} points to your score.  Keep up the good work!
+    </div>  -->
+    <div *ngIf="!displayAssignment"> Action logged successfully. You're one step closer to saving the planet.
+      </div>
     <br>
     <i style="color:gray">{{action.funFact}}</i>
-    <br>
-    <img src={{action.funFactImageUrl}}>
+    <br> 
+    <!--<img src={{action.funFactImageUrl}}> -->
    <div  *ngIf = "displayAssignment">
     <br> Congrats! You just added {{action.eligiblePoints}} to your score.
     <br> Here is an <a  href = '{{action.assignmentUrl}}' target="_blank">assignment </a> you can take as part of this action. 
   </div> 
   </mat-dialog-content>
   <hr>
-  <div align="right">
-    <button mat-stroked-button color="primary" (click)="onCloseCancel()">UNDO</button> 
-    <button *ngIf="!displayAssignment" mat-raised-button color="primary" (click)="onCloseConfirm()">CONFIRM</button>
-    <button *ngIf="displayAssignment" mat-raised-button color="primary" (click)="closeWindow()">DONE</button>
+  <div style="display:flex; flex-direction: row; justify-content: center;"> 
+    <button style="width:50% ;margin-left:20px;" (click)="onCloseCancel()">UNDO</button> 
+    <button style="width:50% ;margin-left:20px;" *ngIf="!displayAssignment" mat-raised-button color="primary" (click)="closeWindow()">OK</button>
+    <!--<button *ngIf="displayAssignment" mat-raised-button color="primary" (click)="closeWindow()">DONE</button>
+    -->
   </div>
   </div>
   <div *ngIf="isError">
