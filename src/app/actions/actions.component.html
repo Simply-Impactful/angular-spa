@@ -1,15 +1,28 @@
 <main>
-    <mat-paginator [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
-    <mat-form-field style="padding-left:5px; width: 300px">
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter by Action name...">
+  <mat-paginator [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
+  <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter by Action name...">
   </mat-form-field>
   <form>
-    <mat-card *ngFor="let action of observableData | async" class="card-container" style="margin-top:20px"(click)="openDialog(action.name, action)">
-      <mat-card-header style="float:right;">
-          <div mat-card-image class="score-flag">{{action.eligiblePoints}}</div>
-      </mat-card-header>
-      <img mat-card-image style="width:80px; max-height:100px;" src={{action.tileIconUrl}}>
-      <mat-card-subtitle style="color: black; font-size:12.6px;margin-top:5px;">{{action.name}}</mat-card-subtitle>
-    </mat-card>
+      <div class="container-div">
+        <mat-grid-list
+          rowHeight="1:1" 
+          [cols]="columnCount" 
+          [attr.colWidth]="colWidth" 
+          [gutterSize]="gutterWidth" 
+          (window:resize)="onResize($event)">
+
+          <mat-grid-tile *ngFor="let action of observableData | async">
+            <mat-card class="actions-mat-card" (click)="openDialog(action.name, action)">
+                <mat-card-header class="actions-mat-card-header">
+                    <div mat-card-image class="score-flag">{{action.eligiblePoints}}</div>
+                </mat-card-header>
+                <img mat-card-image class="actions-img" src={{action.tileIconUrl}}>
+                <mat-card-subtitle class="actions-mat-card-subtitle">{{action.name}}</mat-card-subtitle>
+            </mat-card>
+          </mat-grid-tile>
+          
+        </mat-grid-list>
+      </div>
   </form>
 </main>

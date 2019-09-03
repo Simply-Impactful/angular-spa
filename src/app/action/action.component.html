@@ -1,16 +1,15 @@
 <main>
-    <div class="top-row">
-      <mat-toolbar style="background-color: transparent">
-
-      </mat-toolbar>
+  <form>
+    <div class="action-container">
+      <div class="item" *ngFor="let action of actions">
+        <mat-card class="action-mat-card" (click)="openDialog(action.name, action)">
+            <mat-card-header class="action-mat-card-header">
+                <div mat-card-image class="score-flag">{{action.eligiblePoints}}</div>
+            </mat-card-header>
+            <img mat-card-image style="max-width:80px; max-height:100px;" src={{action.tileIconUrl}}>
+            <mat-card-subtitle class="action-mat-card-subtitle">{{action.name}}</mat-card-subtitle>
+          </mat-card>                
+      </div>
     </div>
-    <form>
-      <mat-card *ngFor="let action of actions" class="card-container" style="margin-top:20px"(click)="openDialog(action.name, action)">
-        <mat-card-header style="float:right;">
-            <div mat-card-image class="score-flag">{{action.eligiblePoints}}</div>
-        </mat-card-header>
-      <img mat-card-image style="max-width:80px; max-height:100px;" src={{action.tileIconUrl}}>
-      <mat-card-subtitle style="color: black; font-size:12.6px;margin-top:5px;">{{action.name}}</mat-card-subtitle>
-    </mat-card>
-    </form>
+  </form>
 </main>

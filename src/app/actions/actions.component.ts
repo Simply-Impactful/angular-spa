@@ -1,5 +1,5 @@
 import { ActionDialogComponent } from './../action-dialog/action-dialog.component';
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Directive } from '@angular/core';
 import { MatDialog, MatPaginator, MatTableDataSource } from '@angular/material';
 import { Action } from '../model/Action';
 import { ActionService } from '../services/action.service';
@@ -28,21 +28,30 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
   actions: Action[];
   dataSource;
 
+  columnCount: number;
+  columnWidth = 200;
+  gutterWidth = 10;
+
   constructor(
     public dialog: MatDialog, public actionService: ActionService,
     public lambdaService: LambdaInvocationService, public params: Parameters,
     public loginService: LogInService, public cognitoUtil: CognitoUtil) { }
 
   ngOnInit() {
-   this.params.user$.subscribe(user => {
+    this.params.user$.subscribe(user => {
       this.user = user;
       this.user.totalPoints = user.totalPoints;
     });
 
-   this.lambdaService.listActions(this);
+    this.lambdaService.listActions(this);
+    // to get the user data that's diplayed across the top
+    this.loginService.isAuthenticated(this);
 
-   // to get the user data that's diplayed across the top
-   this.loginService.isAuthenticated(this);
+    this.columnCount = window.innerWidth / (this.columnWidth + this.gutterWidth);
+  }
+
+  onResize(event) {
+    this.columnCount = event.target.innerWidth / (this.columnWidth + this.gutterWidth);
   }
 
   applyFilter(filterValue: string) {
