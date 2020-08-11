@@ -3,14 +3,14 @@
     <div class="top-row">
         <mat-toolbar style="background-color: transparent">
           <mat-toolbar-row>
-            <span class="spacer"></span>
-            <span>Hi {{user.username}}, what actions have you taken today?</span>
-            <span class="spacer"></span>
-            Your Score: {{user.totalPoints}}
-            <span *ngIf="user.level">
-                <img src="{{user.level}}">                
-            </span> 
-         <!--   <span class="score-flag"></span> -->
+\            <span class="welcomeMsg">Hi {{user.username}}, what actions have you taken today?</span>
+            <div class="level">
+              <p class= "scoreMsg"> Your Score: {{user.totalPoints}}</p> 
+              <span *ngIf="user.level">
+                  <img src="{{user.level}}">                
+              </span> 
+              <span class="score-flag"></span>
+            </div>
           </mat-toolbar-row>
         </mat-toolbar>
       </div>
