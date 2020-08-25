@@ -29,33 +29,26 @@
     <div fxFlex="100">
       <br>
       <br>
-      <div align="center" style = "text-align: right">
+      <div align="right" class="userInfo">
         <br>
-        <h5  style ="font-weight: bold"> FIRST NAME :</h5>
+        <h5  style ="font-weight: bold"> FIRST NAME : {{user.name}} </h5>
         <br>
-        <h5  style ="font-weight: bold"> LAST NAME :</h5>
+        <h5  style ="font-weight: bold"> LAST NAME : {{user.lastName}} </h5>
         <br>
-        <h5  style ="font-weight: bold"> EMAIL:</h5>
+        <h5  style ="font-weight: bold"> EMAIL: {{user.email}}</h5>
         <br>
-        <h5  style ="font-weight: bold"> ZIP CODE:</h5>
+        <h5  style ="font-weight: bold"> ZIP CODE: {{user.address}}</h5>
         <br>
-        <h5 style ="font-weight: bold"> SCHOOL/COMPANY:</h5>
+        <h5 style ="font-weight: bold"> SCHOOL/COMPANY: {{user.organization}}</h5>
       </div>
-    </div>
-    <div fxFlex="100" *ngIf = "isViewProfile">
-      <div align="left" style = "padding-left: 1em">
-          <br>
-          <br>
-        <br>
-        <h5> {{user.name}} </h5>
-        <br>
-        <h5> {{user.lastName}} </h5>
-        <br>
-        <h5> {{user.email}}</h5>
-        <br>
-        <h5> {{user.address}}</h5>
-        <br>
-        <h5> {{user.organization}}</h5>
+      <mat-grid-list cols="2" rowHeight="8em" class="editProfile">
+        <mat-grid-tile>
+          <button mat-button color="primary" (click)="editProfile()" *ngIf = "isViewProfile" class="mat-grid-tile mat-figure">EDIT PROFILE</button>
+        </mat-grid-tile>
+        </mat-grid-list>
+      <div class="saveResetButtons">
+          <button mat-raised-button color="primary" (click)="saveChanges()" *ngIf = "isEditProfile" class="saveButton" >SAVE CHANGES</button>
+          <button mat-button style="font-size: 10px; widows: 150em" color="primary" *ngIf = "isEditProfile" routerLink="/resetpass">CHANGE PASSWORD</button>
       </div>
     </div>
     <div fxFlex="100" *ngIf = "isEditProfile">
@@ -84,12 +77,4 @@
       </div>
     </div>
   </div>
-  <mat-grid-list cols="2" rowHeight="8em">
-    <mat-grid-tile></mat-grid-tile>
-    <mat-grid-tile>
-      <button mat-button color="primary" (click)="editProfile()" *ngIf = "isViewProfile">EDIT PROFILE</button>
-      <button mat-raised-button color="primary" (click)="saveChanges()" *ngIf = "isEditProfile" >SAVE CHANGES</button>
-      <button mat-button style="font-size: 10px; widows: 150em" color="primary" *ngIf = "isEditProfile" routerLink="/resetpass">CHANGE PASSWORD</button>
-    </mat-grid-tile>
-  </mat-grid-list>
 </main>
