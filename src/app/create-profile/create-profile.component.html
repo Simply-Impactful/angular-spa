@@ -6,6 +6,11 @@
       <img src="italladdsup/images/Avatar.png" class="bg" alt="">
       <h2 style="padding-top: 50px; padding-bottom: 50px;"> Create an account by completing the simple steps below:</h2>
     </form>
+
+    <div class="userType toggle-button">
+      <button  name="userType" value="teacher" class="toggle-button" id="teacher-toggle"(click)="changeUserType('teacher-toggle')">Teacher</button>
+      <button  name="userType" value="student" class="toggle-button" id="student-toggle" (click)="changeUserType('student-toggle')">Student</button>
+    </div>
     <div fxLayout="row">
       <div fxFlex="100">
         <div align="center">
