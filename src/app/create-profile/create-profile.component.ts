@@ -45,7 +45,7 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
-      this.newUser.userType = 'teacher';
+      this.newUser.userType = 'individual';
     });
     const currentPage = this.route.component.valueOf();
   }
