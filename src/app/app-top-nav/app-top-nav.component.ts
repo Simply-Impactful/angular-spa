@@ -21,6 +21,7 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
 
   title: string = this.conf.appTitle;
   hideRightMenu: boolean = true;
+  hideAdminView: boolean = true;
   user: User;
   isViewAll: boolean;
   routerLink: string;
@@ -77,10 +78,12 @@ export class AppTopNavComponent implements OnInit, LoggedInCallback {
       this.hideRightMenu = true;
       this.routerLink = '/login';
       this.title = 'Navigate to Login Page';
+      this.isAdmin = false;
     } else {
       this.hideRightMenu = false;
       this.routerLink = '/home';
       this.title = 'Navigate to Home Page';
+      this.isAdmin = this.appComp.isAdmin;
     }
   }
   // API Response

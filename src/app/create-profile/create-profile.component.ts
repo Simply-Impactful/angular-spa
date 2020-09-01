@@ -45,7 +45,7 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
-      this.newUser.userType = params['userType']; // (+) converts string 'id' to a number
+      this.newUser.userType = 'individual';
     });
     const currentPage = this.route.component.valueOf();
   }
@@ -62,6 +62,17 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
     }
   }
 
+  changeUserType(buttonId: string) {
+    if (buttonId === 'teacher-toggle') {
+      this.newUser.userType = 'teacher';
+      document.getElementById('teacher-toggle').style.background = '#4db6ac';
+      document.getElementById('student-toggle').style.background = 'lightgray';
+    } else {
+      this.newUser.userType = 'individual';
+      document.getElementById('teacher-toggle').style.background = 'lightgray';
+      document.getElementById('student-toggle').style.background = '#4db6ac';
+    }
+  }
   checkInputs() {
     if (!this.newUser.email) {
       this.emailError = 'Email must not be empty';
