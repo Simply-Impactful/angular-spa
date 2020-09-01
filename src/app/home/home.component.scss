@@ -28,6 +28,7 @@ img {
     width: 1.7em;
     background: url('/assets/images/score-flag.png') center/1em no-repeat;
     border: none;
+    right: 0;
 }
 
 button.cis-logo {
@@ -98,4 +99,30 @@ mat-form-field {
   .top-performer-image {
     background-image: url('/assets/images/Congrats_icn.svg');
     background-size: cover;
+  }
+
+  .welcomeMsg {
+    margin: auto;
+    width: 100%;
+    position: absolute;
+    padding: 10px;
+  }
+
+  .level {
+      margin-right: 45px;
+      position: absolute;
+      right: 0;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+  }
+
+  .scoreMsg {
+      margin-bottom: 0;
+      padding-right: 5px;
+  }
+
+  .navBarScoreFlag {
+      position: absolute;
+
   }
