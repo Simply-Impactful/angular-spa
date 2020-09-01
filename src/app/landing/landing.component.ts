@@ -18,12 +18,17 @@ export class LandingComponent implements OnInit, LoggedInCallback {
   factOfTheDayText: string = '';
   factOfTheDayUri: string = this.conf.default.factOfTheDayUri;
   factUrl: string = '';
+  displayLogin = false;
 
   constructor(private http: HttpClient, public logInService: LogInService, public router: Router) {}
 
   ngOnInit() {
     this.getData().subscribe();
     this.logInService.isAuthenticated(this);
+  }
+  
+  showLogin(): void{
+    this.displayLogin = !this.displayLogin;
   }
 
   isLoggedIn(message: string, isLoggedIn: boolean): void {

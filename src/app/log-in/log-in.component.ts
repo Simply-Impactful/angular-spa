@@ -45,8 +45,6 @@ export class LogInComponent implements LoggedInCallback, OnInit {
     console.log('isLoggedInMethod');
     if (isLoggedIn) {
        this.router.navigate(['/home']);
-    } else {
-       this.router.navigate(['/login']);
     }
   }
 
