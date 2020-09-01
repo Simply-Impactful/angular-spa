@@ -1,21 +1,21 @@
 <main>
     <mat-grid-list cols="1" rowHeight="3em">
         <mat-grid-tile color="accent" >
-            <mat-form-field appearance="fill" style="background-color: white; margin-bottom: -1.50em">
+            <mat-form-field appearance="fill">
                 <mat-label>Username</mat-label>
                 <!-- Get the input data and pass it to Component file with ngModel-->
                 <input [(ngModel)]="username" name="username" (keyup.enter)="login()" matInput placeholder="Username">
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile color="accent">
-            <mat-form-field appearance="fill" style="background-color: white; margin-bottom: -1.50em">
+            <mat-form-field appearance="fill" >
                 <mat-label>Password</mat-label>
                 <!-- Get the input data and pass it to Component file with ngModel-->
                 <input [(ngModel)]="password" type="password" name="password" (keyup.enter)="login()" matInput placeholder="Password">
                 <mat-hint style="color: red; font-size: 85%">{{errorMessage}}</mat-hint>
             </mat-form-field>
         </mat-grid-tile>
-        <mat-grid-tile>
+        <mat-grid-tile class="lginbtn">
             <button mat-raised-button color="primary" (click)="login()">Login</button>
         </mat-grid-tile>
         <mat-grid-tile gutterSize="20px">
