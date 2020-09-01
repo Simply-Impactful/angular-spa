@@ -1,14 +1,14 @@
 <main>
-    <mat-grid-list cols="1" rowHeight="4em">
+    <mat-grid-list cols="1" rowHeight="3em">
         <mat-grid-tile color="accent" >
-            <mat-form-field appearance="fill">
+            <mat-form-field appearance="fill" style="background-color: white; margin-bottom: -1.50em">
                 <mat-label>Username</mat-label>
                 <!-- Get the input data and pass it to Component file with ngModel-->
                 <input [(ngModel)]="username" name="username" (keyup.enter)="login()" matInput placeholder="Username">
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile color="accent">
-            <mat-form-field appearance="fill">
+            <mat-form-field appearance="fill" style="background-color: white; margin-bottom: -1.50em">
                 <mat-label>Password</mat-label>
                 <!-- Get the input data and pass it to Component file with ngModel-->
                 <input [(ngModel)]="password" type="password" name="password" (keyup.enter)="login()" matInput placeholder="Password">
@@ -19,11 +19,11 @@
             <button mat-raised-button color="primary" (click)="login()">Login</button>
         </mat-grid-tile>
         <mat-grid-tile gutterSize="20px">
-                <button mat-button color="primary" routerLink="/createuser/individual/">
+                <button mat-button color="white" routerLink="/createuser/individual/">
                     Sign Up
                 </button>
            <!-- <button mat-button color="primary" routerLink="/security">Forgot Password?</button> -->
-           <button mat-button color="primary"(click)="forgotPass()">Forgot Password?</button>
+           <button mat-button color="white"(click)="forgotPass()">Forgot Password?</button>
         </mat-grid-tile>
     </mat-grid-list>
 </main>
