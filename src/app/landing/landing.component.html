@@ -6,25 +6,6 @@
             <mat-grid-tile [colspan]="2" [rowspan]="4">
                 <h1>Being mindful is simple. And impactful.</h1>
             </mat-grid-tile>
-            <mat-grid-tile [colspan]="2" [rowspan]="1">
-                    
-                <button mat-raised-button color="primary" (click)="showLogin()">{{'sign in' | uppercase}}</button>
-            </mat-grid-tile>
-            <mat-grid-tile [colspan]="2" [rowspan]="1">
-                <span>Don't have a profile?</span>
-            </mat-grid-tile>
-            <div class="blue-theme">
-                <mat-grid-tile [colspan]="2" [rowspan]="">
-                    <button mat-raised-button color="primary" routerLink="/createuser/teacher/">
-                        {{'teachers, start here' | uppercase }}
-                    </button>
-                </mat-grid-tile>
-                <mat-grid-tile [colspan]="2" [rowspan]="1">
-                    <button mat-raised-button color="accent" routerLink="/createuser/individual/">
-                        {{'other users, start here' | uppercase }}
-                    </button>
-                </mat-grid-tile>
-            </div>
             <mat-grid-tile id="icon" [colspan]="2" [rowspan]="2">
                 <img src="/assets/images/icons/care.png" style="padding:70px" />
             </mat-grid-tile>
@@ -35,7 +16,7 @@
                 <h2>{{factOfTheDayText}}</h2>
             </mat-grid-tile>
         </mat-grid-list>
-            <app-log-in  *ngIf="displayLogin">
+            <app-log-in>
             </app-log-in>
     </div>
 </main>
