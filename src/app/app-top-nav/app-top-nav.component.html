@@ -9,11 +9,12 @@
 
       <span class="spacer"></span>
 
-      <a href = 'http://www.changeissimple.org/' target="_blank" class="white-text">About </a>
-      <a *ngIf= "!hideRightMenu || isOnLevelPage" routerLink="/level" class="white-text">Level </a>
+      <a *ngIf= "!hideRightMenu || isOnLevelPage" routerLink="/home" class="white-text">Home </a>
+      <a href = 'https://www.changeissimple.org/about' target="_blank" class="white-text">About </a>
+      <a href = 'http://www.changeissimple.org' target="_blank" class="white-text">FAQ </a>
+      <a *ngIf= "!hideRightMenu || isOnLevelPage" routerLink="/level" class="white-text">Levels </a>
       <a *ngIf= "!hideRightMenu" routerLink = "/contactus" class="white-text">Contact </a>
-      <a href = 'http://www.changeissimple.org/joinus/' target="_blank" class="white-text">FAQ </a>
-      <a *ngIf= "isAdmin" routerLink="/adminaccesslanding" class="white-text">Admin View</a>
+      <a *ngIf= "isAdmin" routerLink="/adminaccesslanding" class="white-text">Admin Portal</a>
       <a *ngIf= "!hideRightMenu" routerLink="/userprofile" class="white-text">My Profile</a>
       <a *ngIf= "!hideRightMenu" routerLink="/landing" (click)="logout()" class="white-text">Logout</a>
 
@@ -21,12 +22,12 @@
         <span class="spacer"></span>
         <mat-card *ngIf="!isOnLevelPage" style="margin-right:30px; vertical-align:center" class="avatar-card">
             <mat-card-header *ngIf="user.picture">
-              <img mat-card-avatar src="{{user.picture}}">
+              <img routerLink="/userprofile" style="cursor: pointer;" mat-card-avatar src="{{user.picture}}">
             </mat-card-header>
         </mat-card>
         <mat-card *ngIf="isOnLevelPage" style="margin-right:30px; vertical-align:center" class="avatar-card">
           <mat-card-header>
-            <img mat-card-avatar src="{{user.picture}}">
+            <img routerLink="/userprofile" style="cursor: pointer;" mat-card-avatar src="{{user.picture}}">
           </mat-card-header>
         </mat-card>
       </div>

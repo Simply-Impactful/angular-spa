@@ -7,19 +7,19 @@
         <button style="height:80px; width:80px;" class="nav-logo" title="{{title}}" routerLink="{{routerLink}}"></button>
         <button style="height:200px; width:200px;" class="nav-brand" title="{{title}}" routerLink="{{routerLink}}"></button>
         <span class="spacer"></span>
-        <a routerLink="/adminaccesslanding" class="white-text">Landing </a>
+        <a routerLink="/adminaccesslanding" class="white-text">Site Config </a>
         <a routerLink="/adminaccessactions" class="white-text">Actions </a>
         <a routerLink="/adminaccessusers" class="white-text">Users</a>
-        <a routerLink="/adminaccessgroupinfo" class="white-text">Group Info</a>
-        <a routerLink="/adminaccesslevel" class="white-text">Level Info</a>
-        <a routerLink="/home" class="white-text">Home Page</a>
+        <a routerLink="/adminaccessgroupinfo" class="white-text">Groups</a>
+        <a routerLink="/adminaccesslevel" class="white-text">Levels</a>
+        <a routerLink="/home" class="white-text">Exit Admin Portal</a>
         <a routerLink="/landing" (click)="logout()" class="white-text">Logout</a>
 
         <div [hidden]="hideRightMenu" class="white-text">
             <span class="spacer"></span>
             <mat-card style="margin-right:30px; vertical-align:center"class="avatar-card">
                 <mat-card-header>
-                  <img mat-card-avatar src="{{user.picture}}">
+                  <img routerLink="/userprofile" style="cursor: pointer;" mat-card-avatar src="{{user.picture}}">
                 </mat-card-header>
               </mat-card>
           </div>
