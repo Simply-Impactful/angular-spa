@@ -2,10 +2,13 @@ main {
     color: white;
 }
 
+mat-grid-tile {
+    display: flex;
+    flex-direction: column;
+}
+
 h1 {
     font-size: 2.75em;
-    display: flex;
-    flex-direction: row;
     position: relative;
     margin: 20px auto;
 }
@@ -19,6 +22,10 @@ h3 {
     padding: 1em;
     text-decoration: underline;
     letter-spacing: 0.3em;
+    margin-bottom: 0em;
+}
+h3.fact {
+    text-decoration: none;
 }
 
 button.mat-raised-button {

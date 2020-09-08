@@ -1,11 +1,18 @@
 main {
-    padding-top: 125px;
+    padding-top: 50px;
 }
 
 mat-form-field {
     width: 250px;
+    background-color: white; 
+    margin-bottom: -1.50em
 }
-
+mat-grid-tile.lginbtn {
+    margin-top: -.50em;
+}
+input {
+    color: black;
+}
 button.mat-raised-button {
     padding-left: 2em;
     padding-right: 2em;
