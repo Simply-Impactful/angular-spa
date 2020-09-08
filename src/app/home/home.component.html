@@ -18,16 +18,18 @@
     <app-action *ngIf="isLoggedIn"></app-action>
     <button mat-raised-button color="primary" (click)="navigate()">View All</button>
   </div>
+  <div class="whiteTopBorder"></div>
+  <div class="blueBanner"></div>
   <div *ngIf="isHomePage" class="main-body">
     <div fxLayout="row">
       <div fxFlex="100">
-        <div align="left">
+        <div align="left" >
           <h5 class="mygroup">My Groups</h5>
         </div>
       </div>
       <div fxFlex="100">
-        <div align="right">
-          <button mat-button color="primary" style="font-weight: bold" routerLink="/creategroup">+ Create New</button>
+        <div align="right" >
+          <button mat-button class="createNewButton" style="font-weight: bold" routerLink="/creategroup">+ Create New</button>
         </div>
       </div>
     </div>
