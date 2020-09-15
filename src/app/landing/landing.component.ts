@@ -26,8 +26,8 @@ export class LandingComponent implements OnInit, LoggedInCallback {
     this.getData().subscribe();
     this.logInService.isAuthenticated(this);
   }
-  
-  showLogin(): void{
+
+  showLogin(): void {
     this.displayLogin = !this.displayLogin;
   }
 
