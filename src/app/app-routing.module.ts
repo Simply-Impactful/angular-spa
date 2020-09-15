@@ -24,7 +24,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LogInComponent },
   { path: 'contactus', component: ContactUsComponent },
-  { path: 'createuser', component: CreateProfileComponent },
+  { path: 'createuser/:userType', component: CreateProfileComponent },
   { path: 'userprofile', component: UserProfileComponent },
   { path: 'resetpass', component: ResetPasswordComponent },
   { path: 'groups', component: GroupsComponent },
