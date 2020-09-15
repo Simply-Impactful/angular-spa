@@ -3,6 +3,8 @@ h5 {
     letter-spacing: 3px;
     text-align: left;
     font-weight: bold;
+    width: 100%;
+    margin-left: 1em;
 }
 .top-row {
     margin-bottom: 0.25em;
@@ -47,6 +49,30 @@ button.cis-logo {
     background-repeat: no-repeat;
 }
 
+.blueBanner {
+    width: 100%;
+    background-color: #4db6ac;
+    height: 3.5em;
+    margin-bottom: -3.5em;
+}
+
+.whiteTopBorder {
+    width: 100%;
+    background-color: white;
+    height: 0.5em;
+}
+
+.createNewButton {
+    color: white;
+    font-size: 16px !important;
+    padding-bottom: 5px;
+
+    &:hover {
+        background-color: white;
+        color: #4db6ac;
+    }
+}
+
 form {
     display: flex;
     flex-direction: row;
@@ -70,6 +96,7 @@ button.mat-button {
 .mygroup {
     padding-top: 1em;
     font-size: 14px;
+    color: white;
 }
 mat-form-field {
     width: 380px;
@@ -85,6 +112,11 @@ mat-form-field {
     display: inline-block;
     height:15px;
     background-color: #F1F1F3;
+  }
+
+  .createNewBanner {
+    width: 100%;
+    color: white;
   }
 
   .top-performer-card {
