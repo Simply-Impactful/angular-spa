@@ -44,3 +44,32 @@ button.mat-raised-button {
     height: 100px;
     width:  100px;
 }
+
+.userInfo {
+    text-align: left;
+    justify-content: center;
+
+    &:h5 {
+        justify-self: center;
+    }
+}
+
+.editProfile {
+    button {
+        padding-left: 0;
+        margin-left: 0;
+    }
+}
+
+.mat-grid-tile .mat-figure {
+    justify-content: none !important;
+}
+
+.saveButton {
+    margin-left: 0 !important;
+}
+
+.saveResetButtons {
+    display: flex;
+    flex-direction: row;
+}
