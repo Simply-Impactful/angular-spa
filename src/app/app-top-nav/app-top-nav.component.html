@@ -13,6 +13,7 @@
       <a href = 'https://www.changeissimple.org/about' target="_blank" class="white-text">About </a>
       <a href = 'http://www.changeissimple.org' target="_blank" class="white-text">FAQ </a>
       <a *ngIf= "!hideRightMenu || isOnLevelPage" routerLink="/level" class="white-text">Levels </a>
+      <a *ngIf= "!hideRightMenu" routerLink = "/groups" class="white-text">Groups </a>
       <a *ngIf= "!hideRightMenu" routerLink = "/contactus" class="white-text">Contact </a>
       <a *ngIf= "isAdmin" routerLink="/adminaccesslanding" class="white-text">Admin Portal</a>
       <a *ngIf= "!hideRightMenu" routerLink="/userprofile" class="white-text">My Profile</a>
