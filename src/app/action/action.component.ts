@@ -9,7 +9,8 @@ import { LoggedInCallback } from '../services/cognito.service';
 import { Parameters } from 'src/app/services/parameters';
 import { LogInService } from '../services/log-in.service';
 import { ActionConfirmDialogComponent } from '../action-confirm-dialog/action-confirm-dialog.component';
-import { MatTableDataSource, MatPaginator, MatButton, MatCheckbox, MatDialog , MatDialogConfig} from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatButton, MatCheckbox, MatDialog, MatDialogConfig } from '@angular/material';
+import { ApiGatewayService } from '../services/api-gateway.service';
 
 @Component({
   selector: 'app-action',
@@ -25,7 +26,8 @@ export class ActionComponent implements OnInit, LoggedInCallback {
   constructor(public actionService: ActionService,
     public dialog: MatDialog,
     public lambdaService: LambdaInvocationService,
-    public loginService: LogInService) { }
+    public loginService: LogInService,
+    public apiService: ApiGatewayService) { }
 
   ngOnInit() {
     this.loginService.isAuthenticated(this);
@@ -51,7 +53,8 @@ export class ActionComponent implements OnInit, LoggedInCallback {
   isLoggedIn(message: string, loggedIn: boolean): void {
     if (loggedIn) {
       // don't request lambda data until we are logged in
-      this.lambdaService.listActions(this);
+      // this.lambdaService.listActions(this);
+      this.apiService.listUserActions(this);
     }
   }
 
@@ -59,19 +62,20 @@ export class ActionComponent implements OnInit, LoggedInCallback {
   callbackWithParams(error: AWSError, result: any): void {
     if (result) {
       // console.log('result in action ' + result);
-      const response = JSON.parse(result);
-      this.actions = response.body;
-      this.actionsLength = response.body.length;
+      // const response = JSON.parse(result);
+      this.actions = result;
+      this.actionsLength = result.length;
       // display the first three in the list.. need to make it most common 3?
-      for ( let i = this.actionsLength; i > 3; i -- ) {
+      for (let i = this.actionsLength; i > 3; i--) {
         this.actions.pop();
       }
     } else {
       // credentials error likely occurred.. retry if so
       if (error.toString().includes('credentials')) {
-        this.lambdaService.listActions(this);
+        // this.lambdaService.listActions(this);
+        this.apiService.listUserActions(this);
       }
     }
   }
-  callbackWithParam(result: any): void {}
+  callbackWithParam(result: any): void { }
 }
