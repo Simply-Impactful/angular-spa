@@ -12,7 +12,6 @@ import { S3Service } from '../services/s3.service';
 import { AppConf } from '../shared/conf/app.conf';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
-import { ApiGatewayService } from '../services/api-gateway.service';
 
 let members;
 
@@ -64,13 +63,12 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
   constructor(public lambdaService: LambdaInvocationService,
     public router: Router,
     private cognitoUtil: CognitoUtil,
-    private s3: S3Service,
-    public apiService: ApiGatewayService) { }
+    private s3: S3Service) { }
 
   ngOnInit() {
     this.isFileReader = true;
     this.createdGroup = new Array<Group>();
-    this.apiService.listGroupsMetaData(this);
+    this.lambdaService.listGroupsMetaData(this);
     this.getData();
     this.filteredOptions = this.myControl.valueChanges
     .pipe(
@@ -256,7 +254,7 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
       if (error.toString().includes('credentials')) {
         console.log('error - retrying' + JSON.stringify(error));
         // retry
-        this.apiService.listGroupsMetaData(this);
+        this.lambdaService.listGroupsMetaData(this);
       }
     }
   }

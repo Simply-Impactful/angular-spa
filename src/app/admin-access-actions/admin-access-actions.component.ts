@@ -1,15 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AppComponent } from '../app.component';
 import { Route, Router } from '@angular/router';
-import { MatTableDataSource, MatPaginator, MatButton, MatCheckbox, MatDialog, MatDialogConfig } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatButton, MatCheckbox, MatDialog , MatDialogConfig} from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
-import { ApiGatewayService } from '../services/api-gateway.service';
 import { LoggedInCallback, CognitoUtil } from '../services/cognito.service';
 import { AWSError } from 'aws-sdk';
 import { Action } from '../model/Action';
 import { AdminActionDialogComponent } from './../admin-action-dialog/admin-action-dialog.component';
-import { Parameters } from '../services/parameters';
+import { Parameters} from '../services/parameters';
 import { User } from '../model/User';
 import { LogInService } from '../services/log-in.service';
 import { ActionDeleteDialogComponent } from '../action-delete-dialog/action-delete-dialog.component';
@@ -38,7 +37,7 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
 
   constructor(public appComp: AppComponent, public lambdaService: LambdaInvocationService,
     public dialog: MatDialog, public cognitoUtil: CognitoUtil,
-    public params: Parameters, public loginService: LogInService, public apiService: ApiGatewayService) { }
+    public params: Parameters, public loginService: LogInService) { }
 
   ngOnInit() {
     this.params.user$.subscribe(user => {
@@ -74,7 +73,7 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog closed: ${result}`);
-      this.dialogResult = result;
+      this.dialogResult = result ;
       this.selection.clear();
     });
   }
@@ -109,23 +108,22 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
     this.isDeleted = true;
   }
 
-  // LoggedInCallback interface
-  isLoggedIn(message: string, isLoggedIn: boolean) {
-    if (isLoggedIn) {
-      // this.lambdaService.listActions(this);
-      this.apiService.listActions(this);
-    } else {
-      // not logged in
-      this.cognitoUtil.getCurrentUser().signOut();
-    }
-  }
+   // LoggedInCallback interface
+   isLoggedIn(message: string, isLoggedIn: boolean) {
+     if (isLoggedIn) {
+      this.lambdaService.listActions(this);
+     } else {
+       // not logged in
+       this.cognitoUtil.getCurrentUser().signOut();
+     }
+   }
 
   // result of lambda listActions and Delete Actions API
   callbackWithParams(error: AWSError, result: any): void {
     if (result) {
       console.log('result');
-      // const response = JSON.parse(result);
-      this.actions = result;
+      const response = JSON.parse(result);
+      this.actions = response.body;
       this.dataSource = new MatTableDataSource(this.actions);
       this.dataSource.paginator = this.paginator;
     } else {
@@ -141,6 +139,6 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
     }
   }
 
-  callbackWithParam(result: any): void { }
+  callbackWithParam(result: any): void {}
 }
 
