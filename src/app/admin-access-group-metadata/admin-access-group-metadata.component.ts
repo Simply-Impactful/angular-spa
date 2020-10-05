@@ -4,6 +4,7 @@ import { Route, Router } from '@angular/router';
 import { AWSError } from 'aws-sdk';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { LoggedInCallback } from '../services/cognito.service';
+import { ApiGatewayService } from '../services/api-gateway.service';
 
 @Component({
   selector: 'app-admin-access-group-metadata',
@@ -24,18 +25,18 @@ export class AdminAccessGroupMetadataComponent implements OnInit, LoggedInCallba
   addTypeList = [];
   awaitingTypeList: Array<any> = [];
 
-  constructor(public appComp: AppComponent, public lambdaService: LambdaInvocationService) { }
+  constructor(public appComp: AppComponent, public lambdaService: LambdaInvocationService, public apiService: ApiGatewayService) { }
 
   ngOnInit() {
     this.appComp.setAdmin();
-    this.lambdaService.listGroupsMetaData(this);
+    this.apiService.listGroupsMetaData(this);
   }
 
    // result of listGroupsMetaData - loggedInCallback interface
    callbackWithParams(error: AWSError, result: any): void {
     if (result) {
-      const response = JSON.parse(result);
-      this.typeList = response.body;
+      const response = result;
+      this.typeList = response;
     }
   }
   saveNew() {}
