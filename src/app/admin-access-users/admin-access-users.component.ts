@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AppComponent } from '../app.component';
 import { Route, Router } from '@angular/router';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import {MatPaginator, MatTableDataSource} from '@angular/material';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { LoggedInCallback, CognitoUtil } from '../services/cognito.service';
 import { User } from '../model/User';
@@ -9,7 +9,6 @@ import { AWSError } from 'aws-sdk';
 import * as _ from 'lodash';
 import { LogInService } from '../services/log-in.service';
 import { ExcelService } from '../services/excel.service';
-import { ApiGatewayService } from '../services/api-gateway.service';
 
 @Component({
   selector: 'app-admin-access-users',
@@ -29,34 +28,32 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
     public lambdaService: LambdaInvocationService,
     public loginService: LogInService,
     public cognitoUtil: CognitoUtil,
-    public excelService: ExcelService,
-    public apiService: ApiGatewayService) { }
+    public excelService: ExcelService) { }
 
   ngOnInit() {
     this.appComp.setAdmin();
     this.loginService.isAuthenticated(this);
     // response in callbackWithParams
-    // this.lambdaService.listUserActions(this);
-    this.apiService.listUserActions(this);
+    this.lambdaService.listUserActions(this);
   }
 
-  isLoggedIn(message: string, loggedIn: boolean): void { }
+  isLoggedIn(message: string, loggedIn: boolean): void {}
 
   // result of lambda listUserActions API
   callbackWithParams(error: AWSError, result: any): void {
     if (result) {
-      const response = result;
+      const response = JSON.parse(result);
       // filter results by username as the API returns all user actions by every user
-      const unique = _.uniqBy(response, 'username');
+      const unique = _.uniqBy(response.body, 'username');
       this.users = unique;
       // set the data of the excel output
       // TODO: should this be non-unique?
       this.data = this.users;
 
       for (let i = 0; i < this.users.length; i++) {
-        // TODO: If they want to remove actionTaken data
-        //    var length = this.users[i].actionsTaken.length;
-        //   this.users[i]['actionsTaken'].splice(0, length);
+      // TODO: If they want to remove actionTaken data
+    //    var length = this.users[i].actionsTaken.length;
+     //   this.users[i]['actionsTaken'].splice(0, length);
         if (!this.users[i].totalCarbonPoints) {
           this.users[i].totalCarbonPoints = 0;
         }
@@ -64,8 +61,8 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
       this.dataSource = new MatTableDataSource(this.users);
       this.dataSource.paginator = this.paginator;
       this.listUsers(this.users);
-    } else {
-      this.apiService.listUserActions(this);
+     } else {
+      this.lambdaService.listUserActions(this);
     }
   }
 
@@ -92,8 +89,8 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
       for (let i = 0; i < users.length; i++) {
         if (users[i].username === cognitoUsers.Username) {
           for (let j = 0; j < cognitoUsers.Attributes.length; j++) {
-            // Going one by one, capture the first and last name of the cognito users
-            // and build it out in the users object array being displayed in the table
+          // Going one by one, capture the first and last name of the cognito users
+          // and build it out in the users object array being displayed in the table
             if (cognitoUsers.Attributes[j]['Name'] === 'name') {
               users[i].name = cognitoUsers.Attributes[j]['Value'];
             }
@@ -106,5 +103,5 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
     });
   }
 
-  callbackWithParam(result: any): void { }
+  callbackWithParam(result: any): void {}
 }

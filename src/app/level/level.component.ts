@@ -9,7 +9,6 @@ import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { Router } from '@angular/router';
 import { AppComponent } from '../app.component';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
-import { ApiGatewayService } from '../services/api-gateway.service';
 
 @Component({
   selector: 'app-level',
@@ -22,10 +21,10 @@ export class LevelComponent implements OnInit, Callback {
   displayedColumns = ['pointsRange', 'status', 'statusGraphicUrl', 'description'];
   dataSource;
 
-  constructor( public appComp: AppComponent, public lambdaService: LambdaInvocationService, public apiService: ApiGatewayService) { }
+  constructor( public appComp: AppComponent, public lambdaService: LambdaInvocationService) { }
 
     ngOnInit() {
-    this.apiService.listLevelData(this);
+    this.lambdaService.listLevelData(this);
     this.dataSource = new MatTableDataSource(this.levels);
     }
   isLoggedIn(message: string, loggedIn: boolean): void {}
@@ -34,11 +33,11 @@ export class LevelComponent implements OnInit, Callback {
     if (result) {
       if (result.toString().includes('error')) {
         // retry
-        this.apiService.listLevelData(this);
+        this.lambdaService.listLevelData(this);
       } else {
-        const response = result;
-        this.levels = response;
-        console.log('response', response);
+        const response = JSON.parse(result);
+        this.levels = response.body;
+        console.log('response.body', response.body);
         const ascending = this.levels.sort((a, b) => Number(a.min) - Number(b.min));
         this.dataSource = new MatTableDataSource(ascending);
       }
