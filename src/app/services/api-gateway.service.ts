@@ -105,7 +105,7 @@ export class ApiGatewayService implements OnInit {
       callback.callbackWithParams(null, data);
     });
   }
-  adminDeleteAction(actionData, callback){
+  adminDeleteAction(actionData, callback) {
     const user = localStorage.getItem('CognitoIdentityServiceProvider.1ei721sssm9hem7j2dineeb6n4.LastAuthUser');
     const idToken = localStorage.getItem('CognitoIdentityServiceProvider.1ei721sssm9hem7j2dineeb6n4.' + user + '.idToken');
     this.http.get('https://j514vann5l.execute-api.us-east-1.amazonaws.com/cis/userActions', {
@@ -118,7 +118,7 @@ export class ApiGatewayService implements OnInit {
       callback.callbackWithParams(null, data);
     });
   }
-  adminCreateAction(actionData, callback){
+  adminCreateAction(actionData, callback) {
     const user = localStorage.getItem('CognitoIdentityServiceProvider.1ei721sssm9hem7j2dineeb6n4.LastAuthUser');
     const idToken = localStorage.getItem('CognitoIdentityServiceProvider.1ei721sssm9hem7j2dineeb6n4.' + user + '.idToken');
     this.http.get('https://j514vann5l.execute-api.us-east-1.amazonaws.com/cis/userActions', {
@@ -131,7 +131,7 @@ export class ApiGatewayService implements OnInit {
       callback.callbackWithParams(null, data);
     });
   }
-  adminCreateGroupsData(groupsData: any, callback: CognitoCallback){
+  adminCreateGroupsData(groupsData: any, callback: CognitoCallback) {
     const user = localStorage.getItem('CognitoIdentityServiceProvider.1ei721sssm9hem7j2dineeb6n4.LastAuthUser');
     const idToken = localStorage.getItem('CognitoIdentityServiceProvider.1ei721sssm9hem7j2dineeb6n4.' + user + '.idToken');
     this.http.get('https://j514vann5l.execute-api.us-east-1.amazonaws.com/cis/userActions', {
