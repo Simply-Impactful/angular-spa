@@ -54,6 +54,8 @@ import { LoaderComponent } from './loader/loader.component';
 import { CommonService } from './services/common.service';
 import { ActionDeleteDialogComponent } from './action-delete-dialog/action-delete-dialog.component';
 import { ActionConfirmDialogComponent } from './action-confirm-dialog/action-confirm-dialog.component';
+import { ScoreDialogComponent } from './score-dialog/score-dialog.component';
+import { LevelPopupComponent } from './level-popup/level-popup.component';
 
 @NgModule({
   declarations: [
@@ -82,7 +84,9 @@ import { ActionConfirmDialogComponent } from './action-confirm-dialog/action-con
     ActionDialogComponent,
     LoaderComponent,
     ActionDeleteDialogComponent,
-    ActionConfirmDialogComponent
+    ActionConfirmDialogComponent,
+    ScoreDialogComponent,
+    LevelPopupComponent
   ],
   imports: [
     [BrowserModule, FormsModule],
