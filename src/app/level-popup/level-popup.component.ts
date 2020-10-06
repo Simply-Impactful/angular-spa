@@ -54,7 +54,6 @@ export class LevelPopupComponent implements OnChanges {
         this.setBarWidth();
 
         this.highEndPoints = LevelsEnum[this.currLevel];
-        this.lowEndPoints = LevelsEnum[Object.values(LevelsEnum)[index - 1]];
-        console.log( LevelsEnum[this.currLevel]);
+        this.lowEndPoints = Number(LevelsEnum[Object.values(LevelsEnum)[index - 1]]);
     }
 }
