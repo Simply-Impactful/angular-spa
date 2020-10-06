@@ -6,7 +6,7 @@
             <span class="welcomeMsg">Hi {{user.username}}, what actions have you taken today?</span>
             <div class="level">
               <p class= "scoreMsg"> Your Score: {{user.totalPoints}}</p> 
-              <span *ngIf="user.level">
+              <span>
                   <img src="{{user.level}}">                
               </span> 
             </div>
