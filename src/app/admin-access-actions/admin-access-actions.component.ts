@@ -12,6 +12,7 @@ import { Parameters} from '../services/parameters';
 import { User } from '../model/User';
 import { LogInService } from '../services/log-in.service';
 import { ActionDeleteDialogComponent } from '../action-delete-dialog/action-delete-dialog.component';
+import { ApiGatewayService } from '../services/api-gateway.service';
 
 @Component({
   selector: 'app-admin-access-actions',
@@ -37,7 +38,8 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
 
   constructor(public appComp: AppComponent, public lambdaService: LambdaInvocationService,
     public dialog: MatDialog, public cognitoUtil: CognitoUtil,
-    public params: Parameters, public loginService: LogInService) { }
+    public params: Parameters, public loginService: LogInService,
+    public apiService: ApiGatewayService) { }
 
   ngOnInit() {
     this.params.user$.subscribe(user => {
@@ -111,7 +113,7 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
    // LoggedInCallback interface
    isLoggedIn(message: string, isLoggedIn: boolean) {
      if (isLoggedIn) {
-      this.lambdaService.listActions(this);
+      this.apiService.listActions(this);
      } else {
        // not logged in
        this.cognitoUtil.getCurrentUser().signOut();
@@ -131,7 +133,7 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
       if (error.toString().includes('credentials')) {
         // window.location.reload();
         console.log('credentials error, RETRYING');
-        this.lambdaService.listActions(this);
+        this.apiService.listActions(this);
       }
       if (this.isDeleted) {
         window.location.reload();
