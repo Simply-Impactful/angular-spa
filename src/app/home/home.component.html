@@ -9,7 +9,6 @@
               <span *ngIf="user.level">
                   <img src="{{user.level}}">                
               </span> 
-              <span class="score-flag"></span>
             </div>
           </mat-toolbar-row>
         </mat-toolbar>
@@ -60,6 +59,7 @@
       </div>
     </div>
   </div>
+  <app-level-popup [(user)]="user" [currLevel]="currLevel" (notifyParent)="getNotification($event)"></app-level-popup>
 
   <app-actions *ngIf="isViewAll && isLoggedIn"></app-actions>
 </main>

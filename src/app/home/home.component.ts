@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Group } from '../model/Group';
 import { BehaviorSubject } from 'rxjs';
 import { User } from '../model/User';
@@ -13,6 +13,8 @@ import { ActionComponent } from '../action/action.component';
 import { ActionService } from '../services/action.service';
 import { AwsUtil } from '../services/aws.service';
 import { LevelsMapping } from '../shared/levels-mapping';
+import { LevelPopupComponent } from '../level-popup/level-popup.component';
+import { LevelsEnum } from '../model/levelsEnum';
 
 @Component({
   selector: 'app-home',
@@ -26,6 +28,9 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
   user: User;
   assignments = [];
   actionNames = [];
+  levels = [];
+  currLevel: string;
+  levelPopupComp: LevelPopupComponent;
 
   constructor(
     private router: Router,
@@ -63,6 +68,7 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
       // get all actions a user has taken and their points
       // response in callbackWithParameters method
       this.lambdaService.getUserActions(this, this.user);
+
     }
    }
 
@@ -103,6 +109,7 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
         }
       }
     }
+    this.getLevelName(this.user.totalPoints);
   }
 
    // for switching back and forth between actions page
@@ -133,5 +140,15 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
   cognitoCallbackWithParam(result: any) {}
 
   callback() {}
+
+  getLevelName(points: Number) {
+    const levels = Object.keys(LevelsEnum).slice(0, 10);
+    for ( let i=0; i < 10; i++ ) {
+        if ( this.user.totalPoints < Number( levels[i] )) {
+          this.currLevel = String( Object.values(LevelsEnum)[i] );
+          break;
+       };
+    };
+};
 
 }
