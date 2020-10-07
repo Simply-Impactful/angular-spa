@@ -12,6 +12,7 @@ import { S3Service } from '../services/s3.service';
 import { AppConf } from '../shared/conf/app.conf';
 import { LogInService } from '../services/log-in.service';
 import { Parameters } from '../services/parameters';
+import { UserPermission } from '../services/user-permission.service';
 import { Router } from '@angular/router';
 import { LevelsMapping } from '../shared/levels-mapping';
 import { Levels } from '../model/Levels';
@@ -53,7 +54,8 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
 
   constructor(
     public lambdaService: LambdaInvocationService, public cognitoUtil: CognitoUtil,
-      public loginService: LogInService, public router: Router, public levelsData: LevelsMapping) {}
+      public loginService: LogInService, public router: Router, public levelsData: LevelsMapping,
+      public userPermission: UserPermission) {}
 
   ngOnInit() {
     this.loginService.isAuthenticated(this);
