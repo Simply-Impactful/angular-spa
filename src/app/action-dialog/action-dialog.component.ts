@@ -11,6 +11,7 @@ import { ActionComponent } from '../action/action.component';
 import { AppConf } from '../shared/conf/app.conf';
 import { Group } from '../model/Group';
 import { Parameters } from '../services/parameters';
+import { ApiGatewayService } from '../services/api-gateway.service';
 
 @Component({
   selector: 'app-action-dialog',
@@ -40,12 +41,13 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
     public thisDialogRef: MatDialogRef<ActionDialogComponent>,
     private params: Parameters, private cognitoUtil: CognitoUtil,
     private lambdaService: LambdaInvocationService,
-    private loginService: LogInService) { }
+    private loginService: LogInService,
+    public apiService: ApiGatewayService) { }
 
   ngOnInit() {
     // required to get the userActions table - for cadences and frequences
     // response goes to callbackWithParams
-    this.lambdaService.listUserActions(this);
+    this.apiService.listUserActions(this);
 
     // passed into the constructor of the dialog window from action(s).component.ts
     this.action = this.data;

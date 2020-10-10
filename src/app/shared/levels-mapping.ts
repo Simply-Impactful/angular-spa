@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, OnInit, Input, Output, Optional } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Levels } from '../model/Levels';
 import { LogInService } from '../services/log-in.service';
@@ -11,6 +11,7 @@ import { AppComponent } from '../app.component';
 import { Group } from '../model/Group';
 import { Member } from '../model/Member';
 import { User } from '../model/User';
+import { ApiGatewayService } from '../services/api-gateway.service';
 
 export class LevelsMapping {
   levels: Levels[];
@@ -20,10 +21,19 @@ export class LevelsMapping {
 
     callbackWithParams(error: AWSError, result: any): void {}
 
+    
+    constructor(@Optional() public apiService: ApiGatewayService) { }
 
     getAllData() {
+      if(this.apiService)
+      {
+        this.apiService.listLevelData(this);
+      }
+      else
+      {
         const lambdaService = new LambdaInvocationService;
         lambdaService.listLevelData(this);
+      }
     }
 
     getUserLevel(user: User, levels: Levels[]): any {
@@ -43,13 +53,13 @@ export class LevelsMapping {
     // response of listLevelData
     cognitoCallbackWithParam (result: any): void {
       if (result) {
-        const response = JSON.parse(result);
-        if (response.statusCode !== 200 || !response.body) {
+        // const response = JSON.parse(result);
+        if (!result) {
           // retry
           const lambdaService = new LambdaInvocationService();
           lambdaService.listLevelData(this);
         } else {
-          this.levels = response.body;
+          this.levels = result;
           this.setLevels(this.levels);
         }
        }
