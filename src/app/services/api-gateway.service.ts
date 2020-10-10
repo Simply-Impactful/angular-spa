@@ -186,7 +186,7 @@ export class ApiGatewayService implements OnInit {
   createGroup(groupData, callback) {
     const user = localStorage.getItem('CognitoIdentityServiceProvider.1ei721sssm9hem7j2dineeb6n4.LastAuthUser');
     const idToken = localStorage.getItem('CognitoIdentityServiceProvider.1ei721sssm9hem7j2dineeb6n4.' + user + '.idToken');
-   
+
     const JSON_BODY = [];
     for (let i = 0; i < groupData.length; i++) {
       JSON_BODY.push({
@@ -217,7 +217,7 @@ export class ApiGatewayService implements OnInit {
     //     body: body
     //   })
     // };
-    this.http.post('https://rfma1hd646.execute-api.us-east-1.amazonaws.com/cis/groups', JSON_BODY,{
+    this.http.post('https://rfma1hd646.execute-api.us-east-1.amazonaws.com/cis/groups', JSON_BODY, {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + idToken
       }),
