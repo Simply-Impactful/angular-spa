@@ -9,6 +9,7 @@ import { AWSError } from 'aws-sdk';
 import * as _ from 'lodash';
 import { LogInService } from '../services/log-in.service';
 import { ExcelService } from '../services/excel.service';
+import { ApiGatewayService } from '../services/api-gateway.service';
 
 @Component({
   selector: 'app-admin-access-users',
@@ -28,13 +29,14 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
     public lambdaService: LambdaInvocationService,
     public loginService: LogInService,
     public cognitoUtil: CognitoUtil,
-    public excelService: ExcelService) { }
+    public excelService: ExcelService,
+    public apiService: ApiGatewayService) { }
 
   ngOnInit() {
     this.appComp.setAdmin();
     this.loginService.isAuthenticated(this);
     // response in callbackWithParams
-    this.lambdaService.listUserActions(this);
+    this.apiService.listUserActions(this);
   }
 
   isLoggedIn(message: string, loggedIn: boolean): void {}
@@ -42,9 +44,9 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
   // result of lambda listUserActions API
   callbackWithParams(error: AWSError, result: any): void {
     if (result) {
-      const response = JSON.parse(result);
+      // const response = JSON.parse(result);
       // filter results by username as the API returns all user actions by every user
-      const unique = _.uniqBy(response.body, 'username');
+      const unique = _.uniqBy(result, 'username');
       this.users = unique;
       // set the data of the excel output
       // TODO: should this be non-unique?
@@ -62,7 +64,7 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
       this.dataSource.paginator = this.paginator;
       this.listUsers(this.users);
      } else {
-      this.lambdaService.listUserActions(this);
+      this.apiService.listUserActions(this);
     }
   }
 

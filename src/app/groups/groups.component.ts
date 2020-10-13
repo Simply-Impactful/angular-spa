@@ -1,7 +1,7 @@
 import { User } from '../model/User';
 import { Action } from '../model/Action';
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { LoggedInCallback, CognitoUtil, Callback, CognitoCallback, ChallengeParameters } from '../services/cognito.service';
 import { AWSError } from 'aws-sdk';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 import { LevelsMapping } from '../shared/levels-mapping';
 import { Levels } from '../model/Levels';
 import * as _ from 'lodash';
+import { ApiGatewayService } from '../services/api-gateway.service';
 
 /**
  * @title Table with expandable rows
@@ -27,8 +28,8 @@ import * as _ from 'lodash';
   styleUrls: ['./groups.component.scss'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),
-      state('expanded', style({height: '*'})),
+      state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
+      state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
@@ -55,14 +56,14 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   constructor(
     public lambdaService: LambdaInvocationService, public cognitoUtil: CognitoUtil,
       public loginService: LogInService, public router: Router, public levelsData: LevelsMapping,
-      public userPermission: UserPermission) {}
+      public userPermission: UserPermission, public apiService: ApiGatewayService) {}
 
   ngOnInit() {
     this.loginService.isAuthenticated(this);
     this.isNotGroupMember = {};
     // get the users' data - total points of each user
-    this.lambdaService.listUserActions(this);
-    this.levelsData.getAllData();
+    this.apiService.listUserActions(this);
+
   }
 
   applyFilter(filterValue: string) {
@@ -88,22 +89,22 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   }
 
   // only for group members - NEEDS TESTING
-/**  leaveGroup(group: Group) {
-    // find the location of the user to remove
-    for (let i = 0; i < group.members.length; i ++) {
-      if (group.members[i].member === this.username) {
-        group.members.splice(i);
+  /**  leaveGroup(group: Group) {
+      // find the location of the user to remove
+      for (let i = 0; i < group.members.length; i ++) {
+        if (group.members[i].member === this.username) {
+          group.members.splice(i);
+        }
       }
-    }
-    group.membersString = JSON.stringify(group.members);
-    group.username = group.leader;
-    group.pointsEarned = group.totalPoints;
-    const groupArray = [];
-    this.groupToJoin = group;
-    groupArray.push(group);
-    // TODO: need to make the membre inactive
- //   this.lambdaService.createGroup(groupArray, this);
-  }  **/
+      group.membersString = JSON.stringify(group.members);
+      group.username = group.leader;
+      group.pointsEarned = group.totalPoints;
+      const groupArray = [];
+      this.groupToJoin = group;
+      groupArray.push(group);
+      // TODO: need to make the membre inactive
+   //   this.lambdaService.createGroup(groupArray, this);
+    }  **/
 
   expand() {
     this.isExpanded = true;
@@ -117,7 +118,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   isLoggedIn(message: string, loggedIn: boolean): void {
     if (loggedIn) {
       this.username = this.cognitoUtil.getCurrentUser().getUsername();
-      this.lambdaService.getAllGroups(this);
+      this.apiService.getAllGroups(this);
     } else {
       const currentUser = this.cognitoUtil.getCurrentUser();
       this.router.navigate(['/landing']);
@@ -128,11 +129,12 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   // response of listUserActions API - LoggedInCallback Interface
   callbackWithParams(error: AWSError, result: any): void {
     if (result) {
-      const response = JSON.parse(result);
-      const unique = _.uniqBy(response.body, 'username');
+      // const response = JSON.parse(result);
+      const unique = _.uniqBy(result, 'username');
       this.users = unique;
-     } else {
-      this.lambdaService.listUserActions(this);
+      this.levelsData.getAllData();
+    } else {
+      this.apiService.listUserActions(this);
     }
   }
 
@@ -154,29 +156,25 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   // Response of get All Groups - Callback interface
   cognitoCallbackWithParam(result: any) {
     if (result) {
-      if (result.toString().includes('credentials')) {
-        // retry
-        this.lambdaService.getAllGroups(this);
-      } else {
-        const response = JSON.parse(result);
-        this.groups = response.body;
-        this.dataSource = new MatTableDataSource(this.groups);
-        this.dataSource.paginator = this.paginator;
+      const response = result;
+      this.groups = response;
+      this.dataSource = new MatTableDataSource(this.groups);
+      this.dataSource.paginator = this.paginator;
 
-        // logic to find if the logged in user is already a member of a group
-        let isFound: boolean = false;
-        this.groups.forEach(group => {
-          isFound = false;
-          group.members.forEach(member => {
-            if ((member as Member).member === this.username) {
-              isFound = true;
-            }
-          });
-          this.isNotGroupMember[group.name.toString()] = !isFound;
+      // logic to find if the logged in user is already a member of a group
+      let isFound: boolean = false;
+      this.groups.forEach(group => {
+        isFound = false;
+        group.members.forEach(member => {
+          if ((member as Member).member === this.username) {
+            isFound = true;
+          }
         });
-        // get the members data
-        this.listUsers();
-      }
+        this.isNotGroupMember[group.name.toString()] = !isFound;
+      });
+      // get the members data
+      this.listUsers();
+
     } else {
       console.log('unnexpected error occurred - could not get get all groups');
     }
@@ -200,9 +198,9 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
       for (let i = 0; i < group.members.length; i++) {
         if (group.members[i].member === members.Username) {
           for (let j = 0; j < members.Attributes.length; j++) {
-          // if they don't have a picture, assign them the default
-          // if they do have a picture in cognito, assing it to their member object
-          // TODO: May not have to do this if we assign a default one on creation
+            // if they don't have a picture, assign them the default
+            // if they do have a picture in cognito, assing it to their member object
+            // TODO: May not have to do this if we assign a default one on creation
             if (members.Attributes[j]['Name'] !== 'picture') {
               group.members[i].picture = this.conf.default.userProfile;
             }
@@ -215,7 +213,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
     });
   }
 
-  getMembersLevels (group: Group) {
+  getMembersLevels(group: Group) {
     for (let i = 0; i < group.members.length; i++) {
       for (let j = 0; j < this.users.length; j++) {
         if (this.users[j].username === group.members[i].member) {
@@ -226,8 +224,8 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
     }
   }
 
-   // Logged In Callback interface
-   callbackWithParameters(error: AWSError, result: any) {}
+  // Logged In Callback interface
+  callbackWithParameters(error: AWSError, result: any) { }
 
   // CognitoCallback Interface - response of create group API - join group
   cognitoCallback(message: string, result: any) {
@@ -236,7 +234,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
       // no longer 'not a group member'
       this.isNotGroupMember[this.groupToJoin.name.toString()] = false;
       // call to refresh the data
-      this.lambdaService.getAllGroups(this);
+      this.apiService.getAllGroups(this);
     } else {
       if (message.includes('credentials')) {
         this.joinGroup(this.groupToJoin);
@@ -249,7 +247,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   handleMFAStep?(challengeName: string, challengeParameters: ChallengeParameters, callback: (confirmationCode: string) => any): void;
 
   // response of isAuthenticated method in login service
-  callbackWithParam(result: any): void {}
+  callbackWithParam(result: any): void { }
 
-  callback() {}
+  callback() { }
 }

@@ -11,6 +11,7 @@ import { ActionComponent } from '../action/action.component';
 import { AppConf } from '../shared/conf/app.conf';
 import { Group } from '../model/Group';
 import { Parameters } from '../services/parameters';
+import { ApiGatewayService } from '../services/api-gateway.service';
 
 
 @Component({
@@ -40,12 +41,13 @@ export class ActionConfirmDialogComponent implements OnInit, LoggedInCallback, C
   public thisDialogRef: MatDialogRef<ActionConfirmDialogComponent>,
   private params: Parameters, private cognitoUtil: CognitoUtil,
   private lambdaService: LambdaInvocationService,
-  private loginService: LogInService) { }
+  private loginService: LogInService,
+  public apiService: ApiGatewayService) { }
 
   ngOnInit() {
     // required to get the userActions table - for cadences and frequences
     // response goes to callbackWithParams
-    this.lambdaService.listUserActions(this);
+    this.apiService.listUserActions(this);
 
     // passed into the constructor of the dialog window from action(s).component.ts
     this.action = this.data;
@@ -111,8 +113,8 @@ closeWindow() {
   // capture the frequencie cadence for my actions taken
   callbackWithParams(error: AWSError, result: any): void {
     if (result) {
-      const response = JSON.parse(result);
-      this.userActions = response.body;
+      // const response = JSON.parse(result);
+      this.userActions = result;
       for (let i = 0; i < this.userActions.length; i++) {
         if (this.userActions[i]['username'] === this.user.username) {
 
@@ -136,8 +138,8 @@ closeWindow() {
    // response of getAllGroups - callback interface
    // update group points for the group member logged in
    cognitoCallbackWithParam(result: any) {
-    const response = JSON.parse(result);
-    this.groupsResult = response.body;
+    // const response = JSON.parse(result);
+    this.groupsResult = result;
     const params = [];
     const username = this.cognitoUtil.getCurrentUser().getUsername();
     this.pointsEarned = Number(this.action.eligiblePoints);
@@ -170,7 +172,7 @@ closeWindow() {
     }
     if (params.length > 0) {
       // last step: update points - response of create group goes to callbackWithParameters line 145
-      this.lambdaService.createGroup(params, this);
+      this.apiService.createGroup(params, this);
     } else {
       // not part of any groups
       this.thisDialogRef.close('Confirm');

@@ -11,6 +11,7 @@ import { AppComponent } from '../app.component';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
 import { S3Service } from '../services/s3.service';
 import { AppConf } from '../shared/conf/app.conf';
+import { ApiGatewayService } from '../services/api-gateway.service';
 
 @Component({
   selector: 'app-admin-access-level',
@@ -35,11 +36,12 @@ export class AdminAccessLevelComponent implements OnInit, Callback {
   levelsObj = new Levels;
 
   constructor(public appComp: AppComponent, public lambdaService: LambdaInvocationService,
-    private s3: S3Service) {}
+    private s3: S3Service,
+    public apiService: ApiGatewayService) {}
 
   ngOnInit() {
     this.appComp.setAdmin();
-    this.lambdaService.listLevelData(this);
+    this.apiService.listLevelData(this);
   }
 
 isLoggedIn(message: string, loggedIn: boolean): void {}
@@ -48,11 +50,11 @@ cognitoCallbackWithParam(result: any): void {
       if (result.toString().includes('error')) {
         console.log('error pulling the levels data' + result);
         // retry
-        this.lambdaService.listLevelData(this);
+        this.apiService.listLevelData(this);
       } else {
-        const response = JSON.parse(result);
-        this.levels = response.body;
-        console.log('response.body', response.body);
+        // const response = JSON.parse(result);
+        this.levels = result;
+        console.log('response.body', result);
         const ascending = this.levels.sort((a, b) => Number(a.min) - Number(b.min));
         this.dataSource = new MatTableDataSource(ascending);
       }
@@ -74,7 +76,7 @@ cognitoCallbackWithParam(result: any): void {
             this.levelsObj.statusGraphicUrl = location;
             this.levels.push(this.levelsObj);
             // response goes to cognitoCallback
-            this.lambdaService.createLevelData(this.levels, this);
+            this.apiService.createLevelData(this.levels, this);
         }
       });
     }
@@ -87,7 +89,7 @@ cognitoCallbackWithParam(result: any): void {
     } else {
       console.log('error ' + message);
       if (message.toString().includes('credentials')) {
-        this.lambdaService.createLevelData(this.levels, this);
+        this.apiService.createLevelData(this.levels, this);
       }
     }
   }
