@@ -9,7 +9,10 @@
 
     <tr *ngFor="let groupType of typeList">
       <td contenteditable="false">{{groupType.type}}</td>
-      <td contenteditable="false">{{groupType.subType}}</td>
+      <td contenteditable="false">
+        <span *ngFor="let subType of groupType.subType; let isLast=last">{{subType.subType}}<span *ngIf="!isLast">, </span>
+        </span>
+      </td>
     </tr>
 
     <tr *ngFor="let groupType of addTypeList">
