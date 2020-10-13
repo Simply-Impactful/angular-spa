@@ -305,10 +305,7 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
   // Response of Create Groups API - CognitoCallback Interface
   cognitoCallback(message: string, result: any) {
     if (result) {
-      const response = JSON.parse(result);
-      if (response.statusCode === 200) {
         this.router.navigate(['/home']);
-      }
     }
     // odd credential error occurred
     if (message) {

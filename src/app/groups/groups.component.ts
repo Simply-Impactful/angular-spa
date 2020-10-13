@@ -55,8 +55,8 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
 
   constructor(
     public lambdaService: LambdaInvocationService, public cognitoUtil: CognitoUtil,
-      public loginService: LogInService, public router: Router, public levelsData: LevelsMapping,
-      public userPermission: UserPermission, public apiService: ApiGatewayService) {}
+    public loginService: LogInService, public router: Router, public levelsData: LevelsMapping,
+    public userPermission: UserPermission, public apiService: ApiGatewayService) { }
 
   ngOnInit() {
     this.loginService.isAuthenticated(this);
@@ -184,6 +184,10 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
     // calls the cognito Util to get all of the cognito users
     this.cognitoUtil.listUsers().then(response => {
       this.cognitoUsersResponse = response;
+      if (typeof this.users === 'undefined') {
+        const unique = _.uniqBy(response, 'Username');
+        this.users = unique;
+      }
       // build out the members data for each group
       for (let i = 0; i < this.groups.length; i++) {
         this.getAttributesForUsers(this.groups[i], this.cognitoUsersResponse);
@@ -231,9 +235,9 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   cognitoCallback(message: string, result: any) {
     if (result) {
       console.log('user successfully modified');
-        // no longer 'not a group member'
+      // no longer 'not a group member'
       this.isNotGroupMember[this.groupToJoin.name.toString()] = false;
-        // call to refresh the data
+      // call to refresh the data
       this.apiService.getAllGroups(this);
     } else {
       if (message.includes('credentials')) {

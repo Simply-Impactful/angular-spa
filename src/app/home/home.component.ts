@@ -16,6 +16,7 @@ import { LevelsMapping } from '../shared/levels-mapping';
 import { LevelPopupComponent } from '../level-popup/level-popup.component';
 import { LevelsEnum } from '../model/levelsEnum';
 import { UserPermission } from '../services/user-permission.service';
+import { ApiGatewayService } from '../services/api-gateway.service';
 
 @Component({
   selector: 'app-home',
@@ -41,7 +42,8 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
     private params: Parameters, private lambdaService: LambdaInvocationService,
     public actionService: ActionService,
     public levelsMapping: LevelsMapping,
-    public userPermission: UserPermission
+    public userPermission: UserPermission,
+    public apiService: ApiGatewayService
   ) { }
 
   ngOnInit() {
@@ -70,7 +72,7 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
       this.user = params.buildUser(result, cognitoUser);
       // get all actions a user has taken and their points
       // response in callbackWithParameters method
-      this.lambdaService.getUserActions(this, this.user);
+      this.apiService.getUserActions(this, this.user);
 
     }
   }
@@ -95,8 +97,8 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
   // Total points being captrued from response
   callbackWithParameters(error: AWSError, result: any) {
     if (result) {
-      const response = JSON.parse(result);
-      const userActions = response.body;
+      const response = result;
+      const userActions = response;
       // if they haven't taken any actions...
       if (response.statusCode === 400) {
         this.user.totalPoints = 0;

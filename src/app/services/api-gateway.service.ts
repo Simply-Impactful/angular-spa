@@ -67,17 +67,18 @@ export class ApiGatewayService implements OnInit {
       callback.cognitoCallbackWithParam(data);
     });
   }
-  getUserActions(callback, user) {
+  getUserActions(callback: Callback, user: User) {
     const use = localStorage.getItem('CognitoIdentityServiceProvider.1ei721sssm9hem7j2dineeb6n4.LastAuthUser');
     const idToken = localStorage.getItem('CognitoIdentityServiceProvider.1ei721sssm9hem7j2dineeb6n4.' + use + '.idToken');
-    this.http.get('https://j514vann5l.execute-api.us-east-1.amazonaws.com/cis/userActions', {
+    const username = user.username;
+    this.http.get(`https://j514vann5l.execute-api.us-east-1.amazonaws.com/cis/userActions/${username}`, {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + idToken
       })
     }).subscribe((data) => {
       // console.log("ListUsers");
       // console.log(data);
-      callback.callbackWithParams(null, data);
+      callback.callbackWithParameters(null, data);
     });
   }
   performAction(callback, user, action) {
