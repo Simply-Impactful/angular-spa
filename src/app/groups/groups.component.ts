@@ -12,6 +12,7 @@ import { S3Service } from '../services/s3.service';
 import { AppConf } from '../shared/conf/app.conf';
 import { LogInService } from '../services/log-in.service';
 import { Parameters } from '../services/parameters';
+import { UserPermission } from '../services/user-permission.service';
 import { Router } from '@angular/router';
 import { LevelsMapping } from '../shared/levels-mapping';
 import { Levels } from '../model/Levels';
@@ -54,8 +55,8 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
 
   constructor(
     public lambdaService: LambdaInvocationService, public cognitoUtil: CognitoUtil,
-    public loginService: LogInService, public router: Router, public levelsData: LevelsMapping,
-    public apiService: ApiGatewayService) { }
+      public loginService: LogInService, public router: Router, public levelsData: LevelsMapping,
+      public userPermission: UserPermission, public apiService: ApiGatewayService) {}
 
   ngOnInit() {
     this.loginService.isAuthenticated(this);
@@ -74,7 +75,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   // only for group leaders
   deleteGroup(group: Group) {
     this.groupToDelete = group;
-    this.lambdaService.deleteGroup(this, group);
+    this.apiService.deleteGroup(this, group);
   }
 
   // only for non-group members
@@ -84,7 +85,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
     group.username = group.leader;
     const groupArray = [];
     groupArray.push(group);
-    this.lambdaService.createGroup(groupArray, this);
+    this.apiService.createGroup(groupArray, this);
   }
 
   // only for group members - NEEDS TESTING
@@ -230,9 +231,9 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   cognitoCallback(message: string, result: any) {
     if (result) {
       console.log('user successfully modified');
-      // no longer 'not a group member'
+        // no longer 'not a group member'
       this.isNotGroupMember[this.groupToJoin.name.toString()] = false;
-      // call to refresh the data
+        // call to refresh the data
       this.apiService.getAllGroups(this);
     } else {
       if (message.includes('credentials')) {

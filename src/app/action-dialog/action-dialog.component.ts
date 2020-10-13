@@ -37,7 +37,7 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
   isBeginning = true;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA)public data: Action,
+    @Inject(MAT_DIALOG_DATA) public data: Action,
     public thisDialogRef: MatDialogRef<ActionDialogComponent>,
     private params: Parameters, private cognitoUtil: CognitoUtil,
     private lambdaService: LambdaInvocationService,
@@ -75,7 +75,7 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
     } else {
       // throw error pop up window
     }
-   // this.thisDialogRef.close('Confirm');
+    // this.thisDialogRef.close('Confirm');
   }
 
   // when the user clicks Done after they are displayed the assignment
@@ -90,18 +90,18 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
   }
 
   // Skeletal methods we need to put here in order to use the lambdaService
-  isLoggedIn(message: string, loggedIn: boolean): void {}
+  isLoggedIn(message: string, loggedIn: boolean): void { }
 
   // response of List users - LoggedInCallback interface
   // capture the frequencie cadence for my actions taken
   callbackWithParams(error: AWSError, result: any): void {
     if (result) {
-      const response = JSON.parse(result);
-      this.userActions = response.body;
+      // const response = JSON.parse(result);
+      this.userActions = result;
       for (let i = 0; i < this.userActions.length; i++) {
         if (this.userActions[i]['username'] === this.user.username) {
 
-          for (let index = 0; index < this.userActions[i].actionsTaken.length; index++ ) {
+          for (let index = 0; index < this.userActions[i].actionsTaken.length; index++) {
             if (this.userActions[i].actionsTaken[index].actionTaken === this.action.name) {
               this.uniqueEntriesByUser.push(this.userActions[i].actionsTaken[index]);
             }
@@ -116,13 +116,13 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
     const cognitoUser = this.cognitoUtil.getCurrentUser();
     const params = new Parameters();
     this.user = params.buildUser(result, cognitoUser);
-   }
+  }
 
-   // response of getAllGroups - callback interface
-   // update group points for the group member logged in
-   cognitoCallbackWithParam(result: any) {
-    const response = JSON.parse(result);
-    this.groupsResult = response.body;
+  // response of getAllGroups - callback interface
+  // update group points for the group member logged in
+  cognitoCallbackWithParam(result: any) {
+    const response = result;
+    this.groupsResult = response;
     const params = [];
     const username = this.cognitoUtil.getCurrentUser().getUsername();
     this.pointsEarned = Number(this.action.eligiblePoints);
@@ -136,7 +136,7 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
             if (!this.groupsResult[i].members[j].pointsEarned) {
               this.groupsResult[i].members[j].pointsEarned = 0;
             }
-            const myObj =    {
+            const myObj = {
               name: this.groupsResult[i].name,
               username: this.groupsResult[i].leader,
               description: this.groupsResult[i].description,
@@ -155,33 +155,33 @@ export class ActionDialogComponent implements OnInit, LoggedInCallback, Callback
     }
     if (params.length > 0) {
       // last step: update points - response of create group goes to callbackWithParameters line 145
-      this.lambdaService.createGroup(params, this);
+      this.apiService.createGroup(params, this);
     } else {
       // not part of any groups
       this.thisDialogRef.close('Confirm');
       // window.location.reload();
     }
-   }
+  }
 
-   // Perform Action API response - callback interface
-   callbackWithParameters(error: AWSError, result: any) {
+  // Perform Action API response - callback interface
+  callbackWithParameters(error: AWSError, result: any) {
     if (result) {
-     // response goes to cognitoCallbackWithParam above, line 105
-        this.lambdaService.getAllGroups(this);
+      // response goes to cognitoCallbackWithParam above, line 105
+      this.apiService.getAllGroups(this);
     }
-   }
+  }
 
-    // response for create group API - CognitoCallback interface
-    cognitoCallback(message: string, result: any) {
-      if (result) {
-        // to reload the window when there is no assignment associated with action
-        if (!this.displayAssignment) {
-          window.location.reload();
-        }
+  // response for create group API - CognitoCallback interface
+  cognitoCallback(message: string, result: any) {
+    if (result) {
+      // to reload the window when there is no assignment associated with action
+      if (!this.displayAssignment) {
+        window.location.reload();
       }
     }
+  }
 
-    handleMFAStep?(challengeName: string, challengeParameters: ChallengeParameters, callback: (confirmationCode: string) => any): void;
+  handleMFAStep?(challengeName: string, challengeParameters: ChallengeParameters, callback: (confirmationCode: string) => any): void;
 
-    callback() {}
+  callback() { }
 }

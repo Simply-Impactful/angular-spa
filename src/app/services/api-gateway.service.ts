@@ -2,6 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CognitoUtil, Callback, LoggedInCallback, CognitoCallback } from './cognito.service';
 import { User } from '../model/User';
+import { Buffer } from 'buffer';
 @Injectable({
   providedIn: 'root'
 })
@@ -217,7 +218,7 @@ export class ApiGatewayService implements OnInit {
     //     body: body
     //   })
     // };
-    this.http.post('https://rfma1hd646.execute-api.us-east-1.amazonaws.com/cis/groups', JSON_BODY, {
+    this.http.post('https://rfma1hd646.execute-api.us-east-1.amazonaws.com/cis/groups', body, {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + idToken
       }),

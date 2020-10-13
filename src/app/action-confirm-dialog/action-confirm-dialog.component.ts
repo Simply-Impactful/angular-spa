@@ -37,12 +37,12 @@ export class ActionConfirmDialogComponent implements OnInit, LoggedInCallback, C
   displayCadence: string = '';
   name: string = '';
 
-  constructor(@Inject(MAT_DIALOG_DATA)public data: Action,
-  public thisDialogRef: MatDialogRef<ActionConfirmDialogComponent>,
-  private params: Parameters, private cognitoUtil: CognitoUtil,
-  private lambdaService: LambdaInvocationService,
-  private loginService: LogInService,
-  public apiService: ApiGatewayService) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Action,
+    public thisDialogRef: MatDialogRef<ActionConfirmDialogComponent>,
+    private params: Parameters, private cognitoUtil: CognitoUtil,
+    private lambdaService: LambdaInvocationService,
+    private loginService: LogInService,
+    public apiService: ApiGatewayService) { }
 
   ngOnInit() {
     // required to get the userActions table - for cadences and frequences
@@ -64,32 +64,32 @@ export class ActionConfirmDialogComponent implements OnInit, LoggedInCallback, C
   setDisplayText(action: Action) {
     let cadence = action.frequencyCadence;
     switch (cadence) {
-      case 'perDay' : {
+      case 'perDay': {
         cadence = 'Daily';
         break;
       }
-      case 'perWeek' : {
+      case 'perWeek': {
         cadence = 'Weekly';
         break;
       }
-      case 'perMonth' : {
+      case 'perMonth': {
         cadence = 'Monthly';
         break;
       }
-      case 'perYear' : {
+      case 'perYear': {
         cadence = 'Yearly';
         break;
       }
-      case 'perLifeTime' : {
+      case 'perLifeTime': {
         cadence = 'Lifetime';
         break;
       }
-      default : {
+      default: {
         cadence = cadence;
         break;
       }
     }
-    return cadence ;
+    return cadence;
   }
 
   onCloseLogAction() {
@@ -97,17 +97,17 @@ export class ActionConfirmDialogComponent implements OnInit, LoggedInCallback, C
   }
 
 
-// when the user clicks Done after they are displayed the assignment
-closeWindow() {
-  this.thisDialogRef.close('Confirm');
-  window.location.reload();
-}
+  // when the user clicks Done after they are displayed the assignment
+  closeWindow() {
+    this.thisDialogRef.close('Confirm');
+    window.location.reload();
+  }
 
   onCloseCancel() {
     this.thisDialogRef.close('Cancel');
   }
   // Skeletal methods we need to put here in order to use the lambdaService
-  isLoggedIn(message: string, loggedIn: boolean): void {}
+  isLoggedIn(message: string, loggedIn: boolean): void { }
 
   // response of List users - LoggedInCallback interface
   // capture the frequencie cadence for my actions taken
@@ -118,7 +118,7 @@ closeWindow() {
       for (let i = 0; i < this.userActions.length; i++) {
         if (this.userActions[i]['username'] === this.user.username) {
 
-          for (let index = 0; index < this.userActions[i].actionsTaken.length; index++ ) {
+          for (let index = 0; index < this.userActions[i].actionsTaken.length; index++) {
             if (this.userActions[i].actionsTaken[index].actionTaken === this.action.name) {
               this.uniqueEntriesByUser.push(this.userActions[i].actionsTaken[index]);
             }
@@ -133,11 +133,11 @@ closeWindow() {
     const cognitoUser = this.cognitoUtil.getCurrentUser();
     const params = new Parameters();
     this.user = params.buildUser(result, cognitoUser);
-   }
+  }
 
-   // response of getAllGroups - callback interface
-   // update group points for the group member logged in
-   cognitoCallbackWithParam(result: any) {
+  // response of getAllGroups - callback interface
+  // update group points for the group member logged in
+  cognitoCallbackWithParam(result: any) {
     // const response = JSON.parse(result);
     this.groupsResult = result;
     const params = [];
@@ -153,7 +153,7 @@ closeWindow() {
             if (!this.groupsResult[i].members[j].pointsEarned) {
               this.groupsResult[i].members[j].pointsEarned = 0;
             }
-            const myObj =    {
+            const myObj = {
               name: this.groupsResult[i].name,
               username: this.groupsResult[i].leader,
               description: this.groupsResult[i].description,
@@ -178,29 +178,29 @@ closeWindow() {
       this.thisDialogRef.close('Confirm');
       window.location.reload();
     }
-   }
+  }
 
-   // Perform Action API response - callback interface
-   callbackWithParameters(error: AWSError, result: any) {
+  // Perform Action API response - callback interface
+  callbackWithParameters(error: AWSError, result: any) {
     if (result) {
-     // response goes to cognitoCallbackWithParam above, line 105
-        this.lambdaService.getAllGroups(this);
+      // response goes to cognitoCallbackWithParam above, line 105
+      this.apiService.getAllGroups(this);
     }
-   }
+  }
 
-    // response for create group API - CognitoCallback interface
-    cognitoCallback(message: string, result: any) {
-      if (result) {
-        // to reload the window when there is no assignment associated with action
-        if (!this.displayAssignment) {
-          window.location.reload();
-        }
+  // response for create group API - CognitoCallback interface
+  cognitoCallback(message: string, result: any) {
+    if (result) {
+      // to reload the window when there is no assignment associated with action
+      if (!this.displayAssignment) {
+        window.location.reload();
       }
     }
+  }
 
-    handleMFAStep?(challengeName: string, challengeParameters: ChallengeParameters, callback: (confirmationCode: string) => any): void;
+  handleMFAStep?(challengeName: string, challengeParameters: ChallengeParameters, callback: (confirmationCode: string) => any): void;
 
-    callback() {}
+  callback() { }
 }
 
 
