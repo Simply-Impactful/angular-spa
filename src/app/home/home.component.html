@@ -3,11 +3,11 @@
     <div class="top-row">
         <mat-toolbar style="background-color: transparent">
           <mat-toolbar-row>
-            <span class="welcomeMsg">Hi {{user.username}}, what actions have you taken today?</span>
+            <span *ngIf="user" class="welcomeMsg">Hi {{user.username}}, what actions have you taken today?</span>
             <div class="level">
-              <p class= "scoreMsg"> Your Score: {{user.totalPoints}}</p> 
+              <p *ngIf="user" class= "scoreMsg"> Your Score: {{user.totalPoints}}</p> 
               <span>
-                  <img src="{{user.level}}">                
+                  <img *ngIf="user" src="{{user.level}}">                
               </span> 
             </div>
           </mat-toolbar-row>
