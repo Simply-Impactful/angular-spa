@@ -28,7 +28,7 @@
       </div>
       <div fxFlex="100">
         <div align="right" >
-          <button mat-button class="createNewButton" style="font-weight: bold" routerLink="/creategroup">+ Create New</button>
+          <button *ngIf="userPermission.isNotStudent()" mat-button class="createNewButton" style="font-weight: bold" routerLink="/creategroup">+ Create New</button>
         </div>
       </div>
     </div>

@@ -6,7 +6,7 @@
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter by Group name, leader, or zipcode...">
 </mat-form-field>
 <h3 class="card-header">Groups</h3>
-<button class="right" mat-button color="primary" style="font-weight: bold" routerLink="/creategroup">+ Create New</button>
+<button *ngIf="userPermission.isNotStudent()" class="right" mat-button color="primary" style="font-weight: bold" routerLink="/creategroup">+ Create New</button>
 <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="mat-elevation-z8">
     <!-- Name Column -->
     <ng-container matColumnDef="name">
