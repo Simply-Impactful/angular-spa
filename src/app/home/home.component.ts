@@ -15,6 +15,7 @@ import { AwsUtil } from '../services/aws.service';
 import { LevelsMapping } from '../shared/levels-mapping';
 import { LevelPopupComponent } from '../level-popup/level-popup.component';
 import { LevelsEnum } from '../model/levelsEnum';
+import { UserPermission } from '../services/user-permission.service';
 
 @Component({
   selector: 'app-home',
@@ -39,7 +40,9 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
     private createProfileService: CreateProfileService,
     private params: Parameters, private lambdaService: LambdaInvocationService,
     public actionService: ActionService,
-    public levelsMapping: LevelsMapping) { }
+    public levelsMapping: LevelsMapping,
+    public userPermission: UserPermission
+  ) { }
 
   ngOnInit() {
     this.loginService.isAuthenticated(this);

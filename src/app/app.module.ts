@@ -56,6 +56,7 @@ import { ActionDeleteDialogComponent } from './action-delete-dialog/action-delet
 import { ActionConfirmDialogComponent } from './action-confirm-dialog/action-confirm-dialog.component';
 import { ScoreDialogComponent } from './score-dialog/score-dialog.component';
 import { LevelPopupComponent } from './level-popup/level-popup.component';
+import { UserPermission } from './services/user-permission.service';
 
 @NgModule({
   declarations: [
@@ -125,7 +126,9 @@ import { LevelPopupComponent } from './level-popup/level-popup.component';
     ActionDialogComponent,
     CommonService,
     ExcelService,
-    ActionConfirmDialogComponent],
+    ActionConfirmDialogComponent,
+    UserPermission
+  ],
   bootstrap: [AppComponent]
 })
 
