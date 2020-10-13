@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AppComponent } from '../app.component';
 import { Route, Router } from '@angular/router';
-import {MatPaginator, MatTableDataSource} from '@angular/material';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { LambdaInvocationService } from '../services/lambdaInvocation.service';
 import { LoggedInCallback, CognitoUtil } from '../services/cognito.service';
 import { User } from '../model/User';
@@ -39,7 +39,7 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
     this.apiService.listUserActions(this);
   }
 
-  isLoggedIn(message: string, loggedIn: boolean): void {}
+  isLoggedIn(message: string, loggedIn: boolean): void { }
 
   // result of lambda listUserActions API
   callbackWithParams(error: AWSError, result: any): void {
@@ -53,9 +53,9 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
       this.data = this.users;
 
       for (let i = 0; i < this.users.length; i++) {
-      // TODO: If they want to remove actionTaken data
-    //    var length = this.users[i].actionsTaken.length;
-     //   this.users[i]['actionsTaken'].splice(0, length);
+        // TODO: If they want to remove actionTaken data
+        //    var length = this.users[i].actionsTaken.length;
+        //   this.users[i]['actionsTaken'].splice(0, length);
         if (!this.users[i].totalCarbonPoints) {
           this.users[i].totalCarbonPoints = 0;
         }
@@ -63,7 +63,7 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
       this.dataSource = new MatTableDataSource(this.users);
       this.dataSource.paginator = this.paginator;
       this.listUsers(this.users);
-     } else {
+    } else {
       this.apiService.listUserActions(this);
     }
   }
@@ -91,8 +91,8 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
       for (let i = 0; i < users.length; i++) {
         if (users[i].username === cognitoUsers.Username) {
           for (let j = 0; j < cognitoUsers.Attributes.length; j++) {
-          // Going one by one, capture the first and last name of the cognito users
-          // and build it out in the users object array being displayed in the table
+            // Going one by one, capture the first and last name of the cognito users
+            // and build it out in the users object array being displayed in the table
             if (cognitoUsers.Attributes[j]['Name'] === 'name') {
               users[i].name = cognitoUsers.Attributes[j]['Value'];
             }
@@ -101,9 +101,13 @@ export class AdminAccessUsersComponent implements OnInit, LoggedInCallback {
             }
           }
         }
+        // else {
+        //   users[i].name = "";
+        //   users[i].lastName = "";
+        // }
       }
     });
   }
 
-  callbackWithParam(result: any): void {}
+  callbackWithParam(result: any): void { }
 }

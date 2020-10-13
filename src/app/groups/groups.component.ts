@@ -74,7 +74,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   // only for group leaders
   deleteGroup(group: Group) {
     this.groupToDelete = group;
-    this.lambdaService.deleteGroup(this, group);
+    this.apiService.deleteGroup(this, group);
   }
 
   // only for non-group members
@@ -84,7 +84,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
     group.username = group.leader;
     const groupArray = [];
     groupArray.push(group);
-    this.lambdaService.createGroup(groupArray, this);
+    this.apiService.createGroup(groupArray, this);
   }
 
   // only for group members - NEEDS TESTING
@@ -230,9 +230,9 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   cognitoCallback(message: string, result: any) {
     if (result) {
       console.log('user successfully modified');
-      // no longer 'not a group member'
+        // no longer 'not a group member'
       this.isNotGroupMember[this.groupToJoin.name.toString()] = false;
-      // call to refresh the data
+        // call to refresh the data
       this.apiService.getAllGroups(this);
     } else {
       if (message.includes('credentials')) {

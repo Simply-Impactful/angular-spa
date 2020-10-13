@@ -11,6 +11,7 @@ import { Parameters } from '../services/parameters';
 import * as _ from 'lodash';
 import { LevelsMapping } from '../shared/levels-mapping';
 import { Levels } from '../model/Levels';
+import { ApiGatewayService } from '../services/api-gateway.service';
 
 @Component({
   selector: 'app-my-groups',
@@ -25,35 +26,36 @@ export class MyGroupsComponent implements OnInit, Callback, LoggedInCallback {
   user: User;
   topThree = [];
   cognitoUsersResponse = [];
-  members = new Array<Member> ();
+  members = new Array<Member>();
   myGroupsObject = {};
   picture: String = '';
   defaultUserPicture = this.conf.default.userProfile;
   level: Levels;
   isViewAllMembers: boolean = false;
   mostActiveMembers = [];
-  users: User [];
+  users: User[];
 
   constructor(
     public lambdaService: LambdaInvocationService, public cognitoUtil: CognitoUtil, public params: Parameters,
-      public levelsData: LevelsMapping) { }
+    public levelsData: LevelsMapping,
+    public apiService: ApiGatewayService) { }
 
   ngOnInit() {
     // get the users' data - total points of each user
     // The users are a dependency for the groups - this will also call the getAllGroups API
     // if the users are defined in the listUserActions response
-    this.lambdaService.listUserActions(this);
+    this.apiService.listUserActions(this);
 
     // kick this off to get the data aggregated in the levels mapping
     this.levelsData.getAllData();
   }
 
   // TODO: implement
-  viewAll () {
+  viewAll() {
     this.isViewAllMembers = true;
   }
 
-  viewTopFive () {
+  viewTopFive() {
     this.isViewAllMembers = false;
   }
 
@@ -63,8 +65,8 @@ export class MyGroupsComponent implements OnInit, Callback, LoggedInCallback {
       for (let i = 0; i < group.members.length; i++) {
         if (group.members[i].member === members.Username) {
           for (let j = 0; j < members.Attributes.length; j++) {
-          // if they don't have a picture, assign them the default
-          // if they do have a picture in cognito, assing it to their member object
+            // if they don't have a picture, assign them the default
+            // if they do have a picture in cognito, assing it to their member object
             if (members.Attributes[j]['Name'] !== 'picture') {
               group.members[i].picture = this.conf.default.userProfile;
             }
@@ -78,13 +80,13 @@ export class MyGroupsComponent implements OnInit, Callback, LoggedInCallback {
   }
 
   // TODO: Using top points for now
-  getTopFiveMostActive (group: Group) {
-      group.members.sort((a, b) => Number(b.pointsEarned) - Number(a.pointsEarned));
-      this.mostActiveMembers.push(group);
+  getTopFiveMostActive(group: Group) {
+    group.members.sort((a, b) => Number(b.pointsEarned) - Number(a.pointsEarned));
+    this.mostActiveMembers.push(group);
   }
 
   // this is called for each group
-  getMembersLevels (group: Group) {
+  getMembersLevels(group: Group) {
     for (let i = 0; i < group.members.length; i++) {
       for (let j = 0; j < this.users.length; j++) {
         if (this.users[j].username === group.members[i].member) {
@@ -113,12 +115,12 @@ export class MyGroupsComponent implements OnInit, Callback, LoggedInCallback {
   // response of listUserActions API - LoggedInCallback Interface
   callbackWithParams(error: AWSError, result: any): void {
     if (result) {
-      const response = JSON.parse(result);
-      const unique = _.uniqBy(response.body, 'username');
+      const response = result;
+      const unique = _.uniqBy(response, 'username');
       this.users = unique;
-      this.lambdaService.getAllGroups(this);
-     } else {
-      this.lambdaService.listUserActions(this);
+      this.apiService.getAllGroups(this);
+    } else {
+      this.apiService.listUserActions(this);
     }
   }
 
@@ -128,34 +130,34 @@ export class MyGroupsComponent implements OnInit, Callback, LoggedInCallback {
     if (result) {
       if (result.toString().includes('credentials')) {
         // if auth error - retry
-        this.lambdaService.getAllGroups(this);
+        this.apiService.getAllGroups(this);
       } else {
-        const response = JSON.parse(result);
-         // no error
-         const filteredGroups = [];
-         this.groups = response.body;
-         const username = this.cognitoUtil.getCurrentUser().getUsername();
-         // set a default profile picture if the group doesn't have one
-         for (let i = 0; i < this.groups.length; i++) {
-           if (!this.groups[i].groupAvatar) {
-             this.groups[i].groupAvatar = this.conf.default.groupAvatar;
-           }
-           for (let j = 0; j < this.groups[i].members.length; j++) {
-             // if the user logged in is a memmber.. add the group to their list of groups
-             if ( this.groups[i].members[j]['member'] === username) {
+        const response = result;
+        // no error
+        const filteredGroups = [];
+        this.groups = response;
+        const username = this.cognitoUtil.getCurrentUser().getUsername();
+        // set a default profile picture if the group doesn't have one
+        for (let i = 0; i < this.groups.length; i++) {
+          if (!this.groups[i].groupAvatar) {
+            this.groups[i].groupAvatar = this.conf.default.groupAvatar;
+          }
+          for (let j = 0; j < this.groups[i].members.length; j++) {
+            // if the user logged in is a memmber.. add the group to their list of groups
+            if (this.groups[i].members[j]['member'] === username) {
               // build an object to parse the build out the members and group data
-               this.myGroupsObject = {
-                 name: this.groups[i].name,
-                 members: this.groups[i].members,
-                 groupAvatar: this.groups[i].groupAvatar
-               };
-               this.myGroups.push(this.myGroupsObject);
-             }
-           }
-         }
-         // call the list users method in order to build out the memebrs data
-         this.listUsers();
-       }
+              this.myGroupsObject = {
+                name: this.groups[i].name,
+                members: this.groups[i].members,
+                groupAvatar: this.groups[i].groupAvatar
+              };
+              this.myGroups.push(this.myGroupsObject);
+            }
+          }
+        }
+        // call the list users method in order to build out the memebrs data
+        this.listUsers();
+      }
     }
   }
 
@@ -163,7 +165,7 @@ export class MyGroupsComponent implements OnInit, Callback, LoggedInCallback {
     throw new Error('Method not implemented.');
   }
 
-  callback() {}
-  callbackWithParam(result: any) {}
-  callbackWithParameters(error: AWSError, result: any) {}
+  callback() { }
+  callbackWithParam(result: any) { }
+  callbackWithParameters(error: AWSError, result: any) { }
 }
