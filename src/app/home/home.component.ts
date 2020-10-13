@@ -57,7 +57,7 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
     } else {
       // get All the actions to parse the assignments
       // response in callbackWithParams method
-      this.lambdaService.listActions(this);
+      this.apiService.listActions(this);
       // kick off the levels data
       this.levelsMapping.getAllData();
     }
@@ -80,8 +80,8 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
   // Response of listActions API - logged in callback interface
   callbackWithParams(error: AWSError, result: any) {
     if (result) {
-      const response = JSON.parse(result);
-      const listOfActions = response.body;
+      // const response = JSON.parse(result);
+      const listOfActions = result;
       const listOfActionsLength = listOfActions.length;
       for (let i = 0; i < listOfActionsLength; i++) {
         if (listOfActions[i].assignmentUrl) {
