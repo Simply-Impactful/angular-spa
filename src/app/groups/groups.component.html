@@ -1,34 +1,36 @@
 <app-top-nav></app-top-nav>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <main>
-<mat-paginator [pageSizeOptions]="[25, 50, 100]"></mat-paginator>
-<mat-form-field style="padding-left:5px; width: 300px">
-    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter by Group name, leader, or zipcode...">
-</mat-form-field>
-<h3 class="card-header">Groups</h3>
-<button *ngIf="userPermission.isNotStudent()" class="right" mat-button color="primary" style="font-weight: bold" routerLink="/creategroup">+ Create New</button>
-<table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="mat-elevation-z8">
+  <mat-paginator [pageSizeOptions]="[25, 50, 100]"></mat-paginator>
+  <mat-form-field style="padding-left:5px; width: 300px">
+    <input matInput (keyup)="applyFilter($event.target.value)"
+      placeholder="Filter by Group name, leader, or zipcode...">
+  </mat-form-field>
+  <h3 class="card-header">Groups</h3>
+  <button *ngIf="user && user.userType !== 'individual'" class="right" mat-button color="primary"
+    style="font-weight: bold" routerLink="/creategroup">+ Create New</button>
+  <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="mat-elevation-z8">
     <!-- Name Column -->
     <ng-container matColumnDef="name">
-        <th style="color:black" mat-header-cell *matHeaderCellDef mat-sort-header>
-          <h4>GROUP NAME AND DESCRIPTION</h4>
-        </th>
-        <td mat-cell style="max-width:500px;" *matCellDef="let groups;">
-          <section class="container">
-            <section class="left">
-              <img class="avatarPhoto" src={{groups.groupAvatar}} />
-            </section>
-            <section class="right">
-              <strong class="headTitles"> {{groups.name}} </strong> <br />
-              {{groups.description}}
-            </section>
+      <th style="color:black" mat-header-cell *matHeaderCellDef mat-sort-header>
+        <h4>GROUP NAME AND DESCRIPTION</h4>
+      </th>
+      <td mat-cell style="max-width:500px;" *matCellDef="let groups;">
+        <section class="container">
+          <section class="left">
+            <img class="avatarPhoto" src={{groups.groupAvatar}} />
           </section>
-          <section class="membersRight grayText">View All Members
-              <mat-icon *ngIf="isCollapsed" (click)="expandedElement=groups; expand()">expand_more</mat-icon>
-              <mat-icon *ngIf="isExpanded" (click)="expandedElement=!groups; collapse()">expand_less</mat-icon>
+          <section class="right">
+            <strong class="headTitles"> {{groups.name}} </strong> <br />
+            {{groups.description}}
           </section>
-        </td>
-      </ng-container>
+        </section>
+        <section class="membersRight grayText">View All Members
+          <mat-icon *ngIf="isCollapsed" (click)="expandedElement=groups; expand()">expand_more</mat-icon>
+          <mat-icon *ngIf="isExpanded" (click)="expandedElement=!groups; collapse()">expand_less</mat-icon>
+        </section>
+      </td>
+    </ng-container>
 
     <!-- Group Leader Column -->
     <ng-container matColumnDef="leader">
@@ -66,24 +68,25 @@
     <ng-container matColumnDef="joinGroup">
       <th style="color:black;" mat-header-cell *matHeaderCellDef mat-sort-header></th>
       <td mat-cell *matCellDef="let groups; let i = index">
-          <div style="margin: 15px;">
-        <a *ngIf = "isNotGroupMember[groups.name]"  (click)="joinGroup(groups)" title="Click to become a member"> Join Group </a>
-   <!--  commenting out until ready to impelment
+        <div style="margin: 15px;">
+          <a *ngIf="isNotGroupMember[groups.name]" (click)="joinGroup(groups)" title="Click to become a member"> Join
+            Group </a>
+          <!--  commenting out until ready to impelment
        <a *ngIf = "!isNotGroupMember[groups.name]"  (click)="leaveGroup(groups)" title="Click to leave the group"> Leave Group </a> -->
-      </div>
+        </div>
       </td>
     </ng-container>
 
     <!-- TODO: Delete Group - only a feature for leaders -->
     <ng-container matColumnDef="deleteGroup">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-        <td mat-cell *matCellDef="let groups; let i = index">
-    <!--     commenting out until ready to impelment
+      <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+      <td mat-cell *matCellDef="let groups; let i = index">
+        <!--     commenting out until ready to impelment
       <a *ngIf="groups.leader === username"> 
             <mat-icon title="Delete Group" style="color:rgba(105, 105, 105, 0.568)" (click)="deleteGroup(groups)">
               delete_outline</mat-icon></a>
         </td> -->
-      </ng-container> 
+    </ng-container>
 
     <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
     <ng-container matColumnDef="expandedDetail">
@@ -92,16 +95,16 @@
           <div style="margin: 5px;">
             <mat-card *ngFor="let member of groups.members" class="top-performer-card" style="color:black">
               <mat-card-header>
-                  <span>
-                   <!-- attempt at a badge icon  
+                <span>
+                  <!-- attempt at a badge icon  
                       <mat-icon style="color:grey;border-color:black;" class="level-image">lens</mat-icon> -->
-                      <img mat-card-avatar class="level-image" src="{{member.level}}">                
-                  </span>
+                  <img mat-card-avatar class="level-image" src="{{member.level}}">
+                </span>
                 <!-- TODO: should this be pulling the member info from an object? -->
-                <img mat-card-avatar class="members-image" src="{{member.picture}}">         
-              <mat-card-title>{{member.member}}</mat-card-title>
-              <mat-card-subtitle><strong>{{member.pointsEarned}}</strong></mat-card-subtitle>
-            </mat-card-header>
+                <img mat-card-avatar class="members-image" src="{{member.picture}}">
+                <mat-card-title>{{member.member}}</mat-card-title>
+                <mat-card-subtitle><strong>{{member.pointsEarned}}</strong></mat-card-subtitle>
+              </mat-card-header>
             </mat-card>
           </div>
         </div>

@@ -63,6 +63,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
     this.isNotGroupMember = {};
     // get the users' data - total points of each user
     this.apiService.listUserActions(this);
+    this.levelsData.getAllData();
 
   }
 
@@ -75,7 +76,7 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   // only for group leaders
   deleteGroup(group: Group) {
     this.groupToDelete = group;
-    this.apiService.deleteGroup(this, group);
+    this.lambdaService.deleteGroup(this, group);
   }
 
   // only for non-group members
@@ -129,8 +130,8 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   // response of listUserActions API - LoggedInCallback Interface
   callbackWithParams(error: AWSError, result: any): void {
     if (result) {
-      // const response = JSON.parse(result);
-      const unique = _.uniqBy(result, 'username');
+      const response = result;
+      const unique = _.uniqBy(response, 'username');
       this.users = unique;
       this.levelsData.getAllData();
     } else {
@@ -251,7 +252,11 @@ export class GroupsComponent implements OnInit, CognitoCallback, LoggedInCallbac
   handleMFAStep?(challengeName: string, challengeParameters: ChallengeParameters, callback: (confirmationCode: string) => any): void;
 
   // response of isAuthenticated method in login service
-  callbackWithParam(result: any): void { }
+  callbackWithParam(result: any): void {
+    const cognitoUser = this.cognitoUtil.getCurrentUser();
+    const params = new Parameters();
+    this.user = params.buildUser(result, cognitoUser);
+  }
 
   callback() { }
 }
