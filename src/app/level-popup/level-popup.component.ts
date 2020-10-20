@@ -46,7 +46,7 @@ export class LevelPopupComponent implements OnChanges {
 
 
     getNextLevel(level: string) {
-        const keys = Object.keys(LevelsEnum).slice( 10,20 );
+        const keys = Object.keys(LevelsEnum).slice(10, 20);
         const index: number = keys.indexOf(String(level)) ;
         const nextLevel = Object.values(LevelsEnum)[index + 1];
         this.nextLevel = String(nextLevel);

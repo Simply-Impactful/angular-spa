@@ -143,12 +143,12 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
 
   getLevelName(points: Number) {
     const levels = Object.keys(LevelsEnum).slice(0, 10);
-    for ( let i=0; i < 10; i++ ) {
+    for (let i = 0; i < 10; i++) {
         if ( this.user.totalPoints < Number( levels[i] )) {
           this.currLevel = String( Object.values(LevelsEnum)[i] );
           break;
-       };
-    };
-};
+       }
+    }
+}
 
 }

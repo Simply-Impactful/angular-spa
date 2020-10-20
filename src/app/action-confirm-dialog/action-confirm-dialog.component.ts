@@ -28,7 +28,7 @@ export class ActionConfirmDialogComponent implements OnInit, LoggedInCallback, C
   private conf = AppConf;
   pointsEarned;
   dialog: MatDialog;
-  private actionService = new ActionService(this.dialog);
+ // private actionService = new ActionService(this.dialog);
   userActions = [];
   uniqueEntriesByUser = [];
   displayAssignment = false;
