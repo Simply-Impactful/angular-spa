@@ -6,6 +6,7 @@ import { ActionService } from '../services/action.service';
 
 import { MaterialModule } from '../material.module';
 import { MatCardModule } from '@angular/material/card';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('ActionComponent', () => {
   let component: ActionComponent;
@@ -14,14 +15,8 @@ describe('ActionComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ActionComponent],
-      imports: [
-        HttpClientTestingModule,
-        MaterialModule,
-        MatCardModule
-      ],
-      providers: [
-        ActionService
-      ]
+      imports: [HttpClientTestingModule, MaterialModule, MatCardModule],
+      providers: [ActionService]
     })
       .compileComponents();
   }));
