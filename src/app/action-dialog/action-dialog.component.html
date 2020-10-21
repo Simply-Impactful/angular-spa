@@ -31,6 +31,9 @@
 </div>
 
 <div *ngIf="!isError && !isBeginning">
+  <div align="right">
+    <button (click)="closeWindow()" align="right" style="margin-left: 25px;">X</button>
+  </div>
     <img src='/assets/images/Congrats_icn.svg'>
   <h2 mat-dialog-title>Way to go!</h2>
   <hr>

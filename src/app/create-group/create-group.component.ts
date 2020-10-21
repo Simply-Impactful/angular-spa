@@ -10,8 +10,9 @@ import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { S3Service } from '../services/s3.service';
 import { AppConf } from '../shared/conf/app.conf';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { ApiGatewayService } from '../services/api-gateway.service';
 
 let members;
 
@@ -51,7 +52,7 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
   invalidUsers = [];
   generalError: string = '';
   invalidMembersError: string = '';
-  invalidGroupLeader: string =  '';
+  invalidGroupLeader: string = '';
   isValidGroup: boolean;
   myControl = new FormControl();
   membersResponse = [];
@@ -63,18 +64,19 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
   constructor(public lambdaService: LambdaInvocationService,
     public router: Router,
     private cognitoUtil: CognitoUtil,
-    private s3: S3Service) { }
+    private s3: S3Service,
+    public apiservice: ApiGatewayService) { }
 
   ngOnInit() {
     this.isFileReader = true;
     this.createdGroup = new Array<Group>();
-    this.lambdaService.listGroupsMetaData(this);
+    this.apiservice.listGroupsMetaData(this);
     this.getData();
     this.filteredOptions = this.myControl.valueChanges
-    .pipe(
-      startWith(''),
-      map(value => this._filter(value))
-    );
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
   }
 
   private _filter(value: string): string[] {
@@ -115,22 +117,22 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
       }
 
       this.canCreateGroup(this.createdGroup.membersString.split(' ')).then(canCreateGroupResult => {
-      if (canCreateGroupResult === true) {
-        this.s3.uploadFile(this.groupAvatarFile, this.conf.imgFolders.groups, (err, location) => {
-          if (err) {
-            // we will allow for the creation of the item, we have a default image
-            console.log(err);
-            this.createdGroup.groupAvatar = this.conf.default.groupAvatar;
-          } else {
-            this.createdGroup.groupAvatar = location;
-          }
-         this.groupArray.push(this.createdGroup);
-         this.lambdaService.createGroup(this.groupArray, this);
-      });
-      } else {
-        this.invalidUsers = [];
-        this.membersError = '';
-      }
+        if (canCreateGroupResult === true) {
+          this.s3.uploadFile(this.groupAvatarFile, this.conf.imgFolders.groups, (err, location) => {
+            if (err) {
+              // we will allow for the creation of the item, we have a default image
+              console.log(err);
+              this.createdGroup.groupAvatar = this.conf.default.groupAvatar;
+            } else {
+              this.createdGroup.groupAvatar = location;
+            }
+            this.groupArray.push(this.createdGroup);
+            this.apiservice.createGroup(this.groupArray, this);
+          });
+        } else {
+          this.invalidUsers = [];
+          this.membersError = '';
+        }
       });
     }
   }
@@ -140,9 +142,9 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
       this.cognitoUtil.listUsers('Username').then(usernames => {
         this.membersResponse = usernames;
         resolve(true);
-     });
-   });
-   return promise;
+      });
+    });
+    return promise;
   }
 
   addToList(value: string) {
@@ -161,30 +163,30 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
   canCreateGroup(groupMembers: any): any {
     const optionalFilter = 'Username';
     const groupLeader = this.createdGroup.username;
-     const promise = new Promise((resolve, reject) => {
-       this.cognitoUtil.listUsers(optionalFilter).then(usernames => {
-         this.membersResponse = usernames;
-          if (!usernames.includes(groupLeader)) {
+    const promise = new Promise((resolve, reject) => {
+      this.cognitoUtil.listUsers(optionalFilter).then(usernames => {
+        this.membersResponse = usernames;
+        if (!usernames.includes(groupLeader)) {
+          this.isValidGroup = false;
+          this.invalidGroupLeader = 'The leader is not a valid user. Please try entering another';
+        } else {
+          this.isValidGroup = true;
+          this.invalidGroupLeader = '';
+        }
+        for (let index = 0; index < groupMembers.length; index++) {
+          if (!usernames.includes(groupMembers[index])) {
+            this.invalidUsers.push(groupMembers[index]);
             this.isValidGroup = false;
-            this.invalidGroupLeader = 'The leader is not a valid user. Please try entering another';
-          } else {
-            this.isValidGroup = true;
-            this.invalidGroupLeader = '';
           }
-          for (let index = 0; index < groupMembers.length; index++) {
-            if (!usernames.includes(groupMembers[index])) {
-              this.invalidUsers.push(groupMembers[index]);
-              this.isValidGroup = false;
-            }
-          }
-         if (!this.isValidGroup && this.invalidUsers.length >= 1) {
-           this.invalidMembersError = 'The following users are invalid: ' + this.invalidUsers.toString() +
-          '. Please remove these users and try again....';
+        }
+        if (!this.isValidGroup && this.invalidUsers.length >= 1) {
+          this.invalidMembersError = 'The following users are invalid: ' + this.invalidUsers.toString() +
+            '. Please remove these users and try again....';
           console.log(this.invalidMembersError);
-         } else {
-           this.invalidMembersError = '';
-         }
-         resolve(this.isValidGroup);
+        } else {
+          this.invalidMembersError = '';
+        }
+        resolve(this.isValidGroup);
       });
     });
     return promise;
@@ -198,7 +200,7 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
     }
     if (this.createdGroup.membersString && this.invalidUsers.length >= 1) {
       this.invalidMembersError = 'The following users are invalid: ' + this.invalidUsers.toString() +
-      '. Please remove these users and try again.';
+        '. Please remove these users and try again.';
     } else {
       this.invalidMembersError = '';
     }
@@ -230,10 +232,10 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
   // result of listGroupsMetaData - loggedInCallback interface
   callbackWithParams(error: AWSError, result: any): void {
     if (result) {
-      const response = JSON.parse(result);
-      this.groupsData = response.body;
+      const response = result;
+      this.groupsData = response;
       this.types = this.groupsData;
-      console.log('this.groupsData ' + JSON.stringify(this.groupsData));
+      // console.log('this.groupsData ' + JSON.stringify(this.groupsData));
       // console.log('groupsData ' + JSON.stringify(this.groupsData));
       // iterate between both arrays to pull out the subTypes which have 'N/A' specified
       for (let i = 0; i < this.groupsData.length; i++) {
@@ -254,13 +256,13 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
       if (error.toString().includes('credentials')) {
         console.log('error - retrying' + JSON.stringify(error));
         // retry
-        this.lambdaService.listGroupsMetaData(this);
+        this.apiservice.listGroupsMetaData(this);
       }
     }
   }
 
   // Response of createGroup API - Callback interface
-  cognitoCallbackWithParam(result: any) {}
+  cognitoCallbackWithParam(result: any) { }
 
   fileEvent(fileInput: any, fileName: string) {
     this[fileName] = fileInput.target.files[0];
@@ -302,25 +304,22 @@ export class CreateGroupComponent implements OnInit, CognitoCallback, LoggedInCa
 
   // Response of Create Groups API - CognitoCallback Interface
   cognitoCallback(message: string, result: any) {
-      if (result) {
-        const response = JSON.parse(result);
-        if (response.statusCode === 200) {
-          this.router.navigate(['/home']);
-        }
+    if (result) {
+        this.router.navigate(['/home']);
+    }
+    // odd credential error occurred
+    if (message) {
+      if (message.includes('credentials')) {
+        this.groupArray = [];
+        // RETRY
+        this.creategroup();
       }
-      // odd credential error occurred
-      if (message) {
-        if (message.includes('credentials')) {
-          this.groupArray = [];
-          // RETRY
-          this.creategroup();
-        }
-      }
+    }
   }
-  handleMFAStep ? (challengeName: string, challengeParameters: ChallengeParameters, callback: (confirmationCode: string) => any): void ;
+  handleMFAStep?(challengeName: string, challengeParameters: ChallengeParameters, callback: (confirmationCode: string) => any): void;
 
-  callback() {}
-  callbackWithParameters(error: AWSError, result: any) {}
-  callbackWithParam(result: any): void {}
+  callback() { }
+  callbackWithParameters(error: AWSError, result: any) { }
+  callbackWithParam(result: any): void { }
 
 }

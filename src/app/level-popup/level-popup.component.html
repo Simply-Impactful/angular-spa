@@ -1,0 +1,25 @@
+<div class="modal-holder" *ngIf="showLevelModal">
+<div class="mmodal" id="mmodal">
+	<div  *ngIf="user" class="mmodal-body">
+		<h1>Way to go, you're a <b>{{currLevel}}!</b></h1>
+		<div class="points">
+			<img mat-card-avatar class="level-image" src="{{user.level}}">    
+			<p class="currPoints">{{user.totalPoints}} pts</p>
+			<!-- <p class="currPoints">200 pts</p> -->
+		</div>
+		<div class="bottomContent">
+		<div class="pointsLabels">
+			<p class="label" style="float: left;">{{lowEndPoints}}</p>
+			<p class="label" style="float: right;">{{highEndPoints}}</p>
+		</div>
+		<br>
+		<div class="outerBar points">
+			<div class="innerBar" id="innerBar"></div>
+		  </div>
+		<p>Only <b>{{ pointsToNextLevel }}</b> points more to level up to <b>{{ nextLevel }}</b></p>
+		<button mat-raised-button color="primary" (click)="closeDialog()" class="saveButton">Take Action</button>
+	</div>
+</div>
+</div>
+</div>
+<div class="mmodal-background" id="mmodal-background"></div>

@@ -1,19 +1,18 @@
 <app-top-nav></app-top-nav>
 <main>
-    <div class="top-row">
-        <mat-toolbar style="background-color: transparent">
-          <mat-toolbar-row>
-            <span class="welcomeMsg">Hi {{user.username}}, what actions have you taken today?</span>
-            <div class="level">
-              <p class= "scoreMsg"> Your Score: {{user.totalPoints}}</p> 
-              <span *ngIf="user.level">
-                  <img src="{{user.level}}">                
-              </span> 
-              <span class="score-flag"></span>
-            </div>
-          </mat-toolbar-row>
-        </mat-toolbar>
-      </div>
+  <div class="top-row">
+    <mat-toolbar style="background-color: transparent">
+      <mat-toolbar-row>
+        <span *ngIf="user" class="welcomeMsg">Hi {{user.username}}, what actions have you taken today?</span>
+        <div class="level">
+          <p *ngIf="user" class="scoreMsg"> Your Score: {{user.totalPoints}}</p>
+          <span>
+            <img *ngIf="user" src="{{user.level}}">
+          </span>
+        </div>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </div>
   <div *ngIf="isHomePage" class="backimage">
     <app-action *ngIf="isLoggedIn"></app-action>
     <button mat-raised-button color="primary" (click)="navigate()">View All</button>
@@ -23,13 +22,14 @@
   <div *ngIf="isHomePage" class="main-body">
     <div fxLayout="row">
       <div fxFlex="100">
-        <div align="left" >
+        <div align="left">
           <h5 class="mygroup">My Groups</h5>
         </div>
       </div>
       <div fxFlex="100">
-        <div align="right" >
-          <button mat-button class="createNewButton" style="font-weight: bold" routerLink="/creategroup">+ Create New</button>
+        <div align="right">
+          <button *ngIf="user && user.userType !== 'individual'" mat-button class="createNewButton"
+            style="font-weight: bold" routerLink="/creategroup">+ Create New</button>
         </div>
       </div>
     </div>
@@ -48,7 +48,7 @@
         </div>
         <div *ngFor="let assignment of assignments; let i = index" align="left">
           <li>
-          <a routerLinkActive="router-link-active" href="{{assignment}}" target="_blank" >{{actionNames[i]}}</a>
+            <a routerLinkActive="router-link-active" href="{{assignment}}" target="_blank">{{actionNames[i]}}</a>
           </li>
         </div>
         <br>
@@ -60,6 +60,7 @@
       </div>
     </div>
   </div>
+  <app-level-popup [(user)]="user" [currLevel]="currLevel" (notifyParent)="getNotification($event)"></app-level-popup>
 
   <app-actions *ngIf="isViewAll && isLoggedIn"></app-actions>
 </main>
