@@ -98,8 +98,8 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
   // response of lambda list Actions API call
   callbackWithParams(error: AWSError, result: any): void {
     if (result) {
-      const response = JSON.parse(result);
-      this.actions = response.body;
+      // const response = JSON.parse(result);
+      this.actions = result;
       this.dataSource = new MatTableDataSource(this.actions);
       this.dataSource.paginator = this.paginator;
       this.observableData = this.dataSource.connect();

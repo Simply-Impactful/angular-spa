@@ -1,6 +1,6 @@
 <div class="modal-holder" *ngIf="showLevelModal">
 <div class="mmodal" id="mmodal">
-	<div class="mmodal-body">
+	<div  *ngIf="user" class="mmodal-body">
 		<h1>Way to go, you're a <b>{{currLevel}}!</b></h1>
 		<div class="points">
 			<img mat-card-avatar class="level-image" src="{{user.level}}">    

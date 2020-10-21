@@ -124,12 +124,12 @@ export class AdminAccessActionsComponent implements OnInit, LoggedInCallback {
   callbackWithParams(error: AWSError, result: any): void {
     if (result) {
       console.log('result');
-      const response = JSON.parse(result);
-      this.actions = response.body;
+      // const response = JSON.parse(result);
+      this.actions = result;
       this.dataSource = new MatTableDataSource(this.actions);
       this.dataSource.paginator = this.paginator;
     } else {
-      console.log('error ' + JSON.stringify(error));
+      console.log('error ' + error);
       if (error.toString().includes('credentials')) {
         // window.location.reload();
         console.log('credentials error, RETRYING');
