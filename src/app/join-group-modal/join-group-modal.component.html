@@ -1,0 +1,16 @@
+<div class="modal-holder">
+<div class="mmodal" id="mmodal">
+	<div class="mmodal-body">
+		<h1>Way to go, you've joined the group
+			<br><b>{{group.name}}</b>!</h1>
+		<div class="groupImage">
+			<img mat-card-avatar class="level-image" src="{{group.groupAvatar}}">    
+		</div>
+		<div class="bottomContent">
+			<button mat-raised-button color="primary" (click)="closeDialog()" class="saveButton">Continue</button>
+		</div>
+	</div>
+</div>
+</div>
+
+<div class="mmodal-background" id="mmodal-background"></div>

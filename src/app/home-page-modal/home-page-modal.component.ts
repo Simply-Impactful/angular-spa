@@ -12,13 +12,14 @@ import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { User } from '../model/User';
 import { LevelsEnum } from '../model/levelsEnum';
 import { Integer } from 'aws-sdk/clients/apigateway';
+import { CreateProfileService } from '../services/create-profile.service';
 
 @Component({
-    selector: 'app-level-popup',
-    templateUrl: './level-popup.component.html',
-    styleUrls: ['./level-popup.component.scss']
+    selector: 'app-home-page-modal',
+    templateUrl: './home-page-modal.component.html',
+    styleUrls: ['./home-page-modal.component.scss']
 })
-export class LevelPopupComponent implements OnChanges {
+export class HomePageModalComponent implements OnChanges {
 
     @Input() user: User = new User;
     @Input() currLevel: string;
@@ -27,9 +28,14 @@ export class LevelPopupComponent implements OnChanges {
     showLevelModal: boolean = true;
     highEndPoints: Number;
     lowEndPoints: Number;
+    newUser: boolean;
+
+    constructor(public createProfileService: CreateProfileService) {}
 
     ngOnChanges() {
-        if (this.user !== undefined) {
+        if (this.createProfileService.showNewUserMsg) {
+            this.newUser = this.createProfileService.showNewUserMsg;
+        } else if (this.user !== undefined) {
             this.getNextLevel(this.currLevel);
         }
     }
@@ -37,6 +43,7 @@ export class LevelPopupComponent implements OnChanges {
     closeDialog() {
         document.getElementById('mmodal').style.visibility = 'hidden';
         document.getElementById('mmodal-background').style.visibility = 'hidden';
+        this.createProfileService.showNewUserMsg = false;
     }
 
     setBarWidth() {
@@ -54,6 +61,6 @@ export class LevelPopupComponent implements OnChanges {
         this.setBarWidth();
 
         this.highEndPoints = LevelsEnum[this.currLevel];
-        this.lowEndPoints = Number(LevelsEnum[Object.values(LevelsEnum)[index - 1]]);
+        this.lowEndPoints = (this.highEndPoints === 250  ? 0 : Number(LevelsEnum[Object.values(LevelsEnum)[index - 1]]));
     }
 }

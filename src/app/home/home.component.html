@@ -60,7 +60,7 @@
       </div>
     </div>
   </div>
-  <app-level-popup [(user)]="user" [currLevel]="currLevel" (notifyParent)="getNotification($event)"></app-level-popup>
+  <app-home-page-modal [(user)]="user" [currLevel]="currLevel" (notifyParent)="getNotification($event)"></app-home-page-modal>
 
   <app-actions *ngIf="isViewAll && isLoggedIn"></app-actions>
 </main>

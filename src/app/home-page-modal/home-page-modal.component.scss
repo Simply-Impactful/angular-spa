@@ -13,10 +13,14 @@
   position: fixed;
   top: 30px;
   bottom: 0;
-  left: 550px;
-  width: 500px;
   display: block;
 }
+
+#mmodal {
+  left: 375px;
+  width: 1000px;
+}
+
 .mmodal-body {
   background: #fff;
   margin: 40px;
@@ -92,4 +96,39 @@
 
 .bottomContent {
   margin-top: -25px;
+}
+
+.newUserMsg {
+  font-size: 16px;
+  display: flex;
+  flex-direction: row;
+}
+
+.newUserMsg img {
+  width: 250px;
+  padding: 10px;
+}
+
+.newUserTxt {
+  text-align: left;
+  font-size: 18px;
+  width: 500px;
+  padding: 10px;
+  padding-left: 50px;
+  border-left: solid 2px #4db6ac;
+  margin-bottom: 20px;
+}
+
+.nameLogo {
+  margin-top: 75px;
+}
+
+.addsUpLogo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.welcome {
+  text-align: center;
 }
