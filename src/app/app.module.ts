@@ -55,7 +55,7 @@ import { CommonService } from './services/common.service';
 import { ActionDeleteDialogComponent } from './action-delete-dialog/action-delete-dialog.component';
 import { ActionConfirmDialogComponent } from './action-confirm-dialog/action-confirm-dialog.component';
 import { ScoreDialogComponent } from './score-dialog/score-dialog.component';
-import { LevelPopupComponent } from './level-popup/level-popup.component';
+import { HomePageModalComponent } from './home-page-modal/home-page-modal.component';
 import { UserPermission } from './services/user-permission.service';
 
 @NgModule({
@@ -87,7 +87,7 @@ import { UserPermission } from './services/user-permission.service';
     ActionDeleteDialogComponent,
     ActionConfirmDialogComponent,
     ScoreDialogComponent,
-    LevelPopupComponent
+    HomePageModalComponent
   ],
   imports: [
     [BrowserModule, FormsModule],

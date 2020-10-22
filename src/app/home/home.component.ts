@@ -13,7 +13,6 @@ import { ActionComponent } from '../action/action.component';
 import { ActionService } from '../services/action.service';
 import { AwsUtil } from '../services/aws.service';
 import { LevelsMapping } from '../shared/levels-mapping';
-import { LevelPopupComponent } from '../level-popup/level-popup.component';
 import { LevelsEnum } from '../model/levelsEnum';
 import { UserPermission } from '../services/user-permission.service';
 import { ApiGatewayService } from '../services/api-gateway.service';
@@ -32,7 +31,6 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
   actionNames = [];
   levels = [];
   currLevel: string;
-  levelPopupComp: LevelPopupComponent;
 
   constructor(
     private router: Router,
