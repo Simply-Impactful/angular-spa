@@ -1,5 +1,5 @@
 {
-  "name": "italladdsup",
+  "name": "e2eautomation",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -12,8 +12,7 @@
     "e2e": "ng e2e",
     "sls:deploy:dev": "sls deploy -s dev",
     "sls:remove:dev": "sls remove -s dev",
-    "sls:deploy:prod": "sls deploy -s prod",
-    "commit": "commit-wizard"
+    "sls:deploy:prod": "sls deploy -s prod"
   },
   "private": true,
   "dependencies": {
@@ -30,13 +29,12 @@
     "@angular/platform-browser-dynamic": "^6.0.3",
     "@angular/router": "^6.0.3",
     "amazon-cognito-identity-js": "^2.0.23",
-    "aws-api-gateway-client": "^0.3.5",
+    "angular-material": "^1.2.0",
     "aws-sdk": "^2.302.0",
     "cognito-user-pool": "^0.2.4",
     "core-js": "^2.5.4",
     "file-saver": "1.3.3",
-    "json2csv": "^5.0.1",
-    "lint": "^0.7.0",
+    "json2csv": "4.0.0",
     "rxjs": "6.2.2",
     "serverless-s3-sync": "^1.6.1",
     "zone.js": "^0.8.26"
@@ -48,22 +46,46 @@
     "@angular/language-service": "^6.0.3",
     "@types/jasmine": "~2.8.6",
     "@types/jasminewd2": "~2.0.3",
-    "@types/node": "^8.10.52",
+    "@types/node": "~8.9.4",
     "codelyzer": "~4.2.1",
+    "cypress": "^5.3.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
-    "karma": "^5.2.2",
+    "karma": "^2.0.0",
     "karma-chrome-launcher": "~2.2.0",
     "karma-coverage-istanbul-reporter": "^2.0.5",
     "karma-jasmine": "~1.1.1",
     "karma-jasmine-html-reporter": "^0.2.2",
     "pre-commit": "^1.2.2",
-    "protractor": "^7.0.0",
+    "pre-git": "^3.17.1",
+    "protractor": "^5.4.2",
     "ts-node": "~5.0.1",
     "tslint": "5.17.0",
-    "typescript": "^3.6.4"
+    "typescript": "~2.7.2"
   },
   "precommit": [
     "lint"
-  ]
+  ],
+  "description": "A web application for Change is Simple Org that gamifies eco-friendly actions.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Simply-Impactful/angular-spa.git"
+  },
+  "keywords": [
+    "change",
+    "simple"
+  ],
+  "author": "sunita gundala",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Simply-Impactful/angular-spa/issues"
+  },
+  "homepage": "https://github.com/Simply-Impactful/angular-spa#readme",
+  "release": {
+    "analyzeCommits": "simple-commit-message"
+  }
 }
