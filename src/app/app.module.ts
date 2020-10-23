@@ -54,6 +54,9 @@ import { LoaderComponent } from './loader/loader.component';
 import { CommonService } from './services/common.service';
 import { ActionDeleteDialogComponent } from './action-delete-dialog/action-delete-dialog.component';
 import { ActionConfirmDialogComponent } from './action-confirm-dialog/action-confirm-dialog.component';
+import { ScoreDialogComponent } from './score-dialog/score-dialog.component';
+import { HomePageModalComponent } from './home-page-modal/home-page-modal.component';
+import { UserPermission } from './services/user-permission.service';
 
 @NgModule({
   declarations: [
@@ -82,7 +85,9 @@ import { ActionConfirmDialogComponent } from './action-confirm-dialog/action-con
     ActionDialogComponent,
     LoaderComponent,
     ActionDeleteDialogComponent,
-    ActionConfirmDialogComponent
+    ActionConfirmDialogComponent,
+    ScoreDialogComponent,
+    HomePageModalComponent
   ],
   imports: [
     [BrowserModule, FormsModule],
@@ -121,7 +126,9 @@ import { ActionConfirmDialogComponent } from './action-confirm-dialog/action-con
     ActionDialogComponent,
     CommonService,
     ExcelService,
-    ActionConfirmDialogComponent],
+    ActionConfirmDialogComponent,
+    UserPermission
+  ],
   bootstrap: [AppComponent]
 })
 

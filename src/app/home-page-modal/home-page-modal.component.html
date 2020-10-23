@@ -1,0 +1,39 @@
+<div class="modal-holder" *ngIf="showLevelModal">
+<div class="mmodal" id="mmodal">
+	<div  *ngIf="user" class="mmodal-body">
+		<div *ngIf="!newUser">
+			<h1>Way to go, you're a <b>{{currLevel}}!</b></h1>
+			<div class="points">
+				<img mat-card-avatar class="level-image" src="{{user.level}}">    
+				<p class="currPoints">{{user.totalPoints}} pts</p>
+				<!-- <p class="currPoints">200 pts</p> -->
+			</div>
+			<div class="bottomContent">
+			<div class="pointsLabels">
+				<p class="label" style="float: left;">{{lowEndPoints}}</p>
+				<p class="label" style="float: right;">{{highEndPoints}}</p>
+			</div>
+			<br>
+			<div class="outerBar points">
+				<div class="innerBar" id="innerBar"></div>
+			</div>
+			<p>Only <b>{{ pointsToNextLevel }}</b> points more to level up to <b>{{ nextLevel }}</b></p>
+			</div>
+		</div>
+		<div *ngIf="newUser" class="newUserMsg">
+			<div class="newUserImg">
+				<img src="../../assets/images/cis_logo.jpeg" class="nameLogo">
+				<img src="../../assets/images/Bird Logo - Black.png" class="birdLogo">
+			</div>
+			<div class="newUserTxt">
+				<p class="welcome">Welcome to</p>
+				<img src="../../assets/images/it-all-adds-up brand.png" class="addsUpLogo">
+				<p>Change is Simple's web platform designed for students and teachers just like you! </p>
+				<p>On this website, you will be able to explore the many actions you can take to be more sustainable. Make sure you keep track of every action you take, because the more actions you take, the higher level you will reach!</p>
+				<p>You can see the progress of your class and work as a team to become a more sustainable classroom, protecting and preserving the environment. You can ask your teachers to make groups within your classroom, and start a competition to see which group is taking the most actions for our planet!</p>
+			</div>
+		</div>
+		<button mat-raised-button color="primary" (click)="closeDialog()" class="saveButton">Take Action</button>
+	</div>
+</div>
+<div class="mmodal-background" id="mmodal-background"></div>

@@ -15,6 +15,7 @@ export class CreateProfileService {
     accessKeyId: string = '';
     secretAccessKey: string = '';
     sessionToken: string = '';
+    showNewUserMsg: boolean = false;
 
     constructor (
         public cognitoUtil: CognitoUtil,

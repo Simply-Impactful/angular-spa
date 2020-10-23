@@ -70,7 +70,7 @@ resources:
         BucketName: ${self:custom.bucketName}
         WebsiteConfiguration:
           IndexDocument: index.html  
-          ErrorDocument: error.html  
+          ErrorDocument: index.html  
     StaticSiteS3BucketPolicy:
       Type: AWS::S3::BucketPolicy
       Properties:

@@ -59,6 +59,7 @@ export class CreateProfileComponent implements OnInit, CognitoCallback, OnDestro
   createAccount() {
     if (this.checkInputs()) {
       this.createProfileService.register(this.newUser, this);
+      this.createProfileService.showNewUserMsg = true;
     }
   }
 

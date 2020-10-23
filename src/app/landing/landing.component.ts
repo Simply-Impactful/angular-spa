@@ -20,23 +20,23 @@ export class LandingComponent implements OnInit, LoggedInCallback {
   factUrl: string = '';
   displayLogin = false;
 
-  constructor(private http: HttpClient, public logInService: LogInService, public router: Router) {}
+  constructor(private http: HttpClient, public logInService: LogInService, public router: Router) { }
 
   ngOnInit() {
     this.getData().subscribe();
     this.logInService.isAuthenticated(this);
   }
-  
-  showLogin(): void{
+
+  showLogin(): void {
     this.displayLogin = !this.displayLogin;
   }
 
   isLoggedIn(message: string, isLoggedIn: boolean): void {
     if (isLoggedIn) {
       // will route to home page when authenticated is true
-       this.router.navigate(['/home']);
+      this.router.navigate(['/home']);
     } else {
-       this.router.navigate(['/landing']);
+      this.router.navigate(['/landing']);
     }
   }
 
@@ -54,6 +54,6 @@ export class LandingComponent implements OnInit, LoggedInCallback {
     );
   }
 
-  callbackWithParams(error: AWSError, result: any) {}
-  callbackWithParam(result: any) {}
+  callbackWithParams(error: AWSError, result: any) { }
+  callbackWithParam(result: any) { }
 }

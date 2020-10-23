@@ -12,6 +12,7 @@ import { LogInService } from '../services/log-in.service';
 import { Observable } from 'rxjs';
 import { ActionConfirmDialogComponent } from '../action-confirm-dialog/action-confirm-dialog.component';
 import { MatButton, MatCheckbox , MatDialogConfig} from '@angular/material';
+import { ApiGatewayService } from '../services/api-gateway.service';
 
 
 @Component({
@@ -38,7 +39,8 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
   constructor(
     public dialog: MatDialog, public actionService: ActionService,
     public lambdaService: LambdaInvocationService, public params: Parameters,
-    public loginService: LogInService, public cognitoUtil: CognitoUtil) { }
+    public loginService: LogInService, public cognitoUtil: CognitoUtil,
+    public apiService: ApiGatewayService) { }
 
   ngOnInit() {
     this.params.user$.subscribe(user => {
@@ -46,7 +48,8 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
       this.user.totalPoints = user.totalPoints;
     });
 
-    this.lambdaService.listActions(this);
+    // this.lambdaService.listActions(this);
+    this.apiService.listActions(this);
     // to get the user data that's diplayed across the top
     this.loginService.isAuthenticated(this);
 
@@ -95,8 +98,8 @@ export class ActionsComponent implements OnInit, LoggedInCallback {
   // response of lambda list Actions API call
   callbackWithParams(error: AWSError, result: any): void {
     if (result) {
-      const response = JSON.parse(result);
-      this.actions = response.body;
+      // const response = JSON.parse(result);
+      this.actions = result;
       this.dataSource = new MatTableDataSource(this.actions);
       this.dataSource.paginator = this.paginator;
       this.observableData = this.dataSource.connect();
