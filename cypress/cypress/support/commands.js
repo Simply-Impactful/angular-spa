@@ -1,3 +1,4 @@
+import * as accountsdata from '../fixtures/accountsdata.json'
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -23,3 +24,13 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+    Cypress.Commands.add("login", (username, password)=> {
+    cy.get('input[name=username]').type(accountsdata[0].username)
+    cy.get('input[name=password]').type(accountsdata[0].password)
+    cy.get('button.mat-raised-button.mat-primar').submit()
+
+     //Verify the Redirection
+     cy.url().should('include','/adminaccesslanding')
+
+     
+ })

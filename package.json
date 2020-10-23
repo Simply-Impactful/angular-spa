@@ -12,7 +12,8 @@
     "e2e": "ng e2e",
     "sls:deploy:dev": "sls deploy -s dev",
     "sls:remove:dev": "sls remove -s dev",
-    "sls:deploy:prod": "sls deploy -s prod"
+    "sls:deploy:prod": "sls deploy -s prod",
+    "commit": "commit-wizard"
   },
   "private": true,
   "dependencies": {
@@ -62,5 +63,15 @@
   },
   "precommit": [
     "lint"
-  ]
+  ],
+  "config": {
+    "pre-git": {
+      "commit-msg": "simple",
+      "pre-commit": [],
+      "pre-push": [],
+      "post-commit": [],
+      "post-checkout": [],
+      "post-merge": []
+    }
+  }
 }
