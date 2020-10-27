@@ -16,6 +16,7 @@
     left: 550px;
     width: 500px;
     display: block;
+    visibility: hidden;
   }
   .mmodal-body {
     background: #fff;
@@ -35,6 +36,7 @@
     // makes the below elements visible to a degree.
     opacity: 0.95;
     display: hidden;
+    visibility: hidden;
   }
   
   .points {

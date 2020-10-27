@@ -57,6 +57,7 @@ import { ActionConfirmDialogComponent } from './action-confirm-dialog/action-con
 import { ScoreDialogComponent } from './score-dialog/score-dialog.component';
 import { HomePageModalComponent } from './home-page-modal/home-page-modal.component';
 import { UserPermission } from './services/user-permission.service';
+import { JoinGroupModalComponent } from './join-group-modal/join-group-modal.component';
 
 @NgModule({
   declarations: [
@@ -87,7 +88,8 @@ import { UserPermission } from './services/user-permission.service';
     ActionDeleteDialogComponent,
     ActionConfirmDialogComponent,
     ScoreDialogComponent,
-    HomePageModalComponent
+    HomePageModalComponent,
+    JoinGroupModalComponent
   ],
   imports: [
     [BrowserModule, FormsModule],

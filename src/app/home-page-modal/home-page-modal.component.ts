@@ -35,9 +35,10 @@ export class HomePageModalComponent implements OnChanges {
     ngOnChanges() {
         if (this.createProfileService.showNewUserMsg) {
             this.newUser = this.createProfileService.showNewUserMsg;
-        } else if (this.user !== undefined) {
-            this.getNextLevel(this.currLevel);
         }
+        //  else if (this.user !== undefined) {
+            // this.getNextLevel(this.currLevel);
+        // }
     }
 
     closeDialog() {
