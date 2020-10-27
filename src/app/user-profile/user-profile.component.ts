@@ -1,7 +1,7 @@
-import { Component, OnInit,  OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from '../model/User';
 import { LogInService } from '../services/log-in.service';
-import { Parameters} from '../services/parameters';
+import { Parameters } from '../services/parameters';
 import { CognitoUtil, Callback, CognitoCallback, LoggedInCallback } from '../services/cognito.service';
 import { CreateProfileService } from '../services/create-profile.service';
 import { AWSError } from 'aws-sdk';
@@ -11,6 +11,7 @@ import { AppConf } from '../shared/conf/app.conf';
 import { S3Service } from '../services/s3.service';
 import { LevelsMapping } from '../shared/levels-mapping';
 import { CognitoUser } from 'amazon-cognito-identity-js';
+import { ApiGatewayService } from '../services/api-gateway.service';
 
 
 @Component({
@@ -39,17 +40,18 @@ export class UserProfileComponent implements OnInit, LoggedInCallback, Callback 
     private params: Parameters, private lambdaService: LambdaInvocationService,
     public router: Router,
     public createProfileService: CreateProfileService,
-    private s3: S3Service, public levelsMapping: LevelsMapping) { }
+    private s3: S3Service, public levelsMapping: LevelsMapping,
+    public apiService: ApiGatewayService) { }
 
   ngOnInit() {
-   this.params.user$.subscribe(user => {
+    this.params.user$.subscribe(user => {
       this.user = user;
     });
     this.loginService.isAuthenticated(this);
-   }
+  }
 
   /** Interface needed for LoggedInCallback */
-  isLoggedIn(message: string, isLoggedIn: boolean) {}
+  isLoggedIn(message: string, isLoggedIn: boolean) { }
 
   // API Response for any lambda calls
   callbackWithParams(error: AWSError, result: any) {
@@ -65,11 +67,11 @@ export class UserProfileComponent implements OnInit, LoggedInCallback, Callback 
       this.cognitoUser = this.cognitoUtil.getCurrentUser();
       const params = new Parameters();
       this.user = params.buildUser(result, this.cognitoUser);
-      this.lambdaService.getUserActions(this, this.user);
+      this.apiService.getUserActions(this, this.user);
     }
-   }
+  }
 
-   getLevelsData() {
+  getLevelsData() {
     this.levelsMapping.getLevels().then(response => {
       // this should never hit
       if (response === 'levels not defined') {
@@ -81,35 +83,35 @@ export class UserProfileComponent implements OnInit, LoggedInCallback, Callback 
         this.user.level = this.levelsMapping.getUserLevel(this.user, response);
       }
     });
-   }
+  }
 
-   // Response of getUserActions API - callback interface
-   callbackWithParameters(error: AWSError, result: any) {
-      if (result) {
-        const response = JSON.parse(result);
-        const userActions = response.body;
-        const userActionsLength = userActions.length;
-          for ( let i = 0; i < userActionsLength; i++ ) {
-            if (userActions[i].totalPoints) {
-              this.user.totalPoints = userActions[i].totalPoints;
-              this.getLevelsData();
-            } else {
-              this.user.totalPoints = 0;
-            }
+  // Response of getUserActions API - callback interface
+  callbackWithParameters(error: AWSError, result: any) {
+    if (result) {
+      const response = result;
+      const userActions = response;
+      const userActionsLength = userActions.length;
+      for (let i = 0; i < userActionsLength; i++) {
+        if (userActions[i].totalPoints) {
+          this.user.totalPoints = userActions[i].totalPoints;
+          this.getLevelsData();
+        } else {
+          this.user.totalPoints = 0;
         }
       }
-   }
+    }
+  }
 
-   // for switching back and forth between edit and read mode
-   editProfile() {
+  // for switching back and forth between edit and read mode
+  editProfile() {
     this.isViewProfile = false;
     this.isEditProfile = true;
   }
   // save and switch mode back to view
   saveChanges() {
     if (this.isUploadImage) {
-        console.log(this.isUploadImage);
-        this.uploadAndSend();
+      console.log(this.isUploadImage);
+      this.uploadAndSend();
     } else {
       for (const key of Object.keys(this.updatedUser)) {
         if (this.updatedUser[key]) {
@@ -122,25 +124,25 @@ export class UserProfileComponent implements OnInit, LoggedInCallback, Callback 
   }
 
   uploadAndSend() {
-      if (this.profilePicture) {
-        this.s3.uploadFile(this.profilePicture, this.conf.imgFolders.userProfile, (err, location) => {
-          if (err) {
-            // we will allow for the creation of the item, we will just not have an image
-            console.log(err);
-            this.updatedUser.picture = this.user.picture;
-            this.isProfileUpdated = true;
-          } else {
-            this.updatedUser.picture = location;
-            this.isProfileUpdated = true;
-            for (const key of Object.keys(this.updatedUser)) {
-              if (this.updatedUser[key]) {
-                this.cognitoUtil.updateUserAttribute(this, key, this.updatedUser[key]);
-              }
+    if (this.profilePicture) {
+      this.s3.uploadFile(this.profilePicture, this.conf.imgFolders.userProfile, (err, location) => {
+        if (err) {
+          // we will allow for the creation of the item, we will just not have an image
+          console.log(err);
+          this.updatedUser.picture = this.user.picture;
+          this.isProfileUpdated = true;
+        } else {
+          this.updatedUser.picture = location;
+          this.isProfileUpdated = true;
+          for (const key of Object.keys(this.updatedUser)) {
+            if (this.updatedUser[key]) {
+              this.cognitoUtil.updateUserAttribute(this, key, this.updatedUser[key]);
             }
           }
-        });
-      }
+        }
+      });
     }
+  }
 
   fileEvent(fileInput: any) {
     // save the image file which will be submitted later
@@ -148,6 +150,6 @@ export class UserProfileComponent implements OnInit, LoggedInCallback, Callback 
     this.isUploadImage = true;
   }
 
-  callback() {}
-  cognitoCallbackWithParam(result: any) {}
+  callback() { }
+  cognitoCallbackWithParam(result: any) { }
 }
