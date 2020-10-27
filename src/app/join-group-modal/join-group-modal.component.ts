@@ -11,7 +11,7 @@ export class JoinGroupModalComponent implements OnChanges, OnInit {
     @Input() group: Group;
 
     ngOnInit() {
-        this.closeDialog();
+        // this.closeDialog();
     }
 
     ngOnChanges() {
