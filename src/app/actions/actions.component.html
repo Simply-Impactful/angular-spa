@@ -15,7 +15,9 @@
           <mat-grid-tile *ngFor="let action of observableData | async">
             <mat-card class="actions-mat-card" (click)="openDialog(action.name, action)">
                 <mat-card-header class="actions-mat-card-header">
-                    <div mat-card-image class="score-flag">{{action.eligiblePoints}}</div>
+                    <div mat-card-image class="score-flag">
+                      <div class="points">{{action.eligiblePoints}}</div>
+                    </div>
                 </mat-card-header>
                 <img mat-card-image class="actions-img" src={{action.tileIconUrl}}>
                 <mat-card-subtitle class="actions-mat-card-subtitle">{{action.name}}</mat-card-subtitle>
