@@ -4,7 +4,9 @@
       <div class="item" *ngFor="let action of actions">
         <mat-card class="action-mat-card" (click)="openDialog(action.name, action)">
             <mat-card-header class="action-mat-card-header">
-                <div mat-card-image class="score-flag">{{action.eligiblePoints}}</div>
+                <div mat-card-image class="score-flag">
+                  <div class="points">{{action.eligiblePoints}}</div>
+                </div>
             </mat-card-header>
             <img mat-card-image style="max-width:80px; max-height:100px;" src={{action.tileIconUrl}}>
             <mat-card-subtitle class="action-mat-card-subtitle">{{action.name}}</mat-card-subtitle>
