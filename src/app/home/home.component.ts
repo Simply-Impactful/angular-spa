@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
     } else {
       // get All the actions to parse the assignments
       // response in callbackWithParams method
-      this.lambdaService.listActions(this);
+      this.apiService.listActions(this);
       // kick off the levels data
       this.levelsMapping.getAllData();
     }
@@ -95,21 +95,17 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
   // Total points being captrued from response
   callbackWithParameters(error: AWSError, result: any) {
     if (result) {
-      const response = result;
-      const userActions = response;
-      // if they haven't taken any actions...
-      if (response.statusCode === 400) {
+      const userActions = result;
+      const userActionsLength = userActions.length;
+      // if the user has taken actions
+      if (userActionsLength > 0) {
+        for (let i = 0; i < userActionsLength; i++) {
+          this.user.totalPoints = userActions[i].totalPoints;
+          this.getLevelsData();
+        }
+      } else { // if they haven't taken any actions...
         this.user.totalPoints = 0;
         this.getLevelsData();
-      } else {
-        const userActionsLength = userActions.length;
-        // if the user has taken actions
-        if (userActionsLength > 0) {
-          for (let i = 0; i < userActionsLength; i++) {
-            this.user.totalPoints = userActions[i].totalPoints;
-            this.getLevelsData();
-          }
-        }
       }
     }
     this.getLevelName(this.user.totalPoints);

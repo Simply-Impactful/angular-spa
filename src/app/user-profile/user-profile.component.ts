@@ -88,16 +88,17 @@ export class UserProfileComponent implements OnInit, LoggedInCallback, Callback 
   // Response of getUserActions API - callback interface
   callbackWithParameters(error: AWSError, result: any) {
     if (result) {
-      const response = result;
-      const userActions = response;
+      const userActions = result;
       const userActionsLength = userActions.length;
-      for (let i = 0; i < userActionsLength; i++) {
-        if (userActions[i].totalPoints) {
+      // if the user has taken actions
+      if (userActionsLength > 0) {
+        for (let i = 0; i < userActionsLength; i++) {
           this.user.totalPoints = userActions[i].totalPoints;
           this.getLevelsData();
-        } else {
-          this.user.totalPoints = 0;
         }
+      } else { // if they haven't taken any actions...
+        this.user.totalPoints = 0;
+        this.getLevelsData();
       }
     }
   }
