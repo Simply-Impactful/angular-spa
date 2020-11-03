@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit, LoggedInCallback, Callback {
     } else {
       // get All the actions to parse the assignments
       // response in callbackWithParams method
-      this.apiService.listActions(this);
+      this.lambdaService.listActions(this);
       // kick off the levels data
       this.levelsMapping.getAllData();
     }
